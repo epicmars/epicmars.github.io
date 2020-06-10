@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>理解RecyclerView | 风格与布局</title>
+<meta name="description" content="NestedScrollView中的RecyclerView RecyclerView实现了NestedScrollingChild，而Nes">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#nestedscrollview中的recyclerview"><code>NestedScrollView</code>中的<code>RecyclerView</code></a></li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">理解RecyclerView</h1>
+                </div>
+                <div class="content">
+                        <h2 id="nestedscrollview中的recyclerview"><code>NestedScrollView</code>中的<code>RecyclerView</code></h2>
+<p><code>RecyclerView</code>实现了<code>NestedScrollingChild</code>，而<code>NestedScrollView</code>实现了<code>NestedScrollingParent</code>，当<code>RecyclerView</code>嵌套在<code>NestedScrollView</code>中时，其滑动会分发到其<code>NestedScrollingParent</code>，即作为其父布局的<code>NestedScrollView</code>，而<code>NestedScrollView</code>本身也是一个<code>NestedScrollingChild</code>，这一滑动又会向上进行分发。另一方面，<code>NestedScrollView</code>作为<code>NestedScrollingParent</code>又会向下分发滑动事件，这样<code>RecyclerView</code>和<code>NestedScrollView</code>之间的滑动事件分发形成了一个死循环。</p>
+<p><code>ScrollView</code>类的文档中是这样说明的：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    <span style="color:#f92672">&lt;</span>p<span style="color:#f92672">&gt;</span>Never add a <span style="color:#f92672">{</span><span style="color:#a6e22e">@link</span> android<span style="color:#f92672">.</span><span style="color:#a6e22e">support</span><span style="color:#f92672">.</span><span style="color:#a6e22e">v7</span><span style="color:#f92672">.</span><span style="color:#a6e22e">widget</span><span style="color:#f92672">.</span><span style="color:#a6e22e">RecyclerView</span><span style="color:#f92672">}</span> 
+    or <span style="color:#f92672">{</span><span style="color:#a6e22e">@link</span> ListView<span style="color:#f92672">}</span> to a scroll view<span style="color:#f92672">.</span> Doing so results in poor 
+    user <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">performance</span> and a poor user experience<span style="color:#f92672">.&lt;/</span>p<span style="color:#f92672">&gt;</span>
+</code></pre></div><p>说明这两者是不兼容的。</p>
+<p>实际中遇到的问题是，这样使用会使得<code>RecyclerView</code>的回收策略失效，可能是在<code>NestedScrollView</code>中，<code>RecyclerView</code>总是保留完整的视图项列表，待分析。</p>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

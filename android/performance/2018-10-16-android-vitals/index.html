@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Android性能：Android Vitals | 风格与布局</title>
+<meta name="description" content="Core vitals ANR rates Crash rates Excessive wakeups 部分唤醒锁定操作卡住（Stuck partial wake locks） All other vitals Excessive background Wi-Fi scans Excessive background network usage App startup time Slow rendering Frozen frames Permission denials 工具 部分唤醒锁定操作卡住（Stuck">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#core-vitals">Core vitals</a></li>
+    <li><a href="#all-other-vitals">All other vitals</a></li>
+    <li><a href="#工具">工具</a>
+      <ul>
+        <li><a href="#部分唤醒锁定操作卡住stuck-partial-wake-locks">部分唤醒锁定操作卡住（Stuck partial wake locks）</a></li>
+        <li><a href="#anr">ANR</a></li>
+      </ul>
+    </li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">Android性能：Android Vitals</h1>
+                </div>
+                <div class="content">
+                        <h2 id="core-vitals">Core vitals</h2>
+<ul>
+<li>ANR rates</li>
+<li>Crash rates</li>
+<li>Excessive wakeups</li>
+<li>部分唤醒锁定操作卡住（Stuck partial wake locks）</li>
+</ul>
+<h2 id="all-other-vitals">All other vitals</h2>
+<ul>
+<li>Excessive background Wi-Fi scans</li>
+<li>Excessive background network usage</li>
+<li>App startup time</li>
+<li>Slow rendering</li>
+<li>Frozen frames</li>
+<li>Permission denials</li>
+</ul>
+<h2 id="工具">工具</h2>
+<h3 id="部分唤醒锁定操作卡住stuck-partial-wake-locks">部分唤醒锁定操作卡住（Stuck partial wake locks）</h3>
+<ul>
+<li>
+<p>dumpsys</p>
+<p>adb shell dumpsys power</p>
+</li>
+<li>
+<p>Battery Historian</p>
+<p>Android 6.0及以下：</p>
+<p>adb bugreport &gt; bugreport.txt</p>
+<p>Android 6.0以上：</p>
+<p>adb bugreport bugreport.zip</p>
+</li>
+</ul>
+<h3 id="anr">ANR</h3>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://developer.android.com/topic/performance/">Performance and power</a></li>
+<li><a href="https://support.google.com/googleplay/android-developer/answer/7385505#battery&amp;stability&amp;render_time&amp;review_metric_page&amp;filter_behaviors&amp;wake_lock&amp;wakeup&amp;excessive-wifi&amp;network_usage&amp;anr&amp;crash&amp;slow_render&amp;frozen_frame&amp;startup_time&amp;permissions&amp;app_startup_time&amp;startup_time&amp;permissions&amp;app_startup_time&amp;startup_time&amp;permissions&amp;app_startup_time&amp;startup_time&amp;permissions&amp;app_startup_time&amp;">使用 Android Vitals 监控应用在各项技术方面的效果
+</a></li>
+<li><a href="https://developer.android.com/distribute/best-practices/develop/android-vitals#best-practices">Use Android vitals to improve your app&rsquo;s performance and stability</a></li>
+<li><a href="https://developer.android.com/topic/performance/power/battery-historian">Analyze power use with Battery Historian</a></li>
+<li><a href="https://github.com/google/battery-historian">google/battery-historian</a></li>
+<li><a href="https://developer.android.com/studio/debug/bug-report">Capture and read bug reports
+</a></li>
+<li><a href="https://developer.android.com/studio/command-line/systrace">systrace</a></li>
+</ul>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

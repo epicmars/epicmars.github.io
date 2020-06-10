@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CS on 风格与布局</title>
+    <link>https://www.androidpi.com/cs/</link>
+    <description>Recent content in CS on 风格与布局</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 10 Aug 2018 21:14:48 +0800</lastBuildDate>
+    
+	<atom:link href="https://www.androidpi.com/cs/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>HTTPS与SSL/TLS协议</title>
+      <link>https://www.androidpi.com/cs/networks/2018-08-10-https/</link>
+      <pubDate>Fri, 10 Aug 2018 21:14:48 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/cs/networks/2018-08-10-https/</guid>
+      <description>HTTPS(Hypertext Transfer Protocol Secure)译为超文本传输安全协议，也称为HTTP over TLS，HTTP over SSL或HTTP Secure，它对HTTP协议进行的扩展，用于</description>
+    </item>
+    
+    <item>
+      <title>CA与SSL/TLS证书</title>
+      <link>https://www.androidpi.com/cs/networks/2018-08-10-ca-and-ssl-tls-certificates/</link>
+      <pubDate>Fri, 10 Aug 2018 19:50:14 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/cs/networks/2018-08-10-ca-and-ssl-tls-certificates/</guid>
+      <description>CA 证书颁发机构（CA, Certificate Authorities）根据认证操作规则 (CPS) 授权颁发、暂停、更新或取消证书的实体。在其颁发的所有证书和 CRL 中都可通过识别</description>
+    </item>
+    
+    <item>
+      <title>动态规划</title>
+      <link>https://www.androidpi.com/cs/algorithm/advanced/2017-12-04-dynamic-programming/</link>
+      <pubDate>Mon, 04 Dec 2017 01:21:55 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/cs/algorithm/advanced/2017-12-04-dynamic-programming/</guid>
+      <description>动态规划（Dynamic programming）通常用来解决最优化问题，在这类问题中，通过做出一组选择来达到最优解。在做出每个选择的同时，通</description>
+    </item>
+    
+    <item>
+      <title>图的表示与搜索</title>
+      <link>https://www.androidpi.com/cs/algorithm/graph/2017-12-03-graph-representation-and-searching/</link>
+      <pubDate>Sun, 03 Dec 2017 04:50:28 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/cs/algorithm/graph/2017-12-03-graph-representation-and-searching/</guid>
+      <description>图论问题渗透整个计算机科学，解决图论问题的相关算法对计算机科学领域至关重要。最基本的是对图的遍历与搜索，不过首先要讨论的是如何将图表示为可用</description>
+    </item>
+    
+    <item>
+      <title>红黑树</title>
+      <link>https://www.androidpi.com/cs/algorithm/tree/2017-12-02-red-black-tree/</link>
+      <pubDate>Sat, 02 Dec 2017 16:02:18 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/cs/algorithm/tree/2017-12-02-red-black-tree/</guid>
+      <description>在二叉搜索树的讨论中可以得出各种查询以及插入、删除操作的时间复杂度上界为$O(h)$，其中$h$为树的高度，即树的叶子节点的最大深度。 因此树</description>
+    </item>
+    
+    <item>
+      <title>树与搜索树</title>
+      <link>https://www.androidpi.com/cs/algorithm/tree/2017-12-01-tree-and-search-tree/</link>
+      <pubDate>Fri, 01 Dec 2017 21:52:39 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/cs/algorithm/tree/2017-12-01-tree-and-search-tree/</guid>
+      <description>定义 自由树 自由树是一个连通的、无环的无向图。一个可能不连通的的无向无环图为森林。 有根树和有序树 有根树是一棵自由树，其顶点中存在一个与其它顶点</description>
+    </item>
+    
+    <item>
+      <title>中位数与顺序统计量</title>
+      <link>https://www.androidpi.com/cs/algorithm/order-statistic/2017-11-29-medians-and-order-statistics/</link>
+      <pubDate>Wed, 29 Nov 2017 00:21:48 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/cs/algorithm/order-statistic/2017-11-29-medians-and-order-statistics/</guid>
+      <description>顺序统计量（Order statistic） 一个n位元素组成的集合中，第i个顺序统计量是该集合中第i小的元素。例如，最小值是第一个顺序统计量（</description>
+    </item>
+    
+    <item>
+      <title>线性时间排序</title>
+      <link>https://www.androidpi.com/cs/algorithm/sorting/2017-11-27-linear-time-sorting/</link>
+      <pubDate>Mon, 27 Nov 2017 15:23:32 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/cs/algorithm/sorting/2017-11-27-linear-time-sorting/</guid>
+      <description>排序算法下界 对任意的比较排序算法都可以抽象为一棵决策树，它是一棵完全二叉树，可以表示在给定输入规模下对所有元素的比较操作，其中，控制、数据移</description>
+    </item>
+    
+    <item>
+      <title>堆与堆排序</title>
+      <link>https://www.androidpi.com/cs/algorithm/sorting/2017-11-26-heap-sort/</link>
+      <pubDate>Sun, 26 Nov 2017 21:35:29 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/cs/algorithm/sorting/2017-11-26-heap-sort/</guid>
+      <description>堆 堆是一个数组，可以看作一个近似的完全二叉树，树中的每一个节点对应于数组中的一个元素。除了最底层的叶节点，往上的所有层都是完全填充的，并且都</description>
+    </item>
+    
+    <item>
+      <title>归并排序（Merge sort）</title>
+      <link>https://www.androidpi.com/cs/algorithm/sorting/2017-11-26-merge-sort/</link>
+      <pubDate>Sun, 26 Nov 2017 18:09:00 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/cs/algorithm/sorting/2017-11-26-merge-sort/</guid>
+      <description>定义 归并排序采用分治策略进行比较操作排序，将待排序的n个元素分解为个含n/2个元素的两部分，使用递归或其它方式迭代地两个子序列进行同样的排序</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://www.androidpi.com/cs/algorithm/big-o/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/cs/algorithm/big-o/</guid>
+      <description>http://www.cs.cmu.edu/~15122/handouts/05-sort.pdf</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://www.androidpi.com/cs/algorithm/hashtables/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/cs/algorithm/hashtables/</guid>
+      <description>哈希表 许多应用只需要一个动态集合能够进行字典操作，即INSERT，SEARCH，DELETE。哈希表便是实现字典的高效数据结构。哈希表是对更</description>
+    </item>
+    
+    <item>
+      <title>中文文章错误检查</title>
+      <link>https://www.androidpi.com/cs/nlp/2018-07-07-typo-error-correct/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/cs/nlp/2018-07-07-typo-error-correct/</guid>
+      <description>How to Write a Spelling Corrector</description>
+    </item>
+    
+  </channel>
+</rss>

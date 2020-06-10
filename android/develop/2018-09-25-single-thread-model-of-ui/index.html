@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>失落的梦：为什么Android的UI不采用多线程模型？ | 风格与布局</title>
+<meta name="description" content="从观察到的现象来看，在多线程GUI中有一个惊人的趋势，那就是死锁和竞态条件。近些年，这些致力于多线程的聪明人逐渐都转移到一个事件队列模型。“">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents"></nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">失落的梦：为什么Android的UI不采用多线程模型？</h1>
+                </div>
+                <div class="content">
+                        <p>从观察到的现象来看，在多线程GUI中有一个惊人的趋势，那就是死锁和竞态条件。近些年，这些致力于多线程的聪明人逐渐都转移到一个事件队列模型。“最好让事件线程去处理UI”。</p>
+<p>为什么实现多线程GUI如此困难？在1995年John Ousterhout给出演讲<a href="http://home.pacbell.net/ouster/threads.pdf">Events versus Threads</a>中给出了线程驱动和事件驱动编程之间的比较与权衡，并且正确地指出为什么多线程编程如此困难，而事件驱动编程更加简单的众多原因。作者表示他不必认同其中对所有类型程序的分析，但对于GUI程序的分析是认同的。</p>
+<p>GUI工具特殊的线程问题出现在输入事件处理和抽象的结合上面，输入事件处理的问题在于对于大多数GUI活动而言它趋向于以相反的方向运行。通常而言，GUI操作开始于库抽象的调用栈顶部并且向下进行调用，从高层级的GUI抽象，到低层级的GUI抽象，再到工具库，直到OS层。相反从OS层的输入事件是沿着各抽象层向上分发，直到调用到应用层的代码。由于我们使用了抽象，很自然地，我们会在各个层中分开使用锁。不幸的是，我们会遇到经典的<strong>锁顺序</strong>噩梦：<strong>我们有两个不同类型的活动以相反的顺序获取锁，那么死锁几乎是无法避免的</strong>。人们的第一反应就是调整锁的行为来解决特定的bug，例如在某处释放锁，然后在这里使用一种更聪明的锁。这可能是个有趣的活，但这就像在对抗海洋的潮汐一样，无边无际，总是徒劳。这些更聪明的锁机制通常会转变为一种微妙竞争的结合（这是由于缺少了锁）或者更聪明和更加错综复杂的死锁。</p>
+<p>注意到这个问题延伸出了GUI层，并且也出现在SDK层和应用层。尽管困难重重，有人可能会在GUI层采用单个锁，这种情况下问题就会提升到另一个层级中。有时我们需要退后一步来观察全局，这里存在一个基本的冲突，一个线程想往上走，另一个线程想往下走，尽管你可以修复单个bug，但你不能修复整个这种情形。这便引出了将所有GUI活动在单一事件线程上运行的做法，这意味着所有GUI活动都是事件驱动的，想往下走的线程事件就成了一种新的事件类型。</p>
+<p>参考：</p>
+<ul>
+<li><a href="https://community.oracle.com/people/kgh/blog/2004/10/19/multithreaded-toolkits-failed-dream">Multithreaded toolkits: A failed dream?</a></li>
+<li><a href="http://home.pacbell.net/ouster/threads.pdf">Events versus Threads</a></li>
+</ul>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

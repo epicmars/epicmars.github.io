@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Java Concurrency 3、活跃性（Liveness） | 风格与布局</title>
+<meta name="description" content="一个并发应用以适时的方式执行的能力称为其活跃性（A concurrent application&rsquo;s ability to execute in a timely manner is known as its liveness. ），这一节描述最常见的活跃性问题，死锁（deadlock），然">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#死锁deadlock">死锁（Deadlock）</a></li>
+    <li><a href="#饥饿和活锁starvation-and-livelock">饥饿和活锁（Starvation and Livelock）</a>
+      <ul>
+        <li><a href="#饥饿starvation">饥饿（Starvation）</a></li>
+        <li><a href="#活锁livelock">活锁（Livelock）</a></li>
+      </ul>
+    </li>
+    <li><a href="#守卫块guarded-blocks">守卫块（Guarded Blocks）</a></li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">Java Concurrency 3、活跃性（Liveness）</h1>
+                </div>
+                <div class="content">
+                        <p>一个并发应用以适时的方式执行的能力称为其活跃性（A concurrent application&rsquo;s ability to execute in a timely manner is known as its liveness. ），这一节描述最常见的活跃性问题，死锁（deadlock），然后简要描述其他两种活跃性问题，饥饿和活锁（ starvation and livelock）。</p>
+<h2 id="死锁deadlock">死锁（Deadlock）</h2>
+<p>死锁描述了两个或多个线程相互等待，从而被永远阻塞的情形，如下例所示：</p>
+<p>Alphonse和Gaston是朋友，并相信礼仪。礼仪的一个严格的规则就是当你向一个朋友鞠躬，你必须保持弯腰的姿态直到你的朋友有机会回礼。不幸的是，这条规则没有考虑到两个朋友同时向对象鞠躬的情形。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Deadlock</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Friend</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> String name<span style="color:#f92672">;</span>
+
+        <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Friend</span><span style="color:#f92672">(</span>String name<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> name<span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+
+        <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">getName</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">name</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">synchronized</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">bow</span><span style="color:#f92672">(</span>Friend bower<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">format</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;%s: %s&#34;</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; has bowed to me!%n&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">name</span><span style="color:#f92672">,</span> bower<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">());</span>
+            bower<span style="color:#f92672">.</span><span style="color:#a6e22e">bowBack</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">synchronized</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">bowBack</span><span style="color:#f92672">(</span>Friend bower<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">format</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;%s: %s&#34;</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; has bowed back to me!%n&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">name</span><span style="color:#f92672">,</span> bower<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">());</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">final</span> Friend alphonse <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Friend<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Alphonse&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">final</span> Friend gaston <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Friend<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Gaston&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Runnable<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+                alphonse<span style="color:#f92672">.</span><span style="color:#a6e22e">bow</span><span style="color:#f92672">(</span>gaston<span style="color:#f92672">);</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}).</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Runnable<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+                gaston<span style="color:#f92672">.</span><span style="color:#a6e22e">bow</span><span style="color:#f92672">(</span>alphonse<span style="color:#f92672">);</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}).</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>当Deadlock运行，及其有可能当两个线程尝试调用bowBack时都会发生阻塞。两者的阻塞都不会结束，因为都带等待对方退出bow。</p>
+<h2 id="饥饿和活锁starvation-and-livelock">饥饿和活锁（Starvation and Livelock）</h2>
+<p>饥饿和活锁相比死锁不那么常见，但仍然是并发程序开发中可能会遇到的问题。</p>
+<h3 id="饥饿starvation">饥饿（Starvation）</h3>
+<p>饥饿描述了这样一种情形，一个进程无法对共享资源进行常规的获取并且不能取得任务进展。这种情形发生在共享资源长期被“贪婪”的线程占有，从而导致无法获取到共享资源。例如，假设一个对象提供了的一个同步方法经常需要花费较长时间才返回。如果一个线程频繁地调用这个方法，其他也需要同步访问同一对象的线程便会常常被阻塞。</p>
+<p>饥饿这个词很形象，一个贪婪的线程频繁地长时间占有共享资源，使得其它同步访问共享资源的线程挨饿。</p>
+<h3 id="活锁livelock">活锁（Livelock）</h3>
+<p>一个线程常常作为另一个线程的响应而执行，如果其它线程的操作也是该另一线程的响应，那么就可能出现活锁。像死锁一样，活锁不能使任务取得进展。然而线程并没有被阻塞——它们仅仅是太忙以至于不能相互响应以恢复工作。这可以类比为，两个人试图传穿过一个走廊（corridor）：A移动到自身左边让B通过的同时，B移动到自身右边让A通过。可以看到他们仍然阻塞了对方。</p>
+<h2 id="守卫块guarded-blocks">守卫块（Guarded Blocks）</h2>
+<p>线程间常常必须进行协同操作，最常用的协同操作惯用法便是守卫块（guarde block）,这样的块以测验一个条件开始，在块可以开始业务前条件必须为真。有一些步骤可以用来进行正确的操作。</p>
+<p>假设，例如guardedJoy方法不能进行事务处理，直到一个共享变量joy被其它线程设置。理论上，这样的代码，可以通过一直进行循环直到条件满足，但循环十分浪费，因为它在等待期间不停执行：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">guardedJoy</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e">// Simple loop guard. Wastes
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// processor time. Don&#39;t do this!
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">while</span> <span style="color:#f92672">(!</span>joy<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    <span style="color:#f92672">}</span>
+    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Joy has been achieved!&#34;</span><span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>一个更有效的守卫块调用 Object.wait 来暂停当前线程，wait的调用不会返回，直到另外的线程发出一个通知，提示有特殊的事件可能发生了，尽管不必是该线程正在等待的事件：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">synchronized</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">guardedJoy</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e">// This guard only loops once for each special event, which may not
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// be the event we&#39;re waiting for.
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">while</span> <span style="color:#f92672">(!</span>joy<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            wait<span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Joy and efficiency have been achieved!&#34;</span><span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>注意：总是在一个对正在等待条件进行测试的循环中调用wait方法。不要假设中断就是为了你正在等待的条件，或者条件一直为真。</p>
+<p>和许多暂停执行的方法一样，wait方法抛出InterruptedException。在这个例子中我们仅仅忽略这一异常，我们现在仅关心joy的值。</p>
+<p>为什么guardedJoy方法是同步的？假设d是我们用于调用wait的对象，当一个线程调用了d.wait，它必须拥有d的固有锁，不然就会抛出错误。在一个同步方法中调用wait是获取固有锁的简单方式。</p>
+<p>当wait被调用，线程释放锁并终止执行。在未来的某个时刻，另外一个线程或获取到相同的锁并调用Object.notifyAll，通知所有等待该锁的线程有重要的事件发生了：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">synchronized</span> <span style="color:#a6e22e">notifyJoy</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    joy <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
+    notifyAll<span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>有时，在第二个线程释放锁后，第一个线程重新获取锁并从wait调用中返回，以恢复任务执行。</p>
+<p>注意：还有第二个通知方法，notify，可以唤醒单个的线程。因为notify不允许你指定唤醒的线程，它仅在大规模并发应用，也就是有大量都做相似任务线程的应用中。这样的应用中，你不必关心那个线程会被唤醒。</p>
+<p>我们使用守卫块来构建一个生产者-消费者（Producer-Consumer）应用，这一应用中数据在两个线程间共享：生产者（producer）创建数据，消费者（consumer）用数据进行某种事务。两个线程使用一个共享的对象进行通信。协作（Coordination）是十分关键的：消费者线程不能在生产者线程分发数据前获取数据，并且生产者线程不能在消费者还没有获取旧的数据的情况下试图传递新的数据。</p>
+<p>这个例子中，数据是一系列的文本信息，通过一个Drop类的对象进行共享：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Drop</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e">// Message sent from producer
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// to consumer.
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> String message<span style="color:#f92672">;</span>
+    <span style="color:#75715e">// True if consumer should wait
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// for producer to send message,
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// false if producer should wait for
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// consumer to retrieve message.
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">boolean</span> empty <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">synchronized</span> String <span style="color:#a6e22e">take</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// Wait until message is
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// available.
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>empty<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+                wait<span style="color:#f92672">();</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#75715e">// Toggle status.
+</span><span style="color:#75715e"></span>        empty <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
+        <span style="color:#75715e">// Notify producer that
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// status has changed.
+</span><span style="color:#75715e"></span>        notifyAll<span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">return</span> message<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">synchronized</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>String message<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// Wait until message has
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// been retrieved.
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">while</span> <span style="color:#f92672">(!</span>empty<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+                wait<span style="color:#f92672">();</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#75715e">// Toggle status.
+</span><span style="color:#75715e"></span>        empty <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>
+        <span style="color:#75715e">// Store message.
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">message</span> <span style="color:#f92672">=</span> message<span style="color:#f92672">;</span>
+        <span style="color:#75715e">// Notify consumer that status
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// has changed.
+</span><span style="color:#75715e"></span>        notifyAll<span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>生产者线程定义在Producer中，发送一系列熟悉的消息，字符串“DONE”只是所有的消息已经被发送。为了模拟现实世界应用不可预知的本质，生产者线程在消息间隔中暂停一个随机的时间间隔：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import</span> java.util.Random<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Producer</span> <span style="color:#66d9ef">implements</span> Runnable <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> Drop drop<span style="color:#f92672">;</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Producer</span><span style="color:#f92672">(</span>Drop drop<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">drop</span> <span style="color:#f92672">=</span> drop<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        String importantInfo<span style="color:#f92672">[]</span> <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+            <span style="color:#e6db74">&#34;Mares eat oats&#34;</span><span style="color:#f92672">,</span> 
+            <span style="color:#e6db74">&#34;Does eat oats&#34;</span><span style="color:#f92672">,</span> 
+            <span style="color:#e6db74">&#34;Little lambs eat ivy&#34;</span><span style="color:#f92672">,</span> 
+            <span style="color:#e6db74">&#34;A kid will eat ivy too&#34;</span>
+            <span style="color:#f92672">};</span>
+        Random random <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Random<span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> importantInfo<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+            drop<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>importantInfo<span style="color:#f92672">[</span>i<span style="color:#f92672">]);</span>
+            <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+                Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>random<span style="color:#f92672">.</span><span style="color:#a6e22e">nextInt</span><span style="color:#f92672">(</span>5000<span style="color:#f92672">));</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+        drop<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;DONE&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>消费者线程，定义在Consumer中，仅仅获取消息并打印，直到它接收到字符串“DONE”，这个线程也会暂停随机的时间间隔：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import</span> java.util.Random<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Consumer</span> <span style="color:#66d9ef">implements</span> Runnable <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> Drop drop<span style="color:#f92672">;</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Consumer</span><span style="color:#f92672">(</span>Drop drop<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">drop</span> <span style="color:#f92672">=</span> drop<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        Random random <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Random<span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>String message <span style="color:#f92672">=</span> drop<span style="color:#f92672">.</span><span style="color:#a6e22e">take</span><span style="color:#f92672">();</span> <span style="color:#f92672">!</span>message<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;DONE&#34;</span><span style="color:#f92672">);</span> message <span style="color:#f92672">=</span> drop<span style="color:#f92672">.</span><span style="color:#a6e22e">take</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">format</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;MESSAGE RECEIVED: %s%n&#34;</span><span style="color:#f92672">,</span> message<span style="color:#f92672">);</span>
+            <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+                Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>random<span style="color:#f92672">.</span><span style="color:#a6e22e">nextInt</span><span style="color:#f92672">(</span>5000<span style="color:#f92672">));</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>最后，主线程定义在ProducerConsumerExample中，它启动生产者和消费者线程：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ProducerConsumerExample</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        Drop drop <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Drop<span style="color:#f92672">();</span>
+        <span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Producer<span style="color:#f92672">(</span>drop<span style="color:#f92672">))).</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Consumer<span style="color:#f92672">(</span>drop<span style="color:#f92672">))).</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>注意：Drop类是为了用于展示守卫块，为了避免重复发明轮子（ avoid re-inventing the wheel），在编写自定义的数据共享对象前，可以查看Java Collections Framework中已有的数据结构。更多信息，可以参考Questions and Exercises小节。</p>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

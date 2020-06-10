@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>认证与授权 | 风格与布局</title>
+<meta name="description" content="导引 计算机和网络安全以解决两个简单作为其目标： 禁止未授权人员访问资源 保证已授权人员可以访问需要的资源 对于访问权限的控制，只有在能够验证尝试访">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#导引">导引</a>
+      <ul>
+        <li><a href="#单次登入single-sign-on">单次登入（Single Sign-On）</a></li>
+      </ul>
+    </li>
+    <li><a href="#认证类型">认证类型</a></li>
+    <li><a href="#网络认证方法与协议">网络认证方法与协议</a></li>
+    <li><a href="#ldap">LDAP</a></li>
+    <li><a href="#kerberos">Kerberos</a></li>
+    <li><a href="#oauth-2">Oauth 2</a></li>
+    <li><a href="#saml">SAML</a></li>
+    <li><a href="#radius">RADIUS</a></li>
+    <li><a href="#heading"></a>
+      <ul>
+        <li><a href="#数据链路层">数据链路层</a></li>
+        <li><a href="#网络层">网络层</a></li>
+        <li><a href="#应用层">应用层</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">认证与授权</h1>
+                </div>
+                <div class="content">
+                        <h2 id="导引">导引</h2>
+<p>计算机和网络安全以解决两个简单作为其目标：</p>
+<ol>
+<li>禁止未授权人员访问资源</li>
+<li>保证已授权人员可以访问需要的资源</li>
+</ol>
+<p>对于访问权限的控制，只有在能够验证尝试访问资源的用户身份时才能够起作用。这便是认证所要做的工作。一个与认证常常混淆的词便是授权，其区别在于认证验证用户的身份，而授权则验证用户是否有访问所请求资源的权限。也就是说它们是一起工作的，首先进行认证，然后进行授权。</p>
+<p>授权并不是必须的，如果用户拥有不同的角色，并且需要对不同角色用户授予不同的权限，那么此时才需要设计用户授权系统。</p>
+<h3 id="单次登入single-sign-on">单次登入（Single Sign-On）</h3>
+<h2 id="认证类型">认证类型</h2>
+<ul>
+<li>
+<p>用户名与密码认证</p>
+</li>
+<li>
+<p>智能卡认证</p>
+</li>
+<li>
+<p>生物识别认证</p>
+</li>
+</ul>
+<h2 id="网络认证方法与协议">网络认证方法与协议</h2>
+<h2 id="ldap">LDAP</h2>
+<h2 id="kerberos">Kerberos</h2>
+<h2 id="oauth-2">Oauth 2</h2>
+<h2 id="saml">SAML</h2>
+<h2 id="radius">RADIUS</h2>
+<h2 id="heading"></h2>
+<h3 id="数据链路层">数据链路层</h3>
+<h3 id="网络层">网络层</h3>
+<h3 id="应用层">应用层</h3>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

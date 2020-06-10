@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>LDAP服务与认证 | 风格与布局</title>
+<meta name="description" content="公司团队需要搭建项目管理、代码托管等服务器，目前使用redmine，gerrit，gitlab，jenkins等等，对于每个服务器都需要为每">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#什么是目录服务directory-service">什么是目录服务(Directory service)</a></li>
+    <li><a href="#什么是ldap">什么是LDAP</a>
+      <ul>
+        <li><a href="#如何引用信息">如何引用信息？</a></li>
+        <li><a href="#如何访问信息">如何访问信息？</a></li>
+        <li><a href="#如何保护信息不受未授权的访问">如何保护信息不受未授权的访问？</a></li>
+      </ul>
+    </li>
+    <li><a href="#什么时候应当使用ldap">什么时候应当使用LDAP？</a></li>
+    <li><a href="#关于x500">关于X.500</a></li>
+    <li><a href="#ldap-vs-rdbms">LDAP vs RDBMS</a></li>
+    <li><a href="#ldap服务器">LDAP服务器</a>
+      <ul>
+        <li><a href="#openldap">OpenLDAP</a></li>
+        <li><a href="#apache-directory">Apache Directory</a></li>
+        <li><a href="#active-directory">Active Directory</a></li>
+      </ul>
+    </li>
+    <li><a href="#ldap认证配置">LDAP认证配置</a></li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">LDAP服务与认证</h1>
+                </div>
+                <div class="content">
+                        <p>公司团队需要搭建项目管理、代码托管等服务器，目前使用redmine，gerrit，gitlab，jenkins等等，对于每个服务器都需要为每个成员建立账户，重复的工作太多，每次让成员在首次登录时重新设置密码也不太人性化。正好这些服务都支持LDAP认证，那么建立一个公用的认证服务相当有必要了。事实上公司内部账户系统通常采用这种方式搭建。</p>
+<h2 id="什么是目录服务directory-service">什么是目录服务(Directory service)</h2>
+<p>一个目录是一个特殊的数据库，设计用于搜索和浏览，也支持基本的查询和更新功能。</p>
+<blockquote>
+<p>注意：目录服务某种程度上仅仅被定义为对读取访问进行了优化的数据库，这一定义是过于简化了的。</p>
+</blockquote>
+<p>目录趋向于包含描述性的和基于属性的信息，并且支持复杂的过滤能力。目录通常不支持数据库管理系统中设计用来处理大容量复杂更新的复杂事务或者回退机制。如果允许的话，目录的更新一般仅仅是简单地进行全量更新或者什么也不改变。通常目录经过调优后，可以对大容量查询和搜索快速做出响应。为了增加可用性和稳定性，同时降低响应时间，它们可能具有对信息进行广泛复制(replicate)的能力。当目录信息被复制后，复本间的临时性的不一致或许还说的过去，只要其不一致可以在时间顺序上进行解决。</p>
+<h2 id="什么是ldap">什么是LDAP</h2>
+<p>LDAP是Lightweight Directory Access Protocol的缩写，即轻量级目录访问协议。它是一个用于访问目录服务的协议，尤其是基于X.500的目录服务。LDAP运行于TCP/IP上，或其他面向连接的传输服务。</p>
+<p><a href="https://tools.ietf.org/html/rfc4510">RFC4510</a>对其技术规范路线图进行了概述。</p>
+<p>这一节从用户的视角对LDAP进行了概述。</p>
+<p>什么样的信息可以存储在目录中？LDAP信息模型基于条目(entries)。一个条目是一个属性集合，它拥有一个全局唯一的专有名称(DN, Distinguished Name)。DN用于明确地指向一个条目。每个条目的属性有一个类型和一个或多个值。类型常常是助记字符串，例如“cn”表示common name，或者“mail”表示email地址。值的语法取决于属性类型。例如一个cn属性可以包含值Babs Jensen。一个email属性可以包含值&quot;babs@example.com&rdquo;。一个jpge图像属性可以包含一个JPEG（二进制）格式的图像。</p>
+<p>信息是如何进行组织的？在LDAP中，目录条目组织成一个树形结构。通常，这一结构反应了地理和(或)组织的边界。代表国家的条目处于树的最顶端，以下是一个代表州和国家机构的条目，他们下面的条目代表组织单位，人员，打印机，文档或者其它你可以想象到的其它任何东西。图一展示了一个使用传统命名的LDAP树。</p>
+<p><img src="/assets/images/ldap/intro_tree.png" alt="LDAP directory tree (traditional naming)"></p>
+<p>也可以采用因特网域名进行组织。这一命名方式正在变得愈受欢迎，因为它可以使用DNS来定位目录服务。图二展示了使用基于域名命名的LDAP目录树：</p>
+<p><img src="/assets/images/ldap/intro_dctree.png" alt="LDAP directory tree (Internet naming)"></p>
+<p>此外，通过使用一个称为objectClass的特殊属性，LDAP允许你控制一个条目中什么属性是需要的，什么属性是被允许的。objectClass属性的值决定了条目必须遵守的schema规则。</p>
+<h3 id="如何引用信息">如何引用信息？</h3>
+<p>一个条目由其专有名称(DN, Distinguished Name)进行引用，它是通过将条目名称自身(称为相对专有名称，Relative Distinguished Name 或者 RDN)和其祖先条目名称连接起来的。例如，在因特网命名示例中Barbara Jensen有一个RDN为uid=babs以及一个DN为uid=babs,ou=People,dc=example,dc=com。完整的DN格式在<a href="http://www.rfc-editor.org/rfc/rfc4514.txt">RFC4514</a>的LDAP: String Representation of Distinguished Names章节进行了描述。</p>
+<h3 id="如何访问信息">如何访问信息？</h3>
+<p>LDAP定义了用于查询和更新目录的操作。提供的操作用于从目录中添加或删除一个条目，改变一个已有的条目，以及改变一个条目的名称。然而，大多数时候，LDAP用于在目录中搜索信息。对于与某一搜索过滤器所指定的某些标准相匹配的条目，LDAP搜索操作允许搜索目录某些部分。信息可以从匹配搜索标准的每个条目中获取。</p>
+<p>例如你可能想搜索位于dc=example,dc=com及其下面整个目录子树中名为Barbara Jensen的people，检索发现的每个条目的email地址。LDAP可以让你轻易做到。或者你想直接搜索位于条目 st=California,c=US下名为Acme的并且有一个fax number的origanization。LDAP也能让你做到。</p>
+<h3 id="如何保护信息不受未授权的访问">如何保护信息不受未授权的访问？</h3>
+<p>有些目录没有提供任何保护措施，允许任何人进行访问。LDAP为客户端提供了一种认证机制，或者说让客户端来提供访问目录服务的证明，这样为丰富的访问控制以及对信息的保护提供了一条方便的道路。LDAP也支持数据安全服务。</p>
+<h2 id="什么时候应当使用ldap">什么时候应当使用LDAP？</h2>
+<p>非常好的问题，通常当你需要采用集中式的方式管理数据，并通过基于标准的方法存储与访问数据时你应当使用目录服务。</p>
+<p>工业上常见的例子包括但不限与如下所列出的这些：</p>
+<ul>
+<li>机器认证（Machine Authentication）</li>
+<li>用户认证（User Authentication）</li>
+<li>用户/系统组（User/System Groups）</li>
+<li>地址簿（Address book）</li>
+<li>组织表示（Organization Representation）</li>
+<li>资产追踪（Asset Tracking）</li>
+<li>电话信息存储（Telephony Information Store）</li>
+<li>用户资源管理（User resource management）</li>
+<li>Email地址查询（E-mail address lookups）</li>
+<li>应用配置存储（Application Configuration store）</li>
+<li>PBX配置存储（PBX Configuration store）</li>
+<li>等等&hellip;</li>
+</ul>
+<p>有各种基于标准的<a href="http://www.openldap.org/doc/admin24/schema.html#Distributed%20Schema%20Files">分布式schema文件(Distributed Schema Files )</a>，但你总是可以创建你自己的<a href="http://www.openldap.org/doc/admin24/schema.html">Schema规范</a>。</p>
+<p>总是有新的方式来使用一个目录并应用LDAP原则来处理特定的问题，因此没有简单的答案来回答这个问题。</p>
+<h2 id="关于x500">关于X.500</h2>
+<p>技术上而言，LDAP是一个对X.500目录服务进行访问的目录访问协议，即OSI目录服务。从LDAP客户端访问到达X.500目录服务的网关开始，该网关在客户端和网关间运行LDAP并且在X.500服务和网关间运行目录访问协议(DAP, Directory Access Protocol)，DAP是一个重量级的协议，它可以在一整个OSI协议栈上进行操作，并且需要相当多的计算机资源。LDAP设计为在TCP/IP上进行操作并且以更低的消耗来提供DAP的大多数功能。</p>
+<p>尽管LDAP仍然可以通过网关访问X.500目录服务，LDAP现在更常见的是直接实现在X.500服务器中。</p>
+<p>单一的LDAP守护进程或者slapd可以被看做一个轻量级的X.500目录服务器。也就是说它不实现X.500 DAP也不支持完整的X.500模式。</p>
+<h2 id="ldap-vs-rdbms">LDAP vs RDBMS</h2>
+<p>为什么OpenLDAP不使用一个关系型数据库管理系统(RDBMS)而是使用一个像LMDB这样的嵌入式的键/值存储系统？这样我们可以期待商业级RDBMS实现的复杂算法可以使OpenLDAP更快或者更好，同时允许与其它应用进行数据分享。</p>
+<p>简单的回答就是使用嵌入式数据库和定制的索引系统使得OpenLDAP可以提供您更高的性能，并且在不损失可靠性的情况下拥有更强的可扩展性。OpenLDAP使用LMDB并发的/事务性的数据库软件。</p>
+<p>详细的答案就是：我们总是面临着在RDBMS和目录数据库间做出选择，这是一个难题并不存在简单的答案。</p>
+<p>可能会想到如果有一个由RDBMS支撑的目录服务那么所有问题就迎刃而解了。然而事实并非如此，因为他们的数据模型是相当不同的。使用一个关系型数据库来表示目录数据需要将数据划分到不同的表中。</p>
+<p>考虑person objectclass的例子。其定义中需要属性类型objectclass,sn和cn以及属性类型userPassword,telephoneNumber,seeAlso和描述。所有这些属性都是具有多个值的，因此对数据做一个规范化需要将每个属性类型放到一个单独的表中。</p>
+<p>现在你必须为这些表确定合适的键。主键可能是DN的组合，但这在大多数数据库实现中都相当低效。</p>
+<p>现在更大的问题是从一个条目访问数据需要去搜索不同的磁盘区域。在一些应用中还OK，但在其它许多应用中会存在性能问题。</p>
+<p>唯一可以放在主表条目中的属性类型是哪些强制要求并且具有单个值的。你也可以将可选的单个值的属性添加到其中，并且如果不存在的话就将它们设置为NULL。</p>
+<p>但是等一下，条目可以具有多个objectclass，并且它们以继承层次结构进行组织。一个organizationalPerson的objectclass条目现在有从person继承来的属性，加上一些其它条目继承来的属性以及一些之前可选的属性类型，现在都变成了强制性要求。</p>
+<p>那么该怎么做？为每个不同的objectclass建立不同的表？这样一个person在person表中有一个条目，在organizationalPerson中也有一个条目，等等。或者我们是否应该去掉person表，将所有数据都放到第二个表中。</p>
+<p>但如果有一个类似(cn=*)的过滤器，其中cn是一个在很多、很多objectclass中出现过的属性类型。我们是否应该搜索所有可能的表格来寻找匹配的条目？这样做并不讨喜。</p>
+<h2 id="ldap服务器">LDAP服务器</h2>
+<h3 id="openldap">OpenLDAP</h3>
+<p>OpenLDAP是对LDAP的开源实现，包括一个独立的LDAP服务器slapd，实现LDAP协议的库，以及相关组件、工具和简单的客户端。</p>
+<h3 id="apache-directory">Apache Directory</h3>
+<p>Apache Directory是Apache的一个项目，包含多个目录服务器相关的子项目，其中最核心的就是使用Java编写的可扩展以及嵌入式目录服务器ApacheDS。</p>
+<h3 id="active-directory">Active Directory</h3>
+<p>简称AD（中国大陆译名为“活动目录”，台湾为维持英文不译），微软Windows Server中，负责架构中大型网络环境的集中式目录管理服务。</p>
+<h2 id="ldap认证配置">LDAP认证配置</h2>
+<ul>
+<li>
+<p><a href="http://www.redmine.org/projects/redmine/wiki/RedmineLDAP">Redmine</a></p>
+<p>属性配置如下：</p>
+<ul>
+<li>
+<p>登录名属性：sAMAccountName</p>
+<p>The LDAP field for username. Defaults to uid.
+For Active Directory, set to sAMAccountName.</p>
+</li>
+<li>
+<p>姓名全称属性：name</p>
+</li>
+<li>
+<p>名字属性：givenName</p>
+</li>
+<li>
+<p>姓氏属性：sn</p>
+</li>
+<li>
+<p>邮件属性：mail</p>
+</li>
+<li>
+<p>展示名称属性：displayName</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#ldap">Gerrit</a></p>
+</li>
+<li>
+<p><a href="https://docs.gitlab.com/ee/administration/auth/ldap.html">Gitlab</a></p>
+</li>
+<li>
+<p><a href="https://wiki.jenkins.io/display/JENKINS/LDAP+Plugin">Jenkins</a></p>
+</li>
+<li>
+<p><a href="https://www.mantisbt.org/docs/master/en-US/Admin_Guide/html/admin.config.auth.ldap.html">MantisBT</a></p>
+</li>
+</ul>
+<h2 id="参考">参考</h2>
+<ul>
+<li></li>
+<li></li>
+</ul>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

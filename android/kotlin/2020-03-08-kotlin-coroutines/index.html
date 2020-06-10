@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>在架构组件中使用Kotlin协程 | 风格与布局</title>
+<meta name="description" content="协程是一种并行设计模式，在Android中使用协程可以帮助我们简化异步代码，它解决了这两个主要问题： 管理可能会阻塞主线程的长时间任务。 提供了">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#管理长时间运行任务">管理长时间运行任务</a></li>
+    <li><a href="#主线程安全">主线程安全</a></li>
+    <li><a href="#withcontext的性能">withContext()的性能</a></li>
+    <li><a href="#指派一个coroutinescope">指派一个CoroutineScope</a></li>
+    <li><a href="#在android架构组件中使用coroutinescope">在Android架构组件中使用CoroutineScope</a></li>
+    <li><a href="#启动一个协程">启动一个协程</a></li>
+    <li><a href="#并行分解">并行分解</a></li>
+    <li><a href="#架构组件内建支持">架构组件内建支持</a>
+      <ul>
+        <li><a href="#添加ktx依赖">添加KTX依赖</a></li>
+        <li><a href="#感知生命周期的协程作用域">感知生命周期的协程作用域</a></li>
+      </ul>
+    </li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">在架构组件中使用Kotlin协程</h1>
+                </div>
+                <div class="content">
+                        <p>协程是一种并行设计模式，在Android中使用协程可以帮助我们简化异步代码，它解决了这两个主要问题：</p>
+<ol>
+<li>管理可能会阻塞主线程的长时间任务。</li>
+<li>提供了主线程安全性，即从主线程安全地调用网络或磁盘操作。</li>
+</ol>
+<h2 id="管理长时间运行任务">管理长时间运行任务</h2>
+<p>例如，假设有一个长时间运行的网络请求任务：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">suspend</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">fetchDocs</span>() {                             <span style="color:#75715e">// Dispatchers.Main
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">val</span> result = <span style="color:#66d9ef">get</span>(<span style="color:#e6db74">&#34;https://developer.android.com&#34;</span>) <span style="color:#75715e">// Dispatchers.IO for `get`
+</span><span style="color:#75715e"></span>    show(result)                                      <span style="color:#75715e">// Dispatchers.Main
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#66d9ef">suspend</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">get</span>(url: String) = withContext(Dispatchers.IO) { <span style="color:#75715e">/* ... */</span> }
+</code></pre></div><p>协程在普通函数的基础上添加了两个操作来处理长时间运行任务，即除了<code>invoke</code>（或<code>call</code>）和<code>return</code>，协程添加了<code>suspend</code>和<code>resume</code>：</p>
+<ul>
+<li><code>suspend</code>暂停当前协程的执行，保存所有局部变量</li>
+<li><code>resume</code>从协程被暂停的地方开始继续执行该协程</li>
+</ul>
+<p>你只能从其它<code>suspend</code>函数中调用<code>suspend</code>函数，或者使用一个协程构建器来启动一个新的协程，例如<code>launch</code>。</p>
+<p>上面的例子中，<code>get()</code>方法仍然运行在主线程中，但它在网络请求前暂停了协程。当网络请求结束时，无需使用回调(callback)来通知主线程，<code>get</code>恢复(resume)被暂停(suspended)的协程就可以了。</p>
+<h2 id="主线程安全">主线程安全</h2>
+<p>协程使用调度器(dispatchers)来决定那个线程用于执行协程。为了在主线程外运行代码，可以让协程在Default或者IO调度器上处理任务。Kotlin中所有的协程必须运行在一个调度器中，即使它们运行在主线程中。协程可以暂停自身，调度器则负责恢复它们的执行。</p>
+<p>为了指定协程可以运行在什么地方，Kotlin提供了三种调度器：</p>
+<ul>
+<li><strong>Dispatchers.Main</strong> - 适用于在主线程中运行协程</li>
+<li><strong>Dispatchers.IO</strong> - 适用于主线程之外的网络和磁盘操作</li>
+<li><strong>Dispatchers.Default</strong> - 适用于CPU密集的工作</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">suspend</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">fetchDocs</span>() {                      <span style="color:#75715e">// Dispatchers.Main
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">val</span> result = <span style="color:#66d9ef">get</span>(<span style="color:#e6db74">&#34;developer.android.com&#34;</span>)  <span style="color:#75715e">// Dispatchers.Main
+</span><span style="color:#75715e"></span>    show(result)                               <span style="color:#75715e">// Dispatchers.Main
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#66d9ef">suspend</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">get</span>(url: String) =                 <span style="color:#75715e">// Dispatchers.Main
+</span><span style="color:#75715e"></span>    withContext(Dispatchers.IO) {              <span style="color:#75715e">// Dispatchers.IO (main-safety block)
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">/* perform network IO here */</span>          <span style="color:#75715e">// Dispatchers.IO (main-safety block)
+</span><span style="color:#75715e"></span>    }                                          <span style="color:#75715e">// Dispatchers.Main
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p>适用协程可以对线程调度进行细粒度的控制。因为<code>withContext()</code>可以让我们控制任意行代码的线程池，而且无需引入回调，我们可以将其应用到非常小的函数，例如读数据库或者一次网络请求。一个好的实践就是使用<code>withContext()</code>来确保每个函数都是主线程安全的。</p>
+<p>在上面的例子中，<code>fetchDocs</code>在主线程上执行，然而它也可以安全地调用<code>get</code>来在后台发起一次网络请求。因为协程支持<code>suspend</code>和<code>resume</code>，一旦<code>withContext()</code>块运行完成，主线程上的协程会随着<code>get</code>返回的结果被恢复。</p>
+<h2 id="withcontext的性能">withContext()的性能</h2>
+<p>相比等价的基于回调的实现<code>withContext()</code>并不会引入额外的开销。相反，在一些情形下，可以优化<code>withContext()</code>调用来达到更佳的性能。例如，一个函数调用了10次网络请求，我们可以通过使用一个外部的<code>withContext()</code>来达到仅切换一次线程的效果。因此，即使网络库多次使用了<code>withContext()</code>，它始终位于同一个调度器并且避免了线程切换。此外，Kotlin还优化了<code>Dispatchers.Default</code>和<code>Dispatchers.IO</code>间的切换来尽可能避免线程切换。</p>
+<h2 id="指派一个coroutinescope">指派一个CoroutineScope</h2>
+<p>当定义了一个协程，你也必须指派它的<code>[CoroutineScope](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/)</code>，一个<code>CoroutineScope</code>管理一个或多个相关的协程。在一个<code>CoroutineScope</code>内部我们也可以用它来启动一个新的协程。然而，与调度器不同的是<code>CoroutineScope</code>并不执行协程。</p>
+<p><code>CoroutineScope</code>的一个重要的功能是停止协程的执行，例如当用户离开APP内的一个内容展示区域时。使用<code>CoroutineScope</code>可以保证任何正在运行的操作都可以正确地停止。</p>
+<h2 id="在android架构组件中使用coroutinescope">在Android架构组件中使用CoroutineScope</h2>
+<p>在Android中，我们可以将<code>CoroutineScope</code>实现关联到一个组件的生命周期。这可以防止内存泄露或者避免在activity或fragment中进行额外的与用户不再相关的工作。使用Jetpack组件，它们可以自然地适配到一个<code>ViewModel</code>，因为一个<code>ViewModel</code>在配置改变时不会销毁，我们不必担心协程会被取消或销毁。</p>
+<p>Scope知道他们所启动的每个协程，这意味着我们可以在任意时刻取消在该Scope启动的所有协程。Scope具有传播性，因此一个协程如果启动了另外一个协程，这两个协程具有相同的scope。这意味着即使其它库在你的一个scope，你也可以在任意时刻取消它们。如果你在一个<code>ViewModel</code>中运行协程这一点就非常重要。如果因为用户离开当前界面，你的<code>ViewModel</code>正在被销毁，所有正在执行的异步工作都必须终止。否则就会浪费资源以及潜在的内存泄露。</p>
+<p>使用Android架构组件中的<code>[KTX库](https://developer.android.google.cn/kotlin/ktx)</code>，可以使用一个扩展属性<code>[viewModelScope](https://developer.android.google.cn/reference/kotlin/androidx/lifecycle/package-summary#viewmodelscope)</code>，它创建的协程在<code>ViewModel</code>被销毁的时候也会被终止执行。</p>
+<h2 id="启动一个协程">启动一个协程</h2>
+<p>可以使用两种方式来启动协程：</p>
+<ul>
+<li><code>launch</code>启动一个新的协程，但不返回结果给调用者</li>
+<li><code>async</code>启动一个新的协程，并且可以使用一个suspend函数<code>await</code>来返回一个结果</li>
+</ul>
+<p>通常，我们应该在一个常规函数内使用<code>launch</code>来启动一个新的协程，因为常规函数不能调用<code>await</code>。仅在另外的协程或者一个进行并行分解的suspend函数中时才使用<code>async</code>。</p>
+<p>在上面的例子的基础上，以下是一个使用KTX扩展属性<code>viewModelScope</code>的协程，使用<code>launch</code>从普通方法切换到协程中：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onDocsNeeded</span>() {
+    viewModelScope.launch {    <span style="color:#75715e">// Dispatchers.Main
+</span><span style="color:#75715e"></span>        fetchDocs()            <span style="color:#75715e">// Dispatchers.Main (suspend function call)
+</span><span style="color:#75715e"></span>    }
+}
+</code></pre></div><h2 id="并行分解">并行分解</h2>
+<p>由一个<code>suspend</code>函数启动的所有协程必须在函数返回时停止，因此你可能需要保证这些协程在返回前就终止执行。使用Kotlin中的结构化并发，我们可以定义一个用于启动一个或多个协程的<code>coroutineScope</code>，然后，使用<code>await()</code>或<code>awaitAll()</code>，那么可以保证这些协程可以在返回前终止。</p>
+<p>例如，我们定义一个<code>coroutineScope</code>异步获取两个文档，通过在每个延迟引用上调用<code>await()</code>，我们可以保证每个<code>async</code>操作在返回一个值前都会终止：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">suspend</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">fetchTwoDocs</span>() =
+    coroutineScope {
+        <span style="color:#66d9ef">val</span> deferredOne = async { fetchDoc(<span style="color:#ae81ff">1</span>) }
+        <span style="color:#66d9ef">val</span> deferredTwo = async { fetchDoc(<span style="color:#ae81ff">2</span>) }
+        deferredOne.await()
+        deferredTwo.await()
+    }
+</code></pre></div><p>你可以在集合上调用<code>awaitAll()</code>，如下所示：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">suspend</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">fetchTwoDocs</span>() =        <span style="color:#75715e">// called on any Dispatcher (any thread, possibly Main)
+</span><span style="color:#75715e"></span>    coroutineScope {
+        <span style="color:#66d9ef">val</span> deferreds = listOf(     <span style="color:#75715e">// fetch two docs at the same time
+</span><span style="color:#75715e"></span>            async { fetchDoc(<span style="color:#ae81ff">1</span>) },  <span style="color:#75715e">// async returns a result for the first doc
+</span><span style="color:#75715e"></span>            async { fetchDoc(<span style="color:#ae81ff">2</span>) }   <span style="color:#75715e">// async returns a result for the second doc
+</span><span style="color:#75715e"></span>        )
+        deferreds.awaitAll()        <span style="color:#75715e">// use awaitAll to wait for both network requests
+</span><span style="color:#75715e"></span>    }
+</code></pre></div><p>尽管<code>fetchTwoDocs()</code>使用<code>async</code>启动了新的协程，该函数使用<code>awaitAll()</code>来等待这些协程在返回前终止。然而，需要注意，即使没有调用<code>awaitAll()</code>，在所有新的协程终止前<code>coroutineScope</code>构建器也不会恢复调用<code>fetchTwoDocs</code>的协程。</p>
+<p>此外，<code>coroutineScope</code>会捕捉协程抛出的所有异常然后将它们传回给调用者。</p>
+<h2 id="架构组件内建支持">架构组件内建支持</h2>
+<h3 id="添加ktx依赖">添加KTX依赖</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-gradle" data-lang="gradle">dependencies <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">def</span> lifecycle_version <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;2.2.0&#34;</span>
+    <span style="color:#75715e">// ViewModel
+</span><span style="color:#75715e"></span>    implementation <span style="color:#e6db74">&#34;androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version&#34;</span>
+    <span style="color:#75715e">// LiveData
+</span><span style="color:#75715e"></span>    implementation <span style="color:#e6db74">&#34;androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version&#34;</span>
+    <span style="color:#75715e">// Lifecycles only (without ViewModel or LiveData)
+</span><span style="color:#75715e"></span>    implementation <span style="color:#e6db74">&#34;androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version&#34;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h3 id="感知生命周期的协程作用域">感知生命周期的协程作用域</h3>
+<h4 id="viewmodelscope">ViewModelScope</h4>
+<p>每个<code>ViewModel</code>都定义了一个<code>ViewModelScope</code>。当<code>ViewModel</code>被清除时，所有在scope中启动的协程都会自动取消。当仅需要在<code>ViewModel</code>活动时才运行协程时它就十分有用。例如，我们需要为一个布局计算一些数据时，我们应当将该工作放在该作用域以内，因此当<code>ViewModel</code>被清除时，工作会被自动取消以避免资源消耗。</p>
+<p>你可以通过属性<code>viewModelScope</code>来访问一个<code>ViewModel</code>中的<code>CoroutineScope</code>，例如：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyViewModel</span>: ViewModel() {
+    init {
+        viewModelScope.launch {
+            <span style="color:#75715e">// Coroutine that will be canceled when the ViewModel is cleared.
+</span><span style="color:#75715e"></span>        }
+    }
+}
+</code></pre></div><h4 id="lifecyclescope">LifecycleScope</h4>
+<p>每个<code>Lifecycle</code>对象都定义了一个<code>LifecycleScope</code>，在<code>Lifecycle</code>销毁时所有在该作用域启动的协程都会被取消。你可以通过<code>lifecycle.coroutineScope</code>或者<code>lifecycleOwner.lifecycleScope</code>属性来访问<code>Lifecycle</code>的<code>CoroutineScope</code>。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyFragment</span>: Fragment() {
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onViewCreated</span>(view: View, savedInstanceState: Bundle?) {
+        <span style="color:#66d9ef">super</span>.onViewCreated(view, savedInstanceState)
+        viewLifecycleOwner.lifecycleScope.launch {
+            <span style="color:#66d9ef">val</span> params = TextViewCompat.getTextMetricsParams(textView)
+            <span style="color:#66d9ef">val</span> precomputedText = withContext(Dispatchers.Default) {
+                PrecomputedTextCompat.create(longTextContent, params)
+            }
+            TextViewCompat.setPrecomputedText(textView, precomputedText)
+        }
+    }
+}
+</code></pre></div><h4 id="挂起生命周期感知的协程">挂起生命周期感知的协程</h4>
+<p>尽管<code>CoroutineScope</code>提供了适当的方式来自动取消长时间运行任务，也可能有其它的情形，我们想挂起一个代码块的执行直到<code>Lifecycle</code>达到某一特定状态。例如，为了运行一个<code>FragmentTransaction</code>，我们必须等到<code>Lifecycle</code>至少达到<code>STARTED</code>状态。对于这些情形，<code>Lifecycle</code>提供了额外的方法：<code>lifecycle.whenCreated</code>，<code>lifecycle.whenStarted</code>以及<code>lifecycle.whenResumed</code>。如果<code>Lifecycle</code>没有达到一个最低要求的状态，任何在这些块中运行的协程都会挂起。</p>
+<p>下面的例子包含一个代码块，仅在关联的<code>Lifecycle</code>至少达到<code>STARTED</code>状态时运行：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyFragment</span>: Fragment {
+    init { <span style="color:#75715e">// Notice that we can safely launch in the constructor of the Fragment.
+</span><span style="color:#75715e"></span>        lifecycleScope.launch {
+            whenStarted {
+                <span style="color:#75715e">// The block inside will run only when Lifecycle is at least STARTED.
+</span><span style="color:#75715e"></span>                <span style="color:#75715e">// It will start executing when fragment is started and
+</span><span style="color:#75715e"></span>                <span style="color:#75715e">// can call other suspend methods.
+</span><span style="color:#75715e"></span>                loadingView.visibility = View.VISIBLE
+                <span style="color:#66d9ef">val</span> canAccess = withContext(Dispatchers.IO) {
+                    checkUserAccess()
+                }
+
+                <span style="color:#75715e">// When checkUserAccess returns, the next line is automatically
+</span><span style="color:#75715e"></span>                <span style="color:#75715e">// suspended if the Lifecycle is not *at least* STARTED.
+</span><span style="color:#75715e"></span>                <span style="color:#75715e">// We could safely run fragment transactions because we know the
+</span><span style="color:#75715e"></span>                <span style="color:#75715e">// code won&#39;t run unless the lifecycle is at least STARTED.
+</span><span style="color:#75715e"></span>                loadingView.visibility = View.GONE
+                <span style="color:#66d9ef">if</span> (canAccess == <span style="color:#66d9ef">false</span>) {
+                    findNavController().popBackStack()
+                } <span style="color:#66d9ef">else</span> {
+                    showContent()
+                }
+            }
+
+            <span style="color:#75715e">// This line runs only after the whenStarted block above has completed.
+</span><span style="color:#75715e"></span>
+        }
+    }
+}
+</code></pre></div><p>如果<code>Lifecycle</code>被销毁时一个通过<code>when</code>方法启动的协程仍然活跃，那么协程会被自动取消。下面的例子中当<code>Lifecycle</code>状态是<code>DESTROYED</code>时<code>finally</code>块会运行：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyFragment</span>: Fragment {
+    init {
+        lifecycleScope.launchWhenStarted {
+            <span style="color:#66d9ef">try</span> {
+                <span style="color:#75715e">// Call some suspend functions.
+</span><span style="color:#75715e"></span>            } <span style="color:#66d9ef">finally</span> {
+                <span style="color:#75715e">// This line might execute after Lifecycle is DESTROYED.
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">if</span> (lifecycle.state &gt;= STARTED) {
+                    <span style="color:#75715e">// Here, since we&#39;ve checked, it is safe to run any
+</span><span style="color:#75715e"></span>                    <span style="color:#75715e">// Fragment transactions.
+</span><span style="color:#75715e"></span>                }
+            }
+        }
+    }
+}
+</code></pre></div><h4 id="和livedata一起使用协程">和LiveData一起使用协程</h4>
+<p>当使用<code>LiveData</code>时，我们可能会需要异步计算一些值。例如，你可能想获取一个用户配置给UI展示，你可以使用<code>liveData</code>构建函数来调用一个<code>suspend</code>函数，将结果作为一个<code>LiveData</code>对象。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">val</span> user: LiveData&lt;User&gt; = liveData {
+    <span style="color:#66d9ef">val</span> data = database.loadUser() <span style="color:#75715e">// loadUser is a suspend function.
+</span><span style="color:#75715e"></span>    emit(<span style="color:#66d9ef">data</span>)
+}
+</code></pre></div><p>下面的例子中，<code>loaderUser()</code>是一个在其它地方定义的<code>suspend</code>函数，使用<code>liveData</code>构建函数异步调用<code>loadUser()</code>，然后使用<code>emit()</code>发出结果：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">val</span> user: LiveData&lt;User&gt; = liveData {
+    <span style="color:#66d9ef">val</span> data = database.loadUser() <span style="color:#75715e">// loadUser is a suspend function.
+</span><span style="color:#75715e"></span>    emit(<span style="color:#66d9ef">data</span>)
+}
+</code></pre></div><p><code>liveData</code>构建块在协程和<code>LiveData</code>间作为一个结构化并发基本元件。当<code>LiveData</code>变为激活状态时代码块开始执行并且可配置一个超时，当<code>LiveData</code>变为非活跃状态时自动取消。如果它在完成前被取消，那么在<code>LiveData</code>重新变为激活状态时就会重启。如果在前一个运行过程中成功了那么就不会重新开始。注意只有自动取消时才会重新开始。如果代码块因为任何其它原因（例如，抛出一个<code>CancelationException</code>）被取消那么它不会重新运行。</p>
+<p>我们还可以从块中发出多个值，每个<code>emit()</code>调用都会挂起代码块的执行，直到<code>LiveData</code>的值被设置到主线程上。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">val</span> user: LiveData&lt;Result&gt; = liveData {
+    emit(Result.loading())
+    <span style="color:#66d9ef">try</span> {
+        emit(Result.success(fetchUser()))
+    } <span style="color:#66d9ef">catch</span>(ioException: Exception) {
+        emit(Result.error(ioException))
+    }
+}
+</code></pre></div><p>你也可以将<code>liveData</code>与<code>Transformations</code>结合使用，如下所示：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyViewModel</span>: ViewModel() {
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> userId: LiveData&lt;String&gt; = MutableLiveData()
+    <span style="color:#66d9ef">val</span> user = userId.switchMap { id -&gt;
+        liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+            emit(database.loadUserById(id))
+        }
+    }
+}
+</code></pre></div><p>每当我们想发射一个新的值时，通过从<code>LiveData</code>中调用<code>emitSource</code>函数，我们可以发射多个值。注意<code>emit()</code>或<code>emitSource()</code>会移除之前添加的值。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserDao</span>: Dao {
+    @Query(<span style="color:#e6db74">&#34;SELECT * FROM User WHERE id = :id&#34;</span>)
+    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getUser</span>(id: String): LiveData&lt;User&gt;
+}
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyRepository</span> {
+    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getUser</span>(id: String) = liveData&lt;User&gt; {
+        <span style="color:#66d9ef">val</span> disposable = emitSource(
+            userDao.getUser(id).map {
+                Result.loading(it)
+            }
+        )
+        <span style="color:#66d9ef">try</span> {
+            <span style="color:#66d9ef">val</span> user = webservice.fetchUser(id)
+            <span style="color:#75715e">// Stop the previous emission to avoid dispatching the updated user
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// as `loading`.
+</span><span style="color:#75715e"></span>            disposable.dispose()
+            <span style="color:#75715e">// Update the database.
+</span><span style="color:#75715e"></span>            userDao.insert(user)
+            <span style="color:#75715e">// Re-establish the emission with success type.
+</span><span style="color:#75715e"></span>            emitSource(
+                userDao.getUser(id).map {
+                    Result.success(it)
+                }
+            )
+        } <span style="color:#66d9ef">catch</span>(exception: IOException) {
+            <span style="color:#75715e">// Any call to `emit` disposes the previous one automatically so we don&#39;t
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// need to dispose it here as we didn&#39;t get an updated value.
+</span><span style="color:#75715e"></span>            emitSource(
+                userDao.getUser(id).map {
+                    Result.error(exception, it)
+                }
+            )
+        }
+    }
+}
+</code></pre></div><h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://developer.android.google.cn/kotlin/coroutines">Improve app performance with Kotlin coroutines</a></li>
+<li><a href="https://developer.android.google.cn/topic/libraries/architecture/coroutines">Use Kotlin coroutines with Architecture components</a></li>
+</ul>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

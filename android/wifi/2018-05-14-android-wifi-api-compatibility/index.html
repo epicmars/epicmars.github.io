@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Android Wi-Fi API兼容性适配 | 风格与布局</title>
+<meta name="description" content="Android 6.0（API 级别 23） 硬件标识符访问权 为给用户提供更严格的数据保护，从此版本开始，对于使用 WLAN API 和 Bluetooth API 的应用，Android 移除了对设备本">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#android-60api-级别-23httpsdeveloperandroidcomaboutversionsmarshmallowandroid-60-changeshlzh-cn"><a href="https://developer.android.com/about/versions/marshmallow/android-6.0-changes?hl=zh-cn">Android 6.0（API 级别 23）</a></a>
+      <ul>
+        <li><a href="#硬件标识符访问权">硬件标识符访问权</a></li>
+        <li><a href="#wlan-和网络连接变更">WLAN 和网络连接变更</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">Android Wi-Fi API兼容性适配</h1>
+                </div>
+                <div class="content">
+                        <h2 id="android-60api-级别-23httpsdeveloperandroidcomaboutversionsmarshmallowandroid-60-changeshlzh-cn"><a href="https://developer.android.com/about/versions/marshmallow/android-6.0-changes?hl=zh-cn">Android 6.0（API 级别 23）</a></h2>
+<h3 id="硬件标识符访问权">硬件标识符访问权</h3>
+<p>为给用户提供更严格的数据保护，从此版本开始，对于使用 WLAN API 和 Bluetooth API 的应用，Android 移除了对设备本地硬件标识符的编程访问权。WifiInfo.getMacAddress() 方法和 BluetoothAdapter.getAddress() 方法现在会返回常量值 02:00:00:00:00:00。</p>
+<p>现在，要通过蓝牙和 WLAN 扫描访问附近外部设备的硬件标识符，您的应用必须拥有 ACCESS_FINE_LOCATION 或 ACCESS_COARSE_LOCATION 权限。</p>
+<p>WifiManager.getScanResults()
+BluetoothDevice.ACTION_FOUND
+BluetoothLeScanner.startScan()</p>
+<blockquote>
+<p>注：当运行 Android 6.0（API 级别 23）的设备发起后台 WLAN 或蓝牙扫描时，在外部设备看来，该操作的发起来源是一个随机化 MAC 地址。</p>
+</blockquote>
+<h3 id="wlan-和网络连接变更">WLAN 和网络连接变更</h3>
+<p>此版本对 WLAN API 和 Networking API 引入了以下行为变更。</p>
+<p>现在，您的应用只能更改由您创建的 WifiConfiguration 对象的状态。系统不允许您修改或删除由用户或其他应用创建的 WifiConfiguration 对象。
+在之前的版本中，如果应用利用带有 disableAllOthers=true 设置的 enableNetwork() 强制设备连接特定 WLAN 网络，设备将会断开与移动数据网络等其他网络的连接。在此版本中，设备不再断开与上述其他网络的连接。如果您的应用的 targetSdkVersion 为 “20” 或更低，则会固定连接所选 WLAN 网络。如果您的应用的 targetSdkVersion 为 “21” 或更高，请使用多网络 API（如 openConnection()、bindSocket() 和新增的 bindProcessToNetwork() 方法）来确保通过所选网络传送网络流量。</p>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>红黑树 | 风格与布局</title>
+<meta name="description" content="在二叉搜索树的讨论中可以得出各种查询以及插入、删除操作的时间复杂度上界为$O(h)$，其中$h$为树的高度，即树的叶子节点的最大深度。 因此树">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#红黑树及其性质">红黑树及其性质</a></li>
+    <li><a href="#红黑树动态集合操作">红黑树动态集合操作</a>
+      <ul>
+        <li><a href="#旋转">旋转</a></li>
+        <li><a href="#插入">插入</a></li>
+        <li><a href="#删除">删除</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">红黑树</h1>
+                </div>
+                <div class="content">
+                        <p>在二叉搜索树的讨论中可以得出各种查询以及插入、删除操作的时间复杂度上界为$O(h)$，其中$h$为树的高度，即树的叶子节点的最大深度。</p>
+<p>因此树的高度很大程度上决定了动态集合操作的时间复杂度。对于一个包含确定数量元素的二叉搜索树，我们希望得到一棵较为“平衡”的二叉树，即后代结点能够较均匀分布在一个祖先结点的两颗子树中，这样相对于元素总量，其高度是一个较小的值。因此，可以将平衡的度量认为是树高h与结点总量n的比率$\frac{h}{n}$，即结点对树高的平均贡献率。</p>
+<p>考察树的第i层的$k_i$个结点，有：</p>
+<p>$$
+n = \sum\limits_{i=0}^h k_i, \space k_i \leq 2^i
+$$</p>
+<p>如果树中有大量不平衡的结点，那么每个第i层的结点越少，会导致树高$h$越大。</p>
+<h2 id="红黑树及其性质">红黑树及其性质</h2>
+<p>红黑树是平衡二叉搜索树的一种，可以保证最坏情况下动态集合操作的时间复杂度为$O(\lg n)$，它在每个结点上增加一个存储位来表示结点颜色，可以是RED或BLACK，通过对任一条从根到叶子结点的路径上各个结点的颜色进行约束，可以确保没有一条路径会比其它路径长出2倍，因而是近似于平衡的。</p>
+<p>一棵红黑树中的每个结点包含5个属性，color，key，left，right和p，如果一个结点没有子结点或父结点，这改结点相应指针属性的值为NIL，可以把这些NIL视为指向二叉搜索树的叶结点（外部结点）的指针，而把带关键字的结点视为树的内部结点。</p>
+<p>一棵红黑树是满足下面<strong>红黑性质</strong>的二叉搜索树：</p>
+<ol>
+<li>每个结点是红色的或黑色的</li>
+<li>根结点是黑色的</li>
+<li>每个叶结点（NIL）是黑色的</li>
+<li>如果一个结点是红色的，则它的两个子结点都是黑色的</li>
+<li>对每个结点，从该结点到所有后代叶结点的简单路径上，均包含相同数目的黑色结点</li>
+</ol>
+<p>从某个结点x出发(不含该结点)到达一个叶结点的任意一条简单路径上的黑色结点个数称为该结点的<strong>黑高(black height)</strong>，定义红黑树的黑高为其根结点的黑高。</p>
+<!-- raw HTML omitted -->
+<h2 id="红黑树动态集合操作">红黑树动态集合操作</h2>
+<p>对不修改树的数据结构的操作，如遍历、查询、最大、最小、前驱、后继一类操作对红黑树和普通二叉搜索树都是一样的，对于插入与删除操作，红黑树需要进行额外的变换，不仅改变数据结构，也需要改变结点的颜色以保证红黑树的性质。</p>
+<h3 id="旋转">旋转</h3>
+<p>对于数据结构的修改，可以通过<strong>旋转</strong>来完成，它是能保持二叉搜索树的性质的局部操作。主要有两种旋转方式，分别为左旋和右旋。</p>
+<h3 id="插入">插入</h3>
+<p>首先采用稍作修改的普通二叉搜索树插入方法将新的结点插入到树中，为了保证红黑树的性质，还需要对结点进行<strong>着色</strong>和<strong>旋转</strong>操作。</p>
+<h3 id="删除">删除</h3>
+<p>首先采用进行了一定修改的普通的二叉搜索树删除方法将给定结点z从树T中删除，其中需要维持一个结点y为从树中删除的结点或移至树内的结点，并记录y的初始颜色，如果y的初始颜色为黑色，那么需要进行着色和旋转操作来恢复红黑性质。此外还要跟踪移动到结点y原来位置的x结点，因为它也有可能破坏红黑树性质。</p>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

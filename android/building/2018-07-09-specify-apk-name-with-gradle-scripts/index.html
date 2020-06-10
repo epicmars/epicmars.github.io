@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Android应用构建：使用Gradle构建脚本进行多渠道打包与APK包名修改 | 风格与布局</title>
+<meta name="description" content="Android开发中常常需要进行多渠道打包，并且在包名中加入特定的标识，例如在提测阶段的包名中加入版本号、版本名、打包的时间，便于区分不同的">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#配置发布渠道">配置发布渠道</a></li>
+    <li><a href="#修改包名">修改包名</a></li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">Android应用构建：使用Gradle构建脚本进行多渠道打包与APK包名修改</h1>
+                </div>
+                <div class="content">
+                        <p>Android开发中常常需要进行多渠道打包，并且在包名中加入特定的标识，例如在提测阶段的包名中加入版本号、版本名、打包的时间，便于区分不同的测试包。</p>
+<h2 id="配置发布渠道">配置发布渠道</h2>
+<p>为了能够生成不同渠道的安装包，一般需要进行构建变体的配置，一般使用产品风味来区分不同的渠道，产品风味也可以进行其它类型包的区分，如付费版与非付费版，因此在产品风味的基础上可以使用风味纬度来管理不同大类的风味，例如可以定义一个渠道纬度“channel”，负责管理渠道产品风味。一个付费纬度“pay”来管理付费产品风味，如下所示：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">android <span style="color:#f92672">{</span>
+
+    flavorDimnsions <span style="color:#e6db74">&#34;channel&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;pay&#34;</span>
+
+    productFlavors <span style="color:#f92672">{</span>
+
+        dev <span style="color:#f92672">{</span>
+            dimension <span style="color:#e6db74">&#34;channel&#34;</span>
+            manifestPlaceholders <span style="color:#f92672">=</span> <span style="color:#f92672">[</span>APP_CHANNEL<span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;dev&#34;</span><span style="color:#f92672">]</span>
+        <span style="color:#f92672">}</span>
+
+        google <span style="color:#f92672">{</span>
+            dimension <span style="color:#e6db74">&#34;channel&#34;</span> 
+            manifestPlaceholders <span style="color:#f92672">=</span> <span style="color:#f92672">[</span>APP_CHANNEL<span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;google&#34;</span><span style="color:#f92672">]</span>
+        <span style="color:#f92672">}</span>
+
+        alibaba <span style="color:#f92672">{</span>
+            dimension <span style="color:#e6db74">&#34;channel&#34;</span>            
+            manifestPlaceholders <span style="color:#f92672">=</span> <span style="color:#f92672">[</span>APP_CHANNEL<span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;alibaba&#34;</span><span style="color:#f92672">]</span>
+        <span style="color:#f92672">}</span>
+
+        tencent <span style="color:#f92672">{</span>
+            dimension <span style="color:#e6db74">&#34;channel&#34;</span>
+            manifestPlaceholders <span style="color:#f92672">=</span> <span style="color:#f92672">[</span>APP_CHANNEL<span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;tencent&#34;</span><span style="color:#f92672">]</span>
+        <span style="color:#f92672">}</span>
+
+        xiaomi <span style="color:#f92672">{</span>
+            dimension <span style="color:#e6db74">&#34;channel&#34;</span>
+            manifestPlaceholders <span style="color:#f92672">=</span> <span style="color:#f92672">[</span>APP_CHANNEL<span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;xiaomi&#34;</span><span style="color:#f92672">]</span>
+        <span style="color:#f92672">}</span>
+
+        oppo <span style="color:#f92672">{</span>
+            dimension <span style="color:#e6db74">&#34;channel&#34;</span>
+            manifestPlaceholders <span style="color:#f92672">=</span> <span style="color:#f92672">[</span>APP_CHANNEL<span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;oppo&#34;</span><span style="color:#f92672">]</span>
+        <span style="color:#f92672">}</span>
+
+        baidu <span style="color:#f92672">{</span>
+            dimension <span style="color:#e6db74">&#34;channel&#34;</span>
+            manifestPlaceholders <span style="color:#f92672">=</span> <span style="color:#f92672">[</span>APP_CHANNEL<span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;baidu&#34;</span><span style="color:#f92672">]</span>
+        <span style="color:#f92672">}</span>
+
+        <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>
+        paid <span style="color:#f92672">{</span>
+            dimension <span style="color:#e6db74">&#34;pay&#34;</span>
+        <span style="color:#f92672">}</span>
+
+        free <span style="color:#f92672">{</span>
+            dimension <span style="color:#e6db74">&#34;pay&#34;</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>然而主流和次要渠道可能达到几十上百个，手动一一配置略显繁琐，借助基于Groovy的Gradle提供的强大编程能力，我们可以从一个文件中去加载所需的渠道。通过一个普通的文本文件或者json，csv文件就可以做到：</p>
+<p>channel.csv</p>
+<pre><code>dev
+google
+alibaba
+tencent
+xiaomi
+oppo
+baidu
+</code></pre><p>然后可以通过从文件中读取渠道，然后添加到产品风味中：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">android <span style="color:#f92672">{</span>
+
+    flavorDimensions <span style="color:#e6db74">&#34;channel&#34;</span>
+
+    def channelFile <span style="color:#f92672">=</span> rootProject<span style="color:#f92672">.</span><span style="color:#a6e22e">file</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;channel.csv&#34;</span><span style="color:#f92672">)</span>
+    def channels <span style="color:#f92672">=</span> channelFile<span style="color:#f92672">.</span><span style="color:#a6e22e">readLines</span><span style="color:#f92672">()</span>
+
+    productFlavors <span style="color:#f92672">{</span>
+        channels<span style="color:#f92672">.</span><span style="color:#a6e22e">each</span> <span style="color:#f92672">{</span> channel <span style="color:#f92672">-&gt;</span>
+            productFlavors<span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">(</span>channel<span style="color:#f92672">,</span> <span style="color:#f92672">{</span>
+                dimension <span style="color:#e6db74">&#34;channel&#34;</span>
+                manifestPlaceholders <span style="color:#f92672">=</span> <span style="color:#f92672">[</span>APP_CHANNEL<span style="color:#f92672">:</span> channel<span style="color:#f92672">]</span>
+            <span style="color:#f92672">})</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+</code></pre></div><h2 id="修改包名">修改包名</h2>
+<p>事实上在官方文档<a href="https://developer.android.com/studio/build/gradle-plugin-3-0-0-migration">迁移到 Android Plugin for Gradle 3.0.0</a>中，给出了一种更改APK名称的方式：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// If you use each() to iterate through the variant objects,
+</span><span style="color:#75715e">// you need to start using all(). That&#39;s because each() iterates
+</span><span style="color:#75715e">// through only the objects that already exist during configuration time—
+</span><span style="color:#75715e">// but those object don&#39;t exist at configuration time with the new model.
+</span><span style="color:#75715e">// However, all() adapts to the new model by picking up object as they are
+</span><span style="color:#75715e">// added during execution.
+</span><span style="color:#75715e"></span>android<span style="color:#f92672">.</span><span style="color:#a6e22e">applicationVariants</span><span style="color:#f92672">.</span><span style="color:#a6e22e">all</span> <span style="color:#f92672">{</span> variant <span style="color:#f92672">-&gt;</span>
+    variant<span style="color:#f92672">.</span><span style="color:#a6e22e">outputs</span><span style="color:#f92672">.</span><span style="color:#a6e22e">all</span> <span style="color:#f92672">{</span>
+        def name <span style="color:#f92672">=</span> outputFileName<span style="color:#f92672">.</span><span style="color:#a6e22e">replaceFirst</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;app-&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;fafabtc-&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">replaceAll</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;.apk&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">)</span>
+        outputFileName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;${name}-${variant.versionName}.apk&#34;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><ul>
+<li><a href="https://developer.android.com/studio/build/gradle-tips#configure-dynamic-version-codes">Gradle 提示与诀窍</a></li>
+<li><a href="http://google.github.io/android-gradle-dsl/current/">DSL 参考文档</a></li>
+</ul>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta lang="zh"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>
+            
+    思维剖析：分析与假设 &ndash; DevNote
+
+        </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        
+        
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <header>
+    <a href="https://www.jastrelax.com/">DevNote</a>
+</header>
+        
+    <div class="main">
+        <div class="article">
+            <article>
+                <div class="title">
+                    <h1 id="title">思维剖析：分析与假设</h1>
+                </div>
+                <div class="content">
+                        
+
+<p>最近在<a href="www.lintcode.com">lintcode</a>上做算法练习，有一两道基本的快速排序题，以前看过的基础算法没什么印象了，我想这样不行啊，每次看过一遍好像已经懂了，但过一段时间却忘了，说明还没有理解透彻，正如之前在一篇文章中所言的，“概念很重要！”，说明我对快速排序的概念还没有一个清晰的理解。那么为了完全掌握快速排序，与其反复匆匆把算法略过一遍不如自己来推导一遍。</p>
+
+<p>所谓概念一般是抽象的无关实现细节，总结概括而来的理论知识。以经典书籍《算法导论》为参考，那么快速排序的概念究竟是什么？</p>
+
+<blockquote>
+<p>为达到更优的时间复杂度，快速排序是使用分治策略的排序算法的一种，通过顺序遍历将一个输入序列划分为两部分，其中第一部分的每个元素都小于等于（或大于等于）第二部分的每一个元素，然后采用递归的方式分别对这两部分序列进行上述遍历处理，直到每个遍历集合中的元素个数为1。</p>
+</blockquote>
+
+<p>对于具体实现，假设序列为A，按升序进行排列进行分析，那么根据之前对二分查找的印象，需要将序列从中间进行划分，然后递归处理。那么如何进行划分，才能够使第一部分全部小于第二部分。最初的思路有如下几种：
+1. 首先将序列从中间划分为两组，然后分别交换这两部分中的最大值和最小值，每次交换都要遍历整个序列，找到最大值和最小值时间复杂度为O(n)，放入分割循环中使得最终排序算法的时间复杂度达不到要求。
+2. 首先取序列的前两个元素，小的划分到第一部分，大的划分到第二部分，记录第一部分的最大值A[i]和第二部分的最小值A[i+1]，以及两部分的长度len1, len2，使用序号k从第三个位置开始遍历，检查A[k]，如果A[k]比A[i]小，那么将A[k]放入第一部分，具体操作将A[k]与A[i]互换，A[k]再与A[i+1]互换，A[k]与A[i+2]互换，第一部分i加1，长度len1加1，k加1。如果A[k]比A[i+1]大，A[k]已经在第二部分了，那么len2加1，k加1。如果A[k]大小在A[i]与A[i+1]之间，如果len1&lt;len2则放入第一部分，并将A[k]设置为第一部分新的最大值，否则放入第二部分，并将A[k]置换为第二部分的最小值，分割数组为两部分的代码描述如下：</p>
+
+<pre><code class="language-python">    def partition(self, A, start, end):
+        &quot;&quot;&quot;
+        Args:
+            A: 要排序的数组
+            start: 要分割部分起始序号，包含
+            end: 要分割部分结束序号，不包含
+        return: 第一部分结束序号，包含
+        &quot;&quot;&quot;
+        if A[start] &gt; A[start+1]:
+            self.swap(A, start, start+1)
+        i = start
+        j = i + 2
+        len1 = len2 = 1
+        for k in range(j, end):
+            if A[k] &lt; A[i]:
+                self.swap(A, k, i)
+                self.swap(A, k, i+1)
+                self.swap(A, k, i+2)
+                i += 1
+                len1 += 1
+            elif A[k] &gt; A[i+1]:
+                len2 += 1
+            else:
+                if len1 &lt; len2:
+                    self.swap(A, k,   i+2)
+                    self.swap(A, i+2, i+1)
+                    len1 += 1
+                    i += 1
+                else:
+                    self.swap(A, k, i+1)
+                    len2 += 1
+        return i
+</code></pre>
+
+<p>为什么做这种分析，最初我拿来一个9个元素的数组，一心想在分割部分将数组分为等长的两部分，这便是第一个假设了：即分割时将数组分为等长的两部分（根据序列长度的奇偶性，两部分的差的绝对值为0或1），这种假设本质上是好的，因为快速排序最差的结果便是其中一部分总是分到了大部分元素。即便是在进行上述算法的整理时，我还这样想，直到运行结果打印出来，发现这种默认的假设在结果中没有出现，并且浪费了过多的分析时间。为什么会进行这种假设，还是一种类比的思维，最初这种想法用在二分查找还挺好用的，二分查找时，总是去数组中间的值进行比较，但仔细想想，这完全没有可比性啊，二分查找本身便是有序的，也就是说中间位置的值的大小在整个序列中也是居中的。那么好吧，不再类比，意识到这种问题是因为作了默认的假设，那么就把这种假设明确写入算法中会怎样？</p>
+
+<p>还是根据上面的算法，进行数组分割时，序号i处的值是第一部分最大的，i+1是第二部分的最小值，并且A[i]&lt;=A[i+1]，那么为了保证两部分的元素数量一样，分割结束后序号处的值是整个序列中的一个中间值。现在需要在分割部分执行过程中要找到被处理数组的中位数，简单的进行分析，不可能在常量时间内找到，也就是不能能在排序分割的遍历过程中找到，那么试试在遍历前找到这个中位数然后拿到遍历中使用，为了不至于破坏快速排序的性能，那么寻找中位数的时间复杂度被限制为O(n)。那么现在的问题便是：查找无序数组A中的中位数，其时间复杂度为O(n)。然后很明显这还是一个排序的问题，现在问题变成了对A进行排序，其时间复杂度为O(n)。如果能够直接以这样的时间复杂度达成排序，那么这里的快速排序就没有意义了，因此找中位数的想法在这里行不通。</p>
+
+<p>那么如此控制分割两部分元素数量的想法并不现实，认识到这点，便可以开始专心着手对原算法的优化了。</p>
+
+<h2 id="优化1">优化1</h2>
+
+<p>在<a href="http://www.lintcode.com/en/problem/sort-integers-ii">lintcode</a>上提交运行到85%时提示超出时间限制了，发现是打印语句拖了后腿。那么需要在上述算法不变的基础上先作一些优化。每个swap调用都需要执行三条语句，多个相邻元素间的swap调用明显是可以进行优化的，发现这也可以抽象为一个算法题：</p>
+
+<blockquote>
+<p>给定一个数组A，对数组任意两个元素间进行swap调用以交换其元素，一共调用n次，请消除其中冗余的赋值操作，其中swap函数的定义如下：（展开一个例子，这种节点间的swap交换类似于软件模块中的数据交换，即调用与回调，这种情况下，节点间的数据交换便不是简单的值交换，而是经过一系列错综复杂的流程处理后的数据，理清这个问题应该对代码复用，软件架构，流程优化有所帮助。可以进一步扩展，数据流并不总是双向的，NP问题？）</p>
+</blockquote>
+
+<pre><code class="language-python">def swap(A, i, j):
+    # 虽然实际上python中不需要swap函数
+    # 直接使用A[i],A[j] = A[j],A[i]就可以了
+    temp = A[i]
+    A[i] = A[j]
+    A[j] = temp
+</code></pre>
+
+<pre><code class="language-python">    def partition(self, A, start, end):
+        &quot;&quot;&quot;
+        Args:
+            A: 要排序的数组
+            start: 要分割部分起始序号，包含
+            end: 要分割部分结束序号，不包含
+        &quot;&quot;&quot;
+        if A[start] &gt; A[start+1]:
+            self.swap(A, start, start+1)
+        i = start
+        j = i + 2
+        len1 = len2 = 1
+        for k in range(j, end):
+            if A[k] &lt; A[i]:
+                temp = A[k]
+                A[k] = A[i+2]
+                A[i+2] = A[i+1]
+                A[i+1] = A[i]
+                A[i] = temp
+                i += 1
+                len1 += 1
+            elif A[k] &gt; A[i+1]:
+                len2 += 1
+            else:
+                if len1 &lt; len2:
+                    temp = A[k]
+                    A[k] = A[i+2]
+                    A[i+2] = A[i+1]
+                    A[i+1] = temp
+                    len1 += 1
+                    i += 1
+                else:
+                    self.swap(A, k, i+1)
+                    len2 += 1
+        return i
+</code></pre>
+
+<p>本次优化后时间有原来的2500变为2400左右。</p>
+
+<h2 id="优化2">优化2</h2>
+
+<p>最初记录len1和len2的目的是为了使分割两部分的长度尽可能相同，根据上面的分析，找中位数的办法不靠谱，这种做法便没有必要了。并且上述分割时分别记录了两部分的最大和最小值，进行了过多的元素交换，现在换为仅记录一个值，使得分割第一部分的值都小于它，第二部分的值都大于等于它，最后并将该值划分到第一部分。</p>
+
+<pre><code class="language-python">    def partition(self, A, start, end):
+        &quot;&quot;&quot;
+        Args:
+            A: 要排序的数组
+            start: 要分割部分起始序号，包含
+            end: 要分割部分结束序号，不包含
+        &quot;&quot;&quot;
+        i = start
+        iter_start = start + 1
+        for k in xrange(iter_start, end):
+            if A[k] &lt; A[i]:
+                temp = A[k]
+                A[k] = A[i+1]
+                A[i+1] = A[i]
+                A[i] = temp
+                i += 1
+        return i
+</code></pre>
+
+<p>这里有个问题，最初在上述代码判断采用的是：A[k] &lt;= A[i]，运行时的问题是可能对于一个全部相等的数组，连同划分值一起总是会被划分到第一组，而第二组为空的，递归过程中第一组总是全部划分到第一组中，这样导致了调用栈溢出。将判断中的等号去掉后，A[i]总是第一组中唯一的最大值。最后优化后的版本运行时间有2400变为2200左右。</p>
+
+<h2 id="优化3">优化3</h2>
+
+<p>循环中的操作是影响算法性能的主要因素，上述代码中的在遇到小于分割值时需要进行两次元素交换，对此进行优化。现在的目的很明显是为了在每个分割中将数组分为两部分，并不关心分割后两部分的长度，也不关心没部分的局部顺序，那么实际上不需要每次将A[i]交换为第一部分的最大值。那么在优化2的基础上，遍历过程中，选择主元为A[start]，当判断到A[k] &lt; A[start]时，将A[k]与A[i+1]进行交换，然后将序号i加1就可以了，并且如果k == i+1时，仅需将序号i+1就可以了。</p>
+
+<p>划分完成后将主元A[start]与第一部分最后一个值A[i]进行交换，这样第一部分的值都小于等于A[i]。考虑一种情况，如果A[start]是数组中的最大值，这样A[i]仍然是第一部分唯一最大值，第二部分为空。还有一种情况，如果A[start]是数组中的最小值，分割完成后，第一部分仅有主元A[start]。</p>
+
+<p>无论哪种情况，分割完成后主元都已经处于正确的位置，在快排迭代过程中，需要保留这一已排序的位置。</p>
+
+<pre><code class="language-python">    def partition(self, A, start, end):
+        &quot;&quot;&quot;
+        Args:
+            A: 要排序的数组
+            start: 要分割部分起始序号，包含
+            end: 要分割部分结束序号，不包含
+        Return:
+            划分完成后主元的位置
+        &quot;&quot;&quot;
+        i = start
+        iter_start = start + 1
+        for k in xrange(iter_start, end):
+            if A[k] &lt; A[start]:
+                i += 1
+                if k == i + 1:
+                    continue
+                swap(A[i], A[k])
+        swap(A[i], A[start])
+        return i
+</code></pre>
+
+<p>按照渐进复杂度而言，代码循环主逻辑仅仅减少了一次赋值，优化效果并不那么明显。</p>
+
+                </div>
+                
+            </article>
+            <aside>
+                <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#优化1">优化1</a></li>
+<li><a href="#优化2">优化2</a></li>
+<li><a href="#优化3">优化3</a></li>
+</ul></li>
+</ul>
+</nav>
+            </aside>
+        </div>
+    </div>
+
+        <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a>
+</footer>
+        
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+        
+        <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+        <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML">
+        </script>
+        <script type="text/javascript" src="/js/main.js"></script>
+    </body>
+
+</html>

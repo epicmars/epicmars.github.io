@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>中位数与顺序统计量 | 风格与布局</title>
+<meta name="description" content="顺序统计量（Order statistic） 一个n位元素组成的集合中，第i个顺序统计量是该集合中第i小的元素。例如，最小值是第一个顺序统计量（">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#顺序统计量order-statistic">顺序统计量（Order statistic）</a></li>
+    <li><a href="#中位数median">中位数（Median）</a></li>
+    <li><a href="#问题与定义">问题与定义</a></li>
+    <li><a href="#基本思想">基本思想</a>
+      <ul>
+        <li><a href="#随机划分">随机划分</a></li>
+        <li><a href="#确定性划分">确定性划分</a></li>
+      </ul>
+    </li>
+    <li><a href="#实现">实现</a>
+      <ul>
+        <li><a href="#使用随机划分子序列的算法">使用随机划分子序列的算法</a></li>
+        <li><a href="#使用确定性划分的算法">使用确定性划分的算法</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">中位数与顺序统计量</h1>
+                </div>
+                <div class="content">
+                        <h2 id="顺序统计量order-statistic">顺序统计量（Order statistic）</h2>
+<p>一个n位元素组成的集合中，第i个顺序统计量是该集合中第i小的元素。例如，最小值是第一个顺序统计量（i=1），最大值是第n个顺序统计量(i=n)。</p>
+<h2 id="中位数median">中位数（Median）</h2>
+<p>中位数是顺序统计量的一种，它是集合中的中点元素，与上述顺序统计量的描述一致，i从1开始计数。当n为奇数时，中位数有唯一一个，位于i=(n+1)/2处，当n为偶数时，中位数有两个，分别为上中位数(n/2)与下中位数(n/2+1)。</p>
+<h2 id="问题与定义">问题与定义</h2>
+<p>讨论中一个由n个互异的元素构成集合中选择第i个顺序统计量的问题，为方便讨论，假设元素都是互异的，但实际上这里的讨论都可以推广到包含重复元素的集合中。对这一问题的形式化定义为</p>
+<ul>
+<li>输入：一个包含n个互异元素的集合A和一个整数i，1≤ i ≤n。</li>
+<li>输出：元素x属于集合A，且A中恰好有i-1个其它元素小于它。</li>
+</ul>
+<h2 id="基本思想">基本思想</h2>
+<h3 id="随机划分">随机划分</h3>
+<p>使用类似快排的划分思路，选择一个主元（pivot），将序列中的其它元素进行划分为小于等于主元和大于等于主元的两个子序列，如果主元的顺序统计量就是要查找的顺序统计量则查找成功，如果目标顺序统计量小于主元的顺序统计量，则从较小的子序列中根据上述同样的过程进行查找，否则则在较大的子序列中进行查找。</p>
+<h3 id="确定性划分">确定性划分</h3>
+<p>确定性划分首先将序列分为较小的组，每一组有一个较小常数数量的元素，对每个分组进行排序，找出每组的中位数，然后对每组的中位数用同样的方式进行划分后查找这些中位数的中位数。利用每组中位数的中位数作为主元对序列进行划分，划分后的处理方式与随机划分相似。这里的重点是分组后的中位数的中位数x可以将序列划分为较为平均的两部分，因为，各分组的中位数y小于x的分组中小于中位数y的必定也小于x，中位数y大于x的分组中大于y的元素也必定大于x，它们大约各占整个序列的1/4，这样就避免了随机划分可能出现较差的情况。</p>
+<h2 id="实现">实现</h2>
+<h3 id="使用随机划分子序列的算法">使用随机划分子序列的算法</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">swap</span>(A, i, j):
+    temp <span style="color:#f92672">=</span> A[i]
+    A[i] <span style="color:#f92672">=</span> A[j]
+    A[j] <span style="color:#f92672">=</span> temp
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">random_select</span>(A, p, r, i):
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    A: 要查找的序列
+</span><span style="color:#e6db74">    p: 序列开始索引，包含
+</span><span style="color:#e6db74">    r: 序列结束索引，包含
+</span><span style="color:#e6db74">    i: 要查找的顺序统计量
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    <span style="color:#75715e"># 如果只有一个元素，直接返回</span>
+    <span style="color:#66d9ef">if</span> p <span style="color:#f92672">==</span> r:
+        <span style="color:#66d9ef">return</span> A[p]
+    q <span style="color:#f92672">=</span> random_partition(A, p, r)
+    <span style="color:#66d9ef">if</span> i <span style="color:#f92672">==</span> q:
+        <span style="color:#66d9ef">return</span> A[q]
+    <span style="color:#66d9ef">if</span> i <span style="color:#f92672">&lt;</span> q:
+        <span style="color:#66d9ef">return</span> random_select(A, p, q<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, i)
+    <span style="color:#66d9ef">else</span>:
+        <span style="color:#66d9ef">return</span> random_select(A, q<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, r, i)
+    
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">random_partition</span>(A, p, r):
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    A: 要划分的序列
+</span><span style="color:#e6db74">    p: 序列开始索引，包含
+</span><span style="color:#e6db74">    r: 序列结束索引，不包含
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    <span style="color:#75715e"># 这里直接从中间进行划分</span>
+    mid <span style="color:#f92672">=</span> (p <span style="color:#f92672">+</span> r) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>
+    pivot <span style="color:#f92672">=</span> A[mid]  <span style="color:#75715e"># 主元</span>
+    left <span style="color:#f92672">=</span> p        <span style="color:#75715e"># [p,left)间的元素都小于等于主元</span>
+    right <span style="color:#f92672">=</span> r       <span style="color:#75715e"># (right,r]间的元素都大于等于主元</span>
+    <span style="color:#66d9ef">while</span> left <span style="color:#f92672">&lt;</span> right:
+        <span style="color:#66d9ef">if</span> A[left] <span style="color:#f92672">&gt;=</span> pivot <span style="color:#f92672">and</span> A[right] <span style="color:#f92672">&lt;=</span> pivot: 
+            swap(A, left, right)
+            left <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+            right <span style="color:#f92672">-=</span> <span style="color:#ae81ff">1</span>
+        <span style="color:#66d9ef">else</span>:
+            <span style="color:#66d9ef">if</span> A[left] <span style="color:#f92672">&lt;</span> pivot:
+                left <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+            <span style="color:#66d9ef">if</span> A[right] <span style="color:#f92672">&gt;</span> pivot:
+                right <span style="color:#f92672">-=</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">return</span> left
+        
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+    A <span style="color:#f92672">=</span> [<span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">134</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1324</span>, <span style="color:#ae81ff">1123</span>, <span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">34</span>, <span style="color:#ae81ff">3</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">98</span>, <span style="color:#ae81ff">132</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">12</span>, <span style="color:#ae81ff">29</span>, <span style="color:#ae81ff">36</span>]
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> xrange(<span style="color:#ae81ff">0</span>, len(A)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>):
+        <span style="color:#66d9ef">print</span> random_select(A, <span style="color:#ae81ff">0</span>, len(A)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, i)
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    main()
+</code></pre></div><h3 id="使用确定性划分的算法">使用确定性划分的算法</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">swap</span>(A, i, j):
+    temp <span style="color:#f92672">=</span> A[i]
+    A[i] <span style="color:#f92672">=</span> A[j]
+    A[j] <span style="color:#f92672">=</span> temp
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">insertion_sort</span>(A, r):
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> xrange(<span style="color:#ae81ff">0</span>, len(r)):
+        current <span style="color:#f92672">=</span> i
+        <span style="color:#66d9ef">for</span> j <span style="color:#f92672">in</span> xrange(i, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>):
+            <span style="color:#66d9ef">if</span> A[r[current]] <span style="color:#f92672">&lt;</span> A[r[j]]:
+               swap(A, r[current], r[j])
+               current <span style="color:#f92672">=</span> j
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">median</span>(A, r):
+    <span style="color:#75715e"># print &#34;median&#34;, r</span>
+    insertion_sort(A, r)
+    <span style="color:#66d9ef">if</span> len(r) <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:
+        <span style="color:#66d9ef">return</span> r[len(r) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>]
+    <span style="color:#66d9ef">else</span>:
+        <span style="color:#66d9ef">return</span> r[len(r) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">select</span>(A, r, i):
+    <span style="color:#75715e"># print &#34;select&#34;, r</span>
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    A: 要查找顺序统计量的序列
+</span><span style="color:#e6db74">    r: 查找的序号
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    size <span style="color:#f92672">=</span> len(r)
+    <span style="color:#66d9ef">if</span> size <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:
+        <span style="color:#66d9ef">return</span> r[<span style="color:#ae81ff">0</span>]
+    start <span style="color:#f92672">=</span> r[<span style="color:#ae81ff">0</span>]      <span style="color:#75715e"># start index in A</span>
+    end <span style="color:#f92672">=</span> r[size <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#75715e"># end index in A</span>
+    medians <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">if</span> size <span style="color:#f92672">%</span> <span style="color:#ae81ff">5</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+        num <span style="color:#f92672">=</span> size <span style="color:#f92672">/</span> <span style="color:#ae81ff">5</span>
+    <span style="color:#66d9ef">else</span>:
+        num <span style="color:#f92672">=</span> size <span style="color:#f92672">/</span> <span style="color:#ae81ff">5</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">for</span> j <span style="color:#f92672">in</span> xrange(<span style="color:#ae81ff">0</span>, num):
+        s <span style="color:#f92672">=</span> j <span style="color:#f92672">*</span> <span style="color:#ae81ff">5</span>    <span style="color:#75715e"># start index of r</span>
+        e <span style="color:#f92672">=</span> s <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span>    <span style="color:#75715e"># end index of r</span>
+        <span style="color:#66d9ef">if</span> e <span style="color:#f92672">&gt;=</span> size:
+            e <span style="color:#f92672">=</span> size
+        m <span style="color:#f92672">=</span> median(A, r[s : e])
+        medians<span style="color:#f92672">.</span>append(m)
+    x <span style="color:#f92672">=</span> select(A, medians, i)
+    k <span style="color:#f92672">=</span> partition(A, x, start, end)
+    <span style="color:#75715e"># print &#34;after partition&#34;, i, k, x, start, end</span>
+    <span style="color:#66d9ef">if</span> i <span style="color:#f92672">==</span> k:
+        <span style="color:#66d9ef">return</span> x
+    <span style="color:#66d9ef">elif</span> i <span style="color:#f92672">&lt;</span> k <span style="color:#f92672">and</span> k <span style="color:#f92672">&gt;</span> start:
+        <span style="color:#66d9ef">return</span> select(A, range(start, k), i)
+    <span style="color:#66d9ef">else</span>:
+        <span style="color:#66d9ef">return</span> select(A, range(k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, end<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>), i)
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">partition</span>(A, x, p, r):
+    <span style="color:#75715e"># print &#34;partition&#34;, x, p, r</span>
+    pivot <span style="color:#f92672">=</span> A[x]
+    left <span style="color:#f92672">=</span> p        <span style="color:#75715e"># [p,left)间的元素都小于等于主元</span>
+    right <span style="color:#f92672">=</span> r       <span style="color:#75715e"># (right,r]间的元素都大于等于主元</span>
+    <span style="color:#66d9ef">while</span> left <span style="color:#f92672">&lt;</span> right:
+        <span style="color:#66d9ef">if</span> A[left] <span style="color:#f92672">&gt;=</span> pivot <span style="color:#f92672">and</span> A[right] <span style="color:#f92672">&lt;=</span> pivot: 
+            swap(A, left, right)
+            left <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+            right <span style="color:#f92672">-=</span> <span style="color:#ae81ff">1</span>
+        <span style="color:#66d9ef">else</span>:
+            <span style="color:#66d9ef">if</span> A[left] <span style="color:#f92672">&lt;</span> pivot:
+                left <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+            <span style="color:#66d9ef">if</span> A[right] <span style="color:#f92672">&gt;</span> pivot:
+                right <span style="color:#f92672">-=</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">return</span> left
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+    A <span style="color:#f92672">=</span> [<span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">134</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1324</span>, <span style="color:#ae81ff">1123</span>, <span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">34</span>, <span style="color:#ae81ff">3</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">98</span>, <span style="color:#ae81ff">132</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">12</span>, <span style="color:#ae81ff">29</span>, <span style="color:#ae81ff">36</span>]
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> xrange(<span style="color:#ae81ff">0</span>, len(A)):
+        <span style="color:#66d9ef">print</span> A[select(A, range(<span style="color:#ae81ff">0</span>, len(A)), i)]
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    main()
+</code></pre></div>
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

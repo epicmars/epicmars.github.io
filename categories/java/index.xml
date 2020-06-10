@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>java on 风格与布局</title>
+    <link>https://www.androidpi.com/categories/java/</link>
+    <description>Recent content in java on 风格与布局</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 23 Sep 2014 21:17:32 +0800</lastBuildDate>
+    
+	<atom:link href="https://www.androidpi.com/categories/java/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Java引用</title>
+      <link>https://www.androidpi.com/java/core/2014-09-23-java-references/</link>
+      <pubDate>Tue, 23 Sep 2014 21:17:32 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/core/2014-09-23-java-references/</guid>
+      <description>Reference是描述所有引用对象（reference objects）共有行为的抽象类，除了这一包（java.lang.ref）所提供的子</description>
+    </item>
+    
+  </channel>
+</rss>

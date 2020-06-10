@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Web on 风格与布局</title>
+    <link>https://www.androidpi.com/web/</link>
+    <description>Recent content in Web on 风格与布局</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 29 May 2018 14:03:26 +0800</lastBuildDate>
+    
+	<atom:link href="https://www.androidpi.com/web/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>JavaScript: 引用类型</title>
+      <link>https://www.androidpi.com/web/javascript/2018-05-29-javascript-4-reference-type/</link>
+      <pubDate>Tue, 29 May 2018 14:03:26 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/web/javascript/2018-05-29-javascript-4-reference-type/</guid>
+      <description>引用类型与类看起来相似，但它们并不是相同的概念。引用类型有时也被称为对象定义，因为它们描述的是一类对象所具有的属性和方法。对象是某个特定引用</description>
+    </item>
+    
+    <item>
+      <title>JavaScript: 变量、作用域与内存</title>
+      <link>https://www.androidpi.com/web/javascript/2018-05-29-javascript-3-variable-scope-memory/</link>
+      <pubDate>Tue, 29 May 2018 14:01:28 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/web/javascript/2018-05-29-javascript-3-variable-scope-memory/</guid>
+      <description>基本类型和引用类型的值 动态的属性 ECMAScript变量可能包含两种不同数据类型的值：基本类型值和引用类型值。 给基本类型添加属性尽管不会导致</description>
+    </item>
+    
+    <item>
+      <title>JavaScript: 简介</title>
+      <link>https://www.androidpi.com/web/javascript/2018-05-29-javascript-1-introduction/</link>
+      <pubDate>Tue, 29 May 2018 10:24:20 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/web/javascript/2018-05-29-javascript-1-introduction/</guid>
+      <description>1. JavaScript简介 虽然JavaScript和ECMAScript常常表达同样的含义，但JavaScript的含义比ECMA-262中</description>
+    </item>
+    
+    <item>
+      <title>JavaScript: 基础</title>
+      <link>https://www.androidpi.com/web/javascript/2018-05-29-javascript-2-basic/</link>
+      <pubDate>Tue, 29 May 2018 10:09:05 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/web/javascript/2018-05-29-javascript-2-basic/</guid>
+      <description>语法 区分大小写 标识符 第一个字符必须是一个字母、下划线（_）或一个美元符号（$） 其它字符可以是字母、下划线、美元符号或数字 注释 严格模式 ECMAScript 5引入</description>
+    </item>
+    
+    <item>
+      <title>CSS布局</title>
+      <link>https://www.androidpi.com/web/2017-05-18-css-layout/</link>
+      <pubDate>Thu, 18 May 2017 00:47:47 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/web/2017-05-18-css-layout/</guid>
+      <description>学习CSS布局</description>
+    </item>
+    
+    <item>
+      <title>CSS</title>
+      <link>https://www.androidpi.com/web/2017-04-29-css/</link>
+      <pubDate>Sat, 29 Apr 2017 15:11:23 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/web/2017-04-29-css/</guid>
+      <description>CSS是如何工作的 当一个浏览器展示一个文档，它必须将文档的内容与样式信息结合。它分两步处理文档： 浏览器将HTML和CSS转换为DOM（Doc</description>
+    </item>
+    
+    <item>
+      <title>HTML</title>
+      <link>https://www.androidpi.com/web/2017-04-09-html/</link>
+      <pubDate>Sun, 09 Apr 2017 19:14:15 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/web/2017-04-09-html/</guid>
+      <description>HTML可以给一段文字赋予不同的意义（段落，列表还是表格），也可以用于组织文档结构，还可以将图片和视频等内容嵌入到页面中。 块级元素与行内元素</description>
+    </item>
+    
+    <item>
+      <title>Ajax</title>
+      <link>https://www.androidpi.com/web/2017-04-03-ajax/</link>
+      <pubDate>Mon, 03 Apr 2017 18:14:06 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/web/2017-04-03-ajax/</guid>
+      <description>Ajax(Asynchronous JavaScript + XML)本身并不是一种技术，而是由Jesse James Garrett于2005年提出的一个方法，将已存在的多种web技术进行整合，使得Web应</description>
+    </item>
+    
+    <item>
+      <title>开始Web之旅</title>
+      <link>https://www.androidpi.com/web/2017-04-01-getting-started-with-web/</link>
+      <pubDate>Sat, 01 Apr 2017 23:13:51 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/web/2017-04-01-getting-started-with-web/</guid>
+      <description>安装必要的工具 一个文本编辑器，这里推荐Brackets，它提供了页面的实时预览与代码提示的功能。还有一个现代浏览器Firefox, Chrom</description>
+    </item>
+    
+  </channel>
+</rss>

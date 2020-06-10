@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>React Native之Android开发：原生UI组件 | 风格与布局</title>
+<meta name="description" content="参考Native UI Components 原生APP中有成千上万的UI小部件可供使用，这其中包括平台自身的、第三方的以及自定义。React Native已经包装了若">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#imageview示例">ImageView示例</a>
+      <ul>
+        <li><a href="#1-创建viewmanager子类">1. 创建<code>ViewManager</code>子类</a></li>
+        <li><a href="#2-实现createviewinstance方法">2. 实现<code>createViewInstance</code>方法</a></li>
+        <li><a href="#3-使用reactprop或reactpropgroup注解暴露view的属性setter方法">3. 使用<code>@ReactProp</code>（或<code>@ReactPropGroup</code>）注解暴露view的属性setter方法</a></li>
+        <li><a href="#4-注册viewmanager">4. 注册<code>ViewManager</code></a></li>
+        <li><a href="#5-实现javascript模块">5. 实现JavaScript模块</a></li>
+      </ul>
+    </li>
+    <li><a href="#事件events">事件(Events)</a></li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">React Native之Android开发：原生UI组件</h1>
+                </div>
+                <div class="content">
+                        <p>参考<a href="http://facebook.github.io/react-native/docs/native-components-android.html">Native UI Components</a></p>
+<p>原生APP中有成千上万的UI小部件可供使用，这其中包括平台自身的、第三方的以及自定义。React Native已经包装了若干最关键的平台组件，例如<code>ScrollView</code>和<code>TextInput</code>，但这并没有包括所有UI组件，也没有你自己定义的组件。幸运的是，可以容易将这些已有组件无缝地集成到React Native应用中。</p>
+<p>假设你已经对Android开发较为熟悉，本文将会向你示范如何创建一个原生UI组件，带领你过一遍React Native库中已有<code>ImageView</code>组件的一个子集的实现。</p>
+<h2 id="imageview示例">ImageView示例</h2>
+<p>为了允许在JavaScript中使用ImageView，我们将过一遍所需要的实现。</p>
+<p>通过继承<code>ViewManager</code>或更常用的<code>SimpleViewManager</code>来创建和操纵原生View。<code>SimpleViewManager</code>较为方便，是因为它应用了常用属性，例如background color, opacity, 和Flexbox layout。</p>
+<p>这些子类本质上都是单例，它们将原生view发布到<code>NativeViewHierarchyManager</code>，该类会代理回它们以根据需要设置和更新属性。<code>ViewManagers</code>通常是view的代理，通过桥将事件发回给JavaScript。</p>
+<p>发布一个视图很简单：</p>
+<ol>
+<li>创建<code>ViewManager</code>的子类</li>
+<li>实现<code>createViewInstance</code>方法</li>
+<li>使用<code>@ReactProp</code>（或<code>@ReactPropGroup</code>）注解暴露view的属性setter方法</li>
+<li>在applications包的<code>createViewManagers</code>方法中注册管理器</li>
+<li>实现JavaScript模块</li>
+</ol>
+<h3 id="1-创建viewmanager子类">1. 创建<code>ViewManager</code>子类</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ReactImageManager</span> <span style="color:#66d9ef">extends</span> SimpleViewManager<span style="color:#f92672">&lt;</span>ReactImageView<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+
+  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String REACT_CLASS <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;RCTImageView&#34;</span><span style="color:#f92672">;</span>
+
+  <span style="color:#a6e22e">@Override</span>
+  <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">getName</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">return</span> REACT_CLASS<span style="color:#f92672">;</span>
+  <span style="color:#f92672">}</span>
+</code></pre></div><h3 id="2-实现createviewinstance方法">2. 实现<code>createViewInstance</code>方法</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">  <span style="color:#a6e22e">@Override</span>
+  <span style="color:#66d9ef">public</span> ReactImageView <span style="color:#a6e22e">createViewInstance</span><span style="color:#f92672">(</span>ThemedReactContext context<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> ReactImageView<span style="color:#f92672">(</span>context<span style="color:#f92672">,</span> Fresco<span style="color:#f92672">.</span><span style="color:#a6e22e">newDraweeControllerBuilder</span><span style="color:#f92672">(),</span> mCallerContext<span style="color:#f92672">);</span>
+  <span style="color:#f92672">}</span>
+</code></pre></div><h3 id="3-使用reactprop或reactpropgroup注解暴露view的属性setter方法">3. 使用<code>@ReactProp</code>（或<code>@ReactPropGroup</code>）注解暴露view的属性setter方法</h3>
+<p>Setter方法将要更新的view（当前视图类型的）作为第一个参数并且属性值为第二个参数。Setter方法应当定义为<code>void</code>方法，并且应当是<code>public</code>的。发送给JS的属性类型根据setter的参数值自动进行确定。目前支持如下类型的值：<code>boolean</code>, <code>int</code>, <code>float</code>, <code>double</code>, <code>String</code>, <code>Boolean</code>, <code>Integer</code>, <code>ReadableArray</code>, <code>ReadableMap</code>。</p>
+<blockquote>
+<p><strong>重点!</strong> 在ReactJS中，更新属性值会导致setter方法调用。注意，我们更新组件的一种方式就是移除已经设置过的属性，在这种情况下，setter方法会被调用，并且会通知view manager属性已经更改。这种情况下会提供“默认”值（对于基本类型，“默认”值可以通过<code>defaultBoolean</code>, <code>defaultFloat</code>指定，例如，<code>@ReactProp</code>注解的参数，对于复杂类型，setter方法会被调用并且值设置为<code>null</code>）。</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">  <span style="color:#a6e22e">@ReactProp</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;src&#34;</span><span style="color:#f92672">)</span>
+  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setSrc</span><span style="color:#f92672">(</span>ReactImageView view<span style="color:#f92672">,</span> <span style="color:#a6e22e">@Nullable</span> ReadableArray sources<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    view<span style="color:#f92672">.</span><span style="color:#a6e22e">setSource</span><span style="color:#f92672">(</span>sources<span style="color:#f92672">);</span>
+  <span style="color:#f92672">}</span>
+
+  <span style="color:#a6e22e">@ReactProp</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;borderRadius&#34;</span><span style="color:#f92672">,</span> defaultFloat <span style="color:#f92672">=</span> 0f<span style="color:#f92672">)</span>
+  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setBorderRadius</span><span style="color:#f92672">(</span>ReactImageView view<span style="color:#f92672">,</span> <span style="color:#66d9ef">float</span> borderRadius<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    view<span style="color:#f92672">.</span><span style="color:#a6e22e">setBorderRadius</span><span style="color:#f92672">(</span>borderRadius<span style="color:#f92672">);</span>
+  <span style="color:#f92672">}</span>
+
+  <span style="color:#a6e22e">@ReactProp</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> ViewProps<span style="color:#f92672">.</span><span style="color:#a6e22e">RESIZE_MODE</span><span style="color:#f92672">)</span>
+  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setResizeMode</span><span style="color:#f92672">(</span>ReactImageView view<span style="color:#f92672">,</span> <span style="color:#a6e22e">@Nullable</span> String resizeMode<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    view<span style="color:#f92672">.</span><span style="color:#a6e22e">setScaleType</span><span style="color:#f92672">(</span>ImageResizeMode<span style="color:#f92672">.</span><span style="color:#a6e22e">toScaleType</span><span style="color:#f92672">(</span>resizeMode<span style="color:#f92672">));</span>
+  <span style="color:#f92672">}</span>
+</code></pre></div><h3 id="4-注册viewmanager">4. 注册<code>ViewManager</code></h3>
+<p>Java中的最后一步是注册<code>ViewManager</code>到应用中，这和原生模块中的注册方式类似，通过application package的成员方法<code>createViewManagers</code>来注册。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">  <span style="color:#a6e22e">@Override</span>
+  <span style="color:#66d9ef">public</span> List<span style="color:#f92672">&lt;</span>ViewManager<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">createViewManagers</span><span style="color:#f92672">(</span>
+                            ReactApplicationContext reactContext<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">return</span> Arrays<span style="color:#f92672">.&lt;</span>ViewManager<span style="color:#f92672">&gt;</span>asList<span style="color:#f92672">(</span>
+      <span style="color:#66d9ef">new</span> ReactImageManager<span style="color:#f92672">()</span>
+    <span style="color:#f92672">);</span>
+  <span style="color:#f92672">}</span>
+</code></pre></div><h3 id="5-实现javascript模块">5. 实现JavaScript模块</h3>
+<p>最后的最后是创建JavaScript模块，它为你的新的view的用户定义了Java和JavaScript间的交互层。大多数的工作都由Java和JavaScript中的React代码完成了，剩下的工作就交给你去描述<code>propTypes</code>。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#75715e">// ImageView.js
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">PropTypes</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;prop-types&#39;</span>;
+<span style="color:#66d9ef">import</span> {<span style="color:#a6e22e">requireNativeComponent</span>, <span style="color:#a6e22e">ViewPropTypes</span>} <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;react-native&#39;</span>;
+
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">iface</span> <span style="color:#f92672">=</span> {
+  <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;ImageView&#39;</span>,
+  <span style="color:#a6e22e">propTypes</span><span style="color:#f92672">:</span> {
+    <span style="color:#a6e22e">src</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">PropTypes</span>.<span style="color:#a6e22e">string</span>,
+    <span style="color:#a6e22e">borderRadius</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">PropTypes</span>.<span style="color:#a6e22e">number</span>,
+    <span style="color:#a6e22e">resizeMode</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">PropTypes</span>.<span style="color:#a6e22e">oneOf</span>([<span style="color:#e6db74">&#39;cover&#39;</span>, <span style="color:#e6db74">&#39;contain&#39;</span>, <span style="color:#e6db74">&#39;stretch&#39;</span>]),
+    ...<span style="color:#a6e22e">ViewPropTypes</span>, <span style="color:#75715e">// include the default view properties
+</span><span style="color:#75715e"></span>  },
+};
+
+<span style="color:#a6e22e">module</span>.<span style="color:#a6e22e">exports</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">requireNativeComponent</span>(<span style="color:#e6db74">&#39;RCTImageView&#39;</span>, <span style="color:#a6e22e">iface</span>);
+</code></pre></div><p><code>requireNativeComponent</code>通常接收两个参数，第一个是原生view的名称，第二个是描述组件接口的对象。组件接口应当定义一个友好的<code>name</code>，以便于输出调试消息，并且必须定义由原生View反射的<code>propTypes</code>。<code>propTypes</code>用于检查用户对原生view的使用的有效性。注意，如果你需要你的JavaScript组件不仅仅指定<code>name</code>和<code>propTypes</code>，还可以进行类似自定义事件的处理，你可以将原生组件包装到一个常规的react组件中。在这种情况下，你会在<code>requireNativeComponent</code>中传入包装组件而不是<code>iface</code>。在下面的<code>MyCustomView</code>示例中可以看到。</p>
+<h2 id="事件events">事件(Events)</h2>
+<p>现在我们知道了如何暴露原生视图组件，使得我们可以容易地在JS中进行控制。
+但是我们如何处理来自用户的时间，例如pinch-zooms或panning。当一个原生事件发生了，原生代码会发出一个事件给代表视图的JavaScript，这两个view通过<code>getId()</code>方法的返回值进行链接。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyCustomView</span> <span style="color:#66d9ef">extends</span> View <span style="color:#f92672">{</span>
+   <span style="color:#f92672">...</span>
+   <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onReceiveNativeEvent</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+      WritableMap event <span style="color:#f92672">=</span> Arguments<span style="color:#f92672">.</span><span style="color:#a6e22e">createMap</span><span style="color:#f92672">();</span>
+      event<span style="color:#f92672">.</span><span style="color:#a6e22e">putString</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;message&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;MyMessage&#34;</span><span style="color:#f92672">);</span>
+      ReactContext reactContext <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>ReactContext<span style="color:#f92672">)</span>getContext<span style="color:#f92672">();</span>
+      reactContext<span style="color:#f92672">.</span><span style="color:#a6e22e">getJSModule</span><span style="color:#f92672">(</span>RCTEventEmitter<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">).</span><span style="color:#a6e22e">receiveEvent</span><span style="color:#f92672">(</span>
+          getId<span style="color:#f92672">(),</span>
+          <span style="color:#e6db74">&#34;topChange&#34;</span><span style="color:#f92672">,</span>
+          event<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>为了将<code>topChange</code>事件的名称映射到JavaScript中的<code>onChange</code>回调属性，通过重写<code>ViewManager</code>中的<code>getExportedCustomBubblingEventTypeConstants</code>方法来注册它。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ReactImageManager</span> <span style="color:#66d9ef">extends</span> SimpleViewManager<span style="color:#f92672">&lt;</span>MyCustomView<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+    <span style="color:#f92672">...</span>
+    <span style="color:#66d9ef">public</span> Map <span style="color:#a6e22e">getExportedCustomBubblingEventTypeConstants</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> MapBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">builder</span><span style="color:#f92672">()</span>
+            <span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>
+                <span style="color:#e6db74">&#34;topChange&#34;</span><span style="color:#f92672">,</span>
+                MapBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">of</span><span style="color:#f92672">(</span>
+                    <span style="color:#e6db74">&#34;phasedRegistrationNames&#34;</span><span style="color:#f92672">,</span>
+                    MapBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">of</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;bubbled&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;onChange&#34;</span><span style="color:#f92672">)))</span>
+                    <span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>该回调使用原始事件进行调用，为了得到一个更简单的API，我们通常在包装组件中进行处理：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#75715e">// MyCustomView.js
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyCustomView</span> <span style="color:#66d9ef">extends</span> <span style="color:#a6e22e">React</span>.<span style="color:#a6e22e">Component</span> {
+  <span style="color:#a6e22e">constructor</span>(<span style="color:#a6e22e">props</span>) {
+    <span style="color:#66d9ef">super</span>(<span style="color:#a6e22e">props</span>);
+    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">_onChange</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">_onChange</span>.<span style="color:#a6e22e">bind</span>(<span style="color:#66d9ef">this</span>);
+  }
+  <span style="color:#a6e22e">_onChange</span>(<span style="color:#a6e22e">event</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">Event</span>) {
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">props</span>.<span style="color:#a6e22e">onChangeMessage</span>) {
+      <span style="color:#66d9ef">return</span>;
+    }
+    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">props</span>.<span style="color:#a6e22e">onChangeMessage</span>(<span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">nativeEvent</span>.<span style="color:#a6e22e">message</span>);
+  }
+  <span style="color:#a6e22e">render</span>() {
+    <span style="color:#66d9ef">return</span> <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">RCTMyCustomView</span> {...<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">props</span>} <span style="color:#a6e22e">onChange</span><span style="color:#f92672">=</span>{<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">_onChange</span>} <span style="color:#f92672">/&gt;</span>;
+  }
+}
+<span style="color:#a6e22e">MyCustomView</span>.<span style="color:#a6e22e">propTypes</span> <span style="color:#f92672">=</span> {
+  <span style="color:#75715e">/**
+</span><span style="color:#75715e">   * Callback that is called continuously when the user is dragging the map.
+</span><span style="color:#75715e">   */</span>
+  <span style="color:#a6e22e">onChangeMessage</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">PropTypes</span>.<span style="color:#a6e22e">func</span>,
+  ...
+};
+
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">RCTMyCustomView</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">requireNativeComponent</span>(<span style="color:#e6db74">`RCTMyCustomView`</span>, <span style="color:#a6e22e">MyCustomView</span>, {
+  <span style="color:#a6e22e">nativeOnly</span><span style="color:#f92672">:</span> {<span style="color:#a6e22e">onChange</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>}
+});
+</code></pre></div>
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

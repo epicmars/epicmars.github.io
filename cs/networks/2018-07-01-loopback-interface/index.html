@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta lang="zh"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>
+            
+    理解回环接口（Loopback Interface） &ndash; DevNote
+
+        </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <a href="https://www.jastrelax.com/">DevNote</a>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">理解回环接口（Loopback Interface）</h1>
+                </div>
+                <div class="content">
+                        <p>IP协议指定一个回环网络的IPv4地址为<strong>127.0.0.0/8</strong>，大多数IP协议实现都支持一个回环接口来表示回环设施。一个计算机上的程序在回环网络上发送的数据都是发给它自己。回环网络上最常用的地址是:</p>
+
+<ol>
+<li>IPv4: <strong>127.0.0.1</strong></li>
+<li>IPv6: <strong>::1</strong>。</li>
+</ol>
+
+<p>回环接口是网络组件在内部创建的，它不需要一个物理上的网络连接。</p>
+
+<p>发往localhost地址的数据包会在内部被网络组件的IP层路由回来，因此这些数据包永远不会发送到任何网络接口控制器。</p>
+
+<p>对于软件测试，回环接口是十分有用的，因为它不需要经过一个本地的网络接口硬件。</p>
+
+<p>从<a href="https://www.juniper.net/documentation/en_US/junos/topics/concept/interface-security-loopback-understanding.html" target="_blank">Understanding the Loopback Interface</a>一文中可以了解到。回环地址（lo0）有若干用处，这取决于配置的Junos的特定特性。它能够完成如下功能：</p>
+
+<ul>
+<li><p>设备标识——回环接口用于标识设备。尽管任何接口地址都可以用于确定设备是否在线，回环地址是更优先的方式。尽管接口可能被移除或者由于网络拓扑的改变而导致地址改变，回环地址总是不变的。</p>
+
+<p>当你ping一个独立的接口地址时，结果并不能表明设备的健康状态。例如在一个点对点链路中（point to point link），两个端点配置中的一个子网不匹配会使得链路看上去不能操作（inoperable）。那么通过ping该接口来判断设备是否在线会提供一个误导的结果。由于一个与设备配置或操作无关的问题可能会使得一个接口不可用。</p></li>
+
+<li><p>路由信息——一些协议，例如OSPF会用回环地址来为设备或网络确定协议指定的属性。并且，ping mpls 需要一个回环地址才可以正常工作。</p></li>
+
+<li><p>数据包过滤——无状态的防火墙过滤可以用于回环地址，来过滤来自或发往路由引擎的数据包。</p></li>
+</ul>
+
+<p>参考：</p>
+
+<ul>
+<li><a href="https://www.juniper.net/documentation/en_US/junos/topics/concept/interface-security-loopback-understanding.html" target="_blank">Understanding the Loopback Interface</a></li>
+<li><a href="https://www.keil.com/pack/doc/mw/Network/html/group__using__loopback__interface.html" target="_blank">Loopback Interface</a></li>
+</ul>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a>And
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

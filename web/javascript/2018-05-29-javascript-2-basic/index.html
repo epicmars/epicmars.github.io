@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>JavaScript: 基础 | 风格与布局</title>
+<meta name="description" content="语法 区分大小写 标识符 第一个字符必须是一个字母、下划线（_）或一个美元符号（$） 其它字符可以是字母、下划线、美元符号或数字 注释 严格模式 ECMAScript 5引入">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#语法">语法</a></li>
+    <li><a href="#关键字和保留字">关键字和保留字</a></li>
+    <li><a href="#变量">变量</a></li>
+    <li><a href="#数据类型">数据类型</a>
+      <ul>
+        <li><a href="#typeof操作符"><code>typeof</code>操作符</a></li>
+        <li><a href="#undefined类型">Undefined类型</a></li>
+        <li><a href="#null类型">Null类型</a></li>
+        <li><a href="#boolean类型">Boolean类型</a></li>
+        <li><a href="#number类型">Number类型</a></li>
+        <li><a href="#string类型">String类型</a></li>
+        <li><a href="#object类型">Object类型</a></li>
+      </ul>
+    </li>
+    <li><a href="#操作符">操作符</a>
+      <ul>
+        <li><a href="#一元操作符">一元操作符</a></li>
+        <li><a href="#布尔操作符">布尔操作符</a></li>
+        <li><a href="#乘性操作符">乘性操作符</a></li>
+        <li><a href="#加性操作符">加性操作符</a></li>
+        <li><a href="#关系操作符">关系操作符</a></li>
+        <li><a href="#相等操作符">相等操作符</a></li>
+      </ul>
+    </li>
+    <li><a href="#语句">语句</a>
+      <ul>
+        <li><a href="#switch语句">switch语句</a></li>
+      </ul>
+    </li>
+    <li><a href="#函数">函数</a>
+      <ul>
+        <li><a href="#理解参数">理解参数</a></li>
+        <li><a href="#没有重载">没有重载</a></li>
+      </ul>
+    </li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">JavaScript: 基础</h1>
+                </div>
+                <div class="content">
+                        <h2 id="语法">语法</h2>
+<ul>
+<li>区分大小写</li>
+<li>标识符
+<ul>
+<li>第一个字符必须是一个字母、下划线（_）或一个美元符号（$）</li>
+<li>其它字符可以是字母、下划线、美元符号或数字</li>
+</ul>
+</li>
+<li>注释</li>
+<li>严格模式
+ECMAScript 5引入了严格模式（strict mode）的概念。严格模式是为JavaScript定义了一种不同的解析与执行模型。</li>
+<li>语句
+ECMAScript中的语句以一个分号结尾，如果省略分号，则由解析器确定语句的结尾。虽然语句结尾的分号不是必需的，但我们建议任何时候都不要省略它。</li>
+</ul>
+<h2 id="关键字和保留字">关键字和保留字</h2>
+<p>ECMA-262描述了一组具有特定用途的<strong>关键字</strong>，这些关键字可用于表示控制语句的开始或结束，或者用于执行特定操作等。按照规则，关键字也是语言保留的，不能用作标识符。以下就是ECMAScript的全部关键字：</p>
+<pre><code>break	do	instanceof	typeof
+case	else	new	var
+catch	finally	return	void
+continue	for	switch	while
+debugger	function	this	with
+default	if	throw	
+delete	in	try	
+</code></pre>
+<p>ECMA-262还有另一组不能用作标识符的保留字。</p>
+<h2 id="变量">变量</h2>
+<p>ECMAScript的变量是松散类型的，所谓松散类型就是可以用来保存任何类型的数据。换言之，每个变量仅仅是一个用于保存值的占位符而已。定义变量使用<code>var</code>操作符。如下所示：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">message</span>;
+</code></pre></div><p>使用<code>var</code>关键字定义的变量将成为定义该变量的作用域中的局部变量。也就是说，如果函数中使用<code>var</code>定义了一个变量，那么这个变量在函数退出后就会被销毁。</p>
+<h2 id="数据类型">数据类型</h2>
+<p>ECMAScript中有5基本数据类型：</p>
+<pre><code>Undefined
+Null
+Boolean
+Number
+String
+</code></pre>
+<p>以及一种复杂数据类型：</p>
+<pre><code>Object
+</code></pre>
+<p>Object本质上是由一组无序的名称-值对组成。ECMAScript不支持任何创建自定义类型的机制，而所有值最终都是上述6种数据类型之一。</p>
+<h3 id="typeof操作符"><code>typeof</code>操作符</h3>
+<p>鉴于ECMAScript是松散类型的，因此需要有一种手段来检测给定变量的数据类型。<code>typeof</code>就是负责提供这方面的信息的操作符。</p>
+<h3 id="undefined类型">Undefined类型</h3>
+<p>Undefined类型只有一个值，称为<strong><code>undefined</code></strong>，任何没有被赋值的变量的值都为<code>undefined</code>。</p>
+<h3 id="null类型">Null类型</h3>
+<p>Null类型只有一个值，称为<strong><code>null</code></strong>。</p>
+<h3 id="boolean类型">Boolean类型</h3>
+<h3 id="number类型">Number类型</h3>
+<h3 id="string类型">String类型</h3>
+<h3 id="object类型">Object类型</h3>
+<h2 id="操作符">操作符</h2>
+<h3 id="一元操作符">一元操作符</h3>
+<h3 id="布尔操作符">布尔操作符</h3>
+<p>布尔操作符<code>!</code>的返回值总是一个布尔值。
+布尔操作符<code>&amp;&amp;</code>和<code>||</code>的返回值不一定是Boolean类型，其返回值总是操作数表达式中的某一个。</p>
+<h4 id="逻辑非">逻辑非（!）</h4>
+<p>可以应用于ECMAScript中的任何值，无论这个值是什么数据类型，这个操作符都会返回一个布尔值。
+当操作数符合以下情况时逻辑非操作符返回true:
+空字符串
+0
+null
+NaN
+undefined
+当操作数符合以下情况时逻辑非操作符返回false:
+一个对象
+非空字符串
+非0数值</p>
+<h4 id="逻辑与">逻辑与（&amp;&amp;）</h4>
+<p>如果有一个操作符不是布尔值，求值为false的返回false，否则返回最后使表达式求值为true的操作符。两个操作符中有一个为null,NaN,undefined时分别返回null,NaN,undefine。</p>
+<h4 id="逻辑或">逻辑或（||）</h4>
+<p>与逻辑与类型，如果有一个操作数不是布尔值，逻辑或也不一定返回布尔值：根据短路操作符原理，返回首先使表达式求值为true得操作数，两个操作数中两个都为null,NaN,undefined时分别返回null,NaN,undefine。</p>
+<p>利用逻辑或的短路行为来避免为变量赋null或undefined值：</p>
+<pre><code>var myObject = preferredObject || backupObject;
+</code></pre>
+<p>myObject被赋值给两个变量中的一个，变量backupObject。</p>
+<h3 id="乘性操作符">乘性操作符</h3>
+<p>3个乘性操作符：乘法、除法和求模。这些操作符与Java、C或Perl中的相应操作符用途类似，不过在操作数为非数值时会使用Number()函数执行自动类型转换。</p>
+<h3 id="加性操作符">加性操作符</h3>
+<h4 id="加法">加法</h4>
+<p>与乘性操作符类型，加法操作符也会在后台转换不同的数据类型。如果有一个操作数是字符串，那么按照字符串拼接的方式处理，其中如果另一个操作数是对象、数值或布尔值则调用它们的toString()方法，对于undefined和null，则调用String()函数并取得字符串&quot;undefined&quot;和&quot;null&rdquo;。</p>
+<h4 id="减法">减法</h4>
+<p>如果有一个操作数是字符串、布尔值、null或undefined，则先用Number()函数将其转换为数值。如果有一个操作数为对象，则调用对象的valueOf()方法取得该对象的数值，如果对象没有valueOf()方法，则调用toString()方法将得到的字符串转换为数值。</p>
+<h3 id="关系操作符">关系操作符</h3>
+<p>大于（&gt;）、小于（&lt;）、小于等于（&lt;=）、大于等于（&gt;=）</p>
+<h3 id="相等操作符">相等操作符</h3>
+<p>相等和不相等：进行类型转换
+全等和不全等：不进行类型转换</p>
+<h2 id="语句">语句</h2>
+<h3 id="switch语句">switch语句</h3>
+<p>switch语句可以使用任何数据类型，每个case语句的值不一定是常量，可以是常量，甚至表达式。在比较值时使用的是全等操作符，因此不会发生类型转换。</p>
+<h2 id="函数">函数</h2>
+<p>ECMAScript中的函数使用function关键字来声明，定义时不必指定是否返回值，实际上，任何函数在任何时候都可以通过return语句后跟要返回的值来实现返回值。</p>
+<h3 id="理解参数">理解参数</h3>
+<p>ECMAScript中所有的参数传递都是值，不可能通过引用传递参数。</p>
+<h3 id="没有重载">没有重载</h3>
+<p>函数不存在签名，其参数是由包含零个和多个值的数组来表示的，真正的重载不可能做到。如果在ECMAScript中定义了两个同名的函数，则该名字只属于后定义的函数。</p>
+<p>一种解决方法是通过检查传入参数的类型和数量并作出不同的反应来模仿方法的重载。</p>
+<h2 id="参考">参考</h2>
+<p><a href="https://www.ecma-international.org/ecma-262/7.0/index.html">ecma-262</a></p>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta lang="zh"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>
+            
+    Java Concurrency 2、同步 &ndash; DevNote
+
+        </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <a href="https://www.jastrelax.com/">DevNote</a>
+</header>
+                
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#线程干扰-thread-interference">线程干扰（Thread Interference）</a></li>
+<li><a href="#内存一致性错误-memory-consistency-errors">内存一致性错误（Memory Consistency Errors）</a></li>
+<li><a href="#同步方法-synchronized-methods">同步方法（Synchronized Methods）</a></li>
+<li><a href="#固有锁-内在-和同步-intrinsic-locks-and-synchronization">固有锁（内在）和同步（Intrinsic Locks and Synchronization）</a>
+<ul>
+<li><a href="#同步方法中的锁">同步方法中的锁</a></li>
+<li><a href="#同步语句-synchronized-statements">同步语句（Synchronized Statements）</a></li>
+<li><a href="#重入同步-reentrant-synchronization">重入同步（Reentrant Synchronization）</a></li>
+</ul></li>
+<li><a href="#原子访问-atomic-access">原子访问（Atomic Access）</a></li>
+</ul></li>
+</ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">Java Concurrency 2、同步</h1>
+                </div>
+                <div class="content">
+                        
+
+<p>线程通讯主要通过共享对域和引用域所指向的对象的访问来进行，这种通信方式极为高效，但可能引起两种可能的错误：线程干扰（thread interference）和内存一致性错误（memory consistency errors）。用于避免这些错误的工具便是同步（synchronization）。</p>
+
+<p>然而，同步会引起线程竞争（ thread contention），当两个或多个线程试图同时访问同一资源时便会发生，并且会导致Java运行时执行一个或多个线程变得更慢，甚至暂停执行。饥饿（ Starvation ）和活锁（livelock）就是这种形式的线程竞争。在Liveness章节中会给出更多信息。</p>
+
+<p>这一章节覆盖了以下课题：
+* 线程干扰（ Thread Interference ）：描述当多个线程访问共享资源时错误是如何被引入的。
+* 内存一致性错误（ Memory Consistency Errors ）：描述由于对共享内存的不一致视角所引起的错误。
+* 同步方法（ Synchronized Methods）：描述一个简单惯常用法，可以有效地防止线程干扰和内存一致性错误。
+* 隐式锁和同步（ Implicit Locks and Synchronization）：描述一个更加通用的同步惯用法，并且描述同步是如何基于隐式锁的。
+* 原子访问（ Atomic Access）：讨论不会被其他线程干扰到的操作的一般概念。</p>
+
+<h2 id="线程干扰-thread-interference">线程干扰（Thread Interference）</h2>
+
+<p>考虑一个简单的类Counter：</p>
+
+<pre><code class="language-java">class Counter {
+    private int c = 0;
+
+    public void increment() {
+        c++;
+    }
+
+    public void decrement() {
+        c--;
+    }
+
+    public int value() {
+        return c;
+    }
+}
+</code></pre>
+
+<p>Counter设计为调用increment使c加1，调用decrement使c减1。然而，如果一个Counter对象在多个线程中被引用，线程间的干扰会使得上述调用不能按预想的那样发生。</p>
+
+<p>干扰发生在分别运行于不同线程的两个操作，它们作用于同一个数据，交错进行（interleave）。这表示两个操作都包含多个步骤，但步骤的执行顺序是交叠在一起的。</p>
+
+<p>看上去Counter实例上的操作不太可能交错，因为对变量c的操作都是单个、简单的语句。然而，即使是简单的语句也会被VM（virtual machine）翻译为多个步骤。我们不能检查虚拟机采取的具体步骤，仅仅知道单个表达式c++会被分解为三个步骤就够了：
+1. 获取c的当前值
+2. 将获取的值加1
+3. 将增加后的值保存回c
+c&ndash;同理。</p>
+
+<p>假设线程A调用 increment 的同时，线程B调用了decrement，如果c的初始值为0，那么交错的动作可能会以如下顺序执行：
+1. Thread A：获取c
+2. Thread B：获取c
+3. Thread A：增加获取的值；结果为1
+4. Thread B：减小获取的值；结果为-1
+5. Thread A：将结果存回c，c现在为1
+6. Thread B：将结果存回c，c现在为-1
+Thread A的结果被Thread B覆盖而丢失。这种特定的交错只是其中的一种可能性。在不同情形下可能Thread B的结果丢失，或者错误没有发生。因为它们是不可预知的，这使得线程干扰的bug很难被检测并修复。</p>
+
+<h2 id="内存一致性错误-memory-consistency-errors">内存一致性错误（Memory Consistency Errors）</h2>
+
+<p>内存不一致错误发生在，对本应该是同一个数据，不同的线程却有着不一致的视角，引起内存不一致错误的原因很复杂并且超出了这里的讨论范围。幸运的是，程序员无需理解这些原因的细节，只需要用于避免这一错误的策略就可以了。</p>
+
+<p>避免内存不一致的关键在于理解前置发生（happens-before ）关系，这种关系仅仅是保证被一个特定语句写的内存对另一个特定语句是可见的。考虑下面的例子，假设定义并初始化了一个简单的int域：</p>
+
+<pre><code class="language-java">int counter = 0;
+</code></pre>
+
+<p>counter域在两个线程，A和B之间共享，假设线程A使counter增加：</p>
+
+<pre><code class="language-java">counter++;
+</code></pre>
+
+<p>然后，很短的时间后，线程B打印出counter：</p>
+
+<pre><code class="language-java">System.out.println(counter);
+</code></pre>
+
+<p>如果两个语句执行在同一个线程内，那么可以很安全地假设打印出的值会是“1”。但两个语句执行在不同的线程，打印出的值有可能是“0”，因为不能保证线程A对counter的改变对线程B是可见（visible ）的，除非开发者在两个语句间建立了一个前置发生关系。</p>
+
+<p>有几个动作（actions）可以建立前置发生关系，其中之一就是同步（synchronization），下一小结将会讨论到。</p>
+
+<p>我们已经见到过两种建立前置发生关系的动作了：
+* 当一个语句调用Thread.start，每个与该语句都有前置发生关系的语句都与新的线程所执行的语句具有前置发生关系。导致新线程建立的语句的作用（效用）对该新线程是可见的。
+* 当一个线程终结并且引起在另一个线程中调用的Thread.join返回，那么终结线程所执行的所有语句和成功join之后的所有语句都存在前置发生关系。线程中代码的作用（效用）现在对执行join的线程是可见的。
+对一系列建立前置关系的动作，可以参考 Summary page of the java.util.concurrent package。</p>
+
+<h2 id="同步方法-synchronized-methods">同步方法（Synchronized Methods）</h2>
+
+<p>Java编程语言提供两种基本的同步惯用法：同步方法（synchronized methods）和同步语句（synchronized statements）。两者中较为复杂的同步语句在下节讨论。</p>
+
+<p>使一个方法同步化仅仅需要在其定义前加上synchronized关键字：</p>
+
+<pre><code class="language-java">public class SynchronizedCounter {
+    private int c = 0;
+
+    public synchronized void increment() {
+        c++;
+    }
+
+    public synchronized void decrement() {
+        c--;
+    }
+
+    public synchronized int value() {
+        return c;
+    }
+}
+</code></pre>
+
+<p>如果count是SynchronizedCounter的实例，那么使这些方法同步有两个效果：
+* 首先，对同一对象的同步方法的两个调用不会发生交错（interleave），当一个线程执行一个对象的同步方法时，所有调用同一对象同步方法的线程会阻塞（block,暂停执行，suspend execution）直到第一个线程在该对象上的同步方法执行完毕。
+* 其次，当一个同步方法存在时，随后发生的对同一对象的同步方法的任意调用，它都会自动为这些调用建立一个前置发生关系。这便保证了对一个对象的改变对所有线程都是可见的。
+需要注意的是：构造函数是不可同步的，使用synchronized关键字修饰构造函数是语法错误。同步的构造器没有意义，因为当一个对象正在构造中时，应当只有创建该对象的线程才能访问它。</p>
+
+<p>注意：当创建一个在多个线程间共享的对象时，要小心对该对象的引用不会发生贸然的泄露（leak）。例如，假设你希望维护一个名为instances的List，它包含了每个类实例，你可能想将下面的语句加入到构造函数中：</p>
+
+<pre><code class="language-java">instances.add(this);
+</code></pre>
+
+<p>但随后，其他线程可以在该对象构建完毕之前使用instances去访问该对象。</p>
+
+<p>同步方法使用一个简单的策略来避免线程干扰和内存一致性错误：如果一个对象对多个线程是可见的，对该对象的变量的读写都通过synchronized 方法进行。（一个重要的例外：final 域，在对象构建后便不可被修改，可以通过非同步方法安全地读取。）这一策略是有效的，但会导致liveness的问题。</p>
+
+<h2 id="固有锁-内在-和同步-intrinsic-locks-and-synchronization">固有锁（内在）和同步（Intrinsic Locks and Synchronization）</h2>
+
+<p>同步建立在一个称为固有锁（内在）或监控锁的内部实体周围（API说明中将该实体简单地称为一个监控器或管程）。固有锁在同步的两个方面都起到作用：强制对一个对象状态的独占访问（exclusive access）以及建立对可见性（visibility）而言十分重要的前置关系（happens-before relationships）。</p>
+
+<p>每个对象都有一个相关联的固有锁。通常，一个线程在对一个对象的域进行独占和一致性访问时（exclusive and consistent access），需要先获取对象的固有锁，并在访问结束后释放固有锁。在获取到固有锁和释放锁的时间间隔内，一个线程可以声称其占有该固有锁。只要一个线程占有一个固有锁，所有其他线程都不能获取到该锁。尝试获取该锁的其它线程会阻塞。</p>
+
+<p>当一个线程释放一个固有锁，这一动作和随后任何对同一锁的获取便建立了一个前置发生关系。</p>
+
+<h3 id="同步方法中的锁">同步方法中的锁</h3>
+
+<p>当一个线程调用了一个同步方法，它自动为方法所在对象获取固有锁并在方法返回时释放，即使返回由一个未捕获的异常引起，锁的释放也会发生。</p>
+
+<p>你可能好奇对于一个静态同步方法的调用会发生什么，由于静态方法于其所在类相关联，而不是类的具体对象，为该类对象关联的类获取固有锁。因此，对一个类的静态域的访问被一个特别的锁控制，该锁不同于该类的任何实例的锁。</p>
+
+<h3 id="同步语句-synchronized-statements">同步语句（Synchronized Statements）</h3>
+
+<p>另一种创建同步代码的方式是同步语句（synchronized statements），不同于同步方法，同步语句必须指定提供固有锁的对象：</p>
+
+<pre><code class="language-java">public void addName(String name) {
+    synchronized (this) {
+        lastName = name;
+        nameCount++;
+    }
+    nameList.add(name);
+}
+</code></pre>
+
+<p>本示例中，addName方法需要同步对lastName和nameCount的改变，但也需要避免同步调用其他对象的方法（从同步代码中调用其它对象的方法会导致Liveness中将要讨论的问题）。不带同步语句，必须有一个单独的，非同步的方法来调用<code>nameList.add</code>。</p>
+
+<p>同步语句的细粒度同步性（fine-grained synchronization）对提高并发也很有用。假设，例如，类MsLunch 有两个域c1和c2，从不一起使用。所有对这些域的更新必须同步，但没有理由避免对c1的更新不被对c2的更新所交错，如果这样做会创建不必要的阻塞从而降低了并发性。我们创建了两个对象分别用于提供锁，从而替代使用同步方法或使用this相关联的锁：</p>
+
+<pre><code class="language-java">public class MsLunch {
+    private long c1 = 0;
+    private long c2 = 0;
+    private Object lock1 = new Object();
+    private Object lock2 = new Object();
+
+    public void inc1() {
+        synchronized (lock1) {
+            c1++;
+        }
+    }
+
+    public void inc2() {
+        synchronized (lock2) {
+            c2++;
+        }
+    }
+}
+</code></pre>
+
+<p>使用这种惯常用法应当极为小心，你必须绝对确认对有关域的交错访问是安全的。</p>
+
+<h3 id="重入同步-reentrant-synchronization">重入同步（Reentrant Synchronization）</h3>
+
+<p>之前提到，一个线程不能获取到另一个线程所占有的锁。但一个线程可以获取到其已经占有的锁。允许一个线程多次获取同一个锁就是重入同步。它可以描述这样一种情形，同步代码直接或间接地调用也包含同步代码的方法，并且两个代码使用相同的锁。没有重入同步，同步代码就必须采取额外的步骤来避免使一个线程引起自身的阻塞。</p>
+
+<h2 id="原子访问-atomic-access">原子访问（Atomic Access）</h2>
+
+<p>我们已经见到一个增加表达式，如c++，没有描述一个原子操作。即使是简单的表达式也可以定义复杂的操作，它可以分解为其他操作。然而，也有可以指定为原子性的操作：
+* 对引用变量和大多数基本变量（除了long和double）的读和写都是原子的
+* 对所有声明为 volatile的变量（包括long和double）的读和写都是原子的
+原子操作不能被交错，因此使用时不用担心线程干扰。但这并不能消除同步原子操作的需要，因为内存一致性错误依然可能存在。使用volatile变量可以降低内存一致性错误，因为任何对volatile变量的写操作都与随后对同一变量的读操作建立了前置发生关系。这意味着对volatile变量的改变对其它线程总是可见的。更进一步，这也意味着，当一个线程在读一个volatile变量时，它不仅可以看到对volatile的最新的改动，也可以看到引起改变的代码的副作用（side effects）。</p>
+
+<p>使用简单原子变量访问比通过synchronized代码访问这些变量更高效，但需要开发者更加小心，以避免内存一致性错误。额外的开销是否值得取决于应用的大小和复杂性。</p>
+
+<p>java.util.concurrent 包中的有些类提供不依赖于同步的原子操作，我们会在高级并发对象中加以讨论。</p>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

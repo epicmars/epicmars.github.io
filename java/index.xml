@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Java on 风格与布局</title>
+    <link>https://www.androidpi.com/java/</link>
+    <description>Recent content in Java on 风格与布局</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 16 Aug 2018 19:57:47 +0800</lastBuildDate>
+    
+	<atom:link href="https://www.androidpi.com/java/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Java多线程：等待集与通知（Wait Sets and Notification）</title>
+      <link>https://www.androidpi.com/java/concurrency/2018-08-16-java-wait-sets-and-notification/</link>
+      <pubDate>Thu, 16 Aug 2018 19:57:47 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/concurrency/2018-08-16-java-wait-sets-and-notification/</guid>
+      <description>每个对象除了有一个关联的监视器，还有一个关联的等待集合。一个等待集合是一个线程的集合。 一个线程的中断状态和Thread类中处理中断的类方法会</description>
+    </item>
+    
+    <item>
+      <title>Java多线程：ConcurrentHashMap</title>
+      <link>https://www.androidpi.com/java/concurrency/2018-08-15-java-concurrent-hashmap/</link>
+      <pubDate>Thu, 16 Aug 2018 19:37:14 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/concurrency/2018-08-15-java-concurrent-hashmap/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java多线程：锁</title>
+      <link>https://www.androidpi.com/java/concurrency/2018-08-16-java-locks/</link>
+      <pubDate>Thu, 16 Aug 2018 19:35:22 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/concurrency/2018-08-16-java-locks/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java多线程：synchronized</title>
+      <link>https://www.androidpi.com/java/concurrency/2018-07-01-java-synchronized-statements-and-methods/</link>
+      <pubDate>Thu, 16 Aug 2018 18:53:59 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/concurrency/2018-07-01-java-synchronized-statements-and-methods/</guid>
+      <description>Java语言提供了多种线程间通信的方式，最基本的是同步，它是使用监视器（moniter）实现的。Java中的每个对象都与一个监视器相关联，线</description>
+    </item>
+    
+    <item>
+      <title>Java多线程：原子变量</title>
+      <link>https://www.androidpi.com/java/concurrency/2018-08-15-java-atomic-variable/</link>
+      <pubDate>Wed, 15 Aug 2018 16:51:45 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/concurrency/2018-08-15-java-atomic-variable/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java内存模型：final变量</title>
+      <link>https://www.androidpi.com/java/concurrency/2018-08-15-java-final-variable/</link>
+      <pubDate>Wed, 15 Aug 2018 14:12:47 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/concurrency/2018-08-15-java-final-variable/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java内存模型：volatile变量</title>
+      <link>https://www.androidpi.com/java/concurrency/2018-01-25-java-volatile-variable/</link>
+      <pubDate>Wed, 15 Aug 2018 13:19:32 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/concurrency/2018-01-25-java-volatile-variable/</guid>
+      <description>根据JLS 8.3.1.4，Java语言允许多个线程对共享的变量进行访问，作为一种规则，为了保证共享变量更新的一致性和可靠性，一个线程应当通过</description>
+    </item>
+    
+    <item>
+      <title>面向切面编程：AOP</title>
+      <link>https://www.androidpi.com/java/aop/2018-07-21-aop-programming/</link>
+      <pubDate>Sat, 21 Jul 2018 14:48:35 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/aop/2018-07-21-aop-programming/</guid>
+      <description>面向切面编程（Aspect-Oriented Programming,AOP）为编程结构提供了另一种思考方式，从而对面向对象编程（Object</description>
+    </item>
+    
+    <item>
+      <title>Java字节码工程：ASM开发指南2-核心API</title>
+      <link>https://www.androidpi.com/java/bytecode/2018-07-28-asm-develop-guide-core-api/</link>
+      <pubDate>Sat, 21 Jul 2018 14:46:34 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/bytecode/2018-07-28-asm-develop-guide-core-api/</guid>
+      <description>本文示例代码见asm-develop-guide。 核心API 类（Classes） 结构 一个编译过的类是相当简单的。事实上，与原生编译的应用不同</description>
+    </item>
+    
+    <item>
+      <title>Java字节码工程：ASM开发指南1-概述</title>
+      <link>https://www.androidpi.com/java/bytecode/2018-07-21-asm-develop-guide-introduction/</link>
+      <pubDate>Sat, 21 Jul 2018 14:46:33 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/bytecode/2018-07-21-asm-develop-guide-introduction/</guid>
+      <description>本文示例代码见asm-develop-guide。 概述 范围（Scope） ASM库的目的是用于生成、转换和分析编译过的Java类，并以字节数组</description>
+    </item>
+    
+    <item>
+      <title>Java字节码工程：ASM介绍</title>
+      <link>https://www.androidpi.com/java/bytecode/2018-07-17-asm-introduction/</link>
+      <pubDate>Tue, 17 Jul 2018 23:31:54 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/bytecode/2018-07-17-asm-introduction/</guid>
+      <description>ASM是一个通用的Java字节码操作和分析框架。它可以用于修改已有的class或者直接以二进制形式动态生成class。ASM提供了一些常用的</description>
+    </item>
+    
+    <item>
+      <title>JVM：class文件校验与Stack Map Frame</title>
+      <link>https://www.androidpi.com/java/jvm/2018-07-29-jvm-stack-map-frame/</link>
+      <pubDate>Mon, 16 Jul 2018 12:17:00 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/jvm/2018-07-29-jvm-stack-map-frame/</guid>
+      <description>除了编译时的检查，为了保证class文件符合规范，JVM实现会在链接时对class文件进行校验。 如果class文件的版本号为49或以下会使用</description>
+    </item>
+    
+    <item>
+      <title>Java内存模型简介</title>
+      <link>https://www.androidpi.com/java/jmm/2017-11-12-jmm-introduction/</link>
+      <pubDate>Sun, 12 Nov 2017 02:01:26 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/jmm/2017-11-12-jmm-introduction/</guid>
+      <description>Why：为什么需要内存模型? “更快，更高，更强”不仅仅是奥林匹克的口号，我们也需要更快，更稳定的计算机硬件和软件。谈到内存模型，到底在谈什么</description>
+    </item>
+    
+    <item>
+      <title>Java面向对象概念（翻译）</title>
+      <link>https://www.androidpi.com/java/core/2015-05-07-java-oop-concepts/</link>
+      <pubDate>Thu, 07 May 2015 06:50:57 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/core/2015-05-07-java-oop-concepts/</guid>
+      <description>这一章节将介绍对象（objects），类（classes），继承（inheritance），接口（interfaces）和包（package</description>
+    </item>
+    
+    <item>
+      <title>Java Concurrency 5、高级并发对象</title>
+      <link>https://www.androidpi.com/java/core/2015-05-06-java-concurrency-5-high-level-concurrency-objects/</link>
+      <pubDate>Wed, 06 May 2015 18:21:56 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/core/2015-05-06-java-concurrency-5-high-level-concurrency-objects/</guid>
+      <description>高级并发对象（High Level Concurrency Objects） 目前为止，这一教程集中于low-level并发API，它是Java平台非常初级的部分。这些API对</description>
+    </item>
+    
+    <item>
+      <title>Java Concurrency 4、不可变对象（Immutable Objects）</title>
+      <link>https://www.androidpi.com/java/core/2015-05-06-java-concurrency-4-immutable-objects/</link>
+      <pubDate>Wed, 06 May 2015 18:11:08 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/core/2015-05-06-java-concurrency-4-immutable-objects/</guid>
+      <description>不可变对象（Immutable Objects） 一个对象在创建后其状态不能被改变，那么就称其为不可变的（immutable）。最大程度地依赖不</description>
+    </item>
+    
+    <item>
+      <title>Java Concurrency 3、活跃性（Liveness）</title>
+      <link>https://www.androidpi.com/java/core/2015-05-06-java-concurrency-3-liveness/</link>
+      <pubDate>Wed, 06 May 2015 17:05:35 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/core/2015-05-06-java-concurrency-3-liveness/</guid>
+      <description>一个并发应用以适时的方式执行的能力称为其活跃性（A concurrent application&amp;rsquo;s ability to execute in a timely manner is known as its liveness. ），这一节描述最常见的活跃性问题，死锁（deadlock），然</description>
+    </item>
+    
+    <item>
+      <title>Java Concurrency 2、同步</title>
+      <link>https://www.androidpi.com/java/core/2015-05-05-java-concurrency-2-synchronization/</link>
+      <pubDate>Tue, 05 May 2015 16:38:58 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/core/2015-05-05-java-concurrency-2-synchronization/</guid>
+      <description>线程通讯主要通过共享对域和引用域所指向的对象的访问来进行，这种通信方式极为高效，但可能引起两种可能的错误：线程干扰（thread interf</description>
+    </item>
+    
+    <item>
+      <title>Java Concurrency 1、进程和线程</title>
+      <link>https://www.androidpi.com/java/core/2015-05-05-java-concurrency-1-process-and-thread/</link>
+      <pubDate>Tue, 05 May 2015 16:21:45 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/core/2015-05-05-java-concurrency-1-process-and-thread/</guid>
+      <description>进程和线程 并发（concurrency）编程用有两种基本的执行单元：进程和线程，在Java中，并发编程大多数只考虑线程，但进程也很重要。 一个</description>
+    </item>
+    
+    <item>
+      <title>Java多线程：Java线程及其状态</title>
+      <link>https://www.androidpi.com/java/concurrency/2015-05-04-java-thread/</link>
+      <pubDate>Mon, 04 May 2015 20:25:37 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/concurrency/2015-05-04-java-thread/</guid>
+      <description>线程状态 线程可以处于下列状态之一： NEW 至今尚未启动的线程处于这种状态。 RUNNABLE 正在 Java 虚拟机中执行的线程处于这种状态。 可运行线程的线程状态。处于可运行</description>
+    </item>
+    
+    <item>
+      <title>Java引用</title>
+      <link>https://www.androidpi.com/java/core/2014-09-23-java-references/</link>
+      <pubDate>Tue, 23 Sep 2014 21:17:32 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/core/2014-09-23-java-references/</guid>
+      <description>Reference是描述所有引用对象（reference objects）共有行为的抽象类，除了这一包（java.lang.ref）所提供的子</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://www.androidpi.com/java/jmm/2017-10-12-jmm-java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/java/jmm/2017-10-12-jmm-java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B2/</guid>
+      <description>第二章 构建模块 为了对一个编程语言中的原因与结果进行推论，我们需要做两件事情： 为并发编程提供一个清晰的模型以编写正确的代码。 为平台架构提供一个</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://www.androidpi.com/java/jmm/2017-10-12-jmm-java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B3/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/java/jmm/2017-10-12-jmm-java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B3/</guid>
+      <description>Java内存模型3: 若干动机 上一章概括了所有并发程序的一些非正式属性，以及对这些属性的一些误用导致的错误代码。本章概括了一些内存模型的非正式</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://www.androidpi.com/java/jmm/2017-10-12-jmm-java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B4/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/java/jmm/2017-10-12-jmm-java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B4/</guid>
+      <description>Chapter4 因果性——向Java内存模型进发 在2.1节我们描述过顺序一致性。它过于严格，不能用作Java内存模型，因为它禁止编译器和处理器的优化。我们</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://www.androidpi.com/java/rxjava/rxjava-chapter1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/java/rxjava/rxjava-chapter1/</guid>
+      <description>响应式编程与RxJava 响应式编程（Reactive programming）是一个通用的编程术语，它主要表示对变化的响应，如数据值或事件。它</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://www.androidpi.com/java/rxjava/rxjava-chapter2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/java/rxjava/rxjava-chapter2/</guid>
+      <description>Observable剖析 rx.Observable使用订阅（subscription）和订阅者（Subscriber）来控制监听器 单个Obs</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://www.androidpi.com/java/rxjava/rxjava-chapter3/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/java/rxjava/rxjava-chapter3/</guid>
+      <description>Chapter3 </description>
+    </item>
+    
+    <item>
+      <title>AspectJ介绍</title>
+      <link>https://www.androidpi.com/java/aop/2018-07-17-aspectj-introduction/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/java/aop/2018-07-17-aspectj-introduction/</guid>
+      <description>AspectJ由Eclipse出品，它是对Java语言的一个通用的面向切面的扩展。 AspectJ Chapter 1. Getting Started with AspectJ 5. Aspect Oriented Programming with Spring 看AspectJ在Android</description>
+    </item>
+    
+    <item>
+      <title>Java内存模型</title>
+      <link>https://www.androidpi.com/java/jmm/2017-10-12-jmm-java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/java/jmm/2017-10-12-jmm-java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B1/</guid>
+      <description>导论 现代计算机科学中有两个关键的目的，一是让程序运行的更快，在高层级上，这需要数据结构和算法设计。在低层级上，这需要对指令进行重排序以便以最</description>
+    </item>
+    
+    <item>
+      <title>JVM：指令集</title>
+      <link>https://www.androidpi.com/java/jvm/2018-07-21-jvm-instructions/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/java/jvm/2018-07-21-jvm-instructions/</guid>
+      <description>Java Virtual Machine Online Instruction Reference</description>
+    </item>
+    
+    <item>
+      <title>JVM：结构</title>
+      <link>https://www.androidpi.com/java/jvm/2018-07-21-jvm-structure/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/java/jvm/2018-07-21-jvm-structure/</guid>
+      <description>The Java® Virtual Machine Specification</description>
+    </item>
+    
+    <item>
+      <title>Reactive Stream简介</title>
+      <link>https://www.androidpi.com/java/rxjava/2018-06-16-reactive-stream/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/java/rxjava/2018-06-16-reactive-stream/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

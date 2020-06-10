@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Kotlin类与继承 | 风格与布局</title>
+<meta name="description" content="类定义 类声明由类名、类首部（指定类型参数，主构造器等）、类正文（用花括号包围）。类首部和正文都是可选的。因此最简单的类定义为： class Empty // Implicitly inherits from Any">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#类定义">类定义</a></li>
+    <li><a href="#构造器">构造器</a></li>
+    <li><a href="#嵌套与内部类nested-and-inner-classes">嵌套与内部类（Nested and Inner Classes）</a>
+      <ul>
+        <li><a href="#匿名内部类">匿名内部类</a></li>
+      </ul>
+    </li>
+    <li><a href="#抽象类">抽象类</a></li>
+    <li><a href="#接口">接口</a>
+      <ul>
+        <li><a href="#接口中的属性">接口中的属性</a></li>
+        <li><a href="#接口继承冲突">接口继承冲突</a></li>
+      </ul>
+    </li>
+    <li><a href="#类方法">类方法</a>
+      <ul>
+        <li><a href="#方法重写overriding-methods">方法重写（Overriding Methods）</a></li>
+        <li><a href="#属性覆盖overriding-properties">属性覆盖（Overriding Properties）</a></li>
+      </ul>
+    </li>
+    <li><a href="#可见性修饰符">可见性修饰符</a></li>
+    <li><a href="#类扩展">类扩展</a>
+      <ul>
+        <li><a href="#扩展函数">扩展函数</a></li>
+        <li><a href="#扩展属性">扩展属性</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">Kotlin类与继承</h1>
+                </div>
+                <div class="content">
+                        <h2 id="类定义">类定义</h2>
+<p>类声明由类名、类首部（指定类型参数，主构造器等）、类正文（用花括号包围）。类首部和正文都是可选的。因此最简单的类定义为：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Empty</span> <span style="color:#75715e">// Implicitly inherits from Any
+</span></code></pre></div><p>类似所有Java类都继承类Object，所有Kotlin类都继承类Any，但Any不是与特定平台（例如JVM）相关的，它不是一个java.lang.Object，这表明当Kotlin与Java代码进行互操作时，为了使用Object的成员方法，Kotlin提供了<a href="https://kotlinlang.org/docs/reference/extensions.html">扩展函数</a>。</p>
+<p>例如为了调用Object的wait()/notify()方法，可以将一个kotlin对象foo转型为Object：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    (foo <span style="color:#66d9ef">as</span> java.lang.Object).wait()
+</code></pre></div><p>为了获取一个kotlin对象的Java类，Kotlin1.1之后可以使用class引用的java扩展属性，也可以直接使用扩展属性javaClass:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">val</span> fooClass = foo<span style="color:#f92672">::</span><span style="color:#66d9ef">class</span>.java    <span style="color:#75715e">// class reference
+</span><span style="color:#75715e"></span>    
+    <span style="color:#66d9ef">val</span> fooClass = foo.javaClass      <span style="color:#75715e">// extension property: javaClass
+</span></code></pre></div><p>与<a href="https://kotlinlang.org/docs/reference/java-interop.html">Java代码进行互操作</a>，Kotlin在语言层面上是这样设计的，但在编译为Java字节码以及JVM运行时中，每个类总是默认继承了Object。</p>
+<h2 id="构造器">构造器</h2>
+<p>Kotlin的构造器分为主构造器（primary constructor）和次要构造器（secondary constructors）。两者都是可选的，即可以不用明确定义任何构造器，<strong>这时如果该类不是抽象类</strong>，就采用默认生成的无参主构造器。主构造器只能有一个，次要构造器可以有多个，次要构造器必须代理到主构造器，可以是直接的代理或使用其它次要构造器间接代理。造器的可见性默认是public的。</p>
+<p>这里讨论下主构造器，先了解下<a href="https://www.javaworld.com/article/2076614/core-java/object-initialization-in-java.html">Java对象的初始化</a>，大致说了Java对象初始化机制有三种：实例初始化器（初始化块）、实例变量初始化器、构造器。初始化块和实例变量初始化器可以认为是实例初始化器的两种不同形式，实例变量初始化器只不过定义了实例变量并使用表达式而非块进行了初始化。在对象初始化时，由于存在继承层次结构，每一层级类都需要进行初始化，一个对象从自身开始向上到父类，到父类的父类等等，直到Object类，完成整个类层次的初始化。所以该对象的构造器必须直接或间接地调用父类构造器，这也说明了为什么构造器不属于Java类成员，它不会被子类继承，不然会造成初始化的死循环。构造器是初始化的入口，但不是初始化的全部，并且为了保证初始化过程的顺序，编译器会为每个构造器生成一个<code>&lt;init&gt;</code>方法，包含以下代码：</p>
+<blockquote>
+<ol>
+<li>对另一个构造函数的调用（为了直接或间接调用父类构造器）</li>
+<li>初始化器（包括变量初始器器和块初始化器，为了保证初始化器仅运行一次，如果第1步调用是本地另一个构造函数,那么便不需要
+初始化器的代码）</li>
+<li>构造函数正文</li>
+</ol>
+</blockquote>
+<p>在Kotlin中，初始化块使用<code>init</code>关键字声明：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    init {
+        print(<span style="color:#e6db74">&#34;This is a intializer block.&#34;</span>)
+    }
+</code></pre></div><p>如果一个Kotlin类未继承其它另外定义的类，那么它默认继承类Any, 如下所示：</p>
+<ol>
+<li>
+<p>未定义主构造器</p>
+<ul>
+<li>未定义次要构造器：编译器会为其生成一个无参主构造器</li>
+<li>定义了次要构造器：那么它将仅有次要构造器，不会自动生成无参构造器</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">            <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Car</span> {
+                <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">constructor</span>(type: String, name: String) {
+                    <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>                }
+            }
+</code></pre></div></li>
+<li>
+<p>定义了主构造器，并且定义了次要构造器</p>
+</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">        <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Car</span>(type: String, name: String) {
+            <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">constructor</span>(brand: String, type: String, name: String) : <span style="color:#66d9ef">this</span>(type, name) {
+                <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>            }
+        }
+</code></pre></div><p>如果一个Kotlin类继承了一个另外定义的类，假设</p>
+<ol>
+<li>未定义主构造器</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">        <span style="color:#66d9ef">open</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">View</span> {
+            <span style="color:#66d9ef">constructor</span>(ctx: Context) {
+                <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>            }
+
+            <span style="color:#66d9ef">constructor</span>(ctx: Context, attrs: AttributeSet) {
+                <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>            }
+        }
+
+        <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CustomView</span> : View {
+            <span style="color:#66d9ef">constructor</span>(ctx: Context) : <span style="color:#66d9ef">super</span>(ctx) {
+                <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>            }
+            <span style="color:#66d9ef">constructor</span>(ctx: Context, attrs: AttributeSet) : <span style="color:#66d9ef">super</span>(ctx, attrs) {
+                <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>            }
+            <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>        }
+</code></pre></div><ol start="2">
+<li>定义了主构造器：父类可以（并且必须）使用主构造器的参数在继承时进行初始化</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">        <span style="color:#66d9ef">open</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Vehicle</span>(type: String) {
+            <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>        }
+
+        <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Car</span>(type: String = <span style="color:#e6db74">&#34;Car&#34;</span>, name: String) : Vehicle(type) {
+            <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>        }
+</code></pre></div><p>Kotlin中可以使用一个简洁的语法来从主构造函数中定义属性并进行初始化：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span>(<span style="color:#66d9ef">val</span> firstName: String, <span style="color:#66d9ef">val</span> lastName: String, <span style="color:#66d9ef">var</span> age: Int) {
+        <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>    }
+</code></pre></div><h2 id="嵌套与内部类nested-and-inner-classes">嵌套与内部类（Nested and Inner Classes）</h2>
+<p>类可以嵌套在其它类中：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Outer</span> {
+        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> bar: Int = <span style="color:#ae81ff">1</span>
+        <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Nested</span> {
+            <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">foo</span>() = <span style="color:#ae81ff">2</span>
+        }
+    }
+
+    <span style="color:#66d9ef">val</span> demo = Outer.Nested().foo() <span style="color:#75715e">// == 2
+</span></code></pre></div><p>和Java作点对比，Java中有嵌套类，并且分为静态和非静态的，静态的嵌套类实际上是一个顶级类，只不过为了包管理方便，将其嵌套在另一个包围类中，和静态方法一样，它不能直接访问类对象成员，而非静态的嵌套类可以，因为它持有外部类对象的引用，它有另一个专门的名称就是内部类。那么Kotlin中嵌套类默认是不能访问外部类的成员，它不属于内部类。内部类使用inner声明，此时内部类便持有了一个对外部类对象的引用：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Outer</span> {
+        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> bar: Int = <span style="color:#ae81ff">1</span>
+        <span style="color:#66d9ef">inner</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Inner</span> {
+            <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">foo</span>() = bar
+        }
+    }
+
+    <span style="color:#66d9ef">val</span> demo = Outer().Inner().foo() <span style="color:#75715e">// == 1
+</span></code></pre></div><h3 id="匿名内部类">匿名内部类</h3>
+<p>匿名内部类使用对象表达式声明，如果对象仅仅是一个Java中的功能接口（即仅有一个抽象方法的接口），那么可以使用一个lambda表达式来创建：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">val</span> listener = ActionListener { println(<span style="color:#e6db74">&#34;clicked&#34;</span>) }
+</code></pre></div><h2 id="抽象类">抽象类</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">open</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Base</span> {
+        <span style="color:#66d9ef">open</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">f</span>() {}
+    }
+
+    <span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Derived</span> : Base() {
+        <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">f</span>()
+    }
+</code></pre></div><h2 id="接口">接口</h2>
+<p>与Java8类似，Kotlin接口中的方法可以包含抽象方法，以及方法实现。与抽象类不同的是它们不能保存状态，即没有实例变量或者静态变量。它们可以有属性，但属性需要是抽象的或者提供访问器实现。</p>
+<p>使用<code>interface</code>关键词定义接口：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">MyInterface</span> {
+        <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">bar</span>()
+        <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">foo</span>() {
+        <span style="color:#75715e">// optional body
+</span><span style="color:#75715e"></span>        }
+    }
+</code></pre></div><p>一个类可以实现一个或多个接口：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Child</span> : MyInterface {
+        <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">bar</span>() {
+            <span style="color:#75715e">// body
+</span><span style="color:#75715e"></span>        }
+    }
+</code></pre></div><h3 id="接口中的属性">接口中的属性</h3>
+<p>接口中声明的属性是抽象的，或者提供了自定义访问器实现，其中接口中的属性没有支撑域（backing field）。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">MyInterface</span> {
+        <span style="color:#66d9ef">val</span> prop: Int <span style="color:#75715e">// abstract
+</span><span style="color:#75715e"></span>
+        <span style="color:#66d9ef">val</span> propertyWithImplementation: String
+            <span style="color:#66d9ef">get</span>() = <span style="color:#e6db74">&#34;foo&#34;</span>
+
+        <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">foo</span>() {
+            print(prop)
+        }
+    }
+
+    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Child</span> : MyInterface {
+        <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">val</span> prop: Int = <span style="color:#ae81ff">29</span>
+    }
+</code></pre></div><h3 id="接口继承冲突">接口继承冲突</h3>
+<p>如果一个类有多个超类，那么可能会继承同一个方法的多个实现，例如：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">A</span> {
+        <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">foo</span>() { print(<span style="color:#e6db74">&#34;A&#34;</span>) }
+        <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">bar</span>()
+    }
+
+    <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">B</span> {
+        <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">foo</span>() { print(<span style="color:#e6db74">&#34;B&#34;</span>) }
+        <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">bar</span>() { print(<span style="color:#e6db74">&#34;bar&#34;</span>) }
+    }
+
+    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">C</span> : A {
+        <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">bar</span>() { print(<span style="color:#e6db74">&#34;bar&#34;</span>) }
+    }
+
+    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">D</span> : A, B {
+        <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">foo</span>() {
+            <span style="color:#66d9ef">super</span>&lt;A&gt;.foo()
+            <span style="color:#66d9ef">super</span>&lt;B&gt;.foo()
+        }
+
+        <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">bar</span>() {
+            <span style="color:#66d9ef">super</span>&lt;B&gt;.bar()
+        }
+    }
+</code></pre></div><p>接口A和B都声明了函数<code>foo()</code>和<code>bar()</code>，两者都实现了<code>foo()</code>，但只有B实现了<code>bar()</code>，如果定义一个子类C继承A，那么显然我们需要为<code>bar()</code>提供一个实现。</p>
+<p>然而，如果定义一个类D实现A和B两个接口，我们需要实现继承的多个方法，并且明确应该如何实现。这一规则对只有一个实现的方法(<code>bar()</code>)和有多个实现的方法(<code>foo()</code>)都适用。</p>
+<h2 id="类方法">类方法</h2>
+<h3 id="方法重写overriding-methods">方法重写（Overriding Methods）</h3>
+<p>和类一样，Kotlin类中的方法默认是<code>final</code>的，即子类不可以重写，父类方法需要使用<code>open</code>声明，然后子类明确使用<code>override</code>声明才可以。子类<code>override</code>方法默认是可以重写的，如果要禁止重写，可以再加上<code>final</code>。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">open</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Base</span> {
+        <span style="color:#66d9ef">open</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">v</span>() {}
+        <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">nv</span>() {}
+    }
+
+    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Derived</span>() : Base() {
+        <span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">final</span> <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">v</span>() {}
+    }
+</code></pre></div><h3 id="属性覆盖overriding-properties">属性覆盖（Overriding Properties）</h3>
+<h2 id="可见性修饰符">可见性修饰符</h2>
+<p>类、对象、接口、构造器、函数、属性和其setter可以有访问修饰符，getter的可见性总是和其属性一样。Kotlin中有四种可见性修饰符：private, protected, internal 和 public. 如果没有声明，默认是public的。</p>
+<p>private, protected, public和Java基本一致，没有包可见性的概念，internal表示模块内可见，即编译为同一模块或同一应用中的代码。</p>
+<h2 id="类扩展">类扩展</h2>
+<h3 id="扩展函数">扩展函数</h3>
+<h3 id="扩展属性">扩展属性</h3>
+<p>参考：</p>
+<ul>
+<li><a href="https://kotlinlang.org/docs/reference/classes.html">类</a></li>
+<li><a href="https://kotlinlang.org/docs/reference/interfaces.html">接口</a></li>
+</ul>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Java Concurrency 4、不可变对象（Immutable Objects） | 风格与布局</title>
+<meta name="description" content="不可变对象（Immutable Objects） 一个对象在创建后其状态不能被改变，那么就称其为不可变的（immutable）。最大程度地依赖不">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#不可变对象immutable-objects">不可变对象（Immutable Objects）</a></li>
+    <li><a href="#一个同步类示例a-synchronized-class-example">一个同步类示例（A Synchronized Class Example）</a></li>
+    <li><a href="#一种定义不可变对象的策略a-strategy-for-defining-immutable-objects">一种定义不可变对象的策略（A Strategy for Defining Immutable Objects）</a></li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">Java Concurrency 4、不可变对象（Immutable Objects）</h1>
+                </div>
+                <div class="content">
+                        <h2 id="不可变对象immutable-objects">不可变对象（Immutable Objects）</h2>
+<p>一个对象在创建后其状态不能被改变，那么就称其为不可变的（immutable）。最大程度地依赖不可变对象被广泛认可为创建简单、可靠代码的合理策略。</p>
+<p>不可变对象在并发应用中尤为有用，由于他们不能改变状态，因此不受线程干扰的影响或者被观察到非一致状态。</p>
+<p>开发者常常不情愿使用不可变对象，因为与更新一个对象相比，他们担心创建一个新的对象的开销。然而对象创建的影响常常被高估了，他们可以被与不可变对象带来的高效性所弥补。这些包括减少内存回收的开销，和消除用于保护可变对象被污染的代码。</p>
+<p>以下小节采用一个实例可变的类派生出一个实例不可变的类。这样做，给予这种转换的通用规则并且展示了不可变对象的优势。</p>
+<h2 id="一个同步类示例a-synchronized-class-example">一个同步类示例（A Synchronized Class Example）</h2>
+<p>SynchronizedRGB类定义了表示颜色的对象，每个对象将颜色表示为三个整形，代表基础颜色值，以及一个字符串给出颜色的名称。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SynchronizedRGB</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e">// Values must be between 0 and 255.
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> red<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> green<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> blue<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> String name<span style="color:#f92672">;</span>
+
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">check</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> red<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> green<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> blue<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>red <span style="color:#f92672">&lt;</span> 0 <span style="color:#f92672">||</span> red <span style="color:#f92672">&gt;</span> 255 <span style="color:#f92672">||</span> green <span style="color:#f92672">&lt;</span> 0 <span style="color:#f92672">||</span> green <span style="color:#f92672">&gt;</span> 255 <span style="color:#f92672">||</span> blue <span style="color:#f92672">&lt;</span> 0 <span style="color:#f92672">||</span> blue <span style="color:#f92672">&gt;</span> 255<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> IllegalArgumentException<span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">SynchronizedRGB</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> red<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> green<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> blue<span style="color:#f92672">,</span> String name<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        check<span style="color:#f92672">(</span>red<span style="color:#f92672">,</span> green<span style="color:#f92672">,</span> blue<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">red</span> <span style="color:#f92672">=</span> red<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">green</span> <span style="color:#f92672">=</span> green<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">blue</span> <span style="color:#f92672">=</span> blue<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> name<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">set</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> red<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> green<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> blue<span style="color:#f92672">,</span> String name<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        check<span style="color:#f92672">(</span>red<span style="color:#f92672">,</span> green<span style="color:#f92672">,</span> blue<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">synchronized</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">red</span> <span style="color:#f92672">=</span> red<span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">green</span> <span style="color:#f92672">=</span> green<span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">blue</span> <span style="color:#f92672">=</span> blue<span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> name<span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">synchronized</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">getRGB</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">((</span>red <span style="color:#f92672">&lt;&lt;</span> 16<span style="color:#f92672">)</span> <span style="color:#f92672">|</span> <span style="color:#f92672">(</span>green <span style="color:#f92672">&lt;&lt;</span> 8<span style="color:#f92672">)</span> <span style="color:#f92672">|</span> blue<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">synchronized</span> String <span style="color:#a6e22e">getName</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> name<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">synchronized</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">invert</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        red <span style="color:#f92672">=</span> 255 <span style="color:#f92672">-</span> red<span style="color:#f92672">;</span>
+        green <span style="color:#f92672">=</span> 255 <span style="color:#f92672">-</span> green<span style="color:#f92672">;</span>
+        blue <span style="color:#f92672">=</span> 255 <span style="color:#f92672">-</span> blue<span style="color:#f92672">;</span>
+        name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Inverse of &#34;</span> <span style="color:#f92672">+</span> name<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>对SynchronizedRGB的使用必须非常小心以避免不一致的状态，例如，假设一个线程执行了以下代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">SynchronizedRGB color <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> SynchronizedRGB<span style="color:#f92672">(</span>0<span style="color:#f92672">,</span> 0<span style="color:#f92672">,</span> 0<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;Pitch Black&#34;</span><span style="color:#f92672">);</span>
+<span style="color:#f92672">...</span>
+<span style="color:#66d9ef">int</span> myColorInt <span style="color:#f92672">=</span> color<span style="color:#f92672">.</span><span style="color:#a6e22e">getRGB</span><span style="color:#f92672">();</span> <span style="color:#75715e">//Statement 1
+</span><span style="color:#75715e"></span>String myColorName <span style="color:#f92672">=</span> color<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">();</span> <span style="color:#75715e">//Statement 2
+</span></code></pre></div><p>如果另一个线程在Statement 1之后，Statement 2之前调用了color.set方法，那么myColorInt的值将不会与myColorName匹配。为了避免这一结果，必须将两个语句绑定到一起：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">synchronized</span> <span style="color:#f92672">(</span>color<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">int</span> myColorInt <span style="color:#f92672">=</span> color<span style="color:#f92672">.</span><span style="color:#a6e22e">getRGB</span><span style="color:#f92672">();</span>
+    String myColorName <span style="color:#f92672">=</span> color<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>仅对可变对象这种不一致性才可能发生，对SynchronizedRGB的不可变版本则不会成为问题。</p>
+<h2 id="一种定义不可变对象的策略a-strategy-for-defining-immutable-objects">一种定义不可变对象的策略（A Strategy for Defining Immutable Objects）</h2>
+<p>以下规则定义了用于创建不可变对象的简单策略，不是所有声称“不可变”的类都遵循这些规则。这不必意味着这些类的创建是草率（sloppy）的——他们有好的理由来相信这些类的实例在构建后保持不变。然而，这种策略需要精妙的（sophisticated）分析，并不是为初学者准备的。</p>
+<ol>
+<li>不要提供“setter”方法——也就是用于改变域或者域所引用的对象。</li>
+<li>将所有的域声明为final和private的。</li>
+<li>不要允许子类复写方法。这样做的最简单方式就是将类声明为final的。一个更精妙的方法是将构造器声明为private并且在工厂方法中构造实例。</li>
+<li>如果实例域包括了对可变对象的引用，不要允许这些对象被改变：
+<ul>
+<li>不要提供改变可变对象的方法。</li>
+<li>不要共享对可变对象的引用。永远不要将传给构造器的外部的、可变的对象的引用进行存储，如果需要，创建复本，并存储复本的引用。类似地，必要时创建内部可变对象的复本，以避免在方法中返回源对象。</li>
+</ul>
+</li>
+</ol>
+<p>将这一策略用于SynchronizedRGB可以得到以下步骤：</p>
+<ol>
+<li>该类有两个setter方法，第一个，set方法，任意改变对象，在类的不可变版本中应当去掉。第二个，invert方法，可以改变用于创建一个新的对象而非改变已有的对象。</li>
+<li>所有的域已经是private的，可以进一步声明为final的。</li>
+<li>类本身声明为final。</li>
+<li>只有一个域引用了一个对象，并且该对象自身不可变。因此，不需要对所含可变对象的状态的改变做必要的防护措施。</li>
+</ol>
+<p>这些改变之后，我们得到ImmutableRGB：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">final</span> <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ImmutableRGB</span> <span style="color:#f92672">{</span> <span style="color:#75715e">// Values must be between 0 and 255.
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> red<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> green<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> blue<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">private</span> String name<span style="color:#f92672">;</span>
+
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">check</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> red<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> green<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> blue<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>red <span style="color:#f92672">&lt;</span> 0 <span style="color:#f92672">||</span> red <span style="color:#f92672">&gt;</span> 255 <span style="color:#f92672">||</span> green <span style="color:#f92672">&lt;</span> 0 <span style="color:#f92672">||</span> green <span style="color:#f92672">&gt;</span> 255 <span style="color:#f92672">||</span> blue <span style="color:#f92672">&lt;</span> 0 <span style="color:#f92672">||</span> blue <span style="color:#f92672">&gt;</span> 255<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> IllegalArgumentException<span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">ImmutableRGB</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> red<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> green<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> blue<span style="color:#f92672">,</span> String name<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        check<span style="color:#f92672">(</span>red<span style="color:#f92672">,</span> green<span style="color:#f92672">,</span> blue<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">red</span> <span style="color:#f92672">=</span> red<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">green</span> <span style="color:#f92672">=</span> green<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">blue</span> <span style="color:#f92672">=</span> blue<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> name<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">getRGB</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">((</span>red <span style="color:#f92672">&lt;&lt;</span> 16<span style="color:#f92672">)</span> <span style="color:#f92672">|</span> <span style="color:#f92672">(</span>green <span style="color:#f92672">&lt;&lt;</span> 8<span style="color:#f92672">)</span> <span style="color:#f92672">|</span> blue<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">getName</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> name<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> ImmutableRGB <span style="color:#a6e22e">invert</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> ImmutableRGB<span style="color:#f92672">(</span>255 <span style="color:#f92672">-</span> red<span style="color:#f92672">,</span> 255 <span style="color:#f92672">-</span> green<span style="color:#f92672">,</span> 255 <span style="color:#f92672">-</span> blue<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;Inverse of &#34;</span> <span style="color:#f92672">+</span> name<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div>
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

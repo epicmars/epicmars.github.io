@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta lang="zh"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>
+            
+    Java引用 &ndash; DevNote
+
+        </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <header>
+    <a href="https://www.jastrelax.com/">DevNote</a>
+</header>
+        
+    <div class="main">
+        <div class="article">
+            <article>
+                <div class="title">
+                    <h1 id="title">Java引用</h1>
+                </div>
+                <div class="content">
+                        <p>Reference是描述所有引用对象（reference objects）共有行为的抽象类，除了这一包（java.lang.ref）所提供的子类不可能创建Reference的立即子类（immediate subclasses）,这也不是期望的行为，因为引用需要与系统的GC（garbage collector）紧密合作，应当使用已有的，专门的引用类。</p>
+
+<p>有三种不同类型的引用，按引用变弱的顺序排列，依次为：SoftReference，WeakReference，PhantomReference。这里”弱（Weakness）“指对在实际允许对引用对象进行GC时对GC的限制更小。</p>
+
+<p>为正确使用引用对象，理解它们不同的触发清理和入队的可达性是很重要的。下表按由强到弱的顺序，每一行，一个对象在左边被认为是可达的，当且仅当它满足右边的所有条件时才成立。在所有行中，考虑根集合是一个“抵抗”GC的引用集合（也就是，运行线程，方法参数，局部变量，静态域等等）。</p>
+
+<p>强的可达
+- 至少存在一个由根集到对象的不经过任何java.lang.ref.Reference子类实例的路径
+软的可达
+- 对象非强的可达
+- 至少存在一条由根集到对象并且经过一个java.lang.ref.SoftReference实例的路径，而不是java.lang.ref.WeakReference 或 java.lang.ref.PhantomReference实例
+弱的可达
+- 对象既不是强的可达也不是软的可达
+- 至少存在一条由根集到对象并且经过一个java.lang.ref.WeakReference实例的路径，而不是java.lang.ref.PhantomReference实例</p>
+
+<p>虚的可达<br />
+- 对象不是强，弱，虚可达中的任何一种
+- 对象由一个 java.lang.ref.PhantomReference实例引用
+- 对象已经被终结（finalized）</p>
+
+<p>java.lang.ref.SoftReference
+引用非强可达并且存在内存压力时被清除</p>
+
+<ul>
+<li>避免使用软引用用于缓存
+实际中，软引用对于缓存是低效的，运行时没有足够的信息来判断该清除哪些引用和保留哪些引用。最重要的是，在给出了清除软引用和增长中的堆选择中，它不知道如何去做。</li>
+</ul>
+
+<p>缺乏对应用中值得信息限制了软引用的有用性，引用过早被清除导致了不必要的工作，过晚被清除则浪费了内存。</p>
+
+<p>大多数应用中应当使用android.util.LruCache 来代替软引用，LruCache有一个高效的eviction策略来让用户调整内存的分配的多少。</p>
+
+<ul>
+<li>对软引用的GC
+当GC遇到软可达的对象obj，下列事件将会发生：</li>
+<li>一个引用集合refs被确定，refs包含下列元素
+
+<ul>
+<li>①指向obj的所有软引用</li>
+<li>②指向从obj可强可达的对象的所有软引用</li>
+</ul></li>
+<li>refs中的所有引用自动被清除。</li>
+<li>同时或将来的某一时刻，如果有的话，refs中的所有引用会入队到对应的引用队列中。</li>
+</ul>
+
+<p>系统会延迟清除和入队软引用，然而所有指向软可达对象的软引用会在运行时抛出OOM错误前被清除，不同于WeakReference，一个SoftReference不会被清除和入队，除非运行时必须回收（reclaim）内存来满足内存分配。</p>
+
+<p>java.lang.ref.WeakReference
+实现一个弱引用，位于三个引用类型的中间位置。一旦GC确定一个对象obj是弱可达的，下列事件将会发生：</p>
+
+<ol>
+<li>一个引用集合refs被确定，refs包含下列元素
+
+<ul>
+<li>①指向obj的所有弱引用</li>
+<li>②指向从obj可强可达或软可达的对象的所有弱引用</li>
+</ul></li>
+<li>refs中的所有引用自动被清除。</li>
+<li>所有之前被ref引用的对象会变为适于终结的</li>
+<li>在将来的某一时刻，如果有的话，ref中的所有引用会被入队到对应的引用队列中。</li>
+</ol>
+
+<p>弱引用对于当其条目不再被（从外部）应用时对其进行自动清除的映射十分有用，SoftReference和WeakReference的不同之处在于决定对引用进行清除和入队的时间点：
+* 一个SoftReference应当被尽可能晚地被清除，那是，为避免VM内存耗尽。
+* 一个WeakReference在被确定为弱引用后会被尽可能早地清除和入队。</p>
+
+<p>java.lang.ref.PhantomReference
+实现一个虚引用，是三种引用类型中最弱的一类，一旦GC认为一个对象obj是虚可达的，它会被入队到对应队列，但其引用未被清除。也就是，虚引用的引用队列必须被应用代码显式地进行处理。结果是，未注册到任何引用队列的虚引用毫无意义。</p>
+
+<p>虚引用对一个对象回收前实现必要的清理操作十分有用，它们有时比 finalize() 方法更具灵活性。</p>
+
+                </div>
+                
+            </article>
+            <aside>
+                
+            </aside>
+        </div>
+    </div>
+
+        <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a>
+</footer>
+        <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+        
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+        <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML">
+        </script>
+        <script type="text/javascript" src="/js/main.js"></script>
+    </body>
+
+</html>

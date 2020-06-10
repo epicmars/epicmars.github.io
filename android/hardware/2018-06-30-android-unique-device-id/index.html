@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Android手机唯一设备ID | 风格与布局</title>
+<meta name="description" content="Android手机用于关联设备的唯一性ID，目前常见的有如下几种类型： 设备ID IMEI MEID ESN 主要使用系统服务TelephonyManager获取。 硬">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents"></nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">Android手机唯一设备ID</h1>
+                </div>
+                <div class="content">
+                        <p>Android手机用于关联设备的唯一性ID，目前常见的有如下几种类型：</p>
+<ul>
+<li>
+<p>设备ID</p>
+<ul>
+<li>IMEI</li>
+<li>MEID</li>
+<li>ESN</li>
+</ul>
+<p>主要使用系统服务<code>TelephonyManager</code>获取。</p>
+</li>
+<li>
+<p>硬件相关：</p>
+<ul>
+<li>MAC地址</li>
+</ul>
+</li>
+<li>
+<p>手机号(SIM卡)相关：</p>
+<ul>
+<li>IMSI</li>
+</ul>
+</li>
+<li>
+<p>自定义全局唯一ID（GUID）</p>
+<p>例如生成一个UUID，并将其存储在应用私有的存储空间：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">String uniqueID <span style="color:#f92672">=</span> UUID<span style="color:#f92672">.</span><span style="color:#a6e22e">randomUUID</span><span style="color:#f92672">().</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">();</span>
+</code></pre></div></li>
+</ul>
+<p>事实上上述所有方式可能均不可靠，<strong>最好的方式是建立一个账户系统，使用登录用户的身份作为唯一性ID</strong>。</p>
+<p>但实际业务中可能无法让所有使用者都进行注册，或者某些用户选择不进行账户注册，<strong>为了获得这一部分匿名用户，这时获取手机的唯一性ID仍然是必要的</strong>。</p>
+<p>在路由器相关业务中，使用MAC地址是一种较优的方案，假设使用Android提供的SDK获取手机自身MAC地址失败了，手机连接到一个路由器WiFi热点后，由于路由器拥有连接设备IP地址到MAC地址的映射，根据这一点，如果路由器提供了相应的接口，那么可以在局域网内通过该接口查询到手机MAC地址。</p>
+<p>参考：</p>
+<ul>
+<li><a href="http://www.cnblogs.com/lqminn/p/4204855.html">【Android】设备标识</a></li>
+<li><a href="https://www.jianshu.com/p/9e7626a63c22">hook android api伪造设备信息做刷量</a></li>
+</ul>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

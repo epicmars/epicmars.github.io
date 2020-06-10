@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Linux init系统与后台进程管理 | 风格与布局</title>
+<meta name="description" content="什么是init系统 计算机的启动过程从主板上的BIOS（Basic Input / Output System）软件开始，在完成了硬件的初始化和检查后，BIOS启动引导">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#什么是init系统">什么是init系统</a></li>
+    <li><a href="#常见的init系统">常见的init系统</a></li>
+    <li><a href="#运行级别runlevel">运行级别（runlevel）</a></li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">Linux init系统与后台进程管理</h1>
+                </div>
+                <div class="content">
+                        <h2 id="什么是init系统">什么是init系统</h2>
+<p>计算机的启动过程从主板上的BIOS（Basic Input / Output System）软件开始，在完成了硬件的初始化和检查后，BIOS启动引导加载程序(bootloader)，bootloader访问存储设备上的主引导记录(Master Boot Record, MBR)，MBR通常是一个硬件驱动，利用这一记录数据定位并启动linux内核。</p>
+<p>init系统是内核启动后运行的第一个进程。实时上init系统总是一个系统中进程ID(PID)为1的进程。然后init系统必须启动所有必须的守护进程(daemons)，后台进程和服务，从而使操作系统正常工作。</p>
+<p>在完成系统初始化后，init系统继续保持运行，并且管理已经启动的进程，在系统运行过程中可以使得这些进程启动，停止和重启。</p>
+<h2 id="常见的init系统">常见的init系统</h2>
+<ul>
+<li><strong>System V</strong>是一个较老的init系统
+<ul>
+<li>Debian 6和更早</li>
+<li>Ubuntu 9.04和更早</li>
+<li>CentOS 5和更早</li>
+</ul>
+</li>
+<li><strong>Upstart</strong>
+<ul>
+<li>Ubuntu 9.10 到 Ubuntu 14.10, 包括Ubuntu 14.04</li>
+<li>CentOS 6</li>
+</ul>
+</li>
+<li><strong>Systemd</strong>是最新发布版所采用的init系统
+<ul>
+<li>Debian 7 和 Debian 8</li>
+<li>Ubuntu 15.04 和更新</li>
+<li>CentOS 7</li>
+</ul>
+</li>
+</ul>
+<h2 id="运行级别runlevel">运行级别（runlevel）</h2>
+<ul>
+<li>0 系统关机</li>
+<li>1 单用户，恢复模式</li>
+<li>2,3,4：多用户，开启网络，文本模式</li>
+<li>5 多用户，开启网络，图像模式</li>
+<li>6 系统重启</li>
+</ul>
+<h2 id="参考">参考</h2>
+<p><a href="https://fedoramagazine.org/what-is-an-init-system/">What is an init system?</a></p>
+<p><a href="https://www.digitalocean.com/community/tutorials/how-to-configure-a-linux-service-to-start-automatically-after-a-crash-or-reboot-part-1-practical-examples">How To Configure a Linux Service to Start Automatically After a Crash or Reboot – Part 1: Practical Examples</a></p>
+<p><a href="https://www.digitalocean.com/community/tutorials/how-to-configure-a-linux-service-to-start-automatically-after-a-crash-or-reboot-part-2-reference">How To Configure a Linux Service to Start Automatically After a Crash or Reboot – Part 2: Reference</a></p>
+<p><a href="http://upstart.ubuntu.com/getting-started.html">Upstart</a></p>
+<p><a href="http://upstart.ubuntu.com/cookbook/">Upstart Cookbook</a></p>
+<p><a href="https://www.freedesktop.org/wiki/Software/systemd/">Systemd</a></p>
+<p><a href="http://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-commands.html">Systemd 入门教程：命令篇</a></p>
+<p><a href="http://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-part-two.html">Systemd 入门教程：实战篇</a></p>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

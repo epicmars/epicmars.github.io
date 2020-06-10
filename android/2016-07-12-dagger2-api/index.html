@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta lang="zh"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>
+            
+    Dagger2 Api &ndash; DevNote
+
+        </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <header>
+    <a href="https://www.jastrelax.com/">DevNote</a>
+</header>
+        
+    <div class="main">
+        <div class="article">
+            <article>
+                <div class="title">
+                    <h1 id="title">Dagger2 Api</h1>
+                </div>
+                <div class="content">
+                        
+
+<h3 id="component注解">Component注解</h3>
+
+<p>Component注解用于注解一个接口或抽象类，以便从其Module集合中生成一个完全成型的依赖注入实现。</p>
+
+<p>每个使用@Component注解的类型必须包含至少一个抽象组件方法（Component methods），组件方法可以拥有任何名称，但其签名必须遵循供给和成员注入协约。</p>
+
+<h3 id="供给方法-provision-methods">供给方法（Provision methods）</h3>
+
+<p>供给方法没有参数，并返回一个<a href="http://docs.oracle.com/javaee/7/api/javax/inject/Inject.html?is-external=true">被注入</a>或者<a href="http://google.github.io/dagger/api/2.0/dagger/Provides.html">被供给</a>的类型，每个方法也可以有一个<a href="http://docs.oracle.com/javaee/7/api/javax/inject/Qualifier.html?is-external=true">限定符</a>注解，以下都是有效的供给方法：</p>
+
+<pre><code>SomeType getSomeType();
+Set&lt;SomeType&gt; getSomeTypes();
+@PortNumber int getPortNumber();
+</code></pre>
+
+<p>供给方法和注入点一样可以使用<a href="http://docs.oracle.com/javaee/7/api/javax/inject/Provider.html?is-external=true">Provider</a>或<a href="http://google.github.io/dagger/api/2.0/dagger/Lazy.html">Lazy</a>更加显示地控制供给请求，Provider允许组件用户通过调用Provider.get()来请求任意次的供给，Lazy自始至终只会请求单个供给，但会将其推迟到对Lazy.get()的首次调用。以下供给方法都请求对同一类型的供给，但分别应用了不同的机制：</p>
+
+<pre><code>SomeType getSomeType();
+Provider&lt;SomeType&gt; getSomeTypeProvider();
+Lazy&lt;SomeType&gt; getLazySomeType();
+</code></pre>
+
+<h3 id="成员注入方法-members-injection-methods">成员注入方法（Members-injection methods）</h3>
+
+<p>成员注入方法具有单个参数，并将依赖注入到传入实例的每个使用Inject注解的域和方法，一个成员注入方法可以是void的，也可以返回其单个参数以便链接。以下都是合法的成员注入方法声明：</p>
+
+<pre><code>void injectSomeType(SomeType someType);
+SomeType injectAndReturnSomeType(SomeType someType)
+</code></pre>
+
+<p>一个没有参数但返回<a href="http://google.github.io/dagger/api/2.0/dagger/MembersInjector.html">MembersInjector</a>的方法和成员注入方法是等效的，在返回对象上调用MembersInjector.injectMembers(T)方法和成员注入方法的作用一样：</p>
+
+<pre><code>MembersInjector&lt;SomeType&gt; getSomeTypeMembersInjector();
+</code></pre>
+
+<h3 id="关于协方差的注意事项">关于协方差的注意事项</h3>
+
+<p>尽管一个类型的成员注入方法会可以接收其子类的实例（参数是返回类型的子类），只有参数类型和其超类的Inject注解成员会被注入，而参数类型的子类则不会，例如，如下类型中，当将Child实例作为参数传入成员注入方法<code>injectSelf(Self instance)</code>时只有a和b会被注入，</p>
+
+<pre><code>class Parent {
+ @Inject A a;
+}
+
+class Self extends Parent {
+ @Inject B b;
+}
+
+class Child extends Self {
+ @Inject C c;
+}
+</code></pre>
+
+<h3 id="实例化">实例化</h3>
+
+<p>组件（Component）的实例化主要通过生成的<a href="http://en.wikipedia.org/wiki/Builder_pattern">builder</a>。一个builder实例通过组件上的builder()方法获取，返回的builder有一个方法用于设置每个modules() 和组件dependencies()，它们都以每个module或dependency类型的小写驼峰形式命名。每个缺少默认构造函数的组件dependency和module都必须显式地设置，但任何具有默认或无参构造函数（可以被组件实现访问）的module则可以忽略。如下所示：</p>
+
+<pre><code>public static void main(String[] args) {
+     OtherComponent otherComponent = ...;
+     MyComponent component = DaggerMyComponent.builder()
+         // required because component dependencies must be set
+         .otherComponent(otherComponent)
+         // required because FlagsModule has constructor parameters
+         .flagsModule(new FlagsModule(args))
+         // may be elided because a no-args constructor is visible
+         .myApplicationModule(new MyApplicationModule())
+         .build();
+}
+</code></pre>
+
+<p>一种情形中，组件没有依赖组件，并且仅有无参module，那么生成的builder会有一个工厂方法create()，此时SomeComponent.create() 和 SomeComponent.builder().build() 都是有效并等效的。</p>
+
+<h3 id="范围-scope">范围（Scope）</h3>
+
+<p>每个Dagger组件都可以使用<a href="http://docs.oracle.com/javaee/7/api/javax/inject/Scope.html?is-external=true">范围注解</a>来赋予其一个范围，组件实现确保每个组件的实例的每个范围绑定只有一个供给，如果组件申明了一个范围，那么它只能包含无范围的绑定或图中任意处属于该范围的绑定，例如：</p>
+
+<pre><code>   @Singleton @Component
+   interface MyApplicationComponent {
+     // this component can only inject types using unscoped or @Singleton bindings
+   }
+</code></pre>
+
+<p>为了获取与一个范围注解相关的适当的行为，它的调用者有责任在适当的时候实例化新的组件，例如，一个Singleton组件在一个应用中只应当实例化一次，而一个RequestScoped组件则应当在每次请求是初始化，因为组件是自包含的实现，跳出一个范围就只是简单地丢弃所有对组件的引用。</p>
+
+<h3 id="组件关系-component-relationships">组件关系（Component relationships）</h3>
+
+<p>尽管具有单纯无范围绑定的的独立组件十分有用，许多应用还是会调用许多不同范围的不同组件进行交互，Dagger提供了关联组件的两种机制。</p>
+
+<h4 id="子组件-subcomponents">子组件（Subcomponents）</h4>
+
+<p>关联两个组件最简单的方式是声明一个<a href="http://google.github.io/dagger/api/2.0/dagger/Subcomponent.html">子组件</a>，子组件的行为和普通组件极为相似，只不过其实现在一个父组件或子组件内部生成。这一关系允许子组件实现在声明时继承父组件的的全部绑定图，为此，子组件直到关联到一个父组件时才验证其完整性。</p>
+
+<p>子组件通过父组件或子组件上的工厂方法声明，方法可以任意命名，但必须返回子组件，工厂方法的参数可以是任意数量的子组件模块，但必须至少包含没有可见无参构造函数的。下面的例子中，一个工厂方法从一个singleton范围的父组件中创建了一个request范围的子组件。</p>
+
+<pre><code>   @Singleton @Component
+   interface ApplicationComponent {
+     // component methods...
+
+     RequestComponent newRequestComponent(RequestModule requestModule);
+   }
+</code></pre>
+
+<h4 id="组件依赖-component-dependencies">组件依赖（Component dependencies）</h4>
+
+<p>尽管子组件是组合绑定的子图（subgraphs of bindings）的最简单的方式，子组件和父组件是强耦合的，他们或许会使用由前辈组件或子组件中定义的任意的绑定，作为一种可选的方法，通过定义一个<a href="http://google.github.io/dagger/api/2.0/dagger/Component.html#dependencies()">组件依赖</a>，一个组件只能使用另一个组件的绑定，当一个类型作为组件依赖时，依赖中的每个供给方法作为一个provider进行绑定。注意只有以供给方法暴露的的绑定才可以通过组件依赖获取到。</p>
+
+                </div>
+                
+            </article>
+            <aside>
+                <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#component注解">Component注解</a></li>
+<li><a href="#供给方法-provision-methods">供给方法（Provision methods）</a></li>
+<li><a href="#成员注入方法-members-injection-methods">成员注入方法（Members-injection methods）</a></li>
+<li><a href="#关于协方差的注意事项">关于协方差的注意事项</a></li>
+<li><a href="#实例化">实例化</a></li>
+<li><a href="#范围-scope">范围（Scope）</a></li>
+<li><a href="#组件关系-component-relationships">组件关系（Component relationships）</a>
+<ul>
+<li><a href="#子组件-subcomponents">子组件（Subcomponents）</a></li>
+<li><a href="#组件依赖-component-dependencies">组件依赖（Component dependencies）</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+            </aside>
+        </div>
+    </div>
+
+        <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a>
+</footer>
+        <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+        
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+        <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+        <script type="text/javascript" src="/js/main.js"></script>
+    </body>
+
+</html>

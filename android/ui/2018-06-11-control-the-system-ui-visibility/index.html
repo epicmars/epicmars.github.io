@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>控制Android系统UI的可见性 | 风格与布局</title>
+<meta name="description" content="系统栏（System bars）分为状态栏（status bar）和导航栏（Navigation bar）。 状态栏 导航栏 使系统栏变暗(dim) 这种">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#使系统栏变暗dimhttpsdeveloperandroidcomtrainingsystem-uidim"><a href="https://developer.android.com/training/system-ui/dim">使系统栏变暗(dim)</a></a></li>
+    <li><a href="#改变状态栏">改变状态栏</a>
+      <ul>
+        <li><a href="#隐藏状态栏httpsdeveloperandroidcomtrainingsystem-uistatus"><a href="https://developer.android.com/training/system-ui/status">隐藏状态栏</a></a></li>
+        <li><a href="#使内容显示在状态栏后面">使内容显示在状态栏后面</a></li>
+      </ul>
+    </li>
+    <li><a href="#改变导航栏">改变导航栏</a>
+      <ul>
+        <li><a href="#隐藏导航栏httpsdeveloperandroidcomtrainingsystem-uinavigation"><a href="https://developer.android.com/training/system-ui/navigation">隐藏导航栏</a></a></li>
+        <li><a href="#使内容显示在导航栏后">使内容显示在导航栏后</a></li>
+      </ul>
+    </li>
+    <li><a href="#全屏模式httpsdeveloperandroidcomtrainingsystem-uiimmersive"><a href="https://developer.android.com/training/system-ui/immersive">全屏模式</a></a></li>
+    <li><a href="#实战">实战</a></li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">控制Android系统UI的可见性</h1>
+                </div>
+                <div class="content">
+                        <p>系统栏（System bars）分为状态栏（status bar）和导航栏（Navigation bar）。</p>
+<table>
+<thead>
+<tr>
+<th>状态栏</th>
+<th>导航栏</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="/assets/images/android/system_ui_statusbar_2x.png" alt="状态栏"></td>
+<td><img src="/assets/images/android/system_ui_navbar_2x.png" alt="导航栏"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="使系统栏变暗dimhttpsdeveloperandroidcomtrainingsystem-uidim"><a href="https://developer.android.com/training/system-ui/dim">使系统栏变暗(dim)</a></h2>
+<p>这种方式不会使内容重新调整大小，但系统栏中的图标在视觉上会变弱。只要用户触摸到了系统栏区域，它们就会重新变为完全可见。</p>
+<h2 id="改变状态栏">改变状态栏</h2>
+<h3 id="隐藏状态栏httpsdeveloperandroidcomtrainingsystem-uistatus"><a href="https://developer.android.com/training/system-ui/status">隐藏状态栏</a></h3>
+<ul>
+<li>
+<p>在Android4.0或更低版本上隐藏状态栏</p>
+</li>
+<li>
+<p>在Android4.1或更高版本上隐藏状态栏</p>
+<p>使用<a href="https://developer.android.com/reference/android/view/View.html#setSystemUiVisibility(int)"><code>setSystemUiVisibility()</code></a>在单独的view层级设置UI标志，这些设置整合到window层级。使用这个方法比使用<a href="https://developer.android.com/reference/android/view/WindowManager.html"><code>WindowManager</code></a>可以对系统栏进行更加粒度化的控制。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    View decorView <span style="color:#f92672">=</span> getWindow<span style="color:#f92672">().</span><span style="color:#a6e22e">getDecorView</span><span style="color:#f92672">();</span>
+    <span style="color:#75715e">// Hide the status bar.
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> uiOptions <span style="color:#f92672">=</span> View<span style="color:#f92672">.</span><span style="color:#a6e22e">SYSTEM_UI_FLAG_FULLSCREEN</span><span style="color:#f92672">;</span>
+    decorView<span style="color:#f92672">.</span><span style="color:#a6e22e">setSystemUiVisibility</span><span style="color:#f92672">(</span>uiOptions<span style="color:#f92672">);</span>
+    <span style="color:#75715e">// Remember that you should never show the action bar if the
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// status bar is hidden, so hide that too if necessary.
+</span><span style="color:#75715e"></span>    ActionBar actionBar <span style="color:#f92672">=</span> getActionBar<span style="color:#f92672">();</span>
+    actionBar<span style="color:#f92672">.</span><span style="color:#a6e22e">hide</span><span style="color:#f92672">();</span>
+</code></pre></div><p>需要注意的是：</p>
+<ul>
+<li>一旦UI标志被清除（例如从activity导航到其它页面），你的app需要重新设置该标志才能重新隐藏状态栏。参考<a href="https://developer.android.com/training/system-ui/visibility.html">响应UI可见性的变化</a>，它讨论了在系统UI可见性发生变化时app如何做出相应的响应。</li>
+<li>在你设置UI标志并引起改变的地方。如果你在activity的<code>onCreate()</code>方法中隐藏系统栏并且用户按下Home键，那么系统栏会重新出现。当用户重新打开activity时，<code>onCreate()</code>不会被调用，那么系统栏仍然保持可见。如果你希望保持对系统栏的改变，那么你应当在<code>onResume()</code>或<code>onWindowFocusChanged()</code>方法中设置UI标志。</li>
+<li>仅仅当调用<code>setSystemUiVisibility()</code>方法的view可见时才有效。</li>
+<li>用户在页面间导航离开调用<code>setSystemUiVisibility()</code>的view后会导致设置的标志被清除。</li>
+</ul>
+</li>
+</ul>
+<h3 id="使内容显示在状态栏后面">使内容显示在状态栏后面</h3>
+<p>在Android4.1及更高的版本中，使用系统UI标志<a href="https://developer.android.com/reference/android/view/View.html#SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN"><code>SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN</code></a>可以做到这一点，也可能需要使用<a href="https://developer.android.com/reference/android/view/View.html#SYSTEM_UI_FLAG_LAYOUT_STABLE"><code>SYSTEM_UI_FLAG_LAYOUT_STABLE</code></a>标志来保持稳定的布局。</p>
+<p>使用这种方法需要注意不要让系统栏遮住界面中的关键区域，可以通过在布局文件中添加<code>android:fitsSystemWindows</code>并设置为<code>true</code>。</p>
+<p>在默写情况下，你或许需要修改默认的padding。为了直接控制内容如何相对于系统栏进行布局（它占据window中称为&quot;内容嵌入&quot;的一个空间），重写<a href="https://developer.android.com/reference/android/view/View.html#fitSystemWindows(android.graphics.Rect)"><code>fitSystemWindows(Rect insets)</code></a>方法，改方法在window的内容嵌入区发生改变时被调用，它允许window据此调整其内容，这样你就可以按你希望的样子操作你的嵌入视图（即应用的布局）了。</p>
+<h2 id="改变导航栏">改变导航栏</h2>
+<h3 id="隐藏导航栏httpsdeveloperandroidcomtrainingsystem-uinavigation"><a href="https://developer.android.com/training/system-ui/navigation">隐藏导航栏</a></h3>
+<p>使用<a href="https://developer.android.com/reference/android/view/View.html#SYSTEM_UI_FLAG_HIDE_NAVIGATION"><code>SYSTEM_UI_FLAG_HIDE_NAVIGATION</code></a>可以隐藏导航栏。下面的代码片段同时隐藏导航栏和状态栏。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">View decorView <span style="color:#f92672">=</span> getWindow<span style="color:#f92672">().</span><span style="color:#a6e22e">getDecorView</span><span style="color:#f92672">();</span>
+<span style="color:#75715e">// Hide both the navigation bar and the status bar.
+</span><span style="color:#75715e">// SYSTEM_UI_FLAG_FULLSCREEN is only available on Android 4.1 and higher, but as
+</span><span style="color:#75715e">// a general rule, you should design your app to hide the status bar whenever you
+</span><span style="color:#75715e">// hide the navigation bar.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> uiOptions <span style="color:#f92672">=</span> View<span style="color:#f92672">.</span><span style="color:#a6e22e">SYSTEM_UI_FLAG_HIDE_NAVIGATION</span>
+              <span style="color:#f92672">|</span> View<span style="color:#f92672">.</span><span style="color:#a6e22e">SYSTEM_UI_FLAG_FULLSCREEN</span><span style="color:#f92672">;</span>
+decorView<span style="color:#f92672">.</span><span style="color:#a6e22e">setSystemUiVisibility</span><span style="color:#f92672">(</span>uiOptions<span style="color:#f92672">);</span>
+</code></pre></div><p>这里通过调用view的<code>setSystemUiVisibility()</code>方法的效果和设置状态栏的效果是一致的，有一点不同的是使用这种方法时，当用于触摸屏幕的任意地方会引起导航栏和状态栏重新出现并保持下去。用户交互会导致标志被清除。</p>
+<h3 id="使内容显示在导航栏后">使内容显示在导航栏后</h3>
+<p>在Android 4.1及更高版本中，可以使用<code>SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION</code>标志使应用的内容显示在导航栏后，你可能还需要使用<code>SYSTEM_UI_FLAG_LAYOUT_STABLE</code>标志来帮助app保持一个稳定的布局。</p>
+<h2 id="全屏模式httpsdeveloperandroidcomtrainingsystem-uiimmersive"><a href="https://developer.android.com/training/system-ui/immersive">全屏模式</a></h2>
+<p>Android提供了三种全屏模式：背靠模式（Lean Back）、沉浸模式（Immersive）、粘性沉浸模式（Immersive Sticky）。三种模式都隐藏了系统栏，区别在于用户如何将系统栏带回到视图。</p>
+<ul>
+<li>
+<p>Lean back</p>
+<p>轻触屏幕就可以唤回系统栏。适用于不需要与屏幕频繁交互的场景。</p>
+</li>
+<li>
+<p>Immersive</p>
+<p>从屏幕边缘滑动可以唤回系统栏。适用于需要与屏幕频繁交互的场景。</p>
+</li>
+<li>
+<p>Sticky immersive</p>
+<p>从屏幕边缘滑动可以唤回系统栏，但系统栏是半透明的，并且不会妨碍与App的正常交互，即系统栏区域的触控事件仍然会传递给App。</p>
+</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Override</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onWindowFocusChanged</span><span style="color:#f92672">(</span><span style="color:#66d9ef">boolean</span> hasFocus<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">onWindowFocusChanged</span><span style="color:#f92672">(</span>hasFocus<span style="color:#f92672">);</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>hasFocus<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        hideSystemUI<span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">hideSystemUI</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e">// Enables regular immersive mode.
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// For &#34;lean back&#34; mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// Or for &#34;sticky immersive,&#34; replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+</span><span style="color:#75715e"></span>    View decorView <span style="color:#f92672">=</span> getWindow<span style="color:#f92672">().</span><span style="color:#a6e22e">getDecorView</span><span style="color:#f92672">();</span>
+    decorView<span style="color:#f92672">.</span><span style="color:#a6e22e">setSystemUiVisibility</span><span style="color:#f92672">(</span>
+            View<span style="color:#f92672">.</span><span style="color:#a6e22e">SYSTEM_UI_FLAG_IMMERSIVE</span>
+            <span style="color:#75715e">// Set the content to appear under the system bars so that the
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// content doesn&#39;t resize when the system bars hide and show.
+</span><span style="color:#75715e"></span>            <span style="color:#f92672">|</span> View<span style="color:#f92672">.</span><span style="color:#a6e22e">SYSTEM_UI_FLAG_LAYOUT_STABLE</span>
+            <span style="color:#f92672">|</span> View<span style="color:#f92672">.</span><span style="color:#a6e22e">SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION</span>
+            <span style="color:#f92672">|</span> View<span style="color:#f92672">.</span><span style="color:#a6e22e">SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN</span>
+            <span style="color:#75715e">// Hide the nav bar and status bar
+</span><span style="color:#75715e"></span>            <span style="color:#f92672">|</span> View<span style="color:#f92672">.</span><span style="color:#a6e22e">SYSTEM_UI_FLAG_HIDE_NAVIGATION</span>
+            <span style="color:#f92672">|</span> View<span style="color:#f92672">.</span><span style="color:#a6e22e">SYSTEM_UI_FLAG_FULLSCREEN</span><span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#75715e">// Shows the system bars by removing all the flags
+</span><span style="color:#75715e">// except for the ones that make the content appear under the system bars.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">showSystemUI</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    View decorView <span style="color:#f92672">=</span> getWindow<span style="color:#f92672">().</span><span style="color:#a6e22e">getDecorView</span><span style="color:#f92672">();</span>
+    decorView<span style="color:#f92672">.</span><span style="color:#a6e22e">setSystemUiVisibility</span><span style="color:#f92672">(</span>
+            View<span style="color:#f92672">.</span><span style="color:#a6e22e">SYSTEM_UI_FLAG_LAYOUT_STABLE</span>
+            <span style="color:#f92672">|</span> View<span style="color:#f92672">.</span><span style="color:#a6e22e">SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION</span>
+            <span style="color:#f92672">|</span> View<span style="color:#f92672">.</span><span style="color:#a6e22e">SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN</span><span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h2 id="实战">实战</h2>
+<p>有时我们需要将UI设置为全屏模式，此时需要将系统的半透明状态栏改为完全透明。这时问题就来了，如果UI是深色背景，那可能没什么问题，因为系统栏图标默认是白色的。如果UI背景是白色的，那么就无法看到状态栏的图标了，这时我们希望能够相应地将状态栏的图标颜色改为深色。</p>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

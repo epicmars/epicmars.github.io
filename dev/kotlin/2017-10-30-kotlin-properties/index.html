@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Kotlin类属性与常量 | 风格与布局</title>
+<meta name="description" content="参考： 对象表达式与声明 类属性 类属性是定义在类中的变量或不变量，分别使用var和val定义。这里把Kotlin中的不变量和常量作下区分，不变量">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#类属性">类属性</a>
+      <ul>
+        <li><a href="#属性访问器">属性访问器</a></li>
+        <li><a href="#支撑域backing-fields与支撑属性backing-properties">支撑域（Backing Fields）与支撑属性（Backing Properties）</a></li>
+        <li><a href="#懒初始化">懒初始化</a></li>
+      </ul>
+    </li>
+    <li><a href="#编译时常量">编译时常量</a></li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">Kotlin类属性与常量</h1>
+                </div>
+                <div class="content">
+                        <p>参考：</p>
+<ul>
+<li><a href="https://kotlinlang.org/docs/reference/object-declarations.html">对象表达式与声明</a></li>
+</ul>
+<h2 id="类属性">类属性</h2>
+<p>类属性是定义在类中的变量或不变量，分别使用<code>var</code>和<code>val</code>定义。这里把Kotlin中的不变量和常量作下区分，不变量只是在第一次初始化后便不可改变，其余特性和变量完全一样，但它不是常量，常量的说明在后面的小节给出。</p>
+<p>Kotlin对类属性的完整声明是：</p>
+<pre><code>(var|val) &lt;propertyName&gt;[: &lt;PropertyType&gt;] [= &lt;property_initializer&gt;]
+[&lt;getter&gt;]
+[&lt;setter&gt;]
+</code></pre>
+<p>方括号<code>[]</code>表示该部分是可选的，其中属性初始化器、getter、setter在任何情况下都是可选的，如果属性类型可以从属性初始化器或getter中推断出，那么它也是可选的。使用val所声明的不变量是没有setter的。</p>
+<p>类属性可以不显式地初始化，但未显式初始化的属性必须在构造器中初始化：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">var</span> allByDefault: Int? <span style="color:#75715e">// error: explicit initializer required, default getter and setter implied
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">var</span> initialized = <span style="color:#ae81ff">1</span>    <span style="color:#75715e">// has type Int, default getter and setter
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">val</span> simple: Int?     <span style="color:#75715e">// has type Int, default getter, must be initialized in constructor
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">val</span> inferredType = <span style="color:#ae81ff">1</span> <span style="color:#75715e">// has type Int and a default getter
+</span></code></pre></div><h3 id="属性访问器">属性访问器</h3>
+<p>所谓访问，就是对属性的读与写，类会为每个属性提供默认的访问器。称读访问器为getter，写访问器为setter。对于属性变量两者都会提供，不变量只有getter，显然是由于它不可改变。访问器可以在声明属性时进行重写以替换默认访问器：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">val</span> isEmpty: Boolean
+        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">get</span>() = <span style="color:#66d9ef">this</span>.size == <span style="color:#ae81ff">0</span>
+
+    <span style="color:#66d9ef">var</span> stringRepresentation: String
+        <span style="color:#66d9ef">get</span>() = <span style="color:#66d9ef">this</span>.toString()
+        @Inject
+        <span style="color:#66d9ef">set</span>(value) {
+            setDataFromString(value) <span style="color:#75715e">// parses the string and assigns values to other properties
+</span><span style="color:#75715e"></span>        }
+</code></pre></div><p>Kotlin中访问器虽然有像get和set方法一样的形式，但它们并不是方法，不能显式地调用。如果存在默认的或重写了的访问器，所有对属性的读和写会都会直接调用访问器，包括在访问器的声明中进行的读写。例如，重写类A的两个变量的getter和setter，IDE会提示递归调用导致栈溢出。读x和调用调用x的getter是等价的，对y的写和调用y的setter是等价的。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">A</span> {
+        <span style="color:#66d9ef">var</span> x = <span style="color:#ae81ff">0</span>
+            <span style="color:#66d9ef">get</span>() {
+                <span style="color:#66d9ef">return</span> x <span style="color:#75715e">//recursive getter call
+</span><span style="color:#75715e"></span>            }
+
+        <span style="color:#66d9ef">var</span> y = <span style="color:#ae81ff">0</span>
+            <span style="color:#66d9ef">set</span>(value) {
+                <span style="color:#66d9ef">if</span> (value &gt; <span style="color:#ae81ff">0</span>) {
+                    y = value <span style="color:#75715e">//recursive setter call
+</span><span style="color:#75715e"></span>                }
+            }
+    }
+</code></pre></div><h3 id="支撑域backing-fields与支撑属性backing-properties">支撑域（Backing Fields）与支撑属性（Backing Properties）</h3>
+<p>上面这个例子说明访问器有问题，用Java写POJO类时通常用IDE生成set和get方法就完事了，但有时候也会在这些方法中添加一些额外的逻辑对变量作进一步的操作。但上面的示例告诉我们，在Kotlin中这似乎做不到，因为我们拿不到真正的实例变量，只能通过访问器对变量进行操作，然而直接访问变量的需求还是在的，Kotlin也并不想让人抓狂，给出了两个解决方法，那便是支撑域和支撑属性。</p>
+<p>Kotlin明确地告诉我们它是没有域（fields）的，Java中我们一直称对象的变量为域(field)，而Kotlin一直称之为属性（property），那么这两者有什么区别呢？</p>
+<p>在面向Google与面向爆栈编程实践中，我搜到了关于这个问题的一个<a href="https://stackoverflow.com/questions/10115588/what-is-the-difference-between-field-variable-attribute-and-property-in-java">问答</a>和一份<a href="https://docs.oracle.com/javase/tutorial/information/glossary.html">Java官方文档</a>中对这些词汇的说明:</p>
+<blockquote>
+<ul>
+<li>
+<p>field</p>
+<p>A data member of a class. Unless specified otherwise, a field is not static.</p>
+</li>
+<li>
+<p>instance variable</p>
+<p>Any item of data that is associated with a particular object. Each instance of 
+a class has its own copy of the instance variables defined in the class. 
+Also called a field. See also class variable.</p>
+</li>
+<li>
+<p>class variable</p>
+<p>A data item associated with a particular class as a whole&ndash;not with particular 
+instances of the class. Class variables are defined in class definitions. 
+Also called a static field. See also instance variable.</p>
+</li>
+<li>
+<p>property</p>
+<p>Characteristics of an object that users can set, such as the color of a window.</p>
+</li>
+</ul>
+</blockquote>
+<p>也就是说除非特别声明，域指的是类的实例变量（非静态的类变量），属性的概念说的比较抽象，它是一个用户可以改变的对象特征。可以这样理解，由于域可以是私有的和公开的，而上面property词条表明属性是公开的，那么定义为private的域可以通过声明public的get或set方法使其成为对象的一个属性。那么简而言之可以认为<strong>属性本质上而言是可以从对象外部公开访问的域</strong>。这反应了Kotlin的一种设计意图，即一致性。和Java域相比Kotlin属性的语义约束性更强，Kotlin属性是对外公开的。Kotlin的属性提供了这样一种一致性，即对象的属性只能通过访问器访问。</p>
+<p>所以Kotlin声称它的类没有域，即不能直接访问对象的实例变量。对于public变量，编译器会自动生成访问器，任何对变量的读写，包括访问器自身内部都使用访问器来进行。</p>
+<p>那么类中的<code>private</code>变量算什么呢？根据上述属性的一般性概念，可以认为是的，<code>private</code>实例变量不属于属性，它仅是类内部的一种状态，如果该变量没有明确声明访问器，编译器也不会为其默认生成，此时对变量的访问是直接的，对Kotlin编译出的字节码文件的观察也证实了这一点。但如果为<code>private</code>变量明确声明访问器又会是什么情况？为了保持该变量是对象私有的这种一致性，不允许像Java一样声明<code>public</code>的getter和setter来绕开私有可见性的声明，但不妨碍通过声明其它public方法来访问该变量，而这与对象方法可以访问对象的所有成员是一致的。为了保证这种一致性，这种情况下对该实例变量的读写将分别通过对应的访问器进行访问。</p>
+<p>这种设计原由可以这样理解，在对象内部，对于提供了访问器的私有实例变量而言，访问器是对象中其它成员访问它的唯一途径，那么相对于其它成员而言，它自身是也一个对象，它的值就是它的属性（这里的意思和上面英文词条中的一样，即用户可以改变的对象的特征），这里用户成了对象内部的其它成员，这个可以改变的特征就是它的值，即它的值就是它的属性（Kotlin中的属性），而它的值就是它自身，所以它成了一个属性，这里要加上一个必要条件，即相对对象内部成员。</p>
+<p>那么现在可以将两种情况统一起来，可以认为<strong>属性就是指提供了访问器的实例变量</strong>。</p>
+<p>那么当真正需要使用域时该怎么办。Kotlin提供了一个自动支撑域，可以通过<code>field</code>标识符在访问器中使用。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">var</span> counter = <span style="color:#ae81ff">0</span> <span style="color:#75715e">// the initializer value is written directly to the backing field
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">set</span>(value) {
+            <span style="color:#66d9ef">if</span> (value &gt;= <span style="color:#ae81ff">0</span>) field = value
+        }
+</code></pre></div><p>但支撑域只能在访问器中使用，如果想像Java那样自由地在任何地方访问原始实例变量又该怎么办，即不通过访问器读写实例变量？从上面的分析中可以看到，这样的变量不是属性，声明一个没有访问器的实例变量就可以了，通过将变量声明为private并且不重写其访问器就可以了，kotlin称其为支撑属性。如下所示：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">var</span> _table: Map&lt;String, Int&gt;? = <span style="color:#66d9ef">null</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">val</span> table: Map&lt;String, Int&gt;
+        <span style="color:#66d9ef">get</span>() {
+            <span style="color:#66d9ef">if</span> (_table == <span style="color:#66d9ef">null</span>) {
+                _table = HashMap() <span style="color:#75715e">// Type parameters are inferred
+</span><span style="color:#75715e"></span>            }
+            <span style="color:#66d9ef">return</span> _table <span style="color:#f92672">?:</span> <span style="color:#66d9ef">throw</span> AssertionError(<span style="color:#e6db74">&#34;Set to null by another thread&#34;</span>)
+        }
+</code></pre></div><h3 id="懒初始化">懒初始化</h3>
+<p>上面的类属性必须在声明时或者构造器中进行初始化，但这样有许多不便之处，例如使用依赖注入进行对象初始化或者单元测试中不能提供一个非空的初始化器，但你仍然想在引用属性时避免null检查。此时，可以使用<code>lateinit</code>关键词修饰属性：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyTest</span> {
+        <span style="color:#66d9ef">lateinit</span> <span style="color:#66d9ef">var</span> subject: TestSubject
+
+        @SetUp <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">setup</span>() {
+            subject = TestSubject()
+        }
+
+        @Test <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">test</span>() {
+            subject.method()  <span style="color:#75715e">// dereference directly
+</span><span style="color:#75715e"></span>        }
+    }
+</code></pre></div><p>它只能用于属性变量，并且属性没有自定义访问器，属性的类型必须是不可为null的，并且不能是基础数据类型。</p>
+<h2 id="编译时常量">编译时常量</h2>
+<p>使用const关键词修饰，并且满足以下条件的属于编译时常量：</p>
+<ul>
+<li>对象的顶级成员</li>
+<li>使用String或基本类型进行初始化</li>
+<li>没有自定义getter</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">val</span> constant: String = <span style="color:#e6db74">&#34;Constant string.&#34;</span>
+</code></pre></div>
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

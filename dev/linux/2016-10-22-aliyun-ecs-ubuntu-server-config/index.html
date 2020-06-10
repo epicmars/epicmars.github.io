@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>阿里云ECS之Ubuntu服务器配置 | 风格与布局</title>
+<meta name="description" content="连接到服务器 购买阿里云ECS时设置的管理员密码就是root密码了，可以用于ssh远程登录，使用秘钥登录的方式肯定更方便，那么首先登录服务器，">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#连接到服务器">连接到服务器</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#远程登录">远程登录</a></li>
+        <li><a href="#解决ssh需要输入密码和掉线的问题">解决ssh需要输入密码和掉线的问题</a></li>
+        <li><a href="#安装nginx">安装Nginx</a></li>
+        <li><a href="#安装oracle-jdk">安装Oracle JDK</a></li>
+        <li><a href="#安装mongodb">安装Mongodb</a></li>
+        <li><a href="#安装elasticsearch">安装ElasticSearch</a></li>
+        <li><a href="#安装mysql">安装Mysql</a></li>
+        <li><a href="#git服务搭建与自动部署">Git服务搭建与自动部署</a></li>
+        <li><a href="#基于nginx和uwsgi的flask服务搭建ubuntu1404系统">基于Nginx和uWSGI的flask服务搭建（ubuntu14.04系统）</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">阿里云ECS之Ubuntu服务器配置</h1>
+                </div>
+                <div class="content">
+                        <h3 id="连接到服务器">连接到服务器</h3>
+<p>购买阿里云ECS时设置的管理员密码就是root密码了，可以用于ssh远程登录，使用秘钥登录的方式肯定更方便，那么首先登录服务器，看看有没有什么要准备的。</p>
+<p>首先使用root登录，生成的主机名是一串编码，换成自己的主机名：</p>
+<pre><code>vi /etc/hostname
+</code></pre>
+<h1 id="用户于组管理">用户于组管理</h1>
+<p>然后添加自己的用户组，可以使用较为高级的useradd，groupadd，usermod工具，也可以使用更初级的adduser和addgroup工具。</p>
+<pre><code>addgroup newgroup
+# 添加newuser并指定其主用户组为newgroup
+adduser newuser --ingroup newgroup
+# 加入到超级用户组
+adduser newuser sudo
+# 设置用户密码
+passwd newuser
+</code></pre>
+<h1 id="安装zsh与oh-my-zsh">安装Zsh与oh-my-zsh</h1>
+<p>首先需要安装zsh, 由于on-my-zsh使用git仓库进行更新还需要安装git:</p>
+<pre><code>sudo apt-get install zsh git
+</code></pre>
+<ul>
+<li>
+<p>问题1
+sudo: unable to resolve host your-hostname</p>
+<p>修改/etc/hosts，添加一行：
+127.0.1.1  your-hostname</p>
+</li>
+<li>
+<p>问题2
+Reading package lists&hellip; Done
+Building dependency tree
+Reading state information&hellip; Done
+E: Unable to locate package zsh</p>
+<p>更新源：
+sudo apt-get update</p>
+</li>
+<li>
+<p>问题3
+perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+LANGUAGE = (unset),
+LC_ALL = (unset),
+LC_CTYPE = &ldquo;zh_CN.UTF-8&rdquo;,
+LANG = &ldquo;en_US.UTF-8&rdquo;
+are supported and installed on your system.
+perl: warning: Falling back to the standard locale (&ldquo;C&rdquo;).
+<a href="https://stackoverflow.com/questions/2499794/how-to-fix-a-locale-setting-warning-from-perl">解决方法</a></p>
+</li>
+</ul>
+<p>使用新用户重新登录服务器，终端用起也不够爽，果断换oh-my-zsh。
+<a href="https://github.com/robbyrussell/oh-my-zsh">oh-my-zsh</a></p>
+<pre><code>sh -c &quot;$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)&quot;
+</code></pre>
+<h3 id="远程登录">远程登录</h3>
+<p>ubuntu默认没安装openssh-server，设置前需要进行安装：
+sudo apt-get install openssh-server</p>
+<p>在本机生成ssh的RSA秘钥：
+ssh-kgen -t rsa
+添加本地ssh公钥到服务器，以实现远程登录:
+cat ~/.ssh/id_rsa.pub | ssh <a href="mailto:user@123.45.56.78">user@123.45.56.78</a> &ldquo;mkdir -p ~/.ssh &amp;&amp; cat &raquo;  ~/.ssh/authorized_keys&rdquo;
+也可以使用，更加快捷：
+ssh-copy-id <a href="mailto:user@123.45.56.78">user@123.45.56.78</a></p>
+<h3 id="解决ssh需要输入密码和掉线的问题">解决ssh需要输入密码和掉线的问题</h3>
+<ul>
+<li>用了一段时间后，ssh自身的密码可能会过期，需要重新输入，如果输错了那就不能免密登录
+Enter passphrase for /Users/username/.ssh/id_rsa</li>
+</ul>
+<p>这时可以在客户端运行如下命令将私钥加入到认证客户端中：
+ssh-add</p>
+<ul>
+<li>
+<p>某些可能网络的原因，ssh会经常断线导致工作不那么流畅，可以尝试修改/etc/ssh/sshd_config，添加如下两个配置：</p>
+<p>ClientAliveInterval 300
+ClientAliveCountMax 3</p>
+</li>
+</ul>
+<p>然后重启ssh服务：
+sudo /etc/init.d/ssh restart</p>
+<p>ClientAliveInterval指定间隔多少秒发送一个心跳来使连接保活。
+ClientAliveCountMax指定发送多少个心跳后，如果还是没反应就真的断开连接。</p>
+<p>客户端也可以设置一个针对服务端的心跳间隔，可以应对服务端没有设置的情况：
+ServerAliveInterval 300</p>
+<h3 id="安装nginx">安装Nginx</h3>
+<p>ubuntu的软件包源列表中nginx版本是1.4.6，最新的都是1.12了，可以采用<a href="http://nginx.org/en/linux_packages.html#stable">官网介绍的办法</a>进行安装。</p>
+<p>也可以<a href="http://nginx.org/en/download.html">下载源码</a>自行<a href="http://nginx.org/en/docs/configure.html">编译并安装</a>。</p>
+<p>从源码安装过程中提示缺少PCRE(用于配置文件正则表达式解析)、zlib、openssl：
+sudo apt-get install libpcre3 libpcre3-dev zlib1g-dev openssl libssl-dev</p>
+<p>安装完成后从外部还是访问不到，发现需要去阿里云的实例管理中添加安全组规则。</p>
+<h3 id="安装oracle-jdk">安装Oracle JDK</h3>
+<p>在JDK官方站点下载JDK压缩包，解压并设置环境变量。</p>
+<h3 id="安装mongodb">安装Mongodb</h3>
+<p><a href="https://docs.mongodb.com/manual/tutorial/install-mongodb-enterprise-on-ubuntu/">https://docs.mongodb.com/manual/tutorial/install-mongodb-enterprise-on-ubuntu/</a>
+<a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-mongodb-on-ubuntu-16-04">https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-mongodb-on-ubuntu-16-04</a>
+创建管理员角色：
+<a href="https://docs.mongodb.com/manual/tutorial/enable-authentication/">https://docs.mongodb.com/manual/tutorial/enable-authentication/</a></p>
+<h3 id="安装elasticsearch">安装ElasticSearch</h3>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.2/deb.html">https://www.elastic.co/guide/en/elasticsearch/reference/6.2/deb.html</a></p>
+<h3 id="安装mysql">安装Mysql</h3>
+<p><a href="https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-14-04">参考教程</a></p>
+<p><a href="https://dev.mysql.com/downloads/repo/apt/">https://dev.mysql.com/downloads/repo/apt/</a></p>
+<p>wget <a href="http://dev.mysql.com/get/mysql-apt-config_w.x.y-z_all.deb">http://dev.mysql.com/get/mysql-apt-config_w.x.y-z_all.deb</a></p>
+<p>sudo dpkg -i mysql-apt-config_w.x.y-z_all.deb</p>
+<p>sudo apt-get update</p>
+<p>sudo apt-get install mysql-server</p>
+<p>sudo mysql_secure_installation</p>
+<p><strong>mysql中文支持</strong></p>
+<p>sudo vi /etc/mysql/my.cnf</p>
+<pre><code>[mysqld]
+character-set-server=utf8
+
+[client]
+default-character-set=utf8
+
+[mysql]
+no-auto-rehash
+</code></pre>
+<p>创建新用户</p>
+<pre><code>GRANT ALL PRIVILEGES ON *.* TO testuser@localhost IDENTIFIED BY 'test' WITH GRANT OPTION;
+</code></pre>
+<h4 id="忘记密码">忘记密码</h4>
+<p>重启mysql，跳过验证：</p>
+<pre><code>$ sudo mysqld_safe --skip-grant-tables --skip-networking &amp;
+</code></pre>
+<h3 id="git服务搭建与自动部署">Git服务搭建与自动部署</h3>
+<p>创建新的用户git</p>
+<p>sudo adduser git</p>
+<p>同样再次配置ssh秘钥登录，创建工程文件目录：</p>
+<p>mkdir project.git
+cd project.git
+git init &ndash;bare</p>
+<p>然后在本机中配置远程git仓库,并将工程上传到服务器分支中：
+git remote add origin git@gitserver:/opt/git/project.git
+git push &ndash;set-upstream origin master</p>
+<h3 id="基于nginx和uwsgi的flask服务搭建ubuntu1404系统">基于Nginx和uWSGI的flask服务搭建（ubuntu14.04系统）</h3>
+<h4 id="安装python3与virtualenv">安装python3与virtualenv</h4>
+<p>更新本地包索引，然后安装所需的包：
+sudo apt-get update
+sudo apt-get install python-pip python-dev nginx</p>
+<p>创建python虚拟环境：
+sudo pip install virtualenv</p>
+<p>创建虚拟环境：
+virtualenv venv</p>
+<p>进入虚拟环境：
+source venv/bin/activate</p>
+<p>pip install uwsgi flask</p>
+<p><strong>todo 自动部署</strong></p>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

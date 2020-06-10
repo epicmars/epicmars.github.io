@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Java面向对象概念（翻译） | 风格与布局</title>
+<meta name="description" content="这一章节将介绍对象（objects），类（classes），继承（inheritance），接口（interfaces）和包（package">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#什么是对象what-is-an-object">什么是对象？（What Is an Object?）</a></li>
+    <li><a href="#类是什么what-is-a-class">类是什么？（What Is a Class?）</a></li>
+    <li><a href="#什么是继承what-is-inheritance">什么是继承？（What Is Inheritance?）</a></li>
+    <li><a href="#什么是接口what-is-an-interface">什么是接口？（What Is an Interface?）</a></li>
+    <li><a href="#什么是包what-is-a-package">什么是包？（What Is a Package?）</a></li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">Java面向对象概念（翻译）</h1>
+                </div>
+                <div class="content">
+                        <p>这一章节将介绍对象（objects），类（classes），继承（inheritance），接口（interfaces）和包（packages）。每个讨论都集中于讨论这些概念是如何与现实世界联系起来的，同时简单地介绍java编程语言的语法。</p>
+<h2 id="什么是对象what-is-an-object">什么是对象？（What Is an Object?）</h2>
+<p>对象是相关联的状态和行为的软件包裹（bundle）。软件对象常用于对现实世界的对象（real-world）进行建模。这一章节阐述了状态和行为是如何在一个对象内表示的，介绍了数据封装（data encapsulation）的概念，并解释了以这种方式设计软件的好处。</p>
+<p>对象是理解面向对象（object-oriented）技术的关键，看看你的周围就会发现许多现实世界对象的例子，你的宠物狗，桌子，电视机，自行车等。</p>
+<p>现实世界对象都含有两个特征：状态（state ）和行为（behavior）。宠物狗有状态（名字，毛色，品种，饥饿）和行为（吠，摇尾巴）。自行车有状态（当前档位，当前踏板转速，当前速度）和行为（改变档位，改变脚踏频率，刹车）。你会发现现实世界对象间的复杂性差别很大，你还会注意到有些对象还包含了其它对象。
+<img src="/assets/images/java/a-software-object.gif" alt="A software object.">
+A software object.</p>
+<p>软件对象在概念上与现实世界对象相似：他们都包含状态以及与之相关的行为。一个对象将其状态保存在域（fields，即其它语言中的变量）中，并将行为通过方法（methods，即其它语言中的函数）暴露出来。方法操作对象的内部状态作为对象间（object-to-object）通信的基本机制。隐藏内部状态并将所有交互通过对象的方法进行称为数据封装（data encapsulation），它是面向对象的编程的基本原则。</p>
+<p>考虑一个自行车的例子
+<img src="/assets/images/java/bicycle-object.gif" alt="A bicycle modeled as a software object."></p>
+<p>A bicycle modeled as a software object.</p>
+<p>通过给状态赋予（当前档位，当前踏板转速，当前速度）属性，并提供改变状态的方法，对象就可以保持在外部允许如何使用它的控制下。例如，如果自行车只有6档，一个改变档位的方法会拒绝小于1或大于6的值。</p>
+<p>将代码打包为独立的软件对象有如下好处：
+1、模块化（Modularity）：一个对象的源代码的编写和维护可以独立于其它对象的源代码。一旦创建，一个对象就可以很容易在系统内传递。
+2、信息隐藏（Information-hiding）：仅使用对象的方法进行交互，内部的具体实现就从外部世界隐藏了起来。
+3、代码复用（Code re-use）：如果一个对象已经存在（可能由另一个开发者编写），你可以将其用在你的代码中。这允许专门人员实现/测试/调试复杂的、用于特定任务的对象，然后你可以放心地在你自己的代码中进行使用了。
+4、插件化和易于调试（Pluggability and debugging ease）：如果发现一个对象有错误，你可以简单地将其从你的应用中移除并替换之。这类似于现实世界中的修复机制，如果一个螺栓坏了，你可以换掉它，而不是整台机器。</p>
+<h2 id="类是什么what-is-a-class">类是什么？（What Is a Class?）</h2>
+<p>类是用于创建对象的蓝图（blueprint ）或原型（prototype）。本节定义了一个对现实世界的一个对象的状态和行为建模的类，我们专注于基础，展示了即使一个简单的类也可以清晰地建模状态和行为。</p>
+<p>现实世界中你会看到许多属于相同类型的独立对象。存在成千上万的自行车，他们都有相同的构造和模型。每个自行车根据相同的蓝图进行建造，因此它们都包含了相同的组件。在面向对象的术语中，我们称你的自行车是自行车这类对象（ class of objects known as bicycles）的一个实例（instance ）。一个类就是单个对象创建的蓝图。</p>
+<p>以下Bicycle类就是一个自行车类的一种可能的实现：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Bicycle</span> <span style="color:#f92672">{</span>
+
+    <span style="color:#66d9ef">int</span> cadence <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">int</span> speed <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">int</span> gear <span style="color:#f92672">=</span> 1<span style="color:#f92672">;</span>
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">changeCadence</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> newValue<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+         cadence <span style="color:#f92672">=</span> newValue<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">changeGear</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> newValue<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+         gear <span style="color:#f92672">=</span> newValue<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">speedUp</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> increment<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+         speed <span style="color:#f92672">=</span> speed <span style="color:#f92672">+</span> increment<span style="color:#f92672">;</span>   
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">applyBrakes</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> decrement<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+         speed <span style="color:#f92672">=</span> speed <span style="color:#f92672">-</span> decrement<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">printStates</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+         System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;cadence:&#34;</span> <span style="color:#f92672">+</span>
+             cadence <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; speed:&#34;</span> <span style="color:#f92672">+</span> 
+             speed <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; gear:&#34;</span> <span style="color:#f92672">+</span> gear<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>该类的实现就是基于上述对自行车对象的讨论。它有代表对象状态的域cadence, speed和gear，和定义了如何外部世界进行交互的changeCadence, changeGear, speedUp等方法。</p>
+<p>你会注意到Bicycle 类不包含main 方法，这是因为它不是一个完整的应用，它仅仅是可能用于一个应用中的自行车的蓝图。创建并使用Bicycle 对象的责任属于应用中的其它类。</p>
+<h2 id="什么是继承what-is-inheritance">什么是继承？（What Is Inheritance?）</h2>
+<p>继承提供了用于组织和构建软件的一种强大和自然的机制，这节阐述类如何从继承超类的状态和行为，并描述如何利用Java语言提供的简单语法，从一个其它的类派生出一个类。</p>
+<p>不同的对象间常常有一定的共性，例如，山地自行车，公路自行车，双人自行车都有自行车的特征（当前档位，当前踏板转速，当前速度）。只不过它们各自定义了使其区别于其它对象的额外特征：双人自行车有两个坐垫，公路自行车有向下的把手；有些山地车有额外的链条可以给他们更低的档位。</p>
+<p>面向对象编程允许类从其它类继承公有的状态和行为。在这个例子中，Bicycle 成为MountainBike，RoadBike和TandemBike的超类。在Java语言中，每个类只允许有一个直接超类，每个超类可以有不数量的子类。</p>
+<p><img src="/assets/images/java/bicycle-classes-hierarchy.gif" alt="A hierarchy of bicycle classes."></p>
+<p>A hierarchy of bicycle classes.</p>
+<p>创建一个子类的语法很简单，只需在类声明的开头使用extends 关键词，并将要继承的类紧随其后：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MountainBike</span> <span style="color:#66d9ef">extends</span> Bicycle <span style="color:#f92672">{</span>
+
+    <span style="color:#75715e">// new fields and methods defining 
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// a mountain bike would go here
+</span><span style="color:#75715e"></span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>这将Bicycle中所有相同的域和方法给予了MountainBike ，并且可以使它专注于构造自己独有的特性。这使得子类代码更易理解。然而，你必须对超类定义的状态和行为恰当地文档化，因为这些文档不会出现在子类源代码中。</p>
+<h2 id="什么是接口what-is-an-interface">什么是接口？（What Is an Interface?）</h2>
+<p>一个接口是类和外部世界的合约（contract ），当一个类实现了（implements ）一个接口，它就承诺提供接口所定义的行为。这一节定义了一个简单的接口，用于阐述对实现它的任意类所要作出的必要改变。</p>
+<p>就像你已经学到的那样，对象通过他们所暴露（expose）的方法定义了他们与外界的交互。方法形成了对象与外界的接口；例如电视机的开关按钮，是你和电视机外盒后的电路间的接口。你通过按钮来开关电视。</p>
+<p>在最常见的形式中，接口是一组空的方法。一个自行车的行为，如果指定为一个接口，那么可能定义如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Bicycle</span> <span style="color:#f92672">{</span>
+
+    <span style="color:#75715e">//  wheel revolutions per minute
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">changeCadence</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> newValue<span style="color:#f92672">);</span>
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">changeGear</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> newValue<span style="color:#f92672">);</span>
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">speedUp</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> increment<span style="color:#f92672">);</span>
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">applyBrakes</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> decrement<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>为了实现该接口，你的类名要做出相应的改变（例如，对于一个特定的自行车，可以命名为ACMEBicycle），并在类声明中使用implements 关键字：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ACMEBicycle</span> <span style="color:#66d9ef">implements</span> Bicycle <span style="color:#f92672">{</span>
+
+    <span style="color:#66d9ef">int</span> cadence <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">int</span> speed <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">int</span> gear <span style="color:#f92672">=</span> 1<span style="color:#f92672">;</span>
+
+   <span style="color:#75715e">// The compiler will now require that methods
+</span><span style="color:#75715e"></span>   <span style="color:#75715e">// changeCadence, changeGear, speedUp, and applyBrakes
+</span><span style="color:#75715e"></span>   <span style="color:#75715e">// all be implemented. Compilation will fail if those
+</span><span style="color:#75715e"></span>   <span style="color:#75715e">// methods are missing from this class.
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">changeCadence</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> newValue<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+         cadence <span style="color:#f92672">=</span> newValue<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">changeGear</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> newValue<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+         gear <span style="color:#f92672">=</span> newValue<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">speedUp</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> increment<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+         speed <span style="color:#f92672">=</span> speed <span style="color:#f92672">+</span> increment<span style="color:#f92672">;</span>   
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">applyBrakes</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> decrement<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+         speed <span style="color:#f92672">=</span> speed <span style="color:#f92672">-</span> decrement<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">printStates</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+         System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;cadence:&#34;</span> <span style="color:#f92672">+</span>
+             cadence <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; speed:&#34;</span> <span style="color:#f92672">+</span> 
+             speed <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; gear:&#34;</span> <span style="color:#f92672">+</span> gear<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>实现一个接口允许一个类对其承诺提供的行为更加规范化。接口形成了类和外界的一个合约，这个在构建时（build time）被编译器强制执行。如果类声明实现了一个接口，接口中定义的方法必须出现在类的源码中，不然编译不会通过。</p>
+<p>注意：实际中为了编译ACMEBicycle类，你需要在实现的接口方法前加public 关键词，你将在随后的章节Classes and Objects 和 Interfaces and Inheritance中学习到这点。</p>
+<h2 id="什么是包what-is-a-package">什么是包？（What Is a Package?）</h2>
+<p>一个包（package ）是以一种逻辑方式用于组织类和接口的命名空间（namespace ）。将代码放入包中可以使大型软件工程易于管理。本小节阐述了为什么这样做有用，并介绍了Java平台提供的API。</p>
+<p>包是用于组织一个相关联的类和接口集合的命名空间，概念上你可以认为包与系统中不同的文件夹类似。你可以将HTML页面放到一个文件夹，图片放到另一个文件夹，脚步或应用也分别放到各自的文件夹。因为Java编写的软件可以由成百上千的独立类组成，为了使之变得有组织，通过将相关联的类接口放到包中就行得通。</p>
+<p>Java平台提供了用于应用开发的庞大类库（一个包集合），这个库称为“API”。它的包代表了最常用的通用编程的任务。例如，一个String对象包含了字符串的状态和行为；一个File对象允许开发者容易地新建，删除，检查和比较文件系统中的文件；一个Socket对象允许创建和使用网络套字节，各种GUI对象包含了与图形用户界面相关的控制按钮等类。这使得开发者可以专注与应用设计，而不是基础设施的建设。</p>
+<p>Java Platform API Specification包含了Java SE平台提供的所有包，接口，域和方法的完整列表。作为开发者，它将是你最重要的参考文档。</p>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

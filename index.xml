@@ -1,0 +1,1500 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>风格与布局</title>
+    <link>https://www.androidpi.com/</link>
+    <description>Recent content on 风格与布局</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 23 Mar 2020 10:52:05 +0800</lastBuildDate>
+    
+	<atom:link href="https://www.androidpi.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>美团Robust热修复集成</title>
+      <link>https://www.androidpi.com/android/hotfix/2020-03-23-hotfix-robust/</link>
+      <pubDate>Mon, 23 Mar 2020 10:52:05 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/hotfix/2020-03-23-hotfix-robust/</guid>
+      <description>美团Robust简介 项目地址：https://github.com/Meituan-Dianping/Robust</description>
+    </item>
+    
+    <item>
+      <title>在架构组件中使用Kotlin协程</title>
+      <link>https://www.androidpi.com/android/kotlin/2020-03-08-kotlin-coroutines/</link>
+      <pubDate>Sun, 08 Mar 2020 15:14:39 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/kotlin/2020-03-08-kotlin-coroutines/</guid>
+      <description>协程是一种并行设计模式，在Android中使用协程可以帮助我们简化异步代码，它解决了这两个主要问题： 管理可能会阻塞主线程的长时间任务。 提供了</description>
+    </item>
+    
+    <item>
+      <title>网络：性能优化中的不可控因素</title>
+      <link>https://www.androidpi.com/book/android%E7%A7%BB%E5%8A%A8%E6%80%A7%E8%83%BD%E5%AE%9E%E6%88%98/2020-02-28-chapter3-networks/</link>
+      <pubDate>Fri, 28 Feb 2020 13:34:39 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/book/android%E7%A7%BB%E5%8A%A8%E6%80%A7%E8%83%BD%E5%AE%9E%E6%88%98/2020-02-28-chapter3-networks/</guid>
+      <description>DNS解析 1、IP直连 2、域名重用 3、HttpDNS</description>
+    </item>
+    
+    <item>
+      <title>JetBooster：基于JetPack的快速开发框架</title>
+      <link>https://www.androidpi.com/android/opensource/2019-12-30-jetbooster/</link>
+      <pubDate>Mon, 30 Dec 2019 14:28:54 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/opensource/2019-12-30-jetbooster/</guid>
+      <description>需求 与架构契合的依赖注入库 符合JetPack架构组件的一套简明的架构基础设施 依赖注入 设计原则 遵循约定优于配置的原则 不是为了设计一个全面的DI</description>
+    </item>
+    
+    <item>
+      <title>NDK开发之：集成gifsicle库</title>
+      <link>https://www.androidpi.com/android/develop/2019-11-05-ndk-develop-gifsicle/</link>
+      <pubDate>Tue, 05 Nov 2019 13:47:54 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/develop/2019-11-05-ndk-develop-gifsicle/</guid>
+      <description>Gifsicle中包含三个工具： Gifsicle GifView GifDiff</description>
+    </item>
+    
+    <item>
+      <title>Android开发：触控手势</title>
+      <link>https://www.androidpi.com/android/ui/2018-11-08-touch-gesture/</link>
+      <pubDate>Thu, 08 Nov 2018 20:11:53 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/ui/2018-11-08-touch-gesture/</guid>
+      <description>检测常用手势 GestureDetector 参考： Use touch gestures</description>
+    </item>
+    
+    <item>
+      <title>Android Studio之Gradle的使用</title>
+      <link>https://www.androidpi.com/android/tools/2018-10-21-debug-gradle-build-scripts/</link>
+      <pubDate>Sun, 21 Oct 2018 16:32:59 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/tools/2018-10-21-debug-gradle-build-scripts/</guid>
+      <description>调试Gradle脚本 添加Remote运行Configuration 在命令行运行gradle任务，并添加参数-Dorg.gradle.daem</description>
+    </item>
+    
+    <item>
+      <title>Android性能：Android Vitals</title>
+      <link>https://www.androidpi.com/android/performance/2018-10-16-android-vitals/</link>
+      <pubDate>Tue, 16 Oct 2018 11:20:13 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/performance/2018-10-16-android-vitals/</guid>
+      <description>Core vitals ANR rates Crash rates Excessive wakeups 部分唤醒锁定操作卡住（Stuck partial wake locks） All other vitals Excessive background Wi-Fi scans Excessive background network usage App startup time Slow rendering Frozen frames Permission denials 工具 部分唤醒锁定操作卡住（Stuck</description>
+    </item>
+    
+    <item>
+      <title>页面路由与组件化开发框架：PageRouter</title>
+      <link>https://www.androidpi.com/android/opensource/2018-10-15-pagerouter/</link>
+      <pubDate>Mon, 15 Oct 2018 11:22:52 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/opensource/2018-10-15-pagerouter/</guid>
+      <description>页面路由 ### 需求 使用注解定义路由路径，注意如果注解的类型是Fragment，那么可以将Fragment加载到一个单独模版Activity进行展</description>
+    </item>
+    
+    <item>
+      <title>布局绑定库：LayoutBinder</title>
+      <link>https://www.androidpi.com/android/opensource/2018-10-15-layoutbinder/</link>
+      <pubDate>Mon, 15 Oct 2018 10:56:29 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/opensource/2018-10-15-layoutbinder/</guid>
+      <description>特点 减少模板代码，便于导航到布局编辑器 可用于所有Activity、Fragment和自定义View 配合databinding库使用，用于注入</description>
+    </item>
+    
+    <item>
+      <title>Android中的Hook技术</title>
+      <link>https://www.androidpi.com/android/security/2018-10-09-hooking-in-android/</link>
+      <pubDate>Thu, 11 Oct 2018 21:34:15 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/android/security/2018-10-09-hooking-in-android/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Android模拟定位技术：如何假装玩在夏威夷？</title>
+      <link>https://www.androidpi.com/android/lbs/android-mock-location/</link>
+      <pubDate>Thu, 11 Oct 2018 21:18:48 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/lbs/android-mock-location/</guid>
+      <description>夏威夷，阳光、沙滩、海浪，众人向往的旅游圣地。其中著名的海滩度假地WaiKiKi位于北纬：21.2764314，西经：-157.828641</description>
+    </item>
+    
+    <item>
+      <title>如何Root一个Android系统</title>
+      <link>https://www.androidpi.com/android/security/2018-10-09-how-to-root-an-android-os/</link>
+      <pubDate>Tue, 09 Oct 2018 21:32:43 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/security/2018-10-09-how-to-root-an-android-os/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>失落的梦：为什么Android的UI不采用多线程模型？</title>
+      <link>https://www.androidpi.com/android/develop/2018-09-25-single-thread-model-of-ui/</link>
+      <pubDate>Tue, 25 Sep 2018 16:50:09 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/develop/2018-09-25-single-thread-model-of-ui/</guid>
+      <description>从观察到的现象来看，在多线程GUI中有一个惊人的趋势，那就是死锁和竞态条件。近些年，这些致力于多线程的聪明人逐渐都转移到一个事件队列模型。“</description>
+    </item>
+    
+    <item>
+      <title>LiteRefresh：一种实现下拉刷新的新方式</title>
+      <link>https://www.androidpi.com/android/opensource/2018-09-20-literefresh/</link>
+      <pubDate>Thu, 20 Sep 2018 23:02:45 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/opensource/2018-09-20-literefresh/</guid>
+      <description>项目地址：https://github.com/jastrelax/LiteRefresh 什么是LiteRefersh LiteRefresh</description>
+    </item>
+    
+    <item>
+      <title>Java多线程：等待集与通知（Wait Sets and Notification）</title>
+      <link>https://www.androidpi.com/java/concurrency/2018-08-16-java-wait-sets-and-notification/</link>
+      <pubDate>Thu, 16 Aug 2018 19:57:47 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/concurrency/2018-08-16-java-wait-sets-and-notification/</guid>
+      <description>每个对象除了有一个关联的监视器，还有一个关联的等待集合。一个等待集合是一个线程的集合。 一个线程的中断状态和Thread类中处理中断的类方法会</description>
+    </item>
+    
+    <item>
+      <title>Java多线程：ConcurrentHashMap</title>
+      <link>https://www.androidpi.com/java/concurrency/2018-08-15-java-concurrent-hashmap/</link>
+      <pubDate>Thu, 16 Aug 2018 19:37:14 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/concurrency/2018-08-15-java-concurrent-hashmap/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java多线程：锁</title>
+      <link>https://www.androidpi.com/java/concurrency/2018-08-16-java-locks/</link>
+      <pubDate>Thu, 16 Aug 2018 19:35:22 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/concurrency/2018-08-16-java-locks/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java多线程：synchronized</title>
+      <link>https://www.androidpi.com/java/concurrency/2018-07-01-java-synchronized-statements-and-methods/</link>
+      <pubDate>Thu, 16 Aug 2018 18:53:59 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/concurrency/2018-07-01-java-synchronized-statements-and-methods/</guid>
+      <description>Java语言提供了多种线程间通信的方式，最基本的是同步，它是使用监视器（moniter）实现的。Java中的每个对象都与一个监视器相关联，线</description>
+    </item>
+    
+    <item>
+      <title>Java多线程：原子变量</title>
+      <link>https://www.androidpi.com/java/concurrency/2018-08-15-java-atomic-variable/</link>
+      <pubDate>Wed, 15 Aug 2018 16:51:45 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/concurrency/2018-08-15-java-atomic-variable/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java内存模型：final变量</title>
+      <link>https://www.androidpi.com/java/concurrency/2018-08-15-java-final-variable/</link>
+      <pubDate>Wed, 15 Aug 2018 14:12:47 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/concurrency/2018-08-15-java-final-variable/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java内存模型：volatile变量</title>
+      <link>https://www.androidpi.com/java/concurrency/2018-01-25-java-volatile-variable/</link>
+      <pubDate>Wed, 15 Aug 2018 13:19:32 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/concurrency/2018-01-25-java-volatile-variable/</guid>
+      <description>根据JLS 8.3.1.4，Java语言允许多个线程对共享的变量进行访问，作为一种规则，为了保证共享变量更新的一致性和可靠性，一个线程应当通过</description>
+    </item>
+    
+    <item>
+      <title>Android源码：CoordinatorLayout解析</title>
+      <link>https://www.androidpi.com/android/ui/2018-08-08-android-coordinatorlayout/</link>
+      <pubDate>Sun, 12 Aug 2018 18:55:01 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/ui/2018-08-08-android-coordinatorlayout/</guid>
+      <description>CoordinatorLayout AppBarLayout BottomSheet FloatingActionButton.Behavior</description>
+    </item>
+    
+    <item>
+      <title>HTTPS与SSL/TLS协议</title>
+      <link>https://www.androidpi.com/cs/networks/2018-08-10-https/</link>
+      <pubDate>Fri, 10 Aug 2018 21:14:48 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/cs/networks/2018-08-10-https/</guid>
+      <description>HTTPS(Hypertext Transfer Protocol Secure)译为超文本传输安全协议，也称为HTTP over TLS，HTTP over SSL或HTTP Secure，它对HTTP协议进行的扩展，用于</description>
+    </item>
+    
+    <item>
+      <title>CA与SSL/TLS证书</title>
+      <link>https://www.androidpi.com/cs/networks/2018-08-10-ca-and-ssl-tls-certificates/</link>
+      <pubDate>Fri, 10 Aug 2018 19:50:14 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/cs/networks/2018-08-10-ca-and-ssl-tls-certificates/</guid>
+      <description>CA 证书颁发机构（CA, Certificate Authorities）根据认证操作规则 (CPS) 授权颁发、暂停、更新或取消证书的实体。在其颁发的所有证书和 CRL 中都可通过识别</description>
+    </item>
+    
+    <item>
+      <title>面向切面编程：AOP</title>
+      <link>https://www.androidpi.com/java/aop/2018-07-21-aop-programming/</link>
+      <pubDate>Sat, 21 Jul 2018 14:48:35 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/aop/2018-07-21-aop-programming/</guid>
+      <description>面向切面编程（Aspect-Oriented Programming,AOP）为编程结构提供了另一种思考方式，从而对面向对象编程（Object</description>
+    </item>
+    
+    <item>
+      <title>Java字节码工程：ASM开发指南2-核心API</title>
+      <link>https://www.androidpi.com/java/bytecode/2018-07-28-asm-develop-guide-core-api/</link>
+      <pubDate>Sat, 21 Jul 2018 14:46:34 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/bytecode/2018-07-28-asm-develop-guide-core-api/</guid>
+      <description>本文示例代码见asm-develop-guide。 核心API 类（Classes） 结构 一个编译过的类是相当简单的。事实上，与原生编译的应用不同</description>
+    </item>
+    
+    <item>
+      <title>Java字节码工程：ASM开发指南1-概述</title>
+      <link>https://www.androidpi.com/java/bytecode/2018-07-21-asm-develop-guide-introduction/</link>
+      <pubDate>Sat, 21 Jul 2018 14:46:33 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/bytecode/2018-07-21-asm-develop-guide-introduction/</guid>
+      <description>本文示例代码见asm-develop-guide。 概述 范围（Scope） ASM库的目的是用于生成、转换和分析编译过的Java类，并以字节数组</description>
+    </item>
+    
+    <item>
+      <title>Java字节码工程：ASM介绍</title>
+      <link>https://www.androidpi.com/java/bytecode/2018-07-17-asm-introduction/</link>
+      <pubDate>Tue, 17 Jul 2018 23:31:54 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/bytecode/2018-07-17-asm-introduction/</guid>
+      <description>ASM是一个通用的Java字节码操作和分析框架。它可以用于修改已有的class或者直接以二进制形式动态生成class。ASM提供了一些常用的</description>
+    </item>
+    
+    <item>
+      <title>JVM：class文件校验与Stack Map Frame</title>
+      <link>https://www.androidpi.com/java/jvm/2018-07-29-jvm-stack-map-frame/</link>
+      <pubDate>Mon, 16 Jul 2018 12:17:00 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/jvm/2018-07-29-jvm-stack-map-frame/</guid>
+      <description>除了编译时的检查，为了保证class文件符合规范，JVM实现会在链接时对class文件进行校验。 如果class文件的版本号为49或以下会使用</description>
+    </item>
+    
+    <item>
+      <title>Android应用构建：基于AOP的Gradle日志插件开发</title>
+      <link>https://www.androidpi.com/android/building/2018-07-15-aop-based-gradle-log-plugin/</link>
+      <pubDate>Sun, 15 Jul 2018 19:45:00 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/building/2018-07-15-aop-based-gradle-log-plugin/</guid>
+      <description>什么是AOP 在OOP的程序结构中，不同的类型可以对现实或虚拟的事物及其行为进行建模，不同类型的对象之间相互协作，完成所需的工作。也就是说OO</description>
+    </item>
+    
+    <item>
+      <title>Gradle构建：自定义插件</title>
+      <link>https://www.androidpi.com/dev/gradle/2018-07-14-gradle-custom-plugin/</link>
+      <pubDate>Sat, 14 Jul 2018 15:18:31 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/gradle/2018-07-14-gradle-custom-plugin/</guid>
+      <description>Gradle插件将可以复用的构建逻辑进行打包，然后就可以在不同的工程和构建中进行使用了。Gradle允许创建你自己的插件，使得你可以复用你的</description>
+    </item>
+    
+    <item>
+      <title>Gradle构建：自定义Task类</title>
+      <link>https://www.androidpi.com/dev/gradle/2018-07-14-gradle-custom-task-class/</link>
+      <pubDate>Sat, 14 Jul 2018 14:19:06 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/gradle/2018-07-14-gradle-custom-task-class/</guid>
+      <description>Gradle支持两种类型的任务，一种是使用一个操作闭包定义的简单任务，对于这种类型的任务，操作闭包决定了任务的行为，它对于实现构建脚本中的一</description>
+    </item>
+    
+    <item>
+      <title>Gradle构建：增量构建</title>
+      <link>https://www.androidpi.com/dev/gradle/2018-07-14-gradle-incremental-build/</link>
+      <pubDate>Sat, 14 Jul 2018 14:04:45 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/gradle/2018-07-14-gradle-incremental-build/</guid>
+      <description>构建中的一项能力就是避免进行已经做过的工作。考虑编译的过程，一旦你的源代码已经编译过了，除非作出了影响输出的修改，那就没有必要重新编译。Gr</description>
+    </item>
+    
+    <item>
+      <title>Gradle构建：Task开发指南</title>
+      <link>https://www.androidpi.com/dev/gradle/2018-07-14-gradle-task-develop-guide/</link>
+      <pubDate>Sat, 14 Jul 2018 11:23:10 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/gradle/2018-07-14-gradle-task-develop-guide/</guid>
+      <description>简单的任务 一个任务代表一个构建执行的一部分工作（atomic piece of work）。它可能是编译一些类、创建一个JAR、生成Javadoc或者将一存</description>
+    </item>
+    
+    <item>
+      <title>理解Gradle构建系统</title>
+      <link>https://www.androidpi.com/dev/gradle/2018-07-10-understanding-gradle-build-system/</link>
+      <pubDate>Tue, 10 Jul 2018 23:42:49 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/gradle/2018-07-10-understanding-gradle-build-system/</guid>
+      <description>近来看了若干关于Gradle的文章和书籍，发现这些文章很大程度上只是官方文档的堆砌，比如Groovy与DSL基础，Gradle有什么基础组件</description>
+    </item>
+    
+    <item>
+      <title>Gradle构建脚本开发指南</title>
+      <link>https://www.androidpi.com/dev/gradle/2018-07-10-gradle-build-script-develop-guide/</link>
+      <pubDate>Tue, 10 Jul 2018 23:30:37 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/gradle/2018-07-10-gradle-build-script-develop-guide/</guid>
+      <description>Groovy语言 Gradle构建脚本提供了Groovy这一强大的语言工具： task upper { doLast { String someString = &amp;#39;mY_nAmE&amp;#39; println &amp;#34;Original: &amp;#34; + someString println &amp;#34;Upper case: &amp;#34; + someString.toUpperCase() } } API 核心类 Gradle构</description>
+    </item>
+    
+    <item>
+      <title>Groovy与DSL</title>
+      <link>https://www.androidpi.com/dev/gradle/2018-07-10-groovy-and-dsl/</link>
+      <pubDate>Tue, 10 Jul 2018 23:29:59 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/gradle/2018-07-10-groovy-and-dsl/</guid>
+      <description>类型 字符串 除了Java中的java.lang.String类，还有一个groovy.lang.GString类，GString可以进行插值。</description>
+    </item>
+    
+    <item>
+      <title>Android应用构建：使用Gradle构建脚本进行多渠道打包与APK包名修改</title>
+      <link>https://www.androidpi.com/android/building/2018-07-09-specify-apk-name-with-gradle-scripts/</link>
+      <pubDate>Mon, 09 Jul 2018 21:42:55 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/building/2018-07-09-specify-apk-name-with-gradle-scripts/</guid>
+      <description>Android开发中常常需要进行多渠道打包，并且在包名中加入特定的标识，例如在提测阶段的包名中加入版本号、版本名、打包的时间，便于区分不同的</description>
+    </item>
+    
+    <item>
+      <title>Android应用构建：使用Jenkins CI进行自动构建</title>
+      <link>https://www.androidpi.com/android/building/2018-07-09-android-app-build-automation-with-jenkins/</link>
+      <pubDate>Mon, 09 Jul 2018 14:09:50 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/building/2018-07-09-android-app-build-automation-with-jenkins/</guid>
+      <description>下载命令行工具 https://developer.android.com/studio/index.html#command-tools Linux下Android构建环境 下载SDK命令行工具后，使用sdkmanager来下载所需的SDK包和工具。 $ sdkmanager --list 从列表中</description>
+    </item>
+    
+    <item>
+      <title>Android应用构建：流程与配置</title>
+      <link>https://www.androidpi.com/android/building/2018-07-08-android-app-build-process-and-configuration/</link>
+      <pubDate>Sun, 08 Jul 2018 14:24:11 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/building/2018-07-08-android-app-build-process-and-configuration/</guid>
+      <description>构建总体流程 Android 构建系统编译应用资源和源代码，然后将它们打包成可供您测试、部署、签署和分发的 APK。 如图 1 所示，典型 Android 应用模块的构建流程通常依</description>
+    </item>
+    
+    <item>
+      <title>理解回环接口（Loopback Interface）</title>
+      <link>https://www.androidpi.com/dev/networks/2018-07-01-loopback-interface/</link>
+      <pubDate>Sun, 01 Jul 2018 22:40:30 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/networks/2018-07-01-loopback-interface/</guid>
+      <description>IP协议指定一个回环网络的IPv4地址为127.0.0.0/8，大多数IP协议实现都支持一个回环接口来表示回环设施。一个计算机上的程序在回环</description>
+    </item>
+    
+    <item>
+      <title>Android手机唯一设备ID</title>
+      <link>https://www.androidpi.com/android/hardware/2018-06-30-android-unique-device-id/</link>
+      <pubDate>Sat, 30 Jun 2018 16:41:28 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/hardware/2018-06-30-android-unique-device-id/</guid>
+      <description>Android手机用于关联设备的唯一性ID，目前常见的有如下几种类型： 设备ID IMEI MEID ESN 主要使用系统服务TelephonyManager获取。 硬</description>
+    </item>
+    
+    <item>
+      <title>获取Android手机MAC地址</title>
+      <link>https://www.androidpi.com/android/hardware/2018-06-29-android-mac-address/</link>
+      <pubDate>Fri, 29 Jun 2018 22:35:05 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/hardware/2018-06-29-android-mac-address/</guid>
+      <description>什么是MAC地址 MAC地址，全称为Media Access Control Address，即介质访问控制地址。它是分配给网络接口控制器（Network Interface Control</description>
+    </item>
+    
+    <item>
+      <title>Android开发文档与源代码</title>
+      <link>https://www.androidpi.com/android/2018-06-15-android-develop-documents/</link>
+      <pubDate>Fri, 15 Jun 2018 21:26:28 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/2018-06-15-android-develop-documents/</guid>
+      <description>Google官方文档 首页 文档 开发指南 Android Studio Jetpack Android源代码 Android源代码 下载源代码 Android Open Source Project Android Google Source 源代码Tag清单 Gradle DSL 参考文档 Android Gradle Plugin</description>
+    </item>
+    
+    <item>
+      <title>源码分析：理解Context</title>
+      <link>https://www.androidpi.com/android/framework/2018-06-14-android-understanding-context/</link>
+      <pubDate>Thu, 14 Jun 2018 21:22:35 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/framework/2018-06-14-android-understanding-context/</guid>
+      <description>Context一般翻译为上下文，它提供了一个应用环境的全局接口，用于访问指定应用的资源和类，以及各种应用级别的操作，如启动Activitie</description>
+    </item>
+    
+    <item>
+      <title>控制Android系统UI的可见性</title>
+      <link>https://www.androidpi.com/android/ui/2018-06-11-control-the-system-ui-visibility/</link>
+      <pubDate>Mon, 11 Jun 2018 23:28:58 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/ui/2018-06-11-control-the-system-ui-visibility/</guid>
+      <description>系统栏（System bars）分为状态栏（status bar）和导航栏（Navigation bar）。 状态栏 导航栏 使系统栏变暗(dim) 这种</description>
+    </item>
+    
+    <item>
+      <title>Android屏幕适配</title>
+      <link>https://www.androidpi.com/android/ui/2018-06-11-android-screen-adapter/</link>
+      <pubDate>Mon, 11 Jun 2018 20:54:15 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/ui/2018-06-11-android-screen-adapter/</guid>
+      <description>基础 术语 屏幕尺寸 按屏幕对角测量的实际物理尺寸。 为简便起见，Android 将所有实际屏幕尺寸分组为四种通用尺寸：小、 正常、大和超大。 屏幕密度 屏</description>
+    </item>
+    
+    <item>
+      <title>用户权限与授权</title>
+      <link>https://www.androidpi.com/backend/2018-05-30-user-permission-and-authorization/</link>
+      <pubDate>Wed, 30 May 2018 21:34:22 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/backend/2018-05-30-user-permission-and-authorization/</guid>
+      <description>在用户名与密码认证系统设计中讨论了互联网中最常见的用户名与密码认证方式，在完成了认证的步骤后，即确认了用户身份后，根据需要，还需要判断用户是</description>
+    </item>
+    
+    <item>
+      <title>JavaScript: 引用类型</title>
+      <link>https://www.androidpi.com/web/javascript/2018-05-29-javascript-4-reference-type/</link>
+      <pubDate>Tue, 29 May 2018 14:03:26 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/web/javascript/2018-05-29-javascript-4-reference-type/</guid>
+      <description>引用类型与类看起来相似，但它们并不是相同的概念。引用类型有时也被称为对象定义，因为它们描述的是一类对象所具有的属性和方法。对象是某个特定引用</description>
+    </item>
+    
+    <item>
+      <title>JavaScript: 变量、作用域与内存</title>
+      <link>https://www.androidpi.com/web/javascript/2018-05-29-javascript-3-variable-scope-memory/</link>
+      <pubDate>Tue, 29 May 2018 14:01:28 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/web/javascript/2018-05-29-javascript-3-variable-scope-memory/</guid>
+      <description>基本类型和引用类型的值 动态的属性 ECMAScript变量可能包含两种不同数据类型的值：基本类型值和引用类型值。 给基本类型添加属性尽管不会导致</description>
+    </item>
+    
+    <item>
+      <title>JavaScript: 简介</title>
+      <link>https://www.androidpi.com/web/javascript/2018-05-29-javascript-1-introduction/</link>
+      <pubDate>Tue, 29 May 2018 10:24:20 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/web/javascript/2018-05-29-javascript-1-introduction/</guid>
+      <description>1. JavaScript简介 虽然JavaScript和ECMAScript常常表达同样的含义，但JavaScript的含义比ECMA-262中</description>
+    </item>
+    
+    <item>
+      <title>JavaScript: 基础</title>
+      <link>https://www.androidpi.com/web/javascript/2018-05-29-javascript-2-basic/</link>
+      <pubDate>Tue, 29 May 2018 10:09:05 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/web/javascript/2018-05-29-javascript-2-basic/</guid>
+      <description>语法 区分大小写 标识符 第一个字符必须是一个字母、下划线（_）或一个美元符号（$） 其它字符可以是字母、下划线、美元符号或数字 注释 严格模式 ECMAScript 5引入</description>
+    </item>
+    
+    <item>
+      <title>用户名与密码认证系统设计</title>
+      <link>https://www.androidpi.com/backend/2018-05-26-username-password-authentication-system/</link>
+      <pubDate>Sun, 27 May 2018 00:21:53 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/backend/2018-05-26-username-password-authentication-system/</guid>
+      <description>用户身份 用户名 这里的用户名是用于标识用户唯一身份的，不同于昵称之类的用户信息。显然，作为用户身份的代表，用户名必须是全局唯一的。一般而言使用</description>
+    </item>
+    
+    <item>
+      <title>跨平台移动开发技术综述</title>
+      <link>https://www.androidpi.com/android/develop/2018-05-19-cross-platform-mobile-develop-overview/</link>
+      <pubDate>Sat, 19 May 2018 11:59:31 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/develop/2018-05-19-cross-platform-mobile-develop-overview/</guid>
+      <description>移动端跨平台技术比较 Cordova与Ionic Cordova是使用Web技术（HTML/CSS/JavaScript）来构建移动应用的一种框</description>
+    </item>
+    
+    <item>
+      <title>React Native开发基础知识</title>
+      <link>https://www.androidpi.com/dev/react-native/2018-05-19-react-native-develop-guide/</link>
+      <pubDate>Sat, 19 May 2018 11:54:16 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/react-native/2018-05-19-react-native-develop-guide/</guid>
+      <description>目前React Native的最新版本为0.55。 开发模式环境 完全使用JavaScript进行开发 如果不需要自定义原生代码，完全使用JavaS</description>
+    </item>
+    
+    <item>
+      <title>访问控制系统</title>
+      <link>https://www.androidpi.com/backend/2018-05-18-access-control-systems/</link>
+      <pubDate>Fri, 18 May 2018 23:10:41 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/backend/2018-05-18-access-control-systems/</guid>
+      <description>所谓访问控制系统，就是对某些资源的访问进行控制与管理的系统。在用户尝试对系统管理的某一资源进行访问时，系统首先需要识别出访问人的身份，即对其</description>
+    </item>
+    
+    <item>
+      <title>认证与授权</title>
+      <link>https://www.androidpi.com/backend/2018-05-18-authentication-and-authorization/</link>
+      <pubDate>Fri, 18 May 2018 23:06:54 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/backend/2018-05-18-authentication-and-authorization/</guid>
+      <description>导引 计算机和网络安全以解决两个简单作为其目标： 禁止未授权人员访问资源 保证已授权人员可以访问需要的资源 对于访问权限的控制，只有在能够验证尝试访</description>
+    </item>
+    
+    <item>
+      <title>OAuth 2.0综述</title>
+      <link>https://www.androidpi.com/backend/2018-05-18-oauth-2.0-overview/</link>
+      <pubDate>Fri, 18 May 2018 22:10:38 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/backend/2018-05-18-oauth-2.0-overview/</guid>
+      <description>OAuth 2.0是用于授权的工业标准协议。OAuth 2.0取代了创建于2006年的OAuth协议。OAuth 2.0在专注于客户端开发者的精简性的同时</description>
+    </item>
+    
+    <item>
+      <title>Android Wi-Fi API兼容性适配</title>
+      <link>https://www.androidpi.com/android/wifi/2018-05-14-android-wifi-api-compatibility/</link>
+      <pubDate>Mon, 14 May 2018 00:30:44 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/wifi/2018-05-14-android-wifi-api-compatibility/</guid>
+      <description>Android 6.0（API 级别 23） 硬件标识符访问权 为给用户提供更严格的数据保护，从此版本开始，对于使用 WLAN API 和 Bluetooth API 的应用，Android 移除了对设备本</description>
+    </item>
+    
+    <item>
+      <title>Android Wi-Fi 开发指南</title>
+      <link>https://www.androidpi.com/android/wifi/2018-05-09-android-wifi-develop-guide/</link>
+      <pubDate>Wed, 09 May 2018 23:59:14 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/wifi/2018-05-09-android-wifi-develop-guide/</guid>
+      <description>Wi-Fi管理与操作 使用Android平台提供的SDK可以处理若干如下类别的项目： 已配置过的网络列表，列表可以查看并进行更新，并且可以修改每</description>
+    </item>
+    
+    <item>
+      <title>Android Wi-Fi API 参考</title>
+      <link>https://www.androidpi.com/android/wifi/2018-05-09-android-wifi-api-reference/</link>
+      <pubDate>Wed, 09 May 2018 22:59:14 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/wifi/2018-05-09-android-wifi-api-reference/</guid>
+      <description>Wi-Fi相关API包名 android.net.wifi android.net.wifi.aware android.net.wifi.hotspot2 android.net.wifi.hotspot2.omadm android.net.wifi.hotspot2.pps android.net.wifi.p2p android.net.wifi.p2p.nsd android.net.wifi.rtt android.net.wifi Wi-Fi API为应用提供了一种方法，使其可以和提供Wi-Fi网络访问的底层无线技术栈进行通信。所提供的A</description>
+    </item>
+    
+    <item>
+      <title>LDAP服务与认证</title>
+      <link>https://www.androidpi.com/backend/2018-05-07-ldap-authentication/</link>
+      <pubDate>Mon, 07 May 2018 23:33:01 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/backend/2018-05-07-ldap-authentication/</guid>
+      <description>公司团队需要搭建项目管理、代码托管等服务器，目前使用redmine，gerrit，gitlab，jenkins等等，对于每个服务器都需要为每</description>
+    </item>
+    
+    <item>
+      <title>Linux init系统与后台进程管理</title>
+      <link>https://www.androidpi.com/dev/linux/2018-05-06-linux-init-system-and-background-process-management/</link>
+      <pubDate>Sun, 06 May 2018 14:10:57 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/linux/2018-05-06-linux-init-system-and-background-process-management/</guid>
+      <description>什么是init系统 计算机的启动过程从主板上的BIOS（Basic Input / Output System）软件开始，在完成了硬件的初始化和检查后，BIOS启动引导</description>
+    </item>
+    
+    <item>
+      <title>Gitlab搭建与Gitlab Pages配置</title>
+      <link>https://www.androidpi.com/dev/pages/2018-05-05-gitlab-pages/</link>
+      <pubDate>Sat, 05 May 2018 09:58:41 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/pages/2018-05-05-gitlab-pages/</guid>
+      <description>安装 安装环境为ubuntu14.04，具体安装步骤参考以下页面： GitLab Installation Omnibus GitLab documentation Gitlab Pages Gitlab Pages站点 Gitlab Pages工程 Gitlab Pages管理 GitLab Pages守</description>
+    </item>
+    
+    <item>
+      <title>Android应用兼容性问题</title>
+      <link>https://www.androidpi.com/android/develop/2018-04-22-android-app-compatibility-issue/</link>
+      <pubDate>Sun, 22 Apr 2018 23:24:06 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/android/develop/2018-04-22-android-app-compatibility-issue/</guid>
+      <description>Android系统Native库 Android系统版本分布的碎片化导致所使用的本地库版本的碎片化，有可能会使用相当过时的本地库。 SQLite SQLit</description>
+    </item>
+    
+    <item>
+      <title>Android平台版本兼容性适配</title>
+      <link>https://www.androidpi.com/android/develop/2018-04-16-android-api-level-compatibility-adapter/</link>
+      <pubDate>Mon, 16 Apr 2018 19:33:31 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/develop/2018-04-16-android-api-level-compatibility-adapter/</guid>
+      <description>平台版本 截止于 2018 年 1 月 8 日 Version Codename API Distribution 2.3.3-2.3.7 Gingerbread 10 0.3% 4.0.3-4.0.4 Ice Cream Sandwich 15 0.4% 4.1.x Jelly Bean 16 1.5% 4.2.x Jelly Bean 17 2.2% 4.3 Jelly Bean 18 0.6% 4.4 KitKat 19 10.3% 5.0 Lollipop 21 4.8% 5.1 Lollipop 22 17.6% 6.0 Marshmallow 23 25.5% 7.0 Nougat 24 22.9% 7.1 Nougat 25 8.2% 8.0 Oreo 26 4.9%</description>
+    </item>
+    
+    <item>
+      <title>网络爬虫页面去重技术</title>
+      <link>https://www.androidpi.com/dev/search-engine/2018-03-24-simhash/</link>
+      <pubDate>Sat, 24 Mar 2018 11:24:34 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/search-engine/2018-03-24-simhash/</guid>
+      <description>最近在使用ElasticSearch搭建一个小型的全文搜索引擎，用来搜索技术博客站点的文章。目前开发阶段爬取的站点60个左右，主要是国内的技</description>
+    </item>
+    
+    <item>
+      <title>网络爬虫概述</title>
+      <link>https://www.androidpi.com/dev/search-engine/2018-03-24-web-scraping/</link>
+      <pubDate>Sat, 24 Mar 2018 10:55:39 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/search-engine/2018-03-24-web-scraping/</guid>
+      <description>爬取之前 了解相关法律，爬取合乎法律的内容 对要爬取的站点进行适当背景调查，如检查robots.txt文件，网站地图，估算网站大小，识别网站所用</description>
+    </item>
+    
+    <item>
+      <title>网页正文提取技术</title>
+      <link>https://www.androidpi.com/dev/search-engine/2018-03-17-html-page-content-extractor/</link>
+      <pubDate>Sat, 17 Mar 2018 18:55:15 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/search-engine/2018-03-17-html-page-content-extractor/</guid>
+      <description>已存在的方法 机器学习和启发式方法(Heuristics) 特定站点解决方案(基于规则的抓取，DOM，文本，连接图) 基于视觉的建模 Tokens, N-Grams Shallow Text</description>
+    </item>
+    
+    <item>
+      <title>Android View事件处理机制与分发流程</title>
+      <link>https://www.androidpi.com/android/framework/2018-03-11-android-view-event-dispatching/</link>
+      <pubDate>Sun, 11 Mar 2018 16:00:39 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/framework/2018-03-11-android-view-event-dispatching/</guid>
+      <description>View类还包含一系列嵌套接口以及您可以更加轻松定义的回调。 这些接口称为事件侦听器，是您捕获用户与UI之间交互的票证。 尽管您通常会使用事件侦</description>
+    </item>
+    
+    <item>
+      <title>Android View绘制流程</title>
+      <link>https://www.androidpi.com/android/framework/2018-03-08-android-view-drawing-flow/</link>
+      <pubDate>Sun, 11 Mar 2018 15:00:39 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/framework/2018-03-08-android-view-drawing-flow/</guid>
+      <description>概述 当一个Activity接收到焦点，它会请求对其布局进行绘制。Android框架会处理绘制的流程，但Activity必须提供布局层次的一个</description>
+    </item>
+    
+    <item>
+      <title>Window与WindowManager机制</title>
+      <link>https://www.androidpi.com/android/framework/2018-03-08-android-window/</link>
+      <pubDate>Sat, 10 Mar 2018 22:22:08 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/framework/2018-03-08-android-window/</guid>
+      <description>接着Activity的启动流程分析Window的添加过程，与Activity相关联的window的创建发生在Activity.perform</description>
+    </item>
+    
+    <item>
+      <title>Activity启动流程：总览</title>
+      <link>https://www.androidpi.com/android/framework/2018-03-07-android-launch-activity/</link>
+      <pubDate>Wed, 07 Mar 2018 21:10:03 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/framework/2018-03-07-android-launch-activity/</guid>
+      <description>网络上已经有许多关于这个主题的文章了，但路只有自己走一遍才会熟悉，源码的分析与理解也是一样的。因此从这篇文章开始我将开始从源码阅读中去理解A</description>
+    </item>
+    
+    <item>
+      <title>Android系统启动流程</title>
+      <link>https://www.androidpi.com/android/framework/2018-03-04-android-system-init-process/</link>
+      <pubDate>Sun, 04 Mar 2018 18:31:20 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/framework/2018-03-04-android-system-init-process/</guid>
+      <description>Android系统架构 1 2</description>
+    </item>
+    
+    <item>
+      <title>Android面试</title>
+      <link>https://www.androidpi.com/android/2018-02-23-android-interview/</link>
+      <pubDate>Fri, 23 Feb 2018 14:46:13 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/2018-02-23-android-interview/</guid>
+      <description>Android 四大组件 对Context的理解 关于一个应用环境的全局接口。用于访问特定应用的资源和类，以及各种应用级别的操作，如启动Activities与</description>
+    </item>
+    
+    <item>
+      <title>工厂方法与抽象工厂模式</title>
+      <link>https://www.androidpi.com/engineering/pattern/factory-pattern/</link>
+      <pubDate>Thu, 25 Jan 2018 17:43:12 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/engineering/pattern/factory-pattern/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>比特币：一个点对点电子货币系统[翻译]</title>
+      <link>https://www.androidpi.com/blockchain/2018-01-25-bitcoin-white-paper/</link>
+      <pubDate>Thu, 25 Jan 2018 01:18:40 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/blockchain/2018-01-25-bitcoin-white-paper/</guid>
+      <description>原文 摘要 一个纯粹的点对点电子现金可以允许参与方之间直接进行在线支付，而无需经过一个第三方金融机构。数字签名可以提供部分解决方案，但如果仍然需</description>
+    </item>
+    
+    <item>
+      <title>新闻分页问题</title>
+      <link>https://www.androidpi.com/puzzles/2017-12-08-news-pagination/</link>
+      <pubDate>Fri, 08 Dec 2017 22:44:18 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/puzzles/2017-12-08-news-pagination/</guid>
+      <description>问题描述 一个HTTP客户端查看服务端的新闻，新闻根据时间降序排列，客户端按照第1页，第2页，直到第n页的顺序依次加载每个页面。假设客户端已经</description>
+    </item>
+    
+    <item>
+      <title>ViewModel与savedInstanceState</title>
+      <link>https://www.androidpi.com/android/develop/2017-12-04-viewmodel-vs-savedinstancestate/</link>
+      <pubDate>Mon, 04 Dec 2017 01:22:03 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/develop/2017-12-04-viewmodel-vs-savedinstancestate/</guid>
+      <description>在Activity或Fragment的onSaveInstanceState方法中保存UI状态 如果一个Activity没有直接退出，而是通过</description>
+    </item>
+    
+    <item>
+      <title>动态规划</title>
+      <link>https://www.androidpi.com/cs/algorithm/advanced/2017-12-04-dynamic-programming/</link>
+      <pubDate>Mon, 04 Dec 2017 01:21:55 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/cs/algorithm/advanced/2017-12-04-dynamic-programming/</guid>
+      <description>动态规划（Dynamic programming）通常用来解决最优化问题，在这类问题中，通过做出一组选择来达到最优解。在做出每个选择的同时，通</description>
+    </item>
+    
+    <item>
+      <title>图的表示与搜索</title>
+      <link>https://www.androidpi.com/cs/algorithm/graph/2017-12-03-graph-representation-and-searching/</link>
+      <pubDate>Sun, 03 Dec 2017 04:50:28 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/cs/algorithm/graph/2017-12-03-graph-representation-and-searching/</guid>
+      <description>图论问题渗透整个计算机科学，解决图论问题的相关算法对计算机科学领域至关重要。最基本的是对图的遍历与搜索，不过首先要讨论的是如何将图表示为可用</description>
+    </item>
+    
+    <item>
+      <title>红黑树</title>
+      <link>https://www.androidpi.com/cs/algorithm/tree/2017-12-02-red-black-tree/</link>
+      <pubDate>Sat, 02 Dec 2017 16:02:18 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/cs/algorithm/tree/2017-12-02-red-black-tree/</guid>
+      <description>在二叉搜索树的讨论中可以得出各种查询以及插入、删除操作的时间复杂度上界为$O(h)$，其中$h$为树的高度，即树的叶子节点的最大深度。 因此树</description>
+    </item>
+    
+    <item>
+      <title>树与搜索树</title>
+      <link>https://www.androidpi.com/cs/algorithm/tree/2017-12-01-tree-and-search-tree/</link>
+      <pubDate>Fri, 01 Dec 2017 21:52:39 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/cs/algorithm/tree/2017-12-01-tree-and-search-tree/</guid>
+      <description>定义 自由树 自由树是一个连通的、无环的无向图。一个可能不连通的的无向无环图为森林。 有根树和有序树 有根树是一棵自由树，其顶点中存在一个与其它顶点</description>
+    </item>
+    
+    <item>
+      <title>中位数与顺序统计量</title>
+      <link>https://www.androidpi.com/cs/algorithm/order-statistic/2017-11-29-medians-and-order-statistics/</link>
+      <pubDate>Wed, 29 Nov 2017 00:21:48 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/cs/algorithm/order-statistic/2017-11-29-medians-and-order-statistics/</guid>
+      <description>顺序统计量（Order statistic） 一个n位元素组成的集合中，第i个顺序统计量是该集合中第i小的元素。例如，最小值是第一个顺序统计量（</description>
+    </item>
+    
+    <item>
+      <title>线性时间排序</title>
+      <link>https://www.androidpi.com/cs/algorithm/sorting/2017-11-27-linear-time-sorting/</link>
+      <pubDate>Mon, 27 Nov 2017 15:23:32 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/cs/algorithm/sorting/2017-11-27-linear-time-sorting/</guid>
+      <description>排序算法下界 对任意的比较排序算法都可以抽象为一棵决策树，它是一棵完全二叉树，可以表示在给定输入规模下对所有元素的比较操作，其中，控制、数据移</description>
+    </item>
+    
+    <item>
+      <title>堆与堆排序</title>
+      <link>https://www.androidpi.com/cs/algorithm/sorting/2017-11-26-heap-sort/</link>
+      <pubDate>Sun, 26 Nov 2017 21:35:29 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/cs/algorithm/sorting/2017-11-26-heap-sort/</guid>
+      <description>堆 堆是一个数组，可以看作一个近似的完全二叉树，树中的每一个节点对应于数组中的一个元素。除了最底层的叶节点，往上的所有层都是完全填充的，并且都</description>
+    </item>
+    
+    <item>
+      <title>归并排序（Merge sort）</title>
+      <link>https://www.androidpi.com/cs/algorithm/sorting/2017-11-26-merge-sort/</link>
+      <pubDate>Sun, 26 Nov 2017 18:09:00 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/cs/algorithm/sorting/2017-11-26-merge-sort/</guid>
+      <description>定义 归并排序采用分治策略进行比较操作排序，将待排序的n个元素分解为个含n/2个元素的两部分，使用递归或其它方式迭代地两个子序列进行同样的排序</description>
+    </item>
+    
+    <item>
+      <title>Java内存模型简介</title>
+      <link>https://www.androidpi.com/java/jmm/2017-11-12-jmm-introduction/</link>
+      <pubDate>Sun, 12 Nov 2017 02:01:26 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/jmm/2017-11-12-jmm-introduction/</guid>
+      <description>Why：为什么需要内存模型? “更快，更高，更强”不仅仅是奥林匹克的口号，我们也需要更快，更稳定的计算机硬件和软件。谈到内存模型，到底在谈什么</description>
+    </item>
+    
+    <item>
+      <title>Kotlin数据类型</title>
+      <link>https://www.androidpi.com/dev/kotlin/2017-11-01-kotlin-data-types/</link>
+      <pubDate>Wed, 01 Nov 2017 17:09:39 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/kotlin/2017-11-01-kotlin-data-types/</guid>
+      <description>参考： 基本类型 相等性 空指针安全性 类型检查与转换 Java中有8种基本类型byte，short，int，long，float，double，bo</description>
+    </item>
+    
+    <item>
+      <title>Kotlin高阶函数与Lambdas</title>
+      <link>https://www.androidpi.com/dev/kotlin/2017-10-30-kotlin-lambdas/</link>
+      <pubDate>Mon, 30 Oct 2017 16:34:18 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/kotlin/2017-10-30-kotlin-lambdas/</guid>
+      <description>参考： Lambdas 高阶函数 一个高阶函数接收函数作为其参数，或者返回一个函数。举个栗子，如下所示，lock()函数接收一个lock对象和一个函数，获取锁</description>
+    </item>
+    
+    <item>
+      <title>Kotlin对象</title>
+      <link>https://www.androidpi.com/dev/kotlin/2017-10-30-kotlin-object/</link>
+      <pubDate>Mon, 30 Oct 2017 15:18:46 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/kotlin/2017-10-30-kotlin-object/</guid>
+      <description>参考: 对象声明 对象表达式和声明（Object Expressions and Declarations） 对象表达式（Object expressions） Object表达式</description>
+    </item>
+    
+    <item>
+      <title>Kotlin类的定义</title>
+      <link>https://www.androidpi.com/dev/kotlin/2017-10-30-kotlin-class-definition/</link>
+      <pubDate>Mon, 30 Oct 2017 14:36:02 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/kotlin/2017-10-30-kotlin-class-definition/</guid>
+      <description>数据类（Data Classes） 我们常常创建仅仅持有数据的类，类似Java中的POJO或JavaBean，其对象我们一般称为实体（entit</description>
+    </item>
+    
+    <item>
+      <title>Kotlin类属性与常量</title>
+      <link>https://www.androidpi.com/dev/kotlin/2017-10-30-kotlin-properties/</link>
+      <pubDate>Mon, 30 Oct 2017 03:37:02 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/kotlin/2017-10-30-kotlin-properties/</guid>
+      <description>参考： 对象表达式与声明 类属性 类属性是定义在类中的变量或不变量，分别使用var和val定义。这里把Kotlin中的不变量和常量作下区分，不变量</description>
+    </item>
+    
+    <item>
+      <title>Kotlin类与继承</title>
+      <link>https://www.androidpi.com/dev/kotlin/2017-10-29-kotlin-class-inheritance/</link>
+      <pubDate>Sun, 29 Oct 2017 15:27:43 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/kotlin/2017-10-29-kotlin-class-inheritance/</guid>
+      <description>类定义 类声明由类名、类首部（指定类型参数，主构造器等）、类正文（用花括号包围）。类首部和正文都是可选的。因此最简单的类定义为： class Empty // Implicitly inherits from Any</description>
+    </item>
+    
+    <item>
+      <title>Kotlin函数</title>
+      <link>https://www.androidpi.com/dev/kotlin/2017-10-29-kotlin-function/</link>
+      <pubDate>Sun, 29 Oct 2017 12:43:52 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/kotlin/2017-10-29-kotlin-function/</guid>
+      <description>参考: 函数 函数(Function) Kotlin使用名称函数（function）而非方法（method），我想是为了与Java方法作出区分，和</description>
+    </item>
+    
+    <item>
+      <title>思维剖析：分析与假设</title>
+      <link>https://www.androidpi.com/dev/thought/2017-09-24-analysis-and-hypothesis/</link>
+      <pubDate>Sun, 24 Sep 2017 23:39:07 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/thought/2017-09-24-analysis-and-hypothesis/</guid>
+      <description>最近在lintcode上做算法练习，有一两道基本的快速排序题，以前看过的基础算法没什么印象了，我想这样不行啊，每次看过一遍好像已经懂了，但过</description>
+    </item>
+    
+    <item>
+      <title>概念很重要</title>
+      <link>https://www.androidpi.com/dev/thought/2017-09-17-concepts/</link>
+      <pubDate>Sun, 17 Sep 2017 04:56:22 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/thought/2017-09-17-concepts/</guid>
+      <description>最近在看计算机网络方面的东西，需要根据HTTP协议实现一个基本完整的服务端、客户端以及网关，总想搞明白网络IO是如何抵达操作系统和硬件最终实</description>
+    </item>
+    
+    <item>
+      <title>从MVC到MVVM</title>
+      <link>https://www.androidpi.com/android/architecture/2018-07-08-from-mvc-to-mvvm/</link>
+      <pubDate>Sat, 08 Jul 2017 12:38:56 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/architecture/2018-07-08-from-mvc-to-mvvm/</guid>
+      <description>MVP与MVVM，该选哪一个？ 目前为止，我在工作中用过的应用架构有基于Otto的总线模式和MVP模式，业余时间使用Clean架构和MVVM做</description>
+    </item>
+    
+    <item>
+      <title>迁移到Kotlin</title>
+      <link>https://www.androidpi.com/android/develop/2017-05-21-migrate-to-kotlin/</link>
+      <pubDate>Sun, 21 May 2017 15:05:44 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/develop/2017-05-21-migrate-to-kotlin/</guid>
+      <description>Google I/O已落下帷幕，Google 宣布将战略重心由Mobile转移到AI，这也是时下流行了。作为Android开发者，当然更关心Android</description>
+    </item>
+    
+    <item>
+      <title>CSS布局</title>
+      <link>https://www.androidpi.com/web/2017-05-18-css-layout/</link>
+      <pubDate>Thu, 18 May 2017 00:47:47 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/web/2017-05-18-css-layout/</guid>
+      <description>学习CSS布局</description>
+    </item>
+    
+    <item>
+      <title>CSS</title>
+      <link>https://www.androidpi.com/web/2017-04-29-css/</link>
+      <pubDate>Sat, 29 Apr 2017 15:11:23 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/web/2017-04-29-css/</guid>
+      <description>CSS是如何工作的 当一个浏览器展示一个文档，它必须将文档的内容与样式信息结合。它分两步处理文档： 浏览器将HTML和CSS转换为DOM（Doc</description>
+    </item>
+    
+    <item>
+      <title>HTML</title>
+      <link>https://www.androidpi.com/web/2017-04-09-html/</link>
+      <pubDate>Sun, 09 Apr 2017 19:14:15 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/web/2017-04-09-html/</guid>
+      <description>HTML可以给一段文字赋予不同的意义（段落，列表还是表格），也可以用于组织文档结构，还可以将图片和视频等内容嵌入到页面中。 块级元素与行内元素</description>
+    </item>
+    
+    <item>
+      <title>Ajax</title>
+      <link>https://www.androidpi.com/web/2017-04-03-ajax/</link>
+      <pubDate>Mon, 03 Apr 2017 18:14:06 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/web/2017-04-03-ajax/</guid>
+      <description>Ajax(Asynchronous JavaScript + XML)本身并不是一种技术，而是由Jesse James Garrett于2005年提出的一个方法，将已存在的多种web技术进行整合，使得Web应</description>
+    </item>
+    
+    <item>
+      <title>开始Web之旅</title>
+      <link>https://www.androidpi.com/web/2017-04-01-getting-started-with-web/</link>
+      <pubDate>Sat, 01 Apr 2017 23:13:51 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/web/2017-04-01-getting-started-with-web/</guid>
+      <description>安装必要的工具 一个文本编辑器，这里推荐Brackets，它提供了页面的实时预览与代码提示的功能。还有一个现代浏览器Firefox, Chrom</description>
+    </item>
+    
+    <item>
+      <title>Android应用内存优化</title>
+      <link>https://www.androidpi.com/android/develop/2016-11-16-android-memory-optimization/</link>
+      <pubDate>Wed, 16 Nov 2016 16:33:27 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/develop/2016-11-16-android-memory-optimization/</guid>
+      <description>使用Android监控器优化内存使用 使用Android监控器可以可视化监控app的内存使用： 随着时间展示可用的和分配的Java内存 随着时间展</description>
+    </item>
+    
+    <item>
+      <title>阿里云ECS之Ubuntu服务器配置</title>
+      <link>https://www.androidpi.com/dev/linux/2016-10-22-aliyun-ecs-ubuntu-server-config/</link>
+      <pubDate>Sat, 22 Oct 2016 20:50:53 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/linux/2016-10-22-aliyun-ecs-ubuntu-server-config/</guid>
+      <description>连接到服务器 购买阿里云ECS时设置的管理员密码就是root密码了，可以用于ssh远程登录，使用秘钥登录的方式肯定更方便，那么首先登录服务器，</description>
+    </item>
+    
+    <item>
+      <title>Android测试驱动开发</title>
+      <link>https://www.androidpi.com/android/develop/2016-08-08-android-testing/</link>
+      <pubDate>Mon, 08 Aug 2016 16:43:22 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/develop/2016-08-08-android-testing/</guid>
+      <description>使用迭代式开发工作流程 在迭代开发一个功能时，着手编写一个新的测试或者向已有的单元测试中添加用例和断言，测试一开始会失败，是因为功能还未实现。</description>
+    </item>
+    
+    <item>
+      <title>Dagger2 Api</title>
+      <link>https://www.androidpi.com/android/library/2016-07-12-dagger2-api/</link>
+      <pubDate>Tue, 12 Jul 2016 23:29:50 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/android/library/2016-07-12-dagger2-api/</guid>
+      <description>Component注解 Component注解用于注解一个接口或抽象类，以便从其Module集合中生成一个完全成型的依赖注入实现。 每个使用@C</description>
+    </item>
+    
+    <item>
+      <title>代码之道</title>
+      <link>https://www.androidpi.com/engineering/2016-06-22-the-dao-of-coding/</link>
+      <pubDate>Wed, 22 Jun 2016 15:42:45 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/engineering/2016-06-22-the-dao-of-coding/</guid>
+      <description>写代码应该被当作一件神圣的事，在编码的过程中，可以充分发挥一个人的知识、经验与想象力，打造出一件件艺术品。 写代码之前 是否易于复用 是否易于替换</description>
+    </item>
+    
+    <item>
+      <title>设计模式从MVC谈起</title>
+      <link>https://www.androidpi.com/engineering/2016-02-18-mvc/</link>
+      <pubDate>Thu, 18 Feb 2016 01:27:07 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/engineering/2016-02-18-mvc/</guid>
+      <description>关键词：MVC，可复用，插件化 1、MVC（Model–View–Controller） MVC模式，是一种实现用户界面的软件架构模式。它将一个</description>
+    </item>
+    
+    <item>
+      <title>Git笔记</title>
+      <link>https://www.androidpi.com/dev/tools/2015-10-11-git/</link>
+      <pubDate>Mon, 12 Oct 2015 01:58:23 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/tools/2015-10-11-git/</guid>
+      <description>配置 系统范围的配置($(prefix)/etc/gitconfig) $ git config --system --edit 当前用户全局配置(~/.gitconfig) $ git config --global --edit 当前仓库</description>
+    </item>
+    
+    <item>
+      <title>使用Markdown撰写技术博客</title>
+      <link>https://www.androidpi.com/dev/pages/2015-10-11-markdown/</link>
+      <pubDate>Sun, 11 Oct 2015 18:33:10 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/pages/2015-10-11-markdown/</guid>
+      <description>Markdown简介 Markdown可以概括为两点： 一种普通文本格式语法 一个使用perl编写的软件工具，它将这种普通文本格式转换为HTML 段</description>
+    </item>
+    
+    <item>
+      <title>Github Pages博客搭建</title>
+      <link>https://www.androidpi.com/dev/pages/2015-10-11-github-pages/</link>
+      <pubDate>Sun, 11 Oct 2015 15:28:06 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/pages/2015-10-11-github-pages/</guid>
+      <description>搭建Github Pages的方式 目前常见的Github Pages静态站点的搭建方式有如下几种： Jekyll Hexo Hugo 本站点使用的是Hugo，因为它在本地构建</description>
+    </item>
+    
+    <item>
+      <title>Java面向对象概念（翻译）</title>
+      <link>https://www.androidpi.com/java/core/2015-05-07-java-oop-concepts/</link>
+      <pubDate>Thu, 07 May 2015 06:50:57 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/core/2015-05-07-java-oop-concepts/</guid>
+      <description>这一章节将介绍对象（objects），类（classes），继承（inheritance），接口（interfaces）和包（package</description>
+    </item>
+    
+    <item>
+      <title>Java Concurrency 5、高级并发对象</title>
+      <link>https://www.androidpi.com/java/core/2015-05-06-java-concurrency-5-high-level-concurrency-objects/</link>
+      <pubDate>Wed, 06 May 2015 18:21:56 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/core/2015-05-06-java-concurrency-5-high-level-concurrency-objects/</guid>
+      <description>高级并发对象（High Level Concurrency Objects） 目前为止，这一教程集中于low-level并发API，它是Java平台非常初级的部分。这些API对</description>
+    </item>
+    
+    <item>
+      <title>Java Concurrency 4、不可变对象（Immutable Objects）</title>
+      <link>https://www.androidpi.com/java/core/2015-05-06-java-concurrency-4-immutable-objects/</link>
+      <pubDate>Wed, 06 May 2015 18:11:08 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/core/2015-05-06-java-concurrency-4-immutable-objects/</guid>
+      <description>不可变对象（Immutable Objects） 一个对象在创建后其状态不能被改变，那么就称其为不可变的（immutable）。最大程度地依赖不</description>
+    </item>
+    
+    <item>
+      <title>Java Concurrency 3、活跃性（Liveness）</title>
+      <link>https://www.androidpi.com/java/core/2015-05-06-java-concurrency-3-liveness/</link>
+      <pubDate>Wed, 06 May 2015 17:05:35 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/core/2015-05-06-java-concurrency-3-liveness/</guid>
+      <description>一个并发应用以适时的方式执行的能力称为其活跃性（A concurrent application&amp;rsquo;s ability to execute in a timely manner is known as its liveness. ），这一节描述最常见的活跃性问题，死锁（deadlock），然</description>
+    </item>
+    
+    <item>
+      <title>Java Concurrency 2、同步</title>
+      <link>https://www.androidpi.com/java/core/2015-05-05-java-concurrency-2-synchronization/</link>
+      <pubDate>Tue, 05 May 2015 16:38:58 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/core/2015-05-05-java-concurrency-2-synchronization/</guid>
+      <description>线程通讯主要通过共享对域和引用域所指向的对象的访问来进行，这种通信方式极为高效，但可能引起两种可能的错误：线程干扰（thread interf</description>
+    </item>
+    
+    <item>
+      <title>Java Concurrency 1、进程和线程</title>
+      <link>https://www.androidpi.com/java/core/2015-05-05-java-concurrency-1-process-and-thread/</link>
+      <pubDate>Tue, 05 May 2015 16:21:45 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/core/2015-05-05-java-concurrency-1-process-and-thread/</guid>
+      <description>进程和线程 并发（concurrency）编程用有两种基本的执行单元：进程和线程，在Java中，并发编程大多数只考虑线程，但进程也很重要。 一个</description>
+    </item>
+    
+    <item>
+      <title>Java多线程：Java线程及其状态</title>
+      <link>https://www.androidpi.com/java/concurrency/2015-05-04-java-thread/</link>
+      <pubDate>Mon, 04 May 2015 20:25:37 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/concurrency/2015-05-04-java-thread/</guid>
+      <description>线程状态 线程可以处于下列状态之一： NEW 至今尚未启动的线程处于这种状态。 RUNNABLE 正在 Java 虚拟机中执行的线程处于这种状态。 可运行线程的线程状态。处于可运行</description>
+    </item>
+    
+    <item>
+      <title>Java引用</title>
+      <link>https://www.androidpi.com/java/core/2014-09-23-java-references/</link>
+      <pubDate>Tue, 23 Sep 2014 21:17:32 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/core/2014-09-23-java-references/</guid>
+      <description>Reference是描述所有引用对象（reference objects）共有行为的抽象类，除了这一包（java.lang.ref）所提供的子</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://www.androidpi.com/cs/algorithm/big-o/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/cs/algorithm/big-o/</guid>
+      <description>http://www.cs.cmu.edu/~15122/handouts/05-sort.pdf</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://www.androidpi.com/cs/algorithm/hashtables/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/cs/algorithm/hashtables/</guid>
+      <description>哈希表 许多应用只需要一个动态集合能够进行字典操作，即INSERT，SEARCH，DELETE。哈希表便是实现字典的高效数据结构。哈希表是对更</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://www.androidpi.com/java/jmm/2017-10-12-jmm-java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/java/jmm/2017-10-12-jmm-java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B2/</guid>
+      <description>第二章 构建模块 为了对一个编程语言中的原因与结果进行推论，我们需要做两件事情： 为并发编程提供一个清晰的模型以编写正确的代码。 为平台架构提供一个</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://www.androidpi.com/java/jmm/2017-10-12-jmm-java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B3/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/java/jmm/2017-10-12-jmm-java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B3/</guid>
+      <description>Java内存模型3: 若干动机 上一章概括了所有并发程序的一些非正式属性，以及对这些属性的一些误用导致的错误代码。本章概括了一些内存模型的非正式</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://www.androidpi.com/java/jmm/2017-10-12-jmm-java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B4/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/java/jmm/2017-10-12-jmm-java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B4/</guid>
+      <description>Chapter4 因果性——向Java内存模型进发 在2.1节我们描述过顺序一致性。它过于严格，不能用作Java内存模型，因为它禁止编译器和处理器的优化。我们</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://www.androidpi.com/java/rxjava/rxjava-chapter1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/java/rxjava/rxjava-chapter1/</guid>
+      <description>响应式编程与RxJava 响应式编程（Reactive programming）是一个通用的编程术语，它主要表示对变化的响应，如数据值或事件。它</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://www.androidpi.com/java/rxjava/rxjava-chapter2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/java/rxjava/rxjava-chapter2/</guid>
+      <description>Observable剖析 rx.Observable使用订阅（subscription）和订阅者（Subscriber）来控制监听器 单个Obs</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://www.androidpi.com/java/rxjava/rxjava-chapter3/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/java/rxjava/rxjava-chapter3/</guid>
+      <description>Chapter3 </description>
+    </item>
+    
+    <item>
+      <title>Android LBS开发指南</title>
+      <link>https://www.androidpi.com/android/lbs/android-lbs-develop-guide/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/android/lbs/android-lbs-develop-guide/</guid>
+      <description>GPS坐标 地图坐标系 高德地图API的坐标系 高德地图API使用的坐标体系，为国测局规定的GCJ-02坐标系，是国内的标准坐标体系。区别于GPS</description>
+    </item>
+    
+    <item>
+      <title>Android安全之加壳</title>
+      <link>https://www.androidpi.com/android/security/2018-06-17-android-security-shell/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/android/security/2018-06-17-android-security-shell/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Android开发架构演进</title>
+      <link>https://www.androidpi.com/android/architecture/2018-07-08-android-architecture-evolution/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/android/architecture/2018-07-08-android-architecture-evolution/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Android架构：组件化开发</title>
+      <link>https://www.androidpi.com/android/architecture/2018-08-18-android-architecture-component/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/android/architecture/2018-08-18-android-architecture-component/</guid>
+      <description>资源 参考 Non-constant Fields in Case Labels</description>
+    </item>
+    
+    <item>
+      <title>Android源码：嵌套滑动及其分发流程</title>
+      <link>https://www.androidpi.com/android/ui/2018-08-15-android-nested-scroll/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/android/ui/2018-08-15-android-nested-scroll/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Android热修复技术综述</title>
+      <link>https://www.androidpi.com/android/hotfix/2018-07-21-android-hotfix-overview/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/android/hotfix/2018-07-21-android-hotfix-overview/</guid>
+      <description>安卓App热补丁动态修复技术介绍 tinker</description>
+    </item>
+    
+    <item>
+      <title>Android网络开发指南</title>
+      <link>https://www.androidpi.com/android/networks/2018-5-14-android-networks-develop-guide/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/android/networks/2018-5-14-android-networks-develop-guide/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>AspectJ介绍</title>
+      <link>https://www.androidpi.com/java/aop/2018-07-17-aspectj-introduction/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/java/aop/2018-07-17-aspectj-introduction/</guid>
+      <description>AspectJ由Eclipse出品，它是对Java语言的一个通用的面向切面的扩展。 AspectJ Chapter 1. Getting Started with AspectJ 5. Aspect Oriented Programming with Spring 看AspectJ在Android</description>
+    </item>
+    
+    <item>
+      <title>Gallery</title>
+      <link>https://www.androidpi.com/gallery/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/gallery/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Gitlab Pages:使用Gitlab Issue API构建评论系统</title>
+      <link>https://www.androidpi.com/dev/pages/2018-06-07-gitlab-pages-comments-with-gitlab-issue-api/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/pages/2018-06-07-gitlab-pages-comments-with-gitlab-issue-api/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>HTTP服务API的安全性</title>
+      <link>https://www.androidpi.com/dev/security/2018-06-01-http-services-api-security/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/security/2018-06-01-http-services-api-security/</guid>
+      <description>这里讨论互联网中使用最广泛的应用层协议，即HTTP协议及使用其开发的网络服务API的安全性问题。我们期望达到的目的按重要性排序，有如下几种：</description>
+    </item>
+    
+    <item>
+      <title>Java内存模型</title>
+      <link>https://www.androidpi.com/java/jmm/2017-10-12-jmm-java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/java/jmm/2017-10-12-jmm-java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B1/</guid>
+      <description>导论 现代计算机科学中有两个关键的目的，一是让程序运行的更快，在高层级上，这需要数据结构和算法设计。在低层级上，这需要对指令进行重排序以便以最</description>
+    </item>
+    
+    <item>
+      <title>JVM：指令集</title>
+      <link>https://www.androidpi.com/java/jvm/2018-07-21-jvm-instructions/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/java/jvm/2018-07-21-jvm-instructions/</guid>
+      <description>Java Virtual Machine Online Instruction Reference</description>
+    </item>
+    
+    <item>
+      <title>JVM：结构</title>
+      <link>https://www.androidpi.com/java/jvm/2018-07-21-jvm-structure/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/java/jvm/2018-07-21-jvm-structure/</guid>
+      <description>The Java® Virtual Machine Specification</description>
+    </item>
+    
+    <item>
+      <title>Lunr全文搜索引擎中文支持</title>
+      <link>https://www.androidpi.com/dev/search-engine/2018-06-10-lunrjs-chinese-support/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/search-engine/2018-06-10-lunrjs-chinese-support/</guid>
+      <description>参考： lunrjs lunrjs source lunrjs issue 91 lunrjs issue 95 lunrjs-languages 开始处理各种语言 elasticlunr.js elasticlunr.js 最新版本v0.6.7发布啦</description>
+    </item>
+    
+    <item>
+      <title>Radius AAA认证服务</title>
+      <link>https://www.androidpi.com/backend/2018-05-09-radius-aaa-service/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/backend/2018-05-09-radius-aaa-service/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>React Native之Android开发：原生UI组件</title>
+      <link>https://www.androidpi.com/dev/react-native/2018-05-28-react-native-android-native-ui-components/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/react-native/2018-05-28-react-native-android-native-ui-components/</guid>
+      <description>参考Native UI Components 原生APP中有成千上万的UI小部件可供使用，这其中包括平台自身的、第三方的以及自定义。React Native已经包装了若</description>
+    </item>
+    
+    <item>
+      <title>React Native之Android开发：原生模块</title>
+      <link>https://www.androidpi.com/dev/react-native/2018-05-21-react-native-android-native-modules/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/react-native/2018-05-21-react-native-android-native-modules/</guid>
+      <description>如果React Native提供了调用操作系统所提供的所有功能的能力，那么就可以完全抛开原生代码，仅仅使用JavaScript就可以进行跨平台</description>
+    </item>
+    
+    <item>
+      <title>Reactive Stream简介</title>
+      <link>https://www.androidpi.com/java/rxjava/2018-06-16-reactive-stream/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/java/rxjava/2018-06-16-reactive-stream/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Spring MVC：错误处理</title>
+      <link>https://www.androidpi.com/backend/spring/2018-06-04-spring-mvc-error-handling/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/backend/spring/2018-06-04-spring-mvc-error-handling/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Wi-Fi技术综述</title>
+      <link>https://www.androidpi.com/dev/networks/wifi/2018-05-09-wifi-overview/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/networks/wifi/2018-05-09-wifi-overview/</guid>
+      <description>导引 Wi-Fi是一种基于IEEE 802.11标准的无线局域网技术，术语&amp;rdquo;Wi-Fi&amp;ldquo;是Wi-Fi技术联盟的商标，Wi</description>
+    </item>
+    
+    <item>
+      <title>Wi-Fi：Portal认证</title>
+      <link>https://www.androidpi.com/dev/networks/wifi/2018-05-09-wifi-portal-authentication/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/networks/wifi/2018-05-09-wifi-portal-authentication/</guid>
+      <description>参考： Captive Portal – 连接WiFi自动弹出认证页面</description>
+    </item>
+    
+    <item>
+      <title>Wi-Fi：无线路由器、AC、AP组网</title>
+      <link>https://www.androidpi.com/dev/networks/wifi/2018-05-09-wifi-wireless-router-ac-ap/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/networks/wifi/2018-05-09-wifi-wireless-router-ac-ap/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>中文分词技术综述</title>
+      <link>https://www.androidpi.com/dev/search-engine/2018-06-20-chinese-tokenizer-overview/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/search-engine/2018-06-20-chinese-tokenizer-overview/</guid>
+      <description>参考： 中文分词十年回顾 中文分词算法概述 中文搜索引擎技术揭密：中文分词 中文分词原理及常用Python中文分词库介绍 中文分词基本算法介绍 深度学习</description>
+    </item>
+    
+    <item>
+      <title>中文文章错误检查</title>
+      <link>https://www.androidpi.com/cs/nlp/2018-07-07-typo-error-correct/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/cs/nlp/2018-07-07-typo-error-correct/</guid>
+      <description>How to Write a Spelling Corrector</description>
+    </item>
+    
+    <item>
+      <title>什么是Fragment</title>
+      <link>https://www.androidpi.com/android/framework/2018-06-17-android-fragment/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/android/framework/2018-06-17-android-fragment/</guid>
+      <description>为什么需要Fragment? 在官方文档的翻译中，Fragment译为片段。那么它是谁的片段？当然是Activity的，其目的在于解决如下几个</description>
+    </item>
+    
+    <item>
+      <title>信息检索技术综述</title>
+      <link>https://www.androidpi.com/dev/search-engine/2018-06-10-information-retrieval-overview/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/search-engine/2018-06-10-information-retrieval-overview/</guid>
+      <description>信息检索(Information Retrieval)是从非结构化的大数据集(通常是文本)中寻找满足指定信息需求的资料（通常是文档）。 倒排索</description>
+    </item>
+    
+    <item>
+      <title>内网穿透与Ngrok</title>
+      <link>https://www.androidpi.com/dev/networks/2018-04-29-ngrok-server/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/networks/2018-04-29-ngrok-server/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>实现PinView</title>
+      <link>https://www.androidpi.com/android/develop/2018-07-04-implement-a-pin-editor/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/android/develop/2018-07-04-implement-a-pin-editor/</guid>
+      <description>KeyEvent As soft input methods can use multiple and inventive ways of inputting text, there is no guarantee that any key press on a soft keyboard will generate a key event: this is left to the IME&amp;rsquo;s discretion, and in fact sending such events is discouraged. You should never rely on receiving KeyEvents for any key on a soft input method. In particular, the default software keyboard will never send</description>
+    </item>
+    
+    <item>
+      <title>持续集成(Continuous Integration)</title>
+      <link>https://www.androidpi.com/engineering/2018-04-27-continuous-integration/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/engineering/2018-04-27-continuous-integration/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>数据海洋巡航</title>
+      <link>https://www.androidpi.com/dev/search-engine/2018-07-02-cruising-the-data-ocean/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/search-engine/2018-07-02-cruising-the-data-ocean/</guid>
+      <description>Cruising the Data Ocean</description>
+    </item>
+    
+    <item>
+      <title>理解ListView</title>
+      <link>https://www.androidpi.com/android/ui/2018-06-17-android-listview/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/android/ui/2018-06-17-android-listview/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>理解RecyclerView</title>
+      <link>https://www.androidpi.com/android/ui/2018-06-17-android-recyclerview/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/android/ui/2018-06-17-android-recyclerview/</guid>
+      <description>NestedScrollView中的RecyclerView RecyclerView实现了NestedScrollingChild，而Nes</description>
+    </item>
+    
+    <item>
+      <title>编程语言排名</title>
+      <link>https://www.androidpi.com/dev/thought/2018-07-17-programming-language-rank/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/thought/2018-07-17-programming-language-rank/</guid>
+      <description>https://www.benfrederickson.com/ranking-programming-languages-by-github-users/</description>
+    </item>
+    
+    <item>
+      <title>静态站点的全文搜索</title>
+      <link>https://www.androidpi.com/dev/pages/2018-06-07-static-site-full-text-search/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/dev/pages/2018-06-07-static-site-full-text-search/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

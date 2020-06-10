@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Gradle构建：自定义插件 | 风格与布局</title>
+<meta name="description" content="Gradle插件将可以复用的构建逻辑进行打包，然后就可以在不同的工程和构建中进行使用了。Gradle允许创建你自己的插件，使得你可以复用你的">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#打包一个插件">打包一个插件</a></li>
+    <li><a href="#编写一个简单插件">编写一个简单插件</a></li>
+    <li><a href="#使插件可配置">使插件可配置</a></li>
+    <li><a href="#在自定义任务和插件中操作文件">在自定义任务和插件中操作文件</a></li>
+    <li><a href="#将扩展属性映射到任务属性">将扩展属性映射到任务属性</a></li>
+    <li><a href="#独立项目">独立项目</a>
+      <ul>
+        <li><a href="#创建一个插件id">创建一个插件id</a></li>
+        <li><a href="#发布插件">发布插件</a></li>
+        <li><a href="#在另一个项目中使用你的插件">在另一个项目中使用你的插件</a></li>
+        <li><a href="#为插件编写测试">为插件编写测试</a></li>
+        <li><a href="#使用java-gradle-plugin开发插件">使用Java Gradle Plugin开发插件</a></li>
+      </ul>
+    </li>
+    <li><a href="#为插件提供一个配置dsl">为插件提供一个配置DSL</a>
+      <ul>
+        <li><a href="#嵌套dsl元素">嵌套DSL元素</a></li>
+        <li><a href="#配置对象集合">配置对象集合</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">Gradle构建：自定义插件</h1>
+                </div>
+                <div class="content">
+                        <p>Gradle插件将可以复用的构建逻辑进行打包，然后就可以在不同的工程和构建中进行使用了。Gradle允许创建你自己的插件，使得你可以复用你的构建逻辑并与他人进行分享。</p>
+<p>可以使用Groovy、Java或者Kotlin来实现一个任务类，通常而言，使用Java和Kotlin这样的静态类型语言的性能会比Groovy好。</p>
+<h2 id="打包一个插件">打包一个插件</h2>
+<p>有许多不同的地方可以放插件的源码：</p>
+<ul>
+<li>
+<p>构建脚本</p>
+<p>可以将插件直接包含到构建脚本中。这样的好处是你什么都不用做，插件会自动进行编译并加入到构建脚本的classpath中。然而，该插件在构建脚本外是不可见的，因此你不能再定义的脚本外复用该插件。</p>
+</li>
+<li>
+<p><code>buildSrc</code>工程</p>
+<p>你可以将插件的源码放到<code>rootProjectDir/buildSrc/src/main/groovy</code>目录，Gradle会编译并测试这些类，并将其加入到构建脚本的classpath中。该插件对该构建的每个构建脚本都是可见的。然而它不能用于外部的构建，因此你不能在构建的外部复用该插件。</p>
+</li>
+<li>
+<p>独立工程</p>
+<p>你可以为插件创建一个单独的工程。该工程生成并发布一个JAR包，然后你就可以在不同的构建中使用它了。通常，这个JAR会包含一些自定义的插件，或者将若干相关的任务包含到单个的库中。</p>
+</li>
+</ul>
+<h2 id="编写一个简单插件">编写一个简单插件</h2>
+<p>为了创建一个Gradle插件，你需要编写一个实现<a href="https://docs.gradle.org/current/javadoc/org/gradle/api/Plugin.html"><code>Plugin</code></a>接口的类。当插件应用到一个project时，Gradle创建该插件的一个实例并调用其<a href="https://docs.gradle.org/current/javadoc/org/gradle/api/Plugin.html#apply-T-"><code>Plugin.apply(T)</code></a>方法。该project对象作为参数传入，该插件就可以根据需要对该project进行配置。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GreetingPlugin</span> <span style="color:#66d9ef">implements</span> Plugin<span style="color:#f92672">&lt;</span>Project<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">apply</span><span style="color:#f92672">(</span>Project project<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        project<span style="color:#f92672">.</span><span style="color:#a6e22e">task</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;hello&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            doLast <span style="color:#f92672">{</span>
+                println <span style="color:#e6db74">&#39;Hello from the GreetingPlugin&#39;</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#75715e">// Apply the plugin
+</span><span style="color:#75715e"></span>apply plugin: GreetingPlugin
+</code></pre></div><pre><code>Output of gradle -q hello
+
+&gt; gradle -q hello
+Hello from the GreetingPlugin
+</code></pre>
+<p>需要注意的是，对于每个应用插件的project都会创建一个新的插件实例。注意到<a href="https://docs.gradle.org/current/javadoc/org/gradle/api/Plugin.html"><code>Plugin</code></a>类是一个泛型类型。该示例中它接收一个<a href="https://docs.gradle.org/current/dsl/org.gradle.api.Project.html"><code>Project</code></a>类型作为类型参数。如果将插件应用到一个setting脚本，它还可以接收一个<a href="https://docs.gradle.org/current/dsl/org.gradle.api.initialization.Settings.html"><code>Settings</code></a>类型参数。如果应用到initialization脚本，这接收一个<a href="https://docs.gradle.org/current/dsl/org.gradle.api.invocation.Gradle.html"><code>Gradle</code></a>类型参数。</p>
+<h2 id="使插件可配置">使插件可配置</h2>
+<p>许多插件需要从构建脚本中获取一些配置。一种方式是使用扩展对象（<code>extension objects</code>）。Gradle的<code>Project</code>有一个关联的<a href="https://docs.gradle.org/current/javadoc/org/gradle/api/plugins/ExtensionContainer.html"><code>ExtensionContainer</code></a>对象，它包含了插件应用到project的所有设置和属性。你可以通过向这个容器添加扩展对象为插件提供配置。一个配置对象是一个简单的遵循Java Bean的类。Groovy是实现一个扩展对象的好的选择，因为普通的Groovy对象包含了Java Bean需要的所有getter和setter方法。当然Java和Kotlin也是好的选择。</p>
+<p>示例：一个自定义插件扩展</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GreetingPluginExtension</span> <span style="color:#f92672">{</span>
+    String message <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Hello from GreetingPlugin&#39;</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GreetingPlugin</span> <span style="color:#66d9ef">implements</span> Plugin<span style="color:#f92672">&lt;</span>Project<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">apply</span><span style="color:#f92672">(</span>Project project<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// Add the &#39;greeting&#39; extension object
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">def</span> extension <span style="color:#f92672">=</span> project<span style="color:#f92672">.</span><span style="color:#a6e22e">extensions</span><span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;greeting&#39;</span><span style="color:#f92672">,</span> GreetingPluginExtension<span style="color:#f92672">)</span>
+        <span style="color:#75715e">// Add a task that uses configuration from the extension object
+</span><span style="color:#75715e"></span>        project<span style="color:#f92672">.</span><span style="color:#a6e22e">task</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;hello&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            doLast <span style="color:#f92672">{</span>
+                println extension<span style="color:#f92672">.</span><span style="color:#a6e22e">message</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+apply plugin: GreetingPlugin
+
+<span style="color:#75715e">// Configure the extension
+</span><span style="color:#75715e"></span>greeting<span style="color:#f92672">.</span><span style="color:#a6e22e">message</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Hi from Gradle&#39;</span>
+</code></pre></div><pre><code>Output of gradle -q hello
+
+&gt; gradle -q hello
+Hi from Gradle
+</code></pre>
+<p>上面的例子中，<code>GreetingPluginExtension</code>是一个普通的Groovy对象，有一个<code>message</code>属性。扩展对象以名称<code>greeting</code>加入到插件列表中。然后可以使用这个扩展对象的名字，将其当做一个project属性进行访问了。</p>
+<p>通常，你需要在单个插件中指定若干相互关联的熟悉。Gradle为每个扩展对象添加了一个配置闭包，因此你可以将设置组织在一起。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GreetingPluginExtension</span> <span style="color:#f92672">{</span>
+    String message
+    String greeter
+<span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GreetingPlugin</span> <span style="color:#66d9ef">implements</span> Plugin<span style="color:#f92672">&lt;</span>Project<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">apply</span><span style="color:#f92672">(</span>Project project<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">def</span> extension <span style="color:#f92672">=</span> project<span style="color:#f92672">.</span><span style="color:#a6e22e">extensions</span><span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;greeting&#39;</span><span style="color:#f92672">,</span> GreetingPluginExtension<span style="color:#f92672">)</span>
+        project<span style="color:#f92672">.</span><span style="color:#a6e22e">task</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;hello&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            doLast <span style="color:#f92672">{</span>
+                println <span style="color:#e6db74">&#34;${extension.message} from ${extension.greeter}&#34;</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+apply plugin: GreetingPlugin
+
+<span style="color:#75715e">// Configure the extension using a DSL block
+</span><span style="color:#75715e"></span>greeting <span style="color:#f92672">{</span>
+    message <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Hi&#39;</span>
+    greeter <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Gradle&#39;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><pre><code>Output of gradle -q hello
+
+&gt; gradle -q hello
+Hi from Gradle
+</code></pre>
+<h2 id="在自定义任务和插件中操作文件">在自定义任务和插件中操作文件</h2>
+<p>为了访问文件，Gradle提供的便捷方式是使用<a href="https://docs.gradle.org/current/dsl/org.gradle.api.Project.html#org.gradle.api.Project:file(java.lang.Object)"><code>Project.file(java.lang.Object)</code></a>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GreetingToFileTask</span> <span style="color:#66d9ef">extends</span> DefaultTask <span style="color:#f92672">{</span>
+
+    <span style="color:#66d9ef">def</span> destination
+
+    File <span style="color:#a6e22e">getDestination</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        project<span style="color:#f92672">.</span><span style="color:#a6e22e">file</span><span style="color:#f92672">(</span>destination<span style="color:#f92672">)</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@TaskAction</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">greet</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">def</span> file <span style="color:#f92672">=</span> getDestination<span style="color:#f92672">()</span>
+        file<span style="color:#f92672">.</span><span style="color:#a6e22e">parentFile</span><span style="color:#f92672">.</span><span style="color:#a6e22e">mkdirs</span><span style="color:#f92672">()</span>
+        file<span style="color:#f92672">.</span><span style="color:#a6e22e">write</span> <span style="color:#e6db74">&#39;Hello!&#39;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+task <span style="color:#a6e22e">greet</span><span style="color:#f92672">(</span>type: GreetingToFileTask<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    destination <span style="color:#f92672">=</span> <span style="color:#f92672">{</span> project<span style="color:#f92672">.</span><span style="color:#a6e22e">greetingFile</span> <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+task <span style="color:#a6e22e">sayGreeting</span><span style="color:#f92672">(</span>dependsOn: greet<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    doLast <span style="color:#f92672">{</span>
+        println <span style="color:#a6e22e">file</span><span style="color:#f92672">(</span>greetingFile<span style="color:#f92672">).</span><span style="color:#a6e22e">text</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+ext<span style="color:#f92672">.</span><span style="color:#a6e22e">greetingFile</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;$buildDir/hello.txt&#34;</span>
+</code></pre></div><pre><code>Output of gradle -q sayGreeting
+
+&gt; gradle -q sayGreeting
+Hello!
+</code></pre>
+<p>本例中，使用一个闭包配置<code>greet</code>任务的<code>destination</code>属性。它使用<code>Project.file(java.lang.Object)</code>方法将闭包的返回值转换为一个<code>File</code>对象。在上面的例子中可以看到，我们在任务配置中使用<code>greetingFile</code>属性后才指定其值。在设置一个文件属性，然后在读取该属性时才对其值进行解析，这种懒求值方式是接收任意参数的一种关键好处。</p>
+<h2 id="将扩展属性映射到任务属性">将扩展属性映射到任务属性</h2>
+<p>通过一个扩展从构建脚本捕获用户输入并将其映射到一个自定义任务的输入/输出属性被认为是一个最佳实践。终端用户只与扩展定义并暴露出的DSL进行交互。命令式的逻辑则隐藏在插件实现内。</p>
+<p>构建脚本中声明的扩展以及从扩展属性到自定义任务属性间的映射发生在Gradle构建生命周期的配置阶段。为了避免计算顺序问题，一个映射属性的实际值在必须在执行阶段进行解析。Gradle提供的API提供了用于代表一个应当进行懒估值的属性的类型，可以参考<a href="https://docs.gradle.org/current/userguide/lazy_configuration.html">Lazy Configuration</a>。</p>
+<p>下面的示例展示了用于将扩展属性映射到任务属性的类型的使用：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GreetingPlugin</span> <span style="color:#66d9ef">implements</span> Plugin<span style="color:#f92672">&lt;</span>Project<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">apply</span><span style="color:#f92672">(</span>Project project<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">def</span> extension <span style="color:#f92672">=</span> project<span style="color:#f92672">.</span><span style="color:#a6e22e">extensions</span><span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;greeting&#39;</span><span style="color:#f92672">,</span> GreetingPluginExtension<span style="color:#f92672">,</span> project<span style="color:#f92672">)</span>
+        project<span style="color:#f92672">.</span><span style="color:#a6e22e">tasks</span><span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;hello&#39;</span><span style="color:#f92672">,</span> Greeting<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            message <span style="color:#f92672">=</span> extension<span style="color:#f92672">.</span><span style="color:#a6e22e">message</span>
+            outputFiles <span style="color:#f92672">=</span> extension<span style="color:#f92672">.</span><span style="color:#a6e22e">outputFiles</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GreetingPluginExtension</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">final</span> Property<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> message
+    <span style="color:#66d9ef">final</span> ConfigurableFileCollection outputFiles
+
+    <span style="color:#a6e22e">GreetingPluginExtension</span><span style="color:#f92672">(</span>Project project<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        message <span style="color:#f92672">=</span> project<span style="color:#f92672">.</span><span style="color:#a6e22e">objects</span><span style="color:#f92672">.</span><span style="color:#a6e22e">property</span><span style="color:#f92672">(</span>String<span style="color:#f92672">)</span>
+        message<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;Hello from GreetingPlugin&#39;</span><span style="color:#f92672">)</span>
+        outputFiles <span style="color:#f92672">=</span> project<span style="color:#f92672">.</span><span style="color:#a6e22e">layout</span><span style="color:#f92672">.</span><span style="color:#a6e22e">configurableFiles</span><span style="color:#f92672">()</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setOutputFiles</span><span style="color:#f92672">(</span>FileCollection outputFiles<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">outputFiles</span><span style="color:#f92672">.</span><span style="color:#a6e22e">setFrom</span><span style="color:#f92672">(</span>outputFiles<span style="color:#f92672">)</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Greeting</span> <span style="color:#66d9ef">extends</span> DefaultTask <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">final</span> Property<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> message <span style="color:#f92672">=</span> project<span style="color:#f92672">.</span><span style="color:#a6e22e">objects</span><span style="color:#f92672">.</span><span style="color:#a6e22e">property</span><span style="color:#f92672">(</span>String<span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">final</span> ConfigurableFileCollection outputFiles <span style="color:#f92672">=</span> project<span style="color:#f92672">.</span><span style="color:#a6e22e">layout</span><span style="color:#f92672">.</span><span style="color:#a6e22e">configurableFiles</span><span style="color:#f92672">()</span>
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setOutputFiles</span><span style="color:#f92672">(</span>FileCollection outputFiles<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">outputFiles</span><span style="color:#f92672">.</span><span style="color:#a6e22e">setFrom</span><span style="color:#f92672">(</span>outputFiles<span style="color:#f92672">)</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@TaskAction</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">printMessage</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        outputFiles<span style="color:#f92672">.</span><span style="color:#a6e22e">each</span> <span style="color:#f92672">{</span>
+            logger<span style="color:#f92672">.</span><span style="color:#a6e22e">quiet</span> <span style="color:#e6db74">&#34;Writing message &#39;Hi from Gradle&#39; to file&#34;</span>
+            it<span style="color:#f92672">.</span><span style="color:#a6e22e">text</span> <span style="color:#f92672">=</span> message<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">()</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+apply plugin: GreetingPlugin
+
+greeting <span style="color:#f92672">{</span>
+    message <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Hi from Gradle&#39;</span>
+    outputFiles <span style="color:#f92672">=</span> layout<span style="color:#f92672">.</span><span style="color:#a6e22e">files</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;a.txt&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;b.txt&#39;</span><span style="color:#f92672">)</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><pre><code>Output of gradle -q hello
+
+&gt; gradle -q hello
+Writing message 'Hi from Gradle' to file
+Writing message 'Hi from Gradle' to file
+</code></pre>
+<blockquote>
+<p>注意：该示例代码可以在如下地方找到</p>
+</blockquote>
+<blockquote>
+<p>samples/userguide/tasks/mapExtensionPropertiesToTaskProperties in the ‘-all’ distribution of Gradle.</p>
+</blockquote>
+<h2 id="独立项目">独立项目</h2>
+<p>现在可以将我们的插件移到一个独立的项目中，这样就可将其发布并与他人分享。该项目仅仅是一个包含插件类并生成一个JAR包的Groovy项目。下面是该工程的一个简单构建脚本。它应用Groovy插件并添加Gradle API作为编译时依赖。</p>
+<p>示例：自定义插件的构建脚本</p>
+<p>build.gradle</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">apply plugin: <span style="color:#e6db74">&#39;groovy&#39;</span>
+
+dependencies <span style="color:#f92672">{</span>
+    compile <span style="color:#a6e22e">gradleApi</span><span style="color:#f92672">()</span>
+    compile <span style="color:#a6e22e">localGroovy</span><span style="color:#f92672">()</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>那么Gradle如何找到<code>Plugin</code>实现，你需要在jar包的<code>META-INF/gradle-plugins</code>目录提供一个与插件id匹配的属性文件。</p>
+<p>src/main/resources/META-INF/gradle-plugins/org.samples.greeting.properties</p>
+<pre><code>implementation-class=org.gradle.GreetingPlugin
+</code></pre><p>注意属性的文件名与插件id相匹配并放在资源目录中，并且<code>implementation-class</code>属性标识<code>Plugin</code>的实现类。上面的属性文件名<code>org.samples.greeting</code>即为插件id。</p>
+<h3 id="创建一个插件id">创建一个插件id</h3>
+<p>与Java包名类似，插件id是一个全限定的名称。这可以帮助避免冲突并提供了一个使用相似所有权来组织插件的方法。</p>
+<p>你的插件id应当是反应命名空间的的组件和插件名的组合。例如，你有一个Github账号名为&quot;foo&quot;和一个插件名为&quot;bar&rdquo;，一个合适的名字可以是<code>com.github.foo.bar</code>。</p>
+<p>插件id应当遵循如下规则：</p>
+<ul>
+<li>可以包含任意字母、数组、&rsquo;.'、和&rsquo;-&lsquo;字符</li>
+<li>必须至少包含一个&rsquo;.&lsquo;来分割命名空间和插件名</li>
+<li>约定上使用小写的域名倒序作为命名空间</li>
+<li>约定上在名称中仅使用小写</li>
+<li>不应当使用<code>org.gardle</code>和<code>com.gradle</code>作为命名空间</li>
+<li>不能以一个 &lsquo;.&rsquo; 字符开头或结束</li>
+<li>不能包含连续的&rsquo;.&rsquo; 字符</li>
+</ul>
+<h3 id="发布插件">发布插件</h3>
+<p>如果是内部使用，可以像其他代码库一样打包发布，例如使用<code>ivy</code>和<code>maven</code>进行打包。</p>
+<p>如果将其发布到社区，可以发布到<a href="http://plugins.gradle.org/?_ga=2.35425953.1200471276.1531149141-1924098524.1531149141">Gradle插门户</a>，参考<a href="http://plugins.gradle.org/docs/submit?_ga=2.95316252.1200471276.1531149141-1924098524.1531149141">此处</a>。</p>
+<h3 id="在另一个项目中使用你的插件">在另一个项目中使用你的插件</h3>
+<p>为了在一个构建脚本中使用插件，需要将插件加入到构建脚本的classpath中，有两种方式：</p>
+<ul>
+<li>本地仓库或远程仓库(以下示例是本地仓库url)</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">buildscript <span style="color:#f92672">{</span>
+    repositories <span style="color:#f92672">{</span>
+        maven <span style="color:#f92672">{</span>
+            url <span style="color:#a6e22e">uri</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;../repo&#39;</span><span style="color:#f92672">)</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+    dependencies <span style="color:#f92672">{</span>
+        classpath group: <span style="color:#e6db74">&#39;org.gradle&#39;</span><span style="color:#f92672">,</span> name: <span style="color:#e6db74">&#39;customPlugin&#39;</span><span style="color:#f92672">,</span>
+                  version: <span style="color:#e6db74">&#39;1.0-SNAPSHOT&#39;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+apply plugin: <span style="color:#e6db74">&#39;org.samples.greeting&#39;</span>
+</code></pre></div><ul>
+<li>插件DSL</li>
+</ul>
+<pre><code>plugins {
+    id 'com.jfrog.bintray' version '0.4.1'
+}
+</code></pre><h3 id="为插件编写测试">为插件编写测试</h3>
+<p>在测试插件时可以使用<code>ProjectBuilder</code>来创建<code>Project</code>实例：</p>
+<p>src/test/groovy/org/gradle/GreetingPluginTest.groovy</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GreetingPluginTest</span> <span style="color:#f92672">{</span>
+    <span style="color:#a6e22e">@Test</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">greeterPluginAddsGreetingTaskToProject</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        Project project <span style="color:#f92672">=</span> ProjectBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">builder</span><span style="color:#f92672">().</span><span style="color:#a6e22e">build</span><span style="color:#f92672">()</span>
+        project<span style="color:#f92672">.</span><span style="color:#a6e22e">pluginManager</span><span style="color:#f92672">.</span><span style="color:#a6e22e">apply</span> <span style="color:#e6db74">&#39;org.samples.greeting&#39;</span>
+
+        assertTrue<span style="color:#f92672">(</span>project<span style="color:#f92672">.</span><span style="color:#a6e22e">tasks</span><span style="color:#f92672">.</span><span style="color:#a6e22e">hello</span> <span style="color:#66d9ef">instanceof</span> GreetingTask<span style="color:#f92672">)</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h3 id="使用java-gradle-plugin开发插件">使用Java Gradle Plugin开发插件</h3>
+<p>你可以使用孵化阶段的<a href="https://docs.gradle.org/current/userguide/java_gradle_plugin.html">Java Gradle Plugin development plugin</a>来开发插件。</p>
+<h2 id="为插件提供一个配置dsl">为插件提供一个配置DSL</h2>
+<p>正如我们在上面看到的，你可以使用扩展对象为插件提供配置。使用扩展对象也可以扩展Gradle DSL来为插件添加一个project属性和DSL。一个扩展对象是一个简单的常规对象，因此你可以通过添加属性和方法到扩展对象来提供嵌入在块内部的DSL元素，</p>
+<p>Gradle提供了几种便捷的方式来为插件创建具有良好行为的DSL。</p>
+<h3 id="嵌套dsl元素">嵌套DSL元素</h3>
+<p>当Gradle创建了一个任务或扩展对象，<strong>Gradle就会将实现类进行装饰以混合到DSL支持中</strong>。为了创建一个嵌套的DSL元素，你可以使用<a href="https://docs.gradle.org/current/javadoc/org/gradle/api/model/ObjectFactory.html">ObjectFactory</a>类型来创建进行了类似装饰的对象。通过插件扩展的属性和方法，这些装饰对象可以被DSL见到。</p>
+<p>示例：嵌套DSL元素</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span> <span style="color:#f92672">{</span>
+    String name
+<span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GreetingPluginExtension</span> <span style="color:#f92672">{</span>
+    String message
+    <span style="color:#66d9ef">final</span> Person greeter
+
+    <span style="color:#a6e22e">@javax.inject.Inject</span>
+    GreetingPluginExtension<span style="color:#f92672">(</span>ObjectFactory objectFactory<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// Create a Person instance
+</span><span style="color:#75715e"></span>        greeter <span style="color:#f92672">=</span> objectFactory<span style="color:#f92672">.</span><span style="color:#a6e22e">newInstance</span><span style="color:#f92672">(</span>Person<span style="color:#f92672">)</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">greeter</span><span style="color:#f92672">(</span>Action<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">super</span> Person<span style="color:#f92672">&gt;</span> action<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        action<span style="color:#f92672">.</span><span style="color:#a6e22e">execute</span><span style="color:#f92672">(</span>greeter<span style="color:#f92672">)</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GreetingPlugin</span> <span style="color:#66d9ef">implements</span> Plugin<span style="color:#f92672">&lt;</span>Project<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">apply</span><span style="color:#f92672">(</span>Project project<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// Create the extension, passing in an ObjectFactory for it to use
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">def</span> extension <span style="color:#f92672">=</span> project<span style="color:#f92672">.</span><span style="color:#a6e22e">extensions</span><span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;greeting&#39;</span><span style="color:#f92672">,</span> GreetingPluginExtension<span style="color:#f92672">,</span> project<span style="color:#f92672">.</span><span style="color:#a6e22e">objects</span><span style="color:#f92672">)</span>
+        project<span style="color:#f92672">.</span><span style="color:#a6e22e">task</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;hello&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            doLast <span style="color:#f92672">{</span>
+                println <span style="color:#e6db74">&#34;${extension.message} from ${extension.greeter.name}&#34;</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+apply plugin: GreetingPlugin
+
+greeting <span style="color:#f92672">{</span>
+    message <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Hi&#39;</span>
+    greeter <span style="color:#f92672">{</span>
+        name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Gradle&#39;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><pre><code>Output of gradle -q hello
+
+&gt; gradle -q hello
+Hi from Gradle
+</code></pre>
+<p>上面的例子中，插件通过其构造器将project的<code>ObjectFactory</code>传递给extension对象。构造器使用它来创建一个嵌套对象，并通过<code>greeter</code>属性让DSL可以使用该对象。</p>
+<h3 id="配置对象集合">配置对象集合</h3>
+<p>Gradle提供了一些工具类来管理一个集合的对象，并且让其和Gradle的DSL可以良好配合。</p>
+<p>示例：管理一个集合的对象</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Book</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">final</span> String name
+    File sourceFile
+
+    <span style="color:#a6e22e">Book</span><span style="color:#f92672">(</span>String name<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> name
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DocumentationPlugin</span> <span style="color:#66d9ef">implements</span> Plugin<span style="color:#f92672">&lt;</span>Project<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">apply</span><span style="color:#f92672">(</span>Project project<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// Create a container of Book instances
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">def</span> books <span style="color:#f92672">=</span> project<span style="color:#f92672">.</span><span style="color:#a6e22e">container</span><span style="color:#f92672">(</span>Book<span style="color:#f92672">)</span>
+        books<span style="color:#f92672">.</span><span style="color:#a6e22e">all</span> <span style="color:#f92672">{</span>
+            sourceFile <span style="color:#f92672">=</span> project<span style="color:#f92672">.</span><span style="color:#a6e22e">file</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;src/docs/$name&#34;</span><span style="color:#f92672">)</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#75715e">// Add the container as an extension object
+</span><span style="color:#75715e"></span>        project<span style="color:#f92672">.</span><span style="color:#a6e22e">extensions</span><span style="color:#f92672">.</span><span style="color:#a6e22e">books</span> <span style="color:#f92672">=</span> books
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+apply plugin: DocumentationPlugin
+
+<span style="color:#75715e">// Configure the container
+</span><span style="color:#75715e"></span>books <span style="color:#f92672">{</span>
+    quickStart <span style="color:#f92672">{</span>
+        sourceFile <span style="color:#f92672">=</span> file<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;src/docs/quick-start&#39;</span><span style="color:#f92672">)</span>
+    <span style="color:#f92672">}</span>
+    userGuide <span style="color:#f92672">{</span>
+
+    <span style="color:#f92672">}</span>
+    developerGuide <span style="color:#f92672">{</span>
+
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+task books <span style="color:#f92672">{</span>
+    doLast <span style="color:#f92672">{</span>
+        books<span style="color:#f92672">.</span><span style="color:#a6e22e">each</span> <span style="color:#f92672">{</span> book <span style="color:#f92672">-&gt;</span>
+            println <span style="color:#e6db74">&#34;$book.name -&gt; $book.sourceFile&#34;</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><pre><code>Output of gradle -q books
+
+&gt; gradle -q books
+developerGuide -&gt; /home/user/gradle/samples/userguide/customPlugins/customPluginWithDomainObjectContainer/src/docs/developerGuide
+quickStart -&gt; /home/user/gradle/samples/userguide/customPlugins/customPluginWithDomainObjectContainer/src/docs/quick-start
+userGuide -&gt; /home/user/gradle/samples/userguide/customPlugins/customPluginWithDomainObjectContainer/src/docs/userGuide
+</code></pre>
+<p><a href="https://docs.gradle.org/current/dsl/org.gradle.api.Project.html#org.gradle.api.Project:container(java.lang.Class)"><code>Project.container(java.lang.Class)</code></a>方法创建了一个<a href="https://docs.gradle.org/current/dsl/org.gradle.api.NamedDomainObjectContainer.html"><code>NamedDomainObjectContainer</code></a>实例，它有许多有用的方法用于管理和配置对象。为了使任意的<code>project.container</code>方法可以和一个类型一起使用，它必须暴露出一个命名的“name”作为该对象唯一的常量名称。容器方法<code>project.container(Class)</code>的变体通过尝试调用该类型的接收一个字符串参数的构造器来创建新的实体，这个字符串参数就是对象的名称。</p>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Java内存模型：volatile变量 | 风格与布局</title>
+<meta name="description" content="根据JLS 8.3.1.4，Java语言允许多个线程对共享的变量进行访问，作为一种规则，为了保证共享变量更新的一致性和可靠性，一个线程应当通过">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#volatile与原子访问">volatile与原子访问</a></li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">Java内存模型：volatile变量</h1>
+                </div>
+                <div class="content">
+                        <p>根据<a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.3.1.4">JLS 8.3.1.4</a>，Java语言允许多个线程对共享的变量进行访问，作为一种规则，为了保证共享变量更新的一致性和可靠性，一个线程应当通过获取一个锁来保证对该变量进行独占的使用，通常这个锁为这些共享变量施加互斥性。</p>
+<p>Java语言还提供了第二种机制，即<code>volatile</code>域，对于一些目的，它比锁更加方便。</p>
+<p>一个域可以定义为<code>volatile</code>，这种情况下，对于该变量，Java内存模型会保证所有线程会观察到一致的值。</p>
+<blockquote>
+<p>将一个<code>final</code>变量声明同时也定义为<code>volatile</code>会产生编译时错误。</p>
+</blockquote>
+<p>示例，<code>volatile</code>域：</p>
+<p>在下面的示例中，一个线程重复地调用方法<code>one</code>（不超过<code>Integer.MAX_VALUE</code>最大次数），另一个线程重复地调用方法<code>two</code>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Test</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">,</span> j <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">one</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span> i<span style="color:#f92672">++;</span> j<span style="color:#f92672">++;</span> <span style="color:#f92672">}</span>
+    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">two</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;i=&#34;</span> <span style="color:#f92672">+</span> i <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; j=&#34;</span> <span style="color:#f92672">+</span> j<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>然后方法<code>two</code>偶尔会打印出<code>j</code>的值比<code>i</code>的值要大，因为上面的示例中没有同步，那么根据<a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-17.html#jls-17.4">内存模型所描述的规则</a>，共享变量<code>i</code>和<code>j</code>可能不按顺序进行更新。</p>
+<p>一种避免这种无序的行为就是将方法<code>one</code>和<code>two</code>声明为<code>synchronized</code>的：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Test</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">,</span> j <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">synchronized</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">one</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span> i<span style="color:#f92672">++;</span> j<span style="color:#f92672">++;</span> <span style="color:#f92672">}</span>
+    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">synchronized</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">two</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;i=&#34;</span> <span style="color:#f92672">+</span> i <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; j=&#34;</span> <span style="color:#f92672">+</span> j<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>这可以避免方法<code>one</code>和<code>two</code>并行地执行，进一步地保证了共享变量<code>i</code>和<code>j</code>在方法<code>one</code>返回前都得到更新。因此方法<code>two</code>永远不会观察到<code>j</code>的值比<code>i</code>的值要大，事实上，它总会观察到相同的值。</p>
+<p>另外一种方式是将<code>i</code>和<code>j</code>声明为<code>volatile</code>的：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Test</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">volatile</span> <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">,</span> j <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">one</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span> i<span style="color:#f92672">++;</span> j<span style="color:#f92672">++;</span> <span style="color:#f92672">}</span>
+    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">two</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;i=&#34;</span> <span style="color:#f92672">+</span> i <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; j=&#34;</span> <span style="color:#f92672">+</span> j<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>这使得方法<code>one</code>和<code>two</code>可以并行执行，并且保证对共享变量<code>i</code>和<code>j</code>的访问发生的次数和顺序恰好相同，就像它们出现在被每个线程所执行的程序文本中的那样。因此，共享变量<code>j</code>的值永远不会比<code>i</code>大，因为对<code>i</code>的每次更新必须在对<code>j</code>的更新发生前反映到共享变量<code>i</code>上。然而有可能，对方法<code>two</code>的给定调用会观察到<code>j</code>的值比观察到的<code>i</code>的值要大，因为，在方法<code>two</code>获取<code>i</code>的值的时刻和获取<code>j</code>的时刻之间，方法<code>one</code>可能已经执行了多次。</p>
+<h2 id="volatile与原子访问">volatile与原子访问</h2>
+<p>Java语言底层提供的原子性的操作有如下两种：</p>
+<ul>
+<li>对引用变量和大多数基本变量（除了long和double）的读和写都是原子的</li>
+<li>对所有声明为volatile的变量（包括long和double）的读和写都是原子的</li>
+</ul>
+<p>原子操作不能被交错，因此使用时不用担心线程干扰。但这并不能消除同步原子操作的需要，因为内存一致性错误依然可能存在。使用volatile变量可以降低内存一致性错误，因为任何对volatile变量的写操作都与随后对同一变量的读操作建立了前置发生关系。这意味着对volatile变量的改变对其它线程总是可见的。更进一步，这也意味着，当一个线程在读一个volatile变量时，它不仅可以看到对volatile的最新的改动，也可以看到引起改变的代码的副作用（side effects）。</p>
+<p><strong>因此原子性并不能保证内存一致性（可见性）</strong>。</p>
+<p>对于volatile变量而言，如果一个操作仅涉及对该变量的读与写，不依赖于其它复合性操作，那么它可以保证该变量访问的有序性、可见性和原子性。</p>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

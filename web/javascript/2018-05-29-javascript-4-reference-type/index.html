@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>JavaScript: 引用类型 | 风格与布局</title>
+<meta name="description" content="引用类型与类看起来相似，但它们并不是相同的概念。引用类型有时也被称为对象定义，因为它们描述的是一类对象所具有的属性和方法。对象是某个特定引用">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#51-object类型">5.1 Object类型</a></li>
+    <li><a href="#52-array类型">5.2 Array类型</a>
+      <ul>
+        <li><a href="#检测数组">检测数组</a></li>
+        <li><a href="#转换方法">转换方法</a></li>
+        <li><a href="#栈方法">栈方法</a></li>
+        <li><a href="#队列方法">队列方法</a></li>
+        <li><a href="#重排序方法">重排序方法</a></li>
+        <li><a href="#操作方法">操作方法</a></li>
+        <li><a href="#位置方法">位置方法</a></li>
+        <li><a href="#迭代方法">迭代方法</a></li>
+        <li><a href="#归纳方法">归纳方法</a></li>
+      </ul>
+    </li>
+    <li><a href="#53-date类型">5.3 Date类型</a></li>
+    <li><a href="#54-regexp类型">5.4 RegExp类型</a></li>
+    <li><a href="#55-function类型">5.5 Function类型</a></li>
+    <li><a href="#56-基本包装类型">5.6 基本包装类型</a></li>
+    <li><a href="#57-单体内置对象">5.7 单体内置对象</a>
+      <ul>
+        <li><a href="#global">Global</a></li>
+        <li><a href="#math">Math</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">JavaScript: 引用类型</h1>
+                </div>
+                <div class="content">
+                        <p>引用类型与类看起来相似，但它们并不是相同的概念。引用类型有时也被称为对象定义，因为它们描述的是一类对象所具有的属性和方法。对象是某个特定引用类型的实例。ECMAScript从技术上讲是一门面向对象的语言，但它不具备传统的面向对象语言所支持的类和接口等基本结构。</p>
+<h2 id="51-object类型">5.1 Object类型</h2>
+<p>创建Object实例的两种方式：</p>
+<ol>
+<li>new操作符
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">person</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Object();
+<span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Nicholas&#34;</span>;
+<span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">age</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">29</span>;
+</code></pre></div></li>
+<li>对象字面量
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">person</span> <span style="color:#f92672">=</span> {
+    <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Nicholas&#34;</span>,
+    <span style="color:#a6e22e">age</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">29</span>
+};
+</code></pre></div></li>
+</ol>
+<p>一般，访问对象属性时使用的都是点表示法，这也是许多面向对象语言中通用的语法。JavaScript中也可以使用方括号表示法来访问对象属性，属性名是可以包含非字母和非数字字符的，这时候就可以使用方括号语法来访问它们。通常，除非必须使用变量来访问属性，否则建议使用点表示法。</p>
+<h2 id="52-array类型">5.2 Array类型</h2>
+<p>ECMAScript数组与其他语言中的数组都是数据的有序列表，但与其他语言不同的是，<strong>ECMAScript数组的每一项可以保存任何类型的数据。而且，ECMAScript数组的大小是可以动态调整的，即可以随着数据的添加自动增长以容纳新增数据。</strong></p>
+<p>创建数组的基本方式有两种:</p>
+<ol>
+<li>
+<p>使用Array构造函数</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">colors</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Array();
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">colors</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Array(<span style="color:#ae81ff">20</span>);
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">colors</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Array(<span style="color:#e6db74">&#34;red&#34;</span>, <span style="color:#e6db74">&#34;blue&#34;</span>, <span style="color:#e6db74">&#34;green&#34;</span>);
+</code></pre></div><p>另外使用Array构造函数时也可以省略new操作符。如下面的例子所示，省略new操作符的结果相同：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">colors</span> <span style="color:#f92672">=</span> Array(<span style="color:#ae81ff">3</span>);            <span style="color:#75715e">// 创建一个包含3项的数组
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">names</span> <span style="color:#f92672">=</span> Array(<span style="color:#e6db74">&#34;Greg&#34;</span>);        <span style="color:#75715e">// 创建一个包含1项，即字符串&#34;Greg&#34;的数组
+</span></code></pre></div></li>
+<li>
+<p>数组字面量
+数组字面量由一对包含数组项的方括号表示，多个数组项之间以逗号隔开。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">colors</span> <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;red&#34;</span>, <span style="color:#e6db74">&#34;blue&#34;</span>, <span style="color:#e6db74">&#34;green&#34;</span>];
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">names</span> <span style="color:#f92672">=</span> [];
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">values</span> <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, ];  <span style="color:#75715e">// 不要这样！这样会创建一个包含2或3项的数组
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">options</span> <span style="color:#f92672">=</span> [,,,,,];  <span style="color:#75715e">// 不要这样！这样会创建一个包含5或6项的数组
+</span></code></pre></div></li>
+</ol>
+<h3 id="检测数组">检测数组</h3>
+<p>instanceof操作符的问题在于，它假设单一的全局执行环境。如果网页中包含多个框架，那实际上就存在两个以上不同的全局执行环境，从而存在两个以上不同版本的Array构造函数。如果从一个框架向另一个框架传入一个数组，那么传入的数组与在第二个框架中的原生创建的数组分别具有各自不同的构造函数。</p>
+<p>为了解决这个问题，ECMAScript 5新增了Array.isArray()方法。这个方法的目的是最终确定某个值到底是不是数组，而不管它是在哪个全局执行环境中创建的。</p>
+<h3 id="转换方法">转换方法</h3>
+<p><code>toLocaleString()</code>，<code>toString()</code>，<code>valueOf()</code>方法。</p>
+<h3 id="栈方法">栈方法</h3>
+<p>ECMAScript为数组提供了<code>push()</code>和<code>pop()</code>方法，可以让数组的行为表现的和栈一样。</p>
+<h3 id="队列方法">队列方法</h3>
+<p>栈数据结构的访问规则是LIFO，而队列数据结构的访问规则是FIFO。队列在列表末端添加项，从列表的前端移除项。由于<code>push()</code>是向数组末端添加项的方法，因此要模拟队列只需要一个从数组前端取得项的方法。实现这一操作的方法就是<code>shift()</code>，再结合<code>push()</code>方法，可以像使用队列一样使用数组。</p>
+<h3 id="重排序方法">重排序方法</h3>
+<p>数组中已经存在两个可以直接用来重排序的方法：</p>
+<ul>
+<li><code>reverse()</code>：反转数组顺序</li>
+<li><code>sort()</code>：默认按升序排列数组项，也可以接收一个比较函数作为参数，以便指定哪个值位于哪个值前面</li>
+</ul>
+<h3 id="操作方法">操作方法</h3>
+<ul>
+<li><code>concat()</code>：不传参数时，复制当前数组并返回副本。传递参数时，首先复制当前数组，然后将参数中的数组的每一项都添加到复制的数组中，最终返回结果副本。如果参数值不是数组，则简单地将参数值添加到副本末尾。</li>
+<li><code>slice()</code>：和python的切片语法类似，该方法可以传入一个或两个整形参数进行数组切片，参数可以是负数，表示数组长度加上该负数后的位置。</li>
+<li><code>splice()</code>：最强大的数组方法，主要用途是向数组的中部插入项，但使用这种方法的方式则有如下3种。
+<ol>
+<li>删除：可以删除任意数量的项。</li>
+<li>插入：可以向指定位置插入任意数量的项</li>
+<li>替换：可以向指定位置插入任意数量的项，且同时删除任意数量的项。</li>
+</ol>
+</li>
+</ul>
+<h3 id="位置方法">位置方法</h3>
+<p>ECMAScript为数组实例添加了两个位置方法：<code>indexOf()</code>和<code>lastIndexOf()</code>。这两个方法都接收两个参数：要查找的项和（可选的）表示查找起点位置的索引。两个方法都返回要查找的项在数组中的位置，或者在没有找到的情况下返回-1。</p>
+<h3 id="迭代方法">迭代方法</h3>
+<p>ECMAScript5为数组定义了5个迭代方法。每个方法都接收两个参数：要在每一项上运行的函数和（可选的）运行该函数的作用域对象——影响this的值。</p>
+<p>传入这些方法中的函数会接收三个参数：</p>
+<ul>
+<li>数组项的值</li>
+<li>该项在数组中的位置</li>
+<li>数组对象本身</li>
+</ul>
+<p>以下是这5个迭代方法的作用：</p>
+<ul>
+<li><code>every()</code>：对数组中的每一项运行给定函数，如果该函数对每一项都返回true，则返回true。</li>
+<li><code>filter()</code>：对数组中的每一项运行给定函数，返回该函数会返回true的项组成的数组。</li>
+<li><code>forEach()</code>：对数组中的每一项运行给定函数，这个方法没有返回值。</li>
+<li><code>map()</code>：对数组中的每一项运行给定函数，返回每次函数调用的结果组成的数组。</li>
+<li><code>some()</code>：对数组中的每一项运行给定函数，如果该函数对任一项返回true，则返回true。</li>
+</ul>
+<h3 id="归纳方法">归纳方法</h3>
+<p>ECMAScript 5还新增了两个缩小数组的方法：reduce()和reduceRight()。这两个方法都会迭代数组所有项，然后构建一个最终的返回值。</p>
+<h2 id="53-date类型">5.3 Date类型</h2>
+<p>ECMAScript中的Date类型是在早期Java中的java.util.Date类基础上构建的。为此Date类型使用自UTC（Coordinated Universal Time，国际协调时间）1970年1月1日午夜零时开发进过的毫秒数来保存日期。</p>
+<h2 id="54-regexp类型">5.4 RegExp类型</h2>
+<p>ECMAScript通过RegExp类型来支持正则表达式。使用下面类型Perl的语法，可以创建一个正则表达式。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">experssion</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">/ pattern /</span> <span style="color:#a6e22e">flags</span>;
+</code></pre></div><p>其中的模型（pattern）部分可以是任何简单或复杂的正则表达式，可以包含字符类、限定符、分组、向前查找以及反向引用。每个正则表达式都可带有一或多个标志(flags)，用以表明正则表达式的行为。正则表达式的匹配模式支持下列3个标志。</p>
+<ul>
+<li>g：表示全局模式，即模式将被应用于所有字符串，而非在发现第一个匹配项时立即停止。</li>
+<li>i：表示不区分大小写模式，即在确定匹配项时忽略模式与字符串的大小写。</li>
+<li>m：表示多行模式，即在到达一行文本末尾时还会继续查找下一行中是否存在于模式匹配的项。</li>
+</ul>
+<h2 id="55-function类型">5.5 Function类型</h2>
+<p>ECMAScript中最有意思的莫过于函数了，其根源在于函数实际上是对象。每个函数都是Function类型的实例，而且都与其他引用类型一样具有属性和方法。</p>
+<h2 id="56-基本包装类型">5.6 基本包装类型</h2>
+<p>为了便于操作基本类型值，ECMAScript还提供了3个特殊的引用类型：Boolean、Number和String。</p>
+<h2 id="57-单体内置对象">5.7 单体内置对象</h2>
+<h3 id="global">Global</h3>
+<h3 id="math">Math</h3>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

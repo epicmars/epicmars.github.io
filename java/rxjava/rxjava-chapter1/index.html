@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title> | 风格与布局</title>
+<meta name="description" content="响应式编程与RxJava 响应式编程（Reactive programming）是一个通用的编程术语，它主要表示对变化的响应，如数据值或事件。它">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#rxjava如何工作">RxJava如何工作</a>
+      <ul>
+        <li><a href="#push-vs-pull">push vs pull</a></li>
+        <li><a href="#异步vs同步">异步vs同步</a></li>
+        <li><a href="#并发concurrency和并行parallelism">并发（concurrency）和并行（parallelism）</a></li>
+        <li><a href="#懒惰-vs-积极">懒惰 vs 积极</a></li>
+        <li><a href="#对偶">对偶</a></li>
+        <li><a href="#cardinality">Cardinality</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title"></h1>
+                </div>
+                <div class="content">
+                        <h1 id="响应式编程与rxjava">响应式编程与RxJava</h1>
+<p>响应式编程（Reactive programming）是一个通用的编程术语，它主要表示对变化的响应，如数据值或事件。它能够并且常常是以命令式（imperatively）的方式进行的。一个回调就是一个以命令式方式来进行响应式编程的方法。</p>
+<h1 id="函数响应式编程">函数响应式编程</h1>
+<p>除了函数式编程对响应式扩展（Rx通用库，尤其是RxJava）的影响，Rx扩展并不是函数响应式编程。FRP（Functional Reactive Programming）是一种非常特定类型的响应式编程，它涉及到连续时间，而RxJava只处理时间上的离散事件。</p>
+<p>相对于命令式的形式，RxJava只是采用了函数式的形式。</p>
+<p>需要记住的一点是现代计算机在到达操作系统和硬件时，都是以命令式的方式执行的，响应函数式编程是一种命令式编程之上的抽象。</p>
+<p>响应式编程例如由RxJava所实现的是被函数式编程所影响的，使用一种声明式的方式来避免响应-命令式代码中常见缺点的办法。</p>
+<p>什么时候需要利用响应式编程
+如果代码中只处理一个事件流，使用带回调的响应-命令式方式就可以了，这样少了利用响应-函数式编程所带来的抽象层。</p>
+<p>如果你的程序中需要组合事件（如函数或网络调用的异步响应），它们之间还有条件式的逻辑交互，并且必须处理它们中任意一个或所有的失败情形和资源回收。这时响应式编程就会大放异彩。</p>
+<p>这也是Rx（Reactive Extensions）的由来，一个用于组合异步和基于事件的程序的库。</p>
+<h2 id="rxjava如何工作">RxJava如何工作</h2>
+<p>RxJava的中心是Observable类型，用于代表数据或事件流。它的目的是用于推送push（Reactive）但也可以用于拉取pull（interactive）。它是lazy而非eager的。它可以用于异步或同步。可以代表时间上的0个，1个，许多或者无限的值或事件。</p>
+<h3 id="push-vs-pull">push vs pull</h3>
+<p>使RxJava达到响应式的全部意义就是支持push，因此Observable和相应的Observer类型的特点就支持事件的推送。</p>
+<h3 id="异步vs同步">异步vs同步</h3>
+<p>通常，一个Observable是异步的，但并不是必须的，它可以是异步的，并且实时上默认为同步的。一个同步的Observable可以被订阅，使用订阅者的线程将所有数据发送出去，然后结束。</p>
+<h3 id="并发concurrency和并行parallelism">并发（concurrency）和并行（parallelism）</h3>
+<p>一个RxJava Observable的约定就是事件（onNext(), onCompleted(), onError()）绝对不能是并发发送的。换言之，单个Observable必须总是串行（serialized）和线程安全的。</p>
+<p>但每个Observable流之间的操作是相互独立的，因此也就是并发的或者并行的。为了利用RxJava的并发和/或并行，就需要使用组合。</p>
+<p>为什么不让onNext()并发执行。原因有三点：</p>
+<ol>
+<li>这样意味不论是否需要，每个Observable需要为这种并发调用做好防御。</li>
+<li>有些操作使用并发发送是不可能的，例如scan和reduce，它们需要事件按序传递，使得状态就可以在不满足结合律和交换律的事件流上积累。（注意Java 8的Stream类型同时允许串行和并发。）</li>
+<li>异步开销会影响性能，因为这样所有的observer和operator都需要是线程安全的。</li>
+</ol>
+<h3 id="懒惰-vs-积极">懒惰 vs 积极</h3>
+<p>Observable类型是懒惰的，意味着它什么也不会执行，直到它被订阅了。</p>
+<h3 id="对偶">对偶</h3>
+<p>一个Observable是一个Iterable的异步对偶，所谓对偶，我们的意思是Observable以逆向数据流的的方式提供了Iterable的所有功能，它使用推送而非拉取。</p>
+<h3 id="cardinality">Cardinality</h3>
+<p>Observable支持异步推送多个值。</p>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

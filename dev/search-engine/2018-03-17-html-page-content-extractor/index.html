@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>网页正文提取技术 | 风格与布局</title>
+<meta name="description" content="已存在的方法 机器学习和启发式方法(Heuristics) 特定站点解决方案(基于规则的抓取，DOM，文本，连接图) 基于视觉的建模 Tokens, N-Grams Shallow Text">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#已存在的方法">已存在的方法</a></li>
+    <li><a href="#使用文档特征进行正文提取">使用文档特征进行正文提取</a></li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">网页正文提取技术</h1>
+                </div>
+                <div class="content">
+                        <h2 id="已存在的方法">已存在的方法</h2>
+<ul>
+<li>机器学习和启发式方法(Heuristics)</li>
+<li>特定站点解决方案(基于规则的抓取，DOM，文本，连接图)</li>
+<li>基于视觉的建模</li>
+<li>Tokens, N-Grams</li>
+<li>Shallow Text特征</li>
+<li>上下文</li>
+</ul>
+<h2 id="使用文档特征进行正文提取">使用文档特征进行正文提取</h2>
+<p>要提取的正文是body元素本身或者其子元素所包含的内容，它作为一个块级元素，具有如下特征：</p>
+<ul>
+<li>链接密度较小，即包含较少的链接</li>
+<li>文本密度大，将标签数量相比较，包含较多文字</li>
+<li>由于作为正文组成部分的段落也具有上述两种特征，因此正文必须是符合上述要求的最大的块（也可能是多个块组成）</li>
+</ul>
+<p>参考：</p>
+<ul>
+<li>
+<p>正文提取
+<a href="http://www.rockyqi.net/html-text-extraction-tools.html">网页正文内容提取工具概述</a>
+<a href="https://boilerpipe-web.appspot.com/">Boilerpipe</a>
+<a href="http://www.l3s.de/~kohlschuetter/boilerplate/">Boilerplate Detection using Shallow Text Features</a>
+<a href="https://www.ibm.com/developerworks/cn/opensource/tutorials/os-apache-tika/">Tika</a>
+<a href="https://github.com/codelucas/newspaper">newspaper</a>
+<a href="https://github.com/grangier/python-goose">goose</a></p>
+</li>
+<li>
+<p>分词
+<a href="https://github.com/fxsjy/jieba">结巴分词</a></p>
+</li>
+<li>
+<p>自然语言处理
+<a href="https://github.com/hankcs/HanLP">HanLP</a>
+<a href="https://github.com/HIT-SCIR/ltp">LTP</a></p>
+</li>
+<li>
+<p>问答
+<a href="https://www.quora.com/Whats-the-best-method-to-extract-article-text-from-HTML-documents">Quora中关于提取网页正文的问答</a></p>
+</li>
+<li>
+<p>Paper
+<a href="http://www.l3s.de/~kohlschuetter/publications/wsdm187-kohlschuetter.pdf">Boilerplate Detection using Shallow Text Features</a>
+<a href="http://aircconline.com/ijdkp/V2N3/2312ijdkp03.pdf">A STUDY OF CONTENT EXTRACTION FROM WEB PAGES
+BASED ON LINKS</a></p>
+</li>
+</ul>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

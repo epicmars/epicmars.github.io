@@ -1,0 +1,36 @@
+body {
+    margin: 0;
+    font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", monospace; 
+    /* font-family: Georgia, 'Times New Roman', Times, serif, SimSun, '宋体'; */
+    line-height: 1.5;
+    text-align: justify;
+}
+
+a {
+    text-decoration: none;
+    color: steelblue;
+}
+
+a:visited {
+    color: steelblue;
+}
+
+.site-wrapper {
+}
+
+/* 站点导航栏 */
+.site-wrapper>header {
+    height: 48px;
+    padding: 20px;
+    font-family: 'Source Code Pro', "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", monospace;
+}
+
+/* 站点Footer */
+.site-wrapper>footer {
+    display: block;
+    bottom: 0;
+    clear: left;
+    padding: 20px;
+    font-family: 'Source Code Pro', "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", monospace;
+}
+

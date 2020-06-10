@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Groovy与DSL | 风格与布局</title>
+<meta name="description" content="类型 字符串 除了Java中的java.lang.String类，还有一个groovy.lang.GString类，GString可以进行插值。">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#类型">类型</a>
+      <ul>
+        <li><a href="#字符串">字符串</a></li>
+        <li><a href="#字符">字符</a></li>
+        <li><a href="#数字">数字</a></li>
+        <li><a href="#布尔值">布尔值</a></li>
+        <li><a href="#列表lists">列表（Lists）</a></li>
+        <li><a href="#数组arrays">数组（Arrays）</a></li>
+        <li><a href="#map">Map</a></li>
+      </ul>
+    </li>
+    <li><a href="#程序结构">程序结构</a>
+      <ul>
+        <li><a href="#脚本与script类">脚本与Script类</a></li>
+        <li><a href="#方法">方法</a></li>
+        <li><a href="#变量">变量</a></li>
+      </ul>
+    </li>
+    <li><a href="#闭包closures">闭包（Closures）</a>
+      <ul>
+        <li><a href="#语法">语法</a></li>
+        <li><a href="#参数">参数</a></li>
+        <li><a href="#委托策略delegation-strategy">委托策略（Delegation strategy）</a></li>
+      </ul>
+    </li>
+    <li><a href="#dsl">DSL</a></li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">Groovy与DSL</h1>
+                </div>
+                <div class="content">
+                        <h2 id="类型">类型</h2>
+<h3 id="字符串">字符串</h3>
+<p>除了Java中的<code>java.lang.String</code>类，还有一个<code>groovy.lang.GString</code>类，GString可以进行插值。</p>
+<table>
+<thead>
+<tr>
+<th>String name</th>
+<th>String syntax</th>
+<th>Interpolated</th>
+<th>Multiline</th>
+<th>Escape character</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Single quoted</td>
+<td>&lsquo;…​&rsquo;</td>
+<td></td>
+<td></td>
+<td><code>\</code></td>
+</tr>
+<tr>
+<td>Triple single quoted</td>
+<td>&lsquo;''…​&rsquo;&rsquo;&rsquo;</td>
+<td></td>
+<td>✔️</td>
+<td><code>\</code></td>
+</tr>
+<tr>
+<td>Double quoted</td>
+<td>&ldquo;…​&rdquo;</td>
+<td>✔️</td>
+<td></td>
+<td><code>\</code></td>
+</tr>
+<tr>
+<td>Triple double quoted</td>
+<td>&ldquo;&quot;&quot;…​&rdquo;&rdquo;&rdquo;</td>
+<td>✔️</td>
+<td>✔️</td>
+<td><code>\</code></td>
+</tr>
+<tr>
+<td>Slashy</td>
+<td>/…​/</td>
+<td>✔️</td>
+<td>✔️</td>
+<td><code>\</code></td>
+</tr>
+<tr>
+<td>Dollar slashy</td>
+<td>/…/</td>
+<td>✔️</td>
+<td>✔️</td>
+<td>$</td>
+</tr>
+</tbody>
+</table>
+<h3 id="字符">字符</h3>
+<p>由于单引号字符串的存在，Groovy中没有一种直接表示字符的字面量，可以通过如3种方式将一个Groovy字符串转换为一个字符：</p>
+<ol>
+<li><code>char c1 = 'A'</code></li>
+<li><code>def c2 = 'B' as char</code></li>
+<li><code>def c3 = (char) 'c'</code></li>
+</ol>
+<h3 id="数字">数字</h3>
+<h4 id="整形字面量">整形字面量</h4>
+<p>和Java中一样有如下几种类型：</p>
+<ul>
+<li><code>byte</code></li>
+<li><code>char</code></li>
+<li><code>short</code></li>
+<li><code>int</code></li>
+<li><code>long</code></li>
+<li><code>java.lang.BigInteger</code></li>
+</ul>
+<h4 id="小数字面量">小数字面量</h4>
+<p>和Java中一样有如下几种类型：</p>
+<ul>
+<li><code>float</code></li>
+<li><code>double</code></li>
+<li><code>java.lang.BigDecimal</code></li>
+</ul>
+<h3 id="布尔值">布尔值</h3>
+<p>和Java一样有两种基本布尔值：<code>true</code>和<code>false</code></p>
+<h3 id="列表lists">列表（Lists）</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">    <span style="color:#66d9ef">def</span> numbers <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">3</span><span style="color:#f92672">]</span> <span style="color:#75715e">// 默认为ArrayList
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// 除了同构列表，还可以声明异构列表
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">def</span> heterogeneous <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;a&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">]</span>
+    <span style="color:#75715e">// 定义链表 
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">def</span> linkedList <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#ae81ff">2</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">3</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">4</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">as</span> LinkedList
+    LinkedList otherLinked <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#ae81ff">3</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">4</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">5</span><span style="color:#f92672">]</span> 
+</code></pre></div><h3 id="数组arrays">数组（Arrays）</h3>
+<p>Groovy重用了列表的表示方法来表示数组，这需要显式地声明变量的类型：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">String<span style="color:#f92672">[]</span> arrStr <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#39;Ananas&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;Banana&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;Kiwi&#39;</span><span style="color:#f92672">]</span>
+
+<span style="color:#66d9ef">def</span> numArr <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">3</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span> 
+
+<span style="color:#75715e">// 多维数组
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">def</span> matrix3 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Integer<span style="color:#f92672">[</span><span style="color:#ae81ff">3</span><span style="color:#f92672">][</span><span style="color:#ae81ff">3</span><span style="color:#f92672">]</span>
+
+Integer<span style="color:#f92672">[][]</span> matrix2                     
+matrix2 <span style="color:#f92672">=</span> <span style="color:#f92672">[[</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">],</span> <span style="color:#f92672">[</span><span style="color:#ae81ff">3</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">4</span><span style="color:#f92672">]]</span>
+</code></pre></div><h3 id="map">Map</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#66d9ef">def</span> colors <span style="color:#f92672">=</span> <span style="color:#f92672">[</span>red: <span style="color:#e6db74">&#39;#FF0000&#39;</span><span style="color:#f92672">,</span> green: <span style="color:#e6db74">&#39;#00FF00&#39;</span><span style="color:#f92672">,</span> blue: <span style="color:#e6db74">&#39;#0000FF&#39;</span><span style="color:#f92672">]</span>
+
+<span style="color:#66d9ef">def</span> colors <span style="color:#f92672">=</span> <span style="color:#f92672">[</span>red: <span style="color:#e6db74">&#39;#FF0000&#39;</span><span style="color:#f92672">,</span> green: <span style="color:#e6db74">&#39;#00FF00&#39;</span><span style="color:#f92672">,</span> blue: <span style="color:#e6db74">&#39;#0000FF&#39;</span><span style="color:#f92672">]</span>   
+
+<span style="color:#66d9ef">assert</span> colors<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;red&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;#FF0000&#39;</span>    
+<span style="color:#66d9ef">assert</span> colors<span style="color:#f92672">.</span><span style="color:#a6e22e">green</span>  <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;#00FF00&#39;</span>    
+
+colors<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;pink&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;#FF00FF&#39;</span>           
+colors<span style="color:#f92672">.</span><span style="color:#a6e22e">yellow</span>  <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;#FFFF00&#39;</span>           
+
+<span style="color:#66d9ef">assert</span> colors<span style="color:#f92672">.</span><span style="color:#a6e22e">pink</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;#FF00FF&#39;</span>
+<span style="color:#66d9ef">assert</span> colors<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;yellow&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;#FFFF00&#39;</span>
+
+<span style="color:#66d9ef">assert</span> colors <span style="color:#66d9ef">instanceof</span> java<span style="color:#f92672">.</span><span style="color:#a6e22e">util</span><span style="color:#f92672">.</span><span style="color:#a6e22e">LinkedHashMap</span>
+
+<span style="color:#75715e">// 使用整形键
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">def</span> numbers <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;one&#39;</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;two&#39;</span><span style="color:#f92672">]</span>
+
+<span style="color:#66d9ef">assert</span> numbers<span style="color:#f92672">[</span><span style="color:#ae81ff">1</span><span style="color:#f92672">]</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;one&#39;</span>
+</code></pre></div><h2 id="程序结构">程序结构</h2>
+<h3 id="脚本与script类">脚本与Script类</h3>
+<p>Main.groovy</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">    println <span style="color:#e6db74">&#39;Groovy world!&#39;</span>
+</code></pre></div><p>上面的groovy脚本实际上会被编译为类似如下的<code>Script</code>类：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#f92672">import</span> org.codehaus.groovy.runtime.InvokerHelper
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Main</span> <span style="color:#66d9ef">extends</span> Script <span style="color:#f92672">{</span>                     
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>                                 
+        println <span style="color:#e6db74">&#39;Groovy world!&#39;</span>                 
+    <span style="color:#f92672">}</span>
+    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>           
+        InvokerHelper<span style="color:#f92672">.</span><span style="color:#a6e22e">runScript</span><span style="color:#f92672">(</span>Main<span style="color:#f92672">,</span> args<span style="color:#f92672">)</span>     
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h3 id="方法">方法</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">fib</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> n<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    n <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">?</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">:</span> fib<span style="color:#f92672">(</span>n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">)</span> <span style="color:#f92672">+</span> fib<span style="color:#f92672">(</span>n<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span><span style="color:#f92672">)</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>正如上面对脚本的介绍，使用语句构成的脚本会被编译到<code>Script</code>类的<code>run</code>方法中。</p>
+<h3 id="变量">变量</h3>
+<p>脚本中的变量不需要类型定义：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+y <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+<span style="color:#66d9ef">assert</span> x<span style="color:#f92672">+</span>y <span style="color:#f92672">==</span> <span style="color:#ae81ff">3</span>
+</code></pre></div><p>和下面的代码是等价的：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+<span style="color:#66d9ef">int</span> y <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+<span style="color:#66d9ef">assert</span> x<span style="color:#f92672">+</span>y <span style="color:#f92672">==</span> <span style="color:#ae81ff">3</span>
+</code></pre></div><h2 id="闭包closures">闭包（Closures）</h2>
+<p>Groovy中的闭包是一个开放的、匿名的代码块，可以接收参数并返回值，并且可以将闭包赋值给一个变量。闭包可以引用定义在它周围的变量。和以前见到的闭包定义不一样的是，Groovy中的<code>Closure</code>也可以包含定义在其外围作用域的自由变量。</p>
+<h3 id="语法">语法</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#f92672">{</span> <span style="color:#f92672">[</span>closureParameters <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">]</span> statements <span style="color:#f92672">}</span>
+</code></pre></div><p><code>[closureParameters-&gt;]</code>是一个可选的参数列表。</p>
+<h3 id="参数">参数</h3>
+<p>闭包的参数遵循常规方法的参数规则，即：</p>
+<ul>
+<li>一个可选的类型</li>
+<li>一个名称</li>
+<li>一个可选的默认值</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#66d9ef">def</span> closureWithOneArg <span style="color:#f92672">=</span> <span style="color:#f92672">{</span> str <span style="color:#f92672">-&gt;</span> str<span style="color:#f92672">.</span><span style="color:#a6e22e">toUpperCase</span><span style="color:#f92672">()</span> <span style="color:#f92672">}</span>
+<span style="color:#66d9ef">assert</span> <span style="color:#a6e22e">closureWithOneArg</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;groovy&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;GROOVY&#39;</span>
+
+<span style="color:#66d9ef">def</span> closureWithOneArgAndExplicitType <span style="color:#f92672">=</span> <span style="color:#f92672">{</span> String str <span style="color:#f92672">-&gt;</span> str<span style="color:#f92672">.</span><span style="color:#a6e22e">toUpperCase</span><span style="color:#f92672">()</span> <span style="color:#f92672">}</span>
+<span style="color:#66d9ef">assert</span> <span style="color:#a6e22e">closureWithOneArgAndExplicitType</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;groovy&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;GROOVY&#39;</span>
+
+<span style="color:#66d9ef">def</span> closureWithTwoArgs <span style="color:#f92672">=</span> <span style="color:#f92672">{</span> a<span style="color:#f92672">,</span>b <span style="color:#f92672">-&gt;</span> a<span style="color:#f92672">+</span>b <span style="color:#f92672">}</span>
+<span style="color:#66d9ef">assert</span> <span style="color:#a6e22e">closureWithTwoArgs</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span><span style="color:#ae81ff">2</span><span style="color:#f92672">)</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">3</span>
+
+<span style="color:#66d9ef">def</span> closureWithTwoArgsAndExplicitTypes <span style="color:#f92672">=</span> <span style="color:#f92672">{</span> <span style="color:#66d9ef">int</span> a<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> b <span style="color:#f92672">-&gt;</span> a<span style="color:#f92672">+</span>b <span style="color:#f92672">}</span>
+<span style="color:#66d9ef">assert</span> <span style="color:#a6e22e">closureWithTwoArgsAndExplicitTypes</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span><span style="color:#ae81ff">2</span><span style="color:#f92672">)</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">3</span>
+
+<span style="color:#66d9ef">def</span> closureWithTwoArgsAndOptionalTypes <span style="color:#f92672">=</span> <span style="color:#f92672">{</span> a<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> b <span style="color:#f92672">-&gt;</span> a<span style="color:#f92672">+</span>b <span style="color:#f92672">}</span>
+<span style="color:#66d9ef">assert</span> <span style="color:#a6e22e">closureWithTwoArgsAndOptionalTypes</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span><span style="color:#ae81ff">2</span><span style="color:#f92672">)</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">3</span>
+
+<span style="color:#66d9ef">def</span> closureWithTwoArgAndDefaultValue <span style="color:#f92672">=</span> <span style="color:#f92672">{</span> <span style="color:#66d9ef">int</span> a<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> b<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">-&gt;</span> a<span style="color:#f92672">+</span>b <span style="color:#f92672">}</span>
+<span style="color:#66d9ef">assert</span> <span style="color:#a6e22e">closureWithTwoArgAndDefaultValue</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">)</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">3</span>
+</code></pre></div><h3 id="委托策略delegation-strategy">委托策略（Delegation strategy）</h3>
+<p>Groovy将闭包作为<code>Closure</code>类的实例来定义，这与Java8中的lambda表达式很不一样。委托是Groovy闭包的一个关键概念，lambda中没有与之等价的概念。<strong>改变委托或改变委托策略</strong>的能力使得闭包能够设计漂亮的领域特定语言（domain specific languages, DSL）.</p>
+<h4 id="所有者委托者以及thisowner-delegate-and-this">所有者、委托者以及this（Owner, delegate and this）</h4>
+<p>为了理解代理的概念，我们必须先解释清楚闭包中<code>this</code>的含义，一个闭包实际上定义了3个不同的东西：</p>
+<ul>
+<li><code>this</code>对应定义闭包所在的<strong>包围类(enclosing class)</strong></li>
+<li><code>owner</code>对应定义闭包所在的<strong>包围对象(enclosing object )</strong>，它可能是一个类或者一个闭包</li>
+<li><code>delegate</code>对应一个第三方对象，当消息的接受者（receiver）没有被定义时就会解析到委托者的方法和属性</li>
+</ul>
+<h4 id="this的含义">this的含义</h4>
+<p>在一个闭包中，调用<code>getThisObject</code>会返回定义闭包所在的包围类，这和显式地使用<code>this</code>是等价的：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">lass Enclosing <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">def</span> whatIsThisObject <span style="color:#f92672">=</span> <span style="color:#f92672">{</span> getThisObject<span style="color:#f92672">()</span> <span style="color:#f92672">}</span>          
+        <span style="color:#66d9ef">assert</span> <span style="color:#a6e22e">whatIsThisObject</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">this</span>                   
+        <span style="color:#66d9ef">def</span> whatIsThis <span style="color:#f92672">=</span> <span style="color:#f92672">{</span> <span style="color:#66d9ef">this</span> <span style="color:#f92672">}</span>                           
+        <span style="color:#66d9ef">assert</span> <span style="color:#a6e22e">whatIsThis</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">this</span>                         
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">EnclosedInInnerClass</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Inner</span> <span style="color:#f92672">{</span>
+        Closure cl <span style="color:#f92672">=</span> <span style="color:#f92672">{</span> <span style="color:#66d9ef">this</span> <span style="color:#f92672">}</span>                               
+    <span style="color:#f92672">}</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">def</span> inner <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Inner<span style="color:#f92672">()</span>
+        <span style="color:#66d9ef">assert</span> inner<span style="color:#f92672">.</span><span style="color:#a6e22e">cl</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> inner                          
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">NestedClosures</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">def</span> nestedClosures <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">def</span> cl <span style="color:#f92672">=</span> <span style="color:#f92672">{</span> <span style="color:#66d9ef">this</span> <span style="color:#f92672">}</span>                               
+            cl<span style="color:#f92672">()</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">assert</span> <span style="color:#a6e22e">nestedClosures</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">this</span>                     
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h4 id="闭包的所有者">闭包的所有者</h4>
+<p>闭包的所有者和闭包中的<code>this</code>非常类似，但有一个微妙的区别：它会返回直接包围对象，可能是一个闭包或一个类：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Enclosing</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">def</span> whatIsOwnerMethod <span style="color:#f92672">=</span> <span style="color:#f92672">{</span> getOwner<span style="color:#f92672">()</span> <span style="color:#f92672">}</span>               
+        <span style="color:#66d9ef">assert</span> <span style="color:#a6e22e">whatIsOwnerMethod</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">this</span>                   
+        <span style="color:#66d9ef">def</span> whatIsOwner <span style="color:#f92672">=</span> <span style="color:#f92672">{</span> owner <span style="color:#f92672">}</span>                          
+        <span style="color:#66d9ef">assert</span> <span style="color:#a6e22e">whatIsOwner</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">this</span>                         
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">EnclosedInInnerClass</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Inner</span> <span style="color:#f92672">{</span>
+        Closure cl <span style="color:#f92672">=</span> <span style="color:#f92672">{</span> owner <span style="color:#f92672">}</span>                               
+    <span style="color:#f92672">}</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">def</span> inner <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Inner<span style="color:#f92672">()</span>
+        <span style="color:#66d9ef">assert</span> inner<span style="color:#f92672">.</span><span style="color:#a6e22e">cl</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> inner                           
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">NestedClosures</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">def</span> nestedClosures <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">def</span> cl <span style="color:#f92672">=</span> <span style="color:#f92672">{</span> owner <span style="color:#f92672">}</span>                               
+            cl<span style="color:#f92672">()</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">assert</span> <span style="color:#a6e22e">nestedClosures</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> nestedClosures            
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h4 id="闭包的委托者">闭包的委托者</h4>
+<p>闭包的委托者可以使用<code>delegate</code>属性或者通过调用<code>getDelegate</code>方法进行访问。这是一个在Groovy中构建DSL的强大的概念。尽管闭包的this和闭包的所有者指向一个闭包的词法范围（lexical scope），但委托者却是一个闭包可以使用的用户自定义对象。默认将委托者设置为所有者<code>owner</code>。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Enclosing</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">def</span> cl <span style="color:#f92672">=</span> <span style="color:#f92672">{</span> getDelegate<span style="color:#f92672">()</span> <span style="color:#f92672">}</span>                          
+        <span style="color:#66d9ef">def</span> cl2 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span> delegate <span style="color:#f92672">}</span>                              
+        <span style="color:#66d9ef">assert</span> <span style="color:#a6e22e">cl</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> cl2<span style="color:#f92672">()</span>                                
+        <span style="color:#66d9ef">assert</span> <span style="color:#a6e22e">cl</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">this</span>                                 
+        <span style="color:#66d9ef">def</span> enclosed <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+            <span style="color:#f92672">{</span> <span style="color:#f92672">-&gt;</span> delegate <span style="color:#f92672">}.</span><span style="color:#a6e22e">call</span><span style="color:#f92672">()</span>                          
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">assert</span> <span style="color:#a6e22e">enclosed</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> enclosed                       
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h4 id="委托策略">委托策略</h4>
+<p>任何时候，在一个闭包中，当访问一个没有显式设定一个接受者对象的属性时，委托策略便会参与其中：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span> <span style="color:#f92672">{</span>
+    String name
+<span style="color:#f92672">}</span>
+<span style="color:#66d9ef">def</span> p <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Person<span style="color:#f92672">(</span>name:<span style="color:#e6db74">&#39;Igor&#39;</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">def</span> cl <span style="color:#f92672">=</span> <span style="color:#f92672">{</span> name<span style="color:#f92672">.</span><span style="color:#a6e22e">toUpperCase</span><span style="color:#f92672">()</span> <span style="color:#f92672">}</span>                 
+cl<span style="color:#f92672">.</span><span style="color:#a6e22e">delegate</span> <span style="color:#f92672">=</span> p                                 
+<span style="color:#66d9ef">assert</span> <span style="color:#a6e22e">cl</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;IGOR&#39;</span> 
+</code></pre></div><p>这段代码可以工作的原因在于<code>name</code>属性可以透明地在<code>delegate</code>对象上进行解析。实际上没有必要显式地设置委托者。因为默认的委托策略使得闭包具有这样的行为。一个闭包实际上定义了多个可选的委托策略，其中，<strong>默认的委托策略是“所有者优先”策略</strong>：</p>
+<ul>
+<li>
+<p>Closure.OWNER_FIRST is the default strategy. If a property/method exists on the owner, then it will be called on the owner. If not, then the delegate is used.</p>
+</li>
+<li>
+<p>Closure.DELEGATE_FIRST reverses the logic: the delegate is used first, then the owner</p>
+</li>
+<li>
+<p>Closure.OWNER_ONLY will only resolve the property/method lookup on the owner: the delegate will be ignored.</p>
+</li>
+<li>
+<p>Closure.DELEGATE_ONLY will only resolve the property/method lookup on the delegate: the owner will be ignored.</p>
+</li>
+<li>
+<p>Closure.TO_SELF can be used by developers who need advanced meta-programming techniques and wish to implement a custom resolution strategy: the resolution will not be made on the owner or the delegate but only on the closure class itself. It makes only sense to use this if you implement your own subclass of Closure.</p>
+</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span> <span style="color:#f92672">{</span>
+    String name
+    <span style="color:#66d9ef">def</span> pretty <span style="color:#f92672">=</span> <span style="color:#f92672">{</span> <span style="color:#e6db74">&#34;My name is $name&#34;</span> <span style="color:#f92672">}</span>             
+    String <span style="color:#a6e22e">toString</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        pretty<span style="color:#f92672">()</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Thing</span> <span style="color:#f92672">{</span>
+    String name                                     
+<span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">def</span> p <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Person<span style="color:#f92672">(</span>name: <span style="color:#e6db74">&#39;Sarah&#39;</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">def</span> t <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Thing<span style="color:#f92672">(</span>name: <span style="color:#e6db74">&#39;Teapot&#39;</span><span style="color:#f92672">)</span>
+
+<span style="color:#66d9ef">assert</span> p<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;My name is Sarah&#39;</span>           
+p<span style="color:#f92672">.</span><span style="color:#a6e22e">pretty</span><span style="color:#f92672">.</span><span style="color:#a6e22e">delegate</span> <span style="color:#f92672">=</span> t                               
+<span style="color:#66d9ef">assert</span> p<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;My name is Sarah&#39;</span>
+
+<span style="color:#75715e">// 如果改变委托策略
+</span><span style="color:#75715e"></span>p<span style="color:#f92672">.</span><span style="color:#a6e22e">pretty</span><span style="color:#f92672">.</span><span style="color:#a6e22e">resolveStrategy</span> <span style="color:#f92672">=</span> Closure<span style="color:#f92672">.</span><span style="color:#a6e22e">DELEGATE_FIRST</span>
+<span style="color:#66d9ef">assert</span> p<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;My name is Teapot&#39;</span>
+</code></pre></div><h2 id="dsl">DSL</h2>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

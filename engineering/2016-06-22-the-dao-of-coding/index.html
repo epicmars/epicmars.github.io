@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>代码之道 | 风格与布局</title>
+<meta name="description" content="写代码应该被当作一件神圣的事，在编码的过程中，可以充分发挥一个人的知识、经验与想象力，打造出一件件艺术品。 写代码之前 是否易于复用 是否易于替换">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#写代码之前">写代码之前</a></li>
+    <li><a href="#原则">原则</a>
+      <ul>
+        <li><a href="#高内聚低耦合">高内聚，低耦合</a></li>
+        <li><a href="#耦合度的度量">耦合度的度量</a></li>
+        <li><a href="#如何做到">如何做到</a></li>
+      </ul>
+    </li>
+    <li><a href="#类接口与继承">类、接口与继承</a>
+      <ul>
+        <li><a href="#抽象类">抽象类</a></li>
+        <li><a href="#接口">接口</a></li>
+      </ul>
+    </li>
+    <li><a href="#大型项目">大型项目</a></li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">代码之道</h1>
+                </div>
+                <div class="content">
+                        <p>写代码应该被当作一件神圣的事，在编码的过程中，可以充分发挥一个人的知识、经验与想象力，打造出一件件艺术品。</p>
+<h2 id="写代码之前">写代码之前</h2>
+<ul>
+<li>是否易于复用</li>
+<li>是否易于替换</li>
+<li>是否利于扩展</li>
+</ul>
+<h2 id="原则">原则</h2>
+<h3 id="高内聚低耦合">高内聚，低耦合</h3>
+<ul>
+<li>
+<p>高内聚</p>
+<p>指类、方法、域的职责应当尽可能单一。</p>
+</li>
+<li>
+<p>低耦合</p>
+<p>指类之间的相互依赖应当尽可能少。</p>
+</li>
+</ul>
+<h3 id="耦合度的度量">耦合度的度量</h3>
+<p>对象间的相互引用与依赖，一个对象引用另一个对象，那么耦合度加1，即如果一个对象引用了n个对象那么，其耦合度为n。有一个特殊情况，它会使得对象的职责不能较好地进行划分，那就是两个对象相互引用的情况，虽然耦合度之和为2，但形成了一个耦合环路，这种情况需要特殊考虑，并且应该尽量避免。</p>
+<h3 id="如何做到">如何做到</h3>
+<ol>
+<li>去除、最小化以及较少必要关系的复杂度</li>
+<li>隐藏实现细节</li>
+<li>应用[Demeter法则]</li>
+</ol>
+<p>具体而言：</p>
+<ul>
+<li>
+<p>如果情况允许，应该尽可能使用局部变量，而非全局变量。</p>
+<p>举个栗子，程序中经常会需要会遇到需要对分支情况作出判断的情形，是否需要定义布尔变量来记录选择条件，则一般对应于分支的选择，对于多条件的情况是否还要做一个多状态枚举来记录选择条件。</p>
+</li>
+<li>
+<p>外观（门面）模式：Facade模式为复杂子系统提供一个统一的接口。</p>
+</li>
+</ul>
+<h2 id="类接口与继承">类、接口与继承</h2>
+<h3 id="抽象类">抽象类</h3>
+<ol>
+<li>如果需要通过继承抽象类实现的功能，并且子类仅重写抽象方法，可以考虑将抽象方法提升为一个接口，然后采用组合的方式实现。</li>
+</ol>
+<h3 id="接口">接口</h3>
+<ol start="2">
+<li>如果存在需要进行区分的接口，并且两个接口的方法的意义是一致的，可以考虑使用接口继承的方式来进行区分，即定义一个父接口，然后分别继承该父接口。</li>
+</ol>
+<h2 id="大型项目">大型项目</h2>
+<p>最近在看<code>Android</code>框架源代码，发现其中有些核心类，如<code>View</code>类，仅一个类的代码量就达到2万行，如果去除大量注释，仅代码也有1万多行，成员变量也有近百个，那么这种情况下如何保证代码质量呢？</p>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

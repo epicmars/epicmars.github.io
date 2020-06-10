@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Java on 风格与布局</title>
+    <link>https://www.androidpi.com/tags/java/</link>
+    <description>Recent content in Java on 风格与布局</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 07 May 2015 06:50:57 +0800</lastBuildDate>
+    
+	<atom:link href="https://www.androidpi.com/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Java面向对象概念（翻译）</title>
+      <link>https://www.androidpi.com/java/core/2015-05-07-java-oop-concepts/</link>
+      <pubDate>Thu, 07 May 2015 06:50:57 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/core/2015-05-07-java-oop-concepts/</guid>
+      <description>这一章节将介绍对象（objects），类（classes），继承（inheritance），接口（interfaces）和包（package</description>
+    </item>
+    
+  </channel>
+</rss>

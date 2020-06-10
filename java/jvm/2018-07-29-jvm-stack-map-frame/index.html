@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>JVM：class文件校验与Stack Map Frame | 风格与布局</title>
+<meta name="description" content="除了编译时的检查，为了保证class文件符合规范，JVM实现会在链接时对class文件进行校验。 如果class文件的版本号为49或以下会使用">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#通过类型推断进行校验verification-by-type-inference">通过类型推断进行校验（Verification by Type Inference）</a></li>
+    <li><a href="#通过类型检查进行校验verification-by-type-checking">通过类型检查进行校验（Verification by Type Checking）</a></li>
+    <li><a href="#栈映射帧与类型检查">栈映射帧与类型检查</a>
+      <ul>
+        <li><a href="#jvm规范">JVM规范</a></li>
+      </ul>
+    </li>
+    <li><a href="#method_info">method_info</a></li>
+    <li><a href="#code属性">Code属性</a></li>
+    <li><a href="#stackmaptable属性">StackMapTable属性</a></li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">JVM：class文件校验与Stack Map Frame</h1>
+                </div>
+                <div class="content">
+                        <p>除了编译时的检查，为了保证class文件符合规范，JVM实现会在链接时对class文件进行校验。</p>
+<p>如果class文件的版本号为49或以下会使用类型推断（Type Inference）进行校验，如果为50.0或以上则会使用类型检查（Type Checking）进行校验。其中版本号50.0是Java 6的版本号，如果版本号恰好为50.0并且类型检查失败了，那么JVM实现可能会尝试采用类型推断进行校验。</p>
+<p>从类型推断到类型检查，可以发现类型校验的强度提升了。两种校验方式的区别主要是在class文件的方法信息的代码属性中引入了栈映射帧（stack map frames）信息。其主要目的是为了加速类型校验的过程。</p>
+<h2 id="通过类型推断进行校验verification-by-type-inference">通过类型推断进行校验（Verification by Type Inference）</h2>
+<p>在链接时，校验器通过对每个方法进行数据流分析堆class文件的每个方法的Code属性的<code>code</code>数组进行检查。它确保在程序的任意给定位置，无论是采用何种代码路径到达该位置，以下条件都为true：</p>
+<ul>
+<li>操作数栈总是具有相同的大小并包含相同类型的值</li>
+<li>除非知道局部变量数组的一个槽中包含值有一个合适的类型，不然不会对其进行访问</li>
+<li>方法是使用合适的类型进行调用的</li>
+<li>域采用合适的类型进行赋值</li>
+<li>所有操作码在操作数栈和局部变量数组中具有合适类型的参数</li>
+</ul>
+<h2 id="通过类型检查进行校验verification-by-type-checking">通过类型检查进行校验（Verification by Type Checking）</h2>
+<p>类型检查通过<code>Prolog</code>子句来施加类型规则，它提供了类型规则的一个正式的规范。</p>
+<p>对于每个含有一个<code>Code</code>属性的方法，类型检查器需要一个栈映射帧列表。栈映射帧列表由<code>Code</code>属性的<code>StackMapTable</code>属性给出。其意图是一个栈映射帧必须出现在一个方法中的每个基本块的开头。在每个基本块的开头栈映射帧指定了每个操作数栈条目和每个局部变量的验证类型。类型检查器为每个方法读取这些栈映射帧，并使用这些映射来为<code>Code</code>属性中指令的类型安全提供证明。</p>
+<p>所谓基本块，即拥有一个初始栈映射帧的块，初始栈映射栈分别存在于方法、跳转指令标签标识的块以及异常处理器块的开始处。</p>
+<h2 id="栈映射帧与类型检查">栈映射帧与类型检查</h2>
+<p>Stack map frame中的信息用于class文件校验过程中的类型检查，ASM这样的字节码操作库可以改变一个方法中的字节码，但仅仅是作字节码上的改变并不能通过类型检查。还需要对栈映射帧信息进行更新。</p>
+<h3 id="jvm规范">JVM规范</h3>
+<p>根据JVM规范中对class文件的描述，栈映射帧（stack map frame）是<code>StackMapTable</code>属性数据结构中的组成部分，而<code>StackMapTable</code>是<code>Code</code>属性的一部分，<code>Code</code>又是class文件中<code>method_info</code>数据结构的一部分。<code>Code</code>，<code>StackMapTable</code>都是属性信息<code>attribute_info</code>，其中<code>attribute_info</code>的通用格式为：</p>
+<pre><code>attribute_info {
+    u2 attribute_name_index;
+    u4 attribute_length;
+    u1 info[attribute_length];
+}
+</code></pre>
+<h2 id="method_info">method_info</h2>
+<pre><code>method_info {
+    u2             access_flags;
+    u2             name_index;
+    u2             descriptor_index;
+    u2             attributes_count;
+    attribute_info attributes[attributes_count];
+}
+</code></pre>
+<p>其中的属性信息就包括<code>Code</code>，<code>Exceptions</code>，<code>RuntimeVisibleParameterAnnotations,RuntimeInvisibleParameterAnnotations</code>，<code>AnnotationDefault</code>，<code>MethodParameters</code>属性。</p>
+<h2 id="code属性">Code属性</h2>
+<p><code>Code</code>属性属于<code>method_info</code>结构<code>attributes</code>表的元素。一个<code>Code</code>属性包含一个方法中的JVM指令和额外的信息，包括接口初始化方法或一个类的一个实例初始化方法。</p>
+<pre><code>Code_attribute {
+    u2 attribute_name_index;
+    u4 attribute_length;
+    u2 max_stack;
+    u2 max_locals;
+    u4 code_length;
+    u1 code[code_length];
+    u2 exception_table_length;
+    {   u2 start_pc;
+        u2 end_pc;
+        u2 handler_pc;
+        u2 catch_type;
+    } exception_table[exception_table_length];
+    u2 attributes_count;
+    attribute_info attributes[attributes_count];
+}
+</code></pre>
+<p>其中的若干数据项的定义如下</p>
+<ul>
+<li>
+<p>max_stack</p>
+<p>在方法执行中任意一个时刻其操作数栈的最大深度</p>
+</li>
+<li>
+<p>max_locals</p>
+<p>给出在调用该方法时给局部变量数组分配的变量数，包括传递给方法的参数。
+对于<code>long</code>和<code>double</code>类型，其最大的局部变量索引为<code>max_locals - 2</code>，其它类型最大为<code>max_locals - 1</code></p>
+</li>
+</ul>
+<p><code>Code</code>属性中包含的属性信息有<code>StackMapTable</code>，<code>LineNumberTable</code>，<code>LocalVariableTable</code>，<code>LocalVariableTypeTable</code>。</p>
+<h2 id="stackmaptable属性">StackMapTable属性</h2>
+<p><code>StackMapTable</code>属性属于<code>Code</code>属性的<code>attributes</code>表。它用于class文件的验证过程中的类型检查中。一个<code>Code</code>属性的<code>attributes</code>表中最多只可能有一个<code>StackMapTable</code>属性。</p>
+<pre><code>StackMapTable_attribute {
+    u2              attribute_name_index;
+    u4              attribute_length;
+    u2              number_of_entries;
+    stack_map_frame entries[number_of_entries];
+}
+</code></pre>
+<p>该结构的数据项的定义如下：</p>
+<ul>
+<li>
+<p>entries</p>
+<p>该表中的每个<code>entry</code>表示方法的一个栈映射帧（stack map frame）。表中栈映射帧的顺序是有意义的。</p>
+</li>
+</ul>
+<p>一个栈映射帧指定了它所应用处的字节码偏移量，以及偏移量对应的局部变量和操作数栈条目的验证类型。</p>
+<p>每个栈映射帧依赖于它前面的帧，方法的第一个栈映射帧是隐含的，由类型检查器根据方法描述符进行计算，因此<code>stack_map_frame</code>结构的<code>entries[0]</code>描述了方法的第二个栈映射帧。</p>
+<p>一个栈映射帧对应的字节码偏移采用帧中指定的偏移增量<code>offset_delta</code>，并且通过将<code>offset_delta + 1</code>加到前一个帧的字节码偏移量中计算出。除非前一个帧是初始化帧，这种情况下，该栈映射帧对应的字节码偏移就是帧中指定的<code>offset_delta</code>。</p>
+<p>通过使用该<code>offset_delta</code>而不是存储实际的字节码偏移，根据定义，我们可以确保栈映射帧以正确的顺序进行排序。</p>
+<p>如果一个指令从<code>Code</code>属性的<code>code</code>数组偏移<code>i</code>处开始，并且<code>Code</code>属性有一个<code>StackMapTable</code>属性，其<code>entries</code>数组包含一个对应字节码偏移<code>i</code>的栈映射帧，我们就说字节码中的一个指令具有一个对应的栈映射帧。</p>
+<p>一个栈映射帧表示为一个可辨联合<code>stack_map_frame</code>，它包含一个<code>1</code>字节tag，表明它使用联合中那个数据项，后面跟随一个或多个字节，这些字节给出了tag的更多信息。</p>
+<pre><code>union stack_map_frame {
+    same_frame;
+    same_locals_1_stack_item_frame;
+    same_locals_1_stack_item_frame_extended;
+    chop_frame;
+    same_frame_extended;
+    append_frame;
+    full_frame;
+}
+</code></pre>
+<p>它使用如下可辨联合来表示帧中一个局部变量或栈操作数条目的验证类型：</p>
+<pre><code>union verification_type_info {
+    Top_variable_info;
+    Integer_variable_info;
+    Float_variable_info;
+    Long_variable_info;
+    Double_variable_info;
+    Null_variable_info;
+    UninitializedThis_variable_info;
+    Object_variable_info;
+    Uninitialized_variable_info;
+}
+</code></pre>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

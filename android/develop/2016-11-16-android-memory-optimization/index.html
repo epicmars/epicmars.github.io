@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Android应用内存优化 | 风格与布局</title>
+<meta name="description" content="使用Android监控器优化内存使用 使用Android监控器可以可视化监控app的内存使用： 随着时间展示可用的和分配的Java内存 随着时间展">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#使用android监控器优化内存使用httpsdeveloperandroidcomstudioprofileam-memoryhtml"><a href="https://developer.android.com/studio/profile/am-memory.html">使用Android监控器优化内存使用</a></a></li>
+        <li><a href="#内存开销调查httpsdeveloperandroidcomstudioprofileinvestigate-ramhtml"><a href="https://developer.android.com/studio/profile/investigate-ram.html">内存开销调查</a></a></li>
+      </ul>
+    </li>
+    <li><a href="#hprof查看和分析工具">HPROF查看和分析工具</a>
+      <ul>
+        <li><a href="#为什么查看java堆">为什么查看java堆</a></li>
+        <li><a href="#内存分配追踪工具">内存分配追踪工具</a></li>
+        <li><a href="#java内存分析工具mat">java内存分析工具MAT</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">Android应用内存优化</h1>
+                </div>
+                <div class="content">
+                        <h3 id="使用android监控器优化内存使用httpsdeveloperandroidcomstudioprofileam-memoryhtml"><a href="https://developer.android.com/studio/profile/am-memory.html">使用Android监控器优化内存使用</a></h3>
+<p>使用Android监控器可以可视化监控app的内存使用：</p>
+<ul>
+<li>随着时间展示可用的和分配的Java内存</li>
+<li>随着时间展示GC事件</li>
+<li>发起GC事件</li>
+<li>快速测试app运行缓慢是否和过度频繁的GC事件相关</li>
+<li>快速测试app崩溃是否和内存耗尽相关</li>
+</ul>
+<h4 id="内存监控流程">内存监控流程</h4>
+<p>为了剖析和优化内存使用，一般的工作流程是进行如下操作：</p>
+<ol>
+<li>使用内存监控器找到是否有引起性能问题的GC事件模式</li>
+<li>如果在短时间内有大量的GC事件，转存java堆来找出异常分配的对象类型</li>
+<li>使用分配跟踪来确定发生问题的代码位置</li>
+</ol>
+<p>Java堆数据实时展示了应用中分配的对象类型，它们的数量，和堆中的大小，查看堆可以帮助：</p>
+<ol>
+<li>对应用内存的分配和释放有一个大体了解</li>
+<li>识别出内存泄露</li>
+</ol>
+<p>分配跟踪记录app的内存分配并且列出剖析周期中所有的分配，包括调用栈，大小和分配的代码，它可以帮助你：</p>
+<ul>
+<li>识别出一个短的时间段内，哪里有相似的对象类型，从大体上相同的调用栈分配和释放。</li>
+<li>找到代码哪儿引起低效内存使用</li>
+</ul>
+<h4 id="gc根和主树">GC根和主树</h4>
+<p>Java中有几种类型的GC根：</p>
+<ul>
+<li>栈中的引用</li>
+<li>JNI本地对象和内存</li>
+<li>静态变量和函数</li>
+<li>可以被引用的线程和对象</li>
+<li>bootstrap loader加载的类</li>
+<li>finalizer和unfinalizer对象</li>
+<li>繁忙的监控器对象</li>
+</ul>
+<p>一个主树跟踪app创建的对象的路径。一个对象主宰另一个对象发生在当且仅当该对象是直接或间接到达另一个对象的必须经过的对象。你可以释放一个主宰对象来释放所有下属对象。</p>
+<h4 id="内存泄露和使用分析">内存泄露和使用分析</h4>
+<p>一种优化内存使用的方式就是分析大型数组，例如你可以减小一个数组中单个元素的大小来减小内存使用。</p>
+<p>另外一种值得注意的是不再使用却仍然被引用的对象，你可以收集不同时间周期的堆转存进行比较，是否存在增长的内存泄露，例如代码中一个创建了多次但没有销毁的对象类型。这些对象可能是一个增长的数组或一个对象树的一部分。为了向下跟踪到这一问题，比较堆转存来查看是否存在一个特定的对象有越来越多的实例，类似还有不断增长的对象树。</p>
+<p>当你发现内存为题时，分配跟踪器可以让你对哪儿分配了占用内存的对象有更好的了解。分配跟踪器不仅对找到特定的内存使用十分有用，对于分析特定代码路径，例如加载和滚动也十分有用。</p>
+<h4 id="不同虚拟机的内存管理">不同虚拟机的内存管理</h4>
+<pre><code>Android 4.3 (API level 18) and lower uses the Dalvik VM.
+In Android 4.4 (API level 19), the Android RunTime (ART) VM is an option, while the Dalvik VM is the default.
+Android 5.0 (API level 21) and higher uses the ART VM.
+</code></pre>
+<p>Dalvik VM使用一个标记-清除GC策略。ART VM使用分代收集策略，在内存需要进一步GC时结合mark-and-sweep进行GC，例如当内存过度碎片化时。</p>
+<h3 id="内存开销调查httpsdeveloperandroidcomstudioprofileinvestigate-ramhtml"><a href="https://developer.android.com/studio/profile/investigate-ram.html">内存开销调查</a></h3>
+<h4 id="检查log日志">检查log日志</h4>
+<p>对于Dalvik虚拟机的GC日志：</p>
+<pre><code>D/dalvikvm: &lt;GC_Reason&gt; &lt;Amount_freed&gt;, &lt;Heap_stats&gt;, &lt;External_memory_stats&gt;, &lt;Pause_time&gt;
+
+例如：
+D/dalvikvm( 9050): GC_CONCURRENT freed 2049K, 65% free 3571K/9991K, external 4703K/5261K, paused 2ms+2ms
+</code></pre>
+<p>ART日志：</p>
+<p>ART并不记录非显式的GC请求，只有认为GC很慢时才会打印日志，更精确地讲，如果GC暂停超过了5ms或者GC持续时间超过了100ms就认为很慢。如果app不在一个暂停可察觉的状态，那么就认为GC不慢。</p>
+<p>ART的GC日志格式为：</p>
+<pre><code>I/art: &lt;GC_Reason&gt; &lt;GC_Name&gt; &lt;Objects_freed&gt;(&lt;Size_freed&gt;) AllocSpace Objects, &lt;Large_objects_freed&gt;(&lt;Large_object_size_freed&gt;) &lt;Heap_stats&gt; LOS objects, &lt;Pause_time(s)&gt;
+
+例如：
+I/art : Explicit concurrent mark sweep GC freed 104710(7MB) AllocSpace objects, 21(416KB) LOS objects, 33% free, 25MB/38MB, paused 1.230ms total 67.216ms
+</code></pre>
+<h4 id="android监控器what">Android监控器（what）</h4>
+<p>分析堆dump文件：</p>
+<p>堆dump文件和Java的HPROF工具生成的格式相似但不相同，主要的区别是Android堆dump中有大量的内存分配发生在Zygote进程中，因为Zygote的内存分配在所有app进程中是共享的，它与你的app堆分析的关系不大。可以使用hprof-conv命令将android格式的HPROF格式文件转换为Java SE HPROF格式，然后使用<a href="http://www.eclipse.org/mat/">MAT</a>进行分析。命令示例如下：</p>
+<pre><code>hprof-conv heap-original.hprof heap-converted.hprof
+</code></pre>
+<p>在分析时，操作任何以下引起内存泄露的原因：</p>
+<ul>
+<li>对Activity，Context，View，Drawable的长期引用，以及其它可能持有对Activity或Context容器的引用的对象。</li>
+<li>非静态内部类，例如一个可能持有一个Activity实例的Runnable。</li>
+<li>缓存对对象的持有超过需要。</li>
+</ul>
+<h4 id="跟踪内存分配where">跟踪内存分配（where）</h4>
+<p>跟踪内存分配可以让你对哪儿分配了占用大量内存的对象，你可以使用**分配追踪器（Allocation Tracker）**来查找特定的内存使用并且分析一个app中特定代码路径，例如一个画面滚动。</p>
+<h4 id="查看总体内存分配">查看总体内存分配</h4>
+<p>对于进一步的分析，你可能想观察你的app内存在不同类型的RAM分配中是如何划分的，可以使用如下命令：</p>
+<pre><code>adb shell dumpsys meminfo &lt;package_name|pid&gt; [-d]
+</code></pre>
+<p>-d 标志会打印更多与Dalvik和ART内存使用相关的信息。</p>
+<p>在查看这些消息时，你应当对如下类型的分配比较熟悉：</p>
+<p>私有内存（Private (Clean and Dirty) RAM）：</p>
+<blockquote>
+<p>这些内存只用于你的进程中，这一块的RAM是在你的app进程被终止后系统会回收的内存。通常而言，最重要的部分是private dirty RAM，它是最昂贵的因为它仅仅用于你的进程，并且它的内存仅存储于RAM中而不会分页缓存到存储器中（因为Android不使用swap分区）。你所作的所有Dalvik和native堆分配都是private dirty RAM。和Zygote进程共享的Dalvik和原生分配是shared dirty RAM.</p>
+</blockquote>
+<p>占比集大小（Proportional Set Size (PSS)）：</p>
+<blockquote>
+<p>这是将进程间的共享分页考虑进来后，对你的app的RAM使用的一个测度。任何对你的app而言是唯一的RAM分页都直接贡献其PSS值，然而与其它进程共享的分页会贡献与共享数量成比例的PSS值。例如一个共享于两个进程间的分页会将其大小的一半分别贡献给每个进程的PSS。</p>
+</blockquote>
+<h4 id="触发内存泄露">触发内存泄露</h4>
+<p>可以采用以下方式：</p>
+<ol>
+<li>旋转设备，因为旋转设备会使设备重建Activity，如果你的app在其它地方持有这些对象的引用，系统就不能回收它。</li>
+<li>在activity处于不同状态下时，在你的app和其它app间切换。</li>
+</ol>
+<blockquote>
+<p>提示：你也可以使用monkey测试框架进行上述操作。</p>
+</blockquote>
+<h2 id="hprof查看和分析工具">HPROF查看和分析工具</h2>
+<p>当你使用Android Studio中的内存监控器监控内存使用情况时，将一个java堆的快照转存为一个Android格式的Heap/CPU剖析文件(HPROF)。HPROF查看器可以显示类，每个类的示例和一个引用树，帮助你跟踪内存使用和内存泄露。</p>
+<h3 id="为什么查看java堆">为什么查看java堆</h3>
+<p>Java堆展示了如下信息：</p>
+<ul>
+<li>按类型分配的许多对象的快照</li>
+<li>每次自然发生或人为引起的GC数据采样</li>
+<li>帮助识别出哪种对象类型可能引起内存泄露</li>
+</ul>
+<p>然而你必须自己寻找随着时间堆所发生的变化。</p>
+<p>HPROF分析器可以找到如下潜在问题：</p>
+<ul>
+<li>所有可以从GC根部可达的activity实例</li>
+<li>目标程序的什么地方有重复的字符串</li>
+</ul>
+<p>一个dominator是一个树的顶部，如果你移除了它，也可以将其主宰的树枝移除，因此使释放内存的一种可能的方式。</p>
+<h3 id="内存分配追踪工具">内存分配追踪工具</h3>
+<p>Android监控器允许你在监控内存使用时跟踪内存的分别，也就是当你进行特定操作时，监控对象被分配到了什么地方。</p>
+<p>分配追踪器作如下事情：</p>
+<ul>
+<li>展示什么时候与你的代码的什么地方分配的对象类型，大小，分配线程和堆栈跟踪。</li>
+<li>通过循环反复的分配与重新分配模式，帮助识别内存搅动。</li>
+<li>和HPROF查看器一起使用，帮助你跟踪内存泄露，例如，如果你发现堆内的一个bitmap对象，你可以使用分配追踪器找到其分配位置。</li>
+</ul>
+<h3 id="java内存分析工具mat">java内存分析工具MAT</h3>
+<p>堆转存（heap dump)包含了一个时刻堆中所有存活的Java对象。</p>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Gitlab搭建与Gitlab Pages配置 | 风格与布局</title>
+<meta name="description" content="安装 安装环境为ubuntu14.04，具体安装步骤参考以下页面： GitLab Installation Omnibus GitLab documentation Gitlab Pages Gitlab Pages站点 Gitlab Pages工程 Gitlab Pages管理 GitLab Pages守">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#安装">安装</a></li>
+    <li><a href="#gitlab-pages">Gitlab Pages</a></li>
+    <li><a href="#gitlab-runner">Gitlab Runner</a>
+      <ul>
+        <li><a href="#共享与特定的runner">共享与特定的Runner</a></li>
+        <li><a href="#安装gitlab-runner">安装Gitlab Runner</a></li>
+        <li><a href="#gitlab-runner的注册">Gitlab Runner的注册</a></li>
+      </ul>
+    </li>
+    <li><a href="#gitlab-pages构建">Gitlab Pages构建</a></li>
+    <li><a href="#gitlab-pages搭建问题与解决方法">Gitlab Pages搭建问题与解决方法</a>
+      <ul>
+        <li><a href="#jekyll站点首页未加载css以及访问二级页面返回404的问题">jekyll站点首页未加载css以及访问二级页面返回404的问题</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">Gitlab搭建与Gitlab Pages配置</h1>
+                </div>
+                <div class="content">
+                        <h2 id="安装">安装</h2>
+<p>安装环境为ubuntu14.04，具体安装步骤参考以下页面：</p>
+<ul>
+<li><a href="https://about.gitlab.com/installation/#ubuntu">GitLab Installation</a></li>
+<li><a href="https://docs.gitlab.com/omnibus/README.html#installation-and-configuration-using-omnibus-package">Omnibus GitLab documentation</a></li>
+</ul>
+<h2 id="gitlab-pages">Gitlab Pages</h2>
+<ul>
+<li>
+<p><a href="https://docs.gitlab.com/ee/user/project/pages/">Gitlab Pages站点</a></p>
+</li>
+<li>
+<p><a href="https://docs.gitlab.com/ee/user/project/pages/getting_started_part_two.html">Gitlab Pages工程</a></p>
+</li>
+<li>
+<p><a href="https://docs.gitlab.com/ce/administration/pages/">Gitlab Pages管理</a></p>
+</li>
+<li>
+<p><a href="https://gitlab.com/gitlab-org/gitlab-pages/blob/master/README.md">GitLab Pages守护进程</a></p>
+</li>
+</ul>
+<p>Gitlab Pages功能在默认情况下是未开启的，首先需要先开启该功能，首先修改Gitlab配置文件：</p>
+<pre><code>sudo vi /etc/gitlab/gitlab.rb
+</code></pre>
+<p>修改如下一行为：</p>
+<pre><code>gitlab_pages['enable'] = true
+</code></pre>
+<p>然后退出vi并重新配置，使修改的配置生效，并重启Gitlab Pages，每次修改配置文件都需要进行以下操作：</p>
+<pre><code>sudo gitlab-clt reconfigure
+
+sudo gitlab-ctl restart gitlab-pages
+# 或者
+sudo gitlab-ctl restart
+</code></pre>
+<p>为了搭建一个Gitlab Pages站点，需要完成如下步骤：</p>
+<ol>
+<li>一个工程</li>
+<li>一个用于部署站点的配置文件(<code>.gitlab-ci.yml</code>)</li>
+<li>配置文件中的一个称为<code>pages</code>的指定<code>job</code>，可以让Gitlab识别出你在部署一个Gitlab Pages站点</li>
+<li>一个<code>public</code>文件夹，里面是站点内容</li>
+</ol>
+<p><a href="https://docs.gitlab.com/ee/user/project/pages/getting_started_part_three.html">可选的特性</a>包括：</p>
+<ol>
+<li>一个自定义域名或子域名</li>
+<li>一个指向你的站点(子)域名的DNS，此外还可以为自定义域名配置SSL/TLS证书来使用HTTPS进行访问</li>
+</ol>
+<p>首先在Gitlab上创建一个空的项目，地址为<code>git@yourdomain.com:pages/jekyll.git</code>，然后克隆官方的jekyll示例项目：</p>
+<pre><code>git clone https://gitlab.com/pages/jekyll.git
+</code></pre>
+<p>或者在本地使用jekyll命令行工具生成一个初始项目：</p>
+<pre><code>jekyll new jekyll
+</code></pre>
+<p>然后执行如下命令：</p>
+<pre><code>cd jekyll
+git remote rename origin old-origin
+git remote add origin git@yourdomain.com:pages/jekyll.git
+git push -u origin --all
+git push -u origin --tags
+</code></pre>
+<p>在Gitlab上查看，工程成功上传了，并且查看项目下的CI/CD&gt;Jobs可以看到一个任务被触发了，状态为<code>Pending</code>，点击状态进入任务的详情页面显示如下信息：</p>
+<pre><code>This job is stuck, because the project doesn't have any runners online assigned to it. 
+</code></pre>
+<p>进入工程下的Setting&gt;CI/CD，查看是否存在运行中的Runner，发现还没有配置Runner。</p>
+<!-- raw HTML omitted -->
+<h2 id="gitlab-runner">Gitlab Runner</h2>
+<p>Gitlab Runner是Gitlab持续集成(Gitlab CI)的执行器，它执行定义在<code>.gitlab-ci.yml</code>中的命令或任务。它们是独立的（虚拟）机器，通过Gitlab CI的协作API来获取任务。</p>
+<p>一个Runner可以是指定用于一个特定的项目，也可以服务于Gitlab CI中的任意项目。一个服务所有项目的Runner称为共享Runner。</p>
+<p>理想情况下Gitlab Runner不应当安装到Gitlab所在的同一台服务器上。</p>
+<h3 id="共享与特定的runner">共享与特定的Runner</h3>
+<p>在安装Gitlab Runner后，可以将其注册为共享或特殊的。</p>
+<ul>
+<li>
+<p><strong>共享Runner</strong>：对于多个项目间有相同需求的任务十分有用。</p>
+</li>
+<li>
+<p><strong>特殊Runner</strong>：对于有特殊需求的项目或有特殊需求的任务十分有用。</p>
+</li>
+</ul>
+<h3 id="安装gitlab-runner">安装Gitlab Runner</h3>
+<p>首先进行Gitlab Runner的安装，因为Gitlab Runner会消耗大量内存，以及可能的安全隐患，尤其是以shell执行器的方式使用Gitlab Runner。如果有多台服务器可供使用，官方推荐的做法是<a href="https://docs.gitlab.com/ce/install/requirements.html#gitlab-runner">将Runner安装到与Gitlab不同的另外的服务器上</a>：</p>
+<ul>
+<li><a href="https://docs.gitlab.com/runner/install/linux-repository.html">从Gitlab仓库进行安装</a></li>
+</ul>
+<p>或者手动安装</p>
+<ul>
+<li><a href="https://docs.gitlab.com/runner/install/linux-manually.html">手动安装</a></li>
+</ul>
+<h3 id="gitlab-runner的注册">Gitlab Runner的注册</h3>
+<p>所谓注册，就是将一个Runner绑定到一个Gitlab实例，然后它们之间就可以进行协作了，因为Runner是另外的进程，也有可能安装在与Gitlab不同的服务器上。</p>
+<h4 id="注册共享runner">注册共享Runner</h4>
+<blockquote>
+<p>注：只有管理员才可以注册一个共享Runner。</p>
+</blockquote>
+<ol>
+<li>
+<p>在<code>admin/runners</code>页面获取共享Runner令牌(Token)
+<img src="/assets/images/linux/gitlab/shared_runners_admin.png" alt="shared_runners_admin"></p>
+</li>
+<li>
+<p><a href="https://docs.gitlab.com/runner/register/">注册Runner</a></p>
+<p>在注册Runner前，需要完成Gitlab Runner的安装，并获取一个令牌。</p>
+<p>在没有特殊需求的情况下，Runner Executor选择shell即可。注册完成后刷新<code>admin/runners</code>页面，可以发现注册的Runner的信息出现在了下方的列表中。</p>
+<p><img src="/assets/images/linux/gitlab/runners_activated.png" alt="runners_activated"></p>
+</li>
+</ol>
+<h2 id="gitlab-pages构建">Gitlab Pages构建</h2>
+<p>此时回到上面的Gitlab Pages工程jekyll，从项目下的CI/CD&gt;Jobs查看项目下Jobs运行情况如下：</p>
+<pre><code>Running with gitlab-runner 10.7.1 (xxxxx)
+on shared xxxxxx
+Using Shell executor...
+Running on androidpi-alpha-1...
+Fetching changes...
+HEAD is now at f7b61a4 Merge branch 'master' into 'master'
+Checking out f7b61a4c as master...
+Skipping Git submodules setup
+$ bundle install
+bash: line 53: bundle: command not found
+ERROR: Job failed: exit status 1
+</code></pre>
+<p>Ruby的安装可以参考此文：<a href="/2015/10/11/pages-2015-10-11-github-pages/">Github Pages博客搭建</a></p>
+<p>发现安装完成后仍然显示相同的失败信息，最后发现gitlab-runner是一个独立的linux用户，无法使用当前用户下的环境变量。并且通过rvm安装的ruby仅仅安装在当前用户目录下，如：</p>
+<pre><code>/home/username/.rvm/rubies/ruby-2.4.1/bin/ruby
+</code></pre>
+<p>为了保证安装环境的独立性，切换到gitlab-runner用户下，重新进行ruby的安装。</p>
+<p>再次运行jekyll的job成功：</p>
+<p><img src="/assets/images/linux/gitlab/job-passed.png" alt="job-passed"></p>
+<h2 id="gitlab-pages搭建问题与解决方法">Gitlab Pages搭建问题与解决方法</h2>
+<h3 id="jekyll站点首页未加载css以及访问二级页面返回404的问题">jekyll站点首页未加载css以及访问二级页面返回404的问题</h3>
+<p>最初在初始化站点项目时，采用的是命令行初始化的方式，jekyll配置文件<code>_config.yml</code>未配置url路径，与Gitlab上的jekyll站点示例项目对比发现，进行如下配置可以解决问题：</p>
+<pre><code>baseurl: &quot;/jekyll&quot; # the subpath of your site, e.g. /blog
+url: &quot;/&quot; # the base hostname &amp; protocol for your site, e.g. http://example.com
+</code></pre>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

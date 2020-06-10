@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>OAuth 2.0综述 | 风格与布局</title>
+<meta name="description" content="OAuth 2.0是用于授权的工业标准协议。OAuth 2.0取代了创建于2006年的OAuth协议。OAuth 2.0在专注于客户端开发者的精简性的同时">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#oauth-20核心">OAuth 2.0核心</a>
+      <ul>
+        <li><a href="#oauth-20授权框架-rfc-6749httpstoolsietforghtmlrfc6749"><a href="https://tools.ietf.org/html/rfc6749">OAuth 2.0授权框架-RFC 6749</a></a></li>
+        <li><a href="#oauth-20授予类型grant-typeshttpsoauthnet2grant-types"><a href="https://oauth.net/2/grant-types/">OAuth 2.0授予类型（Grant Types）</a></a></li>
+      </ul>
+    </li>
+    <li><a href="#openid">OpenID</a></li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">OAuth 2.0综述</h1>
+                </div>
+                <div class="content">
+                        <p><a href="https://oauth.net/2/">OAuth 2.0</a>是用于授权的工业标准协议。OAuth 2.0取代了创建于2006年的OAuth协议。OAuth 2.0在专注于客户端开发者的精简性的同时也为web应用、桌面应用、移动手机和家用设备提供了专用的授权流。</p>
+<h2 id="oauth-20核心">OAuth 2.0核心</h2>
+<h3 id="oauth-20授权框架-rfc-6749httpstoolsietforghtmlrfc6749"><a href="https://tools.ietf.org/html/rfc6749">OAuth 2.0授权框架-RFC 6749</a></h3>
+<h3 id="oauth-20授予类型grant-typeshttpsoauthnet2grant-types"><a href="https://oauth.net/2/grant-types/">OAuth 2.0授予类型（Grant Types）</a></h3>
+<p>OAuth 2.0框架为不同的使用情况制定了若干授予类型，以及一个用于创建新授予类型的框架。最常用的OAuth 2.0授予类型如下：</p>
+<ul>
+<li>
+<p><a href="https://oauth.net/2/grant-types/authorization-code/">授权码（Authorization Code）</a></p>
+<p>授权码授予类型被机密和公开客户端用于使用授权码交换一个访问令牌（access token）。</p>
+<p>在用户通过重定向URL返回客户端后，应用会从该URL获取授权码，并使用它请求一个访问令牌。</p>
+</li>
+<li>
+<p>[隐式授予（Implicit Grant）]</p>
+<p>隐式授予是一个可用于公开客户端的简化授权流，其中不需要额外的授权码交换步骤，而是立即返回一个访问令牌。</p>
+<p>通常是不建议使用隐式授予流的（有些服务器完全禁止这种流）。在该规范最初编写的时候，工业界的最佳实践已经转变到建议公开客户端应当这样做，要么在没有客户端secret的时候使用授权码，或者使用<a href="https://oauth.net/2/pkce/">PKCE</a>扩展</p>
+</li>
+<li>
+<p><a href="https://oauth.net/2/grant-types/password/">密码</a></p>
+</li>
+</ul>
+<h2 id="openid">OpenID</h2>
+<p>OpenID Connect是构建于OAuth 2.0协议上的一个简单身份层。基于一个授权服务器提供的认证服务，它可以让客户端识别终端用户的身份，以及使用一种互操作和类REST的方式获取终端用户的基本资料信息。</p>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>
