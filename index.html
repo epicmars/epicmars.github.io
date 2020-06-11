@@ -1,563 +1,950 @@
 <!DOCTYPE html>
-<html>
-    <head>
+<html lang="zh-cn">
+<head>
 	<meta name="generator" content="Hugo 0.72.0" />
-        <meta charset="utf-8" >
-        <meta lang="zh">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>风格与布局</title>
-<meta name="description" content="软件系统开发笔记，聚焦于Android移动应用开发">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
-        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
-        
-    <link rel="stylesheet" type="text/css" media="screen" href="/css/list.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/css/index.css" />
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    </head>
-
-    <body>
-        <div class="site-wrapper">
-                <header>
-    <nav>
-        <a class="home" href="https://www.androidpi.com/">首页</a>
-    </nav>
+<title>
+  
     
-</header>
-                <div class="site-main">
-                    
-<main aria-role="main">
-    <div class="main">
-        <div class="sidebar">
-                <div>
-    <section>
+    风格与布局
+  
+</title><meta name="description" content="Android移动应用开发"><meta name="author" content="jastrelax">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
+<link rel="icon" href="/favicon.ico">
+
+
+
+
+    
         
-    <a href="https://github.com/jastrelax" target="_blank"><i class="fab fa-github"></i>GitHub</a>
+            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
+        
+    
+
+
+
+
+<link rel="canonical" href="https://www.androidpi.com/">
+  <link href="https://www.androidpi.com/index.xml" rel="alternate" type="application/rss+xml" title="风格与布局">
+  <link href="https://www.androidpi.com/index.xml" rel="feed" type="application/rss+xml" title="风格与布局"><meta property="og:title" content="风格与布局" />
+<meta property="og:description" content="Android移动应用开发" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://www.androidpi.com/" />
+<meta property="og:updated_time" content="2020-03-23T10:52:05+08:00" />
+<meta itemprop="name" content="风格与布局">
+<meta itemprop="description" content="Android移动应用开发"><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="风格与布局"/>
+<meta name="twitter:description" content="Android移动应用开发"/>
+
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="https://www.androidpi.com/">风格与布局</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item"><a class="nav-link" href="/android/">Android</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/blockchain/">Blockchain</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/book/">Books</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/cs/">CS</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/ee/">EE</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/java/">Java</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/puzzles/">Puzzles</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/web/">Web</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/backend/">后端</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/engineering/">工程与架构</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/dev/">开发</a></li>
+                
+            
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    
+<main class="homepage container py-6">
+    
+    <div class="hero row">
+        <div class="col position-relative py-lg-7 py-7"><h1 class="display-4">风格与布局</h1><h3 class="font-weight-normal">Android移动应用开发</h3></div>
+    </div>
+
+    
+        <div class="latest row py-lg-5">
+            <div class="col-lg-6 mb-3"></div>
+            <div class="col-lg-6 mb-3">
+                <h5 class="created text-muted text-uppercase font-weight-bold">March 23, 2020</h5>
+                <h2><a href="/android/hotfix/2020-03-23-hotfix-robust/">美团Robust热修复集成</a></h2>
+
+                <div class="content">
+                    美团Robust简介 项目地址：https://github.com/Meituan-Dianping/Robust
+                </div>
+            </div>
+        </div>
+    <div class="articles row row-cols-1 row-cols-lg-3">
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/kotlin/2020-03-08-kotlin-coroutines/" class="d-block"><div class="card-body">
+            <h4 class="card-title">在架构组件中使用Kotlin协程</h4>
+            <p class="card-text text-muted text-uppercase">March 8, 2020</p>
+            <div class="card-text">
+                协程是一种并行设计模式，在Android中使用协程可以帮助我们简化异步代码，它解决了这两个主要问题： 管理可能会阻塞主线程的长时间任务。 提供了
+            </div>
+        </div>
+    </a>
 </div>
-        </div>
-    
-        <div class="content">
-            <div class="homepage-content">
-                
+
             </div>
-            <div>
-                 
-                    <article class="index">
-    <header>
-        <h2 class="title">
-            <a class="title" href="https://www.androidpi.com/android/hotfix/2020-03-23-hotfix-robust/"> 美团Robust热修复集成</a>
-        </h2>
-        <div class="post-meta">2020年03月23日 - 57 字 </div>
-    </header>
-    美团Robust简介 项目地址：https://github.com/Meituan-Dianping/Robust
-    <footer>
         
-    </footer>
-</article> 
-                 
-                    <article class="index">
-    <header>
-        <h2 class="title">
-            <a class="title" href="https://www.androidpi.com/android/kotlin/2020-03-08-kotlin-coroutines/"> 在架构组件中使用Kotlin协程</a>
-        </h2>
-        <div class="post-meta">2020年03月08日 - 4854 字 </div>
-    </header>
-    协程是一种并行设计模式，在Android中使用协程可以帮助我们简化异步代码，它解决了这两个主要问题： 管理可能会阻塞主线程的长时间任务。 提供了
-    <footer>
-        
-            <a class="more" href="https://www.androidpi.com/android/kotlin/2020-03-08-kotlin-coroutines/">
-                <nobr>更多内容 →</nobr>
-            </a>
-        
-    </footer>
-</article> 
-                 
-                    <article class="index">
-    <header>
-        <h2 class="title">
-            <a class="title" href="https://www.androidpi.com/book/android%E7%A7%BB%E5%8A%A8%E6%80%A7%E8%83%BD%E5%AE%9E%E6%88%98/2020-02-28-chapter3-networks/"> 网络：性能优化中的不可控因素</a>
-        </h2>
-        <div class="post-meta">2020年02月28日 - 26 字 </div>
-    </header>
-    DNS解析 1、IP直连 2、域名重用 3、HttpDNS
-    <footer>
-        
-    </footer>
-</article> 
-                 
-                    <article class="index">
-    <header>
-        <h2 class="title">
-            <a class="title" href="https://www.androidpi.com/android/opensource/2019-12-30-jetbooster/"> JetBooster：基于JetPack的快速开发框架</a>
-        </h2>
-        <div class="post-meta">2019年12月30日 - 87 字 </div>
-    </header>
-    需求 与架构契合的依赖注入库 符合JetPack架构组件的一套简明的架构基础设施 依赖注入 设计原则 遵循约定优于配置的原则 不是为了设计一个全面的DI
-    <footer>
-        
-            <a class="more" href="https://www.androidpi.com/android/opensource/2019-12-30-jetbooster/">
-                <nobr>更多内容 →</nobr>
-            </a>
-        
-    </footer>
-</article> 
-                 
-                    <article class="index">
-    <header>
-        <h2 class="title">
-            <a class="title" href="https://www.androidpi.com/android/develop/2019-11-05-ndk-develop-gifsicle/"> NDK开发之：集成gifsicle库</a>
-        </h2>
-        <div class="post-meta">2019年11月05日 - 19 字 </div>
-    </header>
-    Gifsicle中包含三个工具： Gifsicle GifView GifDiff
-    <footer>
-        
-    </footer>
-</article> 
-                 
-                    <article class="index">
-    <header>
-        <h2 class="title">
-            <a class="title" href="https://www.androidpi.com/android/ui/2018-11-08-touch-gesture/"> Android开发：触控手势</a>
-        </h2>
-        <div class="post-meta">2018年11月08日 - 13 字 </div>
-    </header>
-    检测常用手势 GestureDetector 参考： Use touch gestures
-    <footer>
-        
-    </footer>
-</article> 
-                 
-                    <article class="index">
-    <header>
-        <h2 class="title">
-            <a class="title" href="https://www.androidpi.com/android/tools/2018-10-21-debug-gradle-build-scripts/"> Android Studio之Gradle的使用</a>
-        </h2>
-        <div class="post-meta">2018年10月21日 - 223 字 </div>
-    </header>
-    调试Gradle脚本 添加Remote运行Configuration 在命令行运行gradle任务，并添加参数-Dorg.gradle.daem
-    <footer>
-        
-            <a class="more" href="https://www.androidpi.com/android/tools/2018-10-21-debug-gradle-build-scripts/">
-                <nobr>更多内容 →</nobr>
-            </a>
-        
-    </footer>
-</article> 
-                 
-                    <article class="index">
-    <header>
-        <h2 class="title">
-            <a class="title" href="https://www.androidpi.com/android/performance/2018-10-16-android-vitals/"> Android性能：Android Vitals</a>
-        </h2>
-        <div class="post-meta">2018年10月16日 - 154 字 </div>
-    </header>
-    Core vitals ANR rates Crash rates Excessive wakeups 部分唤醒锁定操作卡住（Stuck partial wake locks） All other vitals Excessive background Wi-Fi scans Excessive background network usage App startup time Slow rendering Frozen frames Permission denials 工具 部分唤醒锁定操作卡住（Stuck
-    <footer>
-        
-            <a class="more" href="https://www.androidpi.com/android/performance/2018-10-16-android-vitals/">
-                <nobr>更多内容 →</nobr>
-            </a>
-        
-    </footer>
-</article> 
-                 
-                    <article class="index">
-    <header>
-        <h2 class="title">
-            <a class="title" href="https://www.androidpi.com/android/opensource/2018-10-15-pagerouter/"> 页面路由与组件化开发框架：PageRouter</a>
-        </h2>
-        <div class="post-meta">2018年10月15日 - 78 字 </div>
-    </header>
-    页面路由 ### 需求 使用注解定义路由路径，注意如果注解的类型是Fragment，那么可以将Fragment加载到一个单独模版Activity进行展
-    <footer>
-        
-            <a class="more" href="https://www.androidpi.com/android/opensource/2018-10-15-pagerouter/">
-                <nobr>更多内容 →</nobr>
-            </a>
-        
-    </footer>
-</article> 
-                 
-                    <article class="index">
-    <header>
-        <h2 class="title">
-            <a class="title" href="https://www.androidpi.com/android/opensource/2018-10-15-layoutbinder/"> 布局绑定库：LayoutBinder</a>
-        </h2>
-        <div class="post-meta">2018年10月15日 - 322 字 </div>
-    </header>
-    特点 减少模板代码，便于导航到布局编辑器 可用于所有Activity、Fragment和自定义View 配合databinding库使用，用于注入
-    <footer>
-        
-            <a class="more" href="https://www.androidpi.com/android/opensource/2018-10-15-layoutbinder/">
-                <nobr>更多内容 →</nobr>
-            </a>
-        
-    </footer>
-</article> 
-                
-                
-
-<ul class="pagination">
-    
-    <li class="page-item">
-        <a href="/" class="page-link" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
-    </li>
-    
-    <li class="page-item disabled">
-    <a  class="page-link" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-    </li>
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li class="page-item active"><a class="page-link" href="/">1</a></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li class="page-item"><a class="page-link" href="/page/2/">2</a></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li class="page-item"><a class="page-link" href="/page/3/">3</a></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li class="page-item disabled"><span aria-hidden="true">&nbsp;&hellip;&nbsp;</span></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li class="page-item"><a class="page-link" href="/page/17/">17</a></li>
-    
-    
-    <li class="page-item">
-    <a href="/page/2/" class="page-link" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-    </li>
-    
-    <li class="page-item">
-        <a href="/page/17/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
-    </li>
-    
-</ul>
-
- 
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/opensource/2019-12-30-jetbooster/" class="d-block"><div class="card-body">
+            <h4 class="card-title">JetBooster：基于JetPack的快速开发框架</h4>
+            <p class="card-text text-muted text-uppercase">December 30, 2019</p>
+            <div class="card-text">
+                需求 与架构契合的依赖注入库 符合JetPack架构组件的一套简明的架构基础设施 依赖注入 设计原则 遵循约定优于配置的原则 不是为了设计一个全面的DI
             </div>
         </div>
-    
-        <div class="nav">
-                
+    </a>
+</div>
 
-<aside>
-    <ul>
+            </div>
         
-        
-            
-                <li>
-                    <a href="/android/">
-                        
-                        <span>Android</span>
-                    </a>
-                </li>
-            
-        
-            
-                <li>
-                    <a href="/blockchain/">
-                        
-                        <span>Blockchain</span>
-                    </a>
-                </li>
-            
-        
-            
-                <li>
-                    <a href="/book/">
-                        
-                        <span>Books</span>
-                    </a>
-                </li>
-            
-        
-            
-                <li>
-                    <a href="/cs/">
-                        
-                        <span>CS</span>
-                    </a>
-                </li>
-            
-        
-            
-                <li>
-                    <a href="/ee/">
-                        
-                        <span>EE</span>
-                    </a>
-                </li>
-            
-        
-            
-                <li>
-                    <a href="/java/">
-                        
-                        <span>Java</span>
-                    </a>
-                </li>
-            
-        
-            
-                <li>
-                    <a href="/puzzles/">
-                        
-                        <span>Puzzles</span>
-                    </a>
-                </li>
-            
-        
-            
-                <li>
-                    <a href="/web/">
-                        
-                        <span>Web</span>
-                    </a>
-                </li>
-            
-        
-            
-                <li>
-                    <a href="/backend/">
-                        
-                        <span>后端</span>
-                    </a>
-                </li>
-            
-        
-            
-                <li>
-                    <a href="/engineering/">
-                        
-                        <span>工程与架构</span>
-                    </a>
-                </li>
-            
-        
-            
-                <li>
-                    <a href="/dev/">
-                        
-                        <span>开发</span>
-                    </a>
-                </li>
-            
-        
-    </ul>
-</aside>
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/develop/2019-11-05-ndk-develop-gifsicle/" class="d-block"><div class="card-body">
+            <h4 class="card-title">NDK开发之：集成gifsicle库</h4>
+            <p class="card-text text-muted text-uppercase">November 5, 2019</p>
+            <div class="card-text">
+                Gifsicle中包含三个工具： Gifsicle GifView GifDiff
+            </div>
         </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/ui/2018-11-08-touch-gesture/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Android开发：触控手势</h4>
+            <p class="card-text text-muted text-uppercase">November 8, 2018</p>
+            <div class="card-text">
+                检测常用手势 GestureDetector 参考： Use touch gestures
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/tools/2018-10-21-debug-gradle-build-scripts/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Android Studio之Gradle的使用</h4>
+            <p class="card-text text-muted text-uppercase">October 21, 2018</p>
+            <div class="card-text">
+                调试Gradle脚本 添加Remote运行Configuration 在命令行运行gradle任务，并添加参数-Dorg.gradle.daem
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/performance/2018-10-16-android-vitals/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Android性能：Android Vitals</h4>
+            <p class="card-text text-muted text-uppercase">October 16, 2018</p>
+            <div class="card-text">
+                Core vitals ANR rates Crash rates Excessive wakeups 部分唤醒锁定操作卡住（Stuck partial wake locks） All other vitals Excessive background Wi-Fi scans Excessive background network usage App startup time Slow rendering Frozen frames Permission denials 工具 部分唤醒锁定操作卡住（Stuck
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/opensource/2018-10-15-pagerouter/" class="d-block"><div class="card-body">
+            <h4 class="card-title">页面路由与组件化开发框架：PageRouter</h4>
+            <p class="card-text text-muted text-uppercase">October 15, 2018</p>
+            <div class="card-text">
+                页面路由 ### 需求 使用注解定义路由路径，注意如果注解的类型是Fragment，那么可以将Fragment加载到一个单独模版Activity进行展
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/opensource/2018-10-15-layoutbinder/" class="d-block"><div class="card-body">
+            <h4 class="card-title">布局绑定库：LayoutBinder</h4>
+            <p class="card-text text-muted text-uppercase">October 15, 2018</p>
+            <div class="card-text">
+                特点 减少模板代码，便于导航到布局编辑器 可用于所有Activity、Fragment和自定义View 配合databinding库使用，用于注入
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/security/2018-10-09-hooking-in-android/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Android中的Hook技术</h4>
+            <p class="card-text text-muted text-uppercase">October 11, 2018</p>
+            <div class="card-text">
+                
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/lbs/android-mock-location/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Android模拟定位技术：如何假装玩在夏威夷？</h4>
+            <p class="card-text text-muted text-uppercase">October 11, 2018</p>
+            <div class="card-text">
+                夏威夷，阳光、沙滩、海浪，众人向往的旅游圣地。其中著名的海滩度假地WaiKiKi位于北纬：21.2764314，西经：-157.828641
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/security/2018-10-09-how-to-root-an-android-os/" class="d-block"><div class="card-body">
+            <h4 class="card-title">如何Root一个Android系统</h4>
+            <p class="card-text text-muted text-uppercase">October 9, 2018</p>
+            <div class="card-text">
+                
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/develop/2018-09-25-single-thread-model-of-ui/" class="d-block"><div class="card-body">
+            <h4 class="card-title">失落的梦：为什么Android的UI不采用多线程模型？</h4>
+            <p class="card-text text-muted text-uppercase">September 25, 2018</p>
+            <div class="card-text">
+                从观察到的现象来看，在多线程GUI中有一个惊人的趋势，那就是死锁和竞态条件。近些年，这些致力于多线程的聪明人逐渐都转移到一个事件队列模型。“
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/opensource/2018-09-20-literefresh/" class="d-block"><div class="card-body">
+            <h4 class="card-title">LiteRefresh：一种实现下拉刷新的新方式</h4>
+            <p class="card-text text-muted text-uppercase">September 20, 2018</p>
+            <div class="card-text">
+                项目地址：https://github.com/jastrelax/LiteRefresh 什么是LiteRefersh LiteRefresh
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/ui/2018-08-08-android-coordinatorlayout/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Android源码：CoordinatorLayout解析</h4>
+            <p class="card-text text-muted text-uppercase">August 12, 2018</p>
+            <div class="card-text">
+                CoordinatorLayout AppBarLayout BottomSheet FloatingActionButton.Behavior
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/building/2018-07-15-aop-based-gradle-log-plugin/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Android应用构建：基于AOP的Gradle日志插件开发</h4>
+            <p class="card-text text-muted text-uppercase">July 15, 2018</p>
+            <div class="card-text">
+                什么是AOP 在OOP的程序结构中，不同的类型可以对现实或虚拟的事物及其行为进行建模，不同类型的对象之间相互协作，完成所需的工作。也就是说OO
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/building/2018-07-09-specify-apk-name-with-gradle-scripts/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Android应用构建：使用Gradle构建脚本进行多渠道打包与APK包名修改</h4>
+            <p class="card-text text-muted text-uppercase">July 9, 2018</p>
+            <div class="card-text">
+                Android开发中常常需要进行多渠道打包，并且在包名中加入特定的标识，例如在提测阶段的包名中加入版本号、版本名、打包的时间，便于区分不同的
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/building/2018-07-09-android-app-build-automation-with-jenkins/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Android应用构建：使用Jenkins CI进行自动构建</h4>
+            <p class="card-text text-muted text-uppercase">July 9, 2018</p>
+            <div class="card-text">
+                下载命令行工具 https://developer.android.com/studio/index.html#command-tools Linux下Android构建环境 下载SDK命令行工具后，使用sdkmanager来下载所需的SDK包和工具。 $ sdkmanager --list 从列表中
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/building/2018-07-08-android-app-build-process-and-configuration/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Android应用构建：流程与配置</h4>
+            <p class="card-text text-muted text-uppercase">July 8, 2018</p>
+            <div class="card-text">
+                构建总体流程 Android 构建系统编译应用资源和源代码，然后将它们打包成可供您测试、部署、签署和分发的 APK。 如图 1 所示，典型 Android 应用模块的构建流程通常依
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/hardware/2018-06-30-android-unique-device-id/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Android手机唯一设备ID</h4>
+            <p class="card-text text-muted text-uppercase">June 30, 2018</p>
+            <div class="card-text">
+                Android手机用于关联设备的唯一性ID，目前常见的有如下几种类型： 设备ID IMEI MEID ESN 主要使用系统服务TelephonyManager获取。 硬
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/hardware/2018-06-29-android-mac-address/" class="d-block"><div class="card-body">
+            <h4 class="card-title">获取Android手机MAC地址</h4>
+            <p class="card-text text-muted text-uppercase">June 29, 2018</p>
+            <div class="card-text">
+                什么是MAC地址 MAC地址，全称为Media Access Control Address，即介质访问控制地址。它是分配给网络接口控制器（Network Interface Control
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/2018-06-15-android-develop-documents/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Android开发文档与源代码</h4>
+            <p class="card-text text-muted text-uppercase">June 15, 2018</p>
+            <div class="card-text">
+                Google官方文档 首页 文档 开发指南 Android Studio Jetpack Android源代码 Android源代码 下载源代码 Android Open Source Project Android Google Source 源代码Tag清单 Gradle DSL 参考文档 Android Gradle Plugin
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/framework/2018-06-14-android-understanding-context/" class="d-block"><div class="card-body">
+            <h4 class="card-title">源码分析：理解Context</h4>
+            <p class="card-text text-muted text-uppercase">June 14, 2018</p>
+            <div class="card-text">
+                Context一般翻译为上下文，它提供了一个应用环境的全局接口，用于访问指定应用的资源和类，以及各种应用级别的操作，如启动Activitie
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/ui/2018-06-11-control-the-system-ui-visibility/" class="d-block"><div class="card-body">
+            <h4 class="card-title">控制Android系统UI的可见性</h4>
+            <p class="card-text text-muted text-uppercase">June 11, 2018</p>
+            <div class="card-text">
+                系统栏（System bars）分为状态栏（status bar）和导航栏（Navigation bar）。 状态栏 导航栏 使系统栏变暗(dim) 这种
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/ui/2018-06-11-android-screen-adapter/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Android屏幕适配</h4>
+            <p class="card-text text-muted text-uppercase">June 11, 2018</p>
+            <div class="card-text">
+                基础 术语 屏幕尺寸 按屏幕对角测量的实际物理尺寸。 为简便起见，Android 将所有实际屏幕尺寸分组为四种通用尺寸：小、 正常、大和超大。 屏幕密度 屏
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/develop/2018-05-19-cross-platform-mobile-develop-overview/" class="d-block"><div class="card-body">
+            <h4 class="card-title">跨平台移动开发技术综述</h4>
+            <p class="card-text text-muted text-uppercase">May 19, 2018</p>
+            <div class="card-text">
+                移动端跨平台技术比较 Cordova与Ionic Cordova是使用Web技术（HTML/CSS/JavaScript）来构建移动应用的一种框
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/wifi/2018-05-14-android-wifi-api-compatibility/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Android Wi-Fi API兼容性适配</h4>
+            <p class="card-text text-muted text-uppercase">May 14, 2018</p>
+            <div class="card-text">
+                Android 6.0（API 级别 23） 硬件标识符访问权 为给用户提供更严格的数据保护，从此版本开始，对于使用 WLAN API 和 Bluetooth API 的应用，Android 移除了对设备本
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/wifi/2018-05-09-android-wifi-develop-guide/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Android Wi-Fi 开发指南</h4>
+            <p class="card-text text-muted text-uppercase">May 9, 2018</p>
+            <div class="card-text">
+                Wi-Fi管理与操作 使用Android平台提供的SDK可以处理若干如下类别的项目： 已配置过的网络列表，列表可以查看并进行更新，并且可以修改每
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/wifi/2018-05-09-android-wifi-api-reference/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Android Wi-Fi API 参考</h4>
+            <p class="card-text text-muted text-uppercase">May 9, 2018</p>
+            <div class="card-text">
+                Wi-Fi相关API包名 android.net.wifi android.net.wifi.aware android.net.wifi.hotspot2 android.net.wifi.hotspot2.omadm android.net.wifi.hotspot2.pps android.net.wifi.p2p android.net.wifi.p2p.nsd android.net.wifi.rtt android.net.wifi Wi-Fi API为应用提供了一种方法，使其可以和提供Wi-Fi网络访问的底层无线技术栈进行通信。所提供的A
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/develop/2018-04-22-android-app-compatibility-issue/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Android应用兼容性问题</h4>
+            <p class="card-text text-muted text-uppercase">April 22, 2018</p>
+            <div class="card-text">
+                Android系统Native库 Android系统版本分布的碎片化导致所使用的本地库版本的碎片化，有可能会使用相当过时的本地库。 SQLite SQLit
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/develop/2018-04-16-android-api-level-compatibility-adapter/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Android平台版本兼容性适配</h4>
+            <p class="card-text text-muted text-uppercase">April 16, 2018</p>
+            <div class="card-text">
+                平台版本 截止于 2018 年 1 月 8 日 Version Codename API Distribution 2.3.3-2.3.7 Gingerbread 10 0.3% 4.0.3-4.0.4 Ice Cream Sandwich 15 0.4% 4.1.x Jelly Bean 16 1.5% 4.2.x Jelly Bean 17 2.2% 4.3 Jelly Bean 18 0.6% 4.4 KitKat 19 10.3% 5.0 Lollipop 21 4.8% 5.1 Lollipop 22 17.6% 6.0 Marshmallow 23 25.5% 7.0 Nougat 24 22.9% 7.1 Nougat 25 8.2% 8.0 Oreo 26 4.9%
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/framework/2018-03-11-android-view-event-dispatching/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Android View事件处理机制与分发流程</h4>
+            <p class="card-text text-muted text-uppercase">March 11, 2018</p>
+            <div class="card-text">
+                View类还包含一系列嵌套接口以及您可以更加轻松定义的回调。 这些接口称为事件侦听器，是您捕获用户与UI之间交互的票证。 尽管您通常会使用事件侦
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/framework/2018-03-08-android-view-drawing-flow/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Android View绘制流程</h4>
+            <p class="card-text text-muted text-uppercase">March 11, 2018</p>
+            <div class="card-text">
+                概述 当一个Activity接收到焦点，它会请求对其布局进行绘制。Android框架会处理绘制的流程，但Activity必须提供布局层次的一个
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/framework/2018-03-08-android-window/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Window与WindowManager机制</h4>
+            <p class="card-text text-muted text-uppercase">March 10, 2018</p>
+            <div class="card-text">
+                接着Activity的启动流程分析Window的添加过程，与Activity相关联的window的创建发生在Activity.perform
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/framework/2018-03-07-android-launch-activity/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Activity启动流程：总览</h4>
+            <p class="card-text text-muted text-uppercase">March 7, 2018</p>
+            <div class="card-text">
+                网络上已经有许多关于这个主题的文章了，但路只有自己走一遍才会熟悉，源码的分析与理解也是一样的。因此从这篇文章开始我将开始从源码阅读中去理解A
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/framework/2018-03-04-android-system-init-process/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Android系统启动流程</h4>
+            <p class="card-text text-muted text-uppercase">March 4, 2018</p>
+            <div class="card-text">
+                Android系统架构 1 2
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/2018-02-23-android-interview/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Android面试</h4>
+            <p class="card-text text-muted text-uppercase">February 23, 2018</p>
+            <div class="card-text">
+                Android 四大组件 对Context的理解 关于一个应用环境的全局接口。用于访问特定应用的资源和类，以及各种应用级别的操作，如启动Activities与
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/develop/2017-12-04-viewmodel-vs-savedinstancestate/" class="d-block"><div class="card-body">
+            <h4 class="card-title">ViewModel与savedInstanceState</h4>
+            <p class="card-text text-muted text-uppercase">December 4, 2017</p>
+            <div class="card-text">
+                在Activity或Fragment的onSaveInstanceState方法中保存UI状态 如果一个Activity没有直接退出，而是通过
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/architecture/2018-07-08-from-mvc-to-mvvm/" class="d-block"><div class="card-body">
+            <h4 class="card-title">从MVC到MVVM</h4>
+            <p class="card-text text-muted text-uppercase">July 8, 2017</p>
+            <div class="card-text">
+                MVP与MVVM，该选哪一个？ 目前为止，我在工作中用过的应用架构有基于Otto的总线模式和MVP模式，业余时间使用Clean架构和MVVM做
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/develop/2017-05-21-migrate-to-kotlin/" class="d-block"><div class="card-body">
+            <h4 class="card-title">迁移到Kotlin</h4>
+            <p class="card-text text-muted text-uppercase">May 21, 2017</p>
+            <div class="card-text">
+                Google I/O已落下帷幕，Google 宣布将战略重心由Mobile转移到AI，这也是时下流行了。作为Android开发者，当然更关心Android
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/develop/2016-11-16-android-memory-optimization/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Android应用内存优化</h4>
+            <p class="card-text text-muted text-uppercase">November 16, 2016</p>
+            <div class="card-text">
+                使用Android监控器优化内存使用 使用Android监控器可以可视化监控app的内存使用： 随着时间展示可用的和分配的Java内存 随着时间展
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/develop/2016-08-08-android-testing/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Android测试驱动开发</h4>
+            <p class="card-text text-muted text-uppercase">August 8, 2016</p>
+            <div class="card-text">
+                使用迭代式开发工作流程 在迭代开发一个功能时，着手编写一个新的测试或者向已有的单元测试中添加用例和断言，测试一开始会失败，是因为功能还未实现。
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/library/2016-07-12-dagger2-api/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Dagger2 Api</h4>
+            <p class="card-text text-muted text-uppercase">July 12, 2016</p>
+            <div class="card-text">
+                Component注解 Component注解用于注解一个接口或抽象类，以便从其Module集合中生成一个完全成型的依赖注入实现。 每个使用@C
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/lbs/android-lbs-develop-guide/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Android LBS开发指南</h4>
+            <p class="card-text text-muted text-uppercase">January 1, 0001</p>
+            <div class="card-text">
+                GPS坐标 地图坐标系 高德地图API的坐标系 高德地图API使用的坐标体系，为国测局规定的GCJ-02坐标系，是国内的标准坐标体系。区别于GPS
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/security/2018-06-17-android-security-shell/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Android安全之加壳</h4>
+            <p class="card-text text-muted text-uppercase">January 1, 0001</p>
+            <div class="card-text">
+                
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/architecture/2018-07-08-android-architecture-evolution/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Android开发架构演进</h4>
+            <p class="card-text text-muted text-uppercase">January 1, 0001</p>
+            <div class="card-text">
+                
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/architecture/2018-08-18-android-architecture-component/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Android架构：组件化开发</h4>
+            <p class="card-text text-muted text-uppercase">January 1, 0001</p>
+            <div class="card-text">
+                资源 参考 Non-constant Fields in Case Labels
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/ui/2018-08-15-android-nested-scroll/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Android源码：嵌套滑动及其分发流程</h4>
+            <p class="card-text text-muted text-uppercase">January 1, 0001</p>
+            <div class="card-text">
+                
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/hotfix/2018-07-21-android-hotfix-overview/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Android热修复技术综述</h4>
+            <p class="card-text text-muted text-uppercase">January 1, 0001</p>
+            <div class="card-text">
+                安卓App热补丁动态修复技术介绍 tinker
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/networks/2018-5-14-android-networks-develop-guide/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Android网络开发指南</h4>
+            <p class="card-text text-muted text-uppercase">January 1, 0001</p>
+            <div class="card-text">
+                
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/framework/2018-06-17-android-fragment/" class="d-block"><div class="card-body">
+            <h4 class="card-title">什么是Fragment</h4>
+            <p class="card-text text-muted text-uppercase">January 1, 0001</p>
+            <div class="card-text">
+                为什么需要Fragment? 在官方文档的翻译中，Fragment译为片段。那么它是谁的片段？当然是Activity的，其目的在于解决如下几个
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/develop/2018-07-04-implement-a-pin-editor/" class="d-block"><div class="card-body">
+            <h4 class="card-title">实现PinView</h4>
+            <p class="card-text text-muted text-uppercase">January 1, 0001</p>
+            <div class="card-text">
+                KeyEvent As soft input methods can use multiple and inventive ways of inputting text, there is no guarantee that any key press on a soft keyboard will generate a key event: this is left to the IME&amp;rsquo;s discretion, and in fact sending such events is discouraged. You should never rely on receiving KeyEvents for any key on a soft input method. In particular, the default software keyboard will never send
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/ui/2018-06-17-android-listview/" class="d-block"><div class="card-body">
+            <h4 class="card-title">理解ListView</h4>
+            <p class="card-text text-muted text-uppercase">January 1, 0001</p>
+            <div class="card-text">
+                
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/android/ui/2018-06-17-android-recyclerview/" class="d-block"><div class="card-body">
+            <h4 class="card-title">理解RecyclerView</h4>
+            <p class="card-text text-muted text-uppercase">January 1, 0001</p>
+            <div class="card-text">
+                NestedScrollView中的RecyclerView RecyclerView实现了NestedScrollingChild，而Nes
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
     </div>
 </main>
 
 
-                </div>
-                <footer>
-    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
-    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
-</footer>
-                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-                
-<script type="text/javascript" src="/js/index.js"></script>
+    <footer class="footer text-center bg-dark py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-inline">
+                    
+                </ul>
 
-                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
-                <script src="/js/highlight.pack.js"></script>
-                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
-                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [
-                ['$', '$'],
-                ['\\(', '\\)']
-            ],
-            displayMath: [
-                ['$$', '$$']
-            ],
-            processEscapes: true,
-            processEnvironments: true,
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-            TeX: {
-                equationNumbers: {
-                    autoNumber: "AMS"
-                },
-                extensions: ["AMSmath.js", "AMSsymbols.js"]
-            }
-        }
-    });
-    MathJax.Hub.Queue(function () {
+                <p class="text-muted">
+                    
+                        Copyright &copy; 风格与布局 2020
+                    
+                </p>
 
+                <p class="text-muted">
+                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
+                </p>
 
-
-        var all = MathJax.Hub.getAllJax(),
-            i;
-        for (i = 0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-
-    MathJax.Hub.Config({
-
-        TeX: {
-            equationNumbers: {
-                autoNumber: "AMS"
-            }
-        }
-    });
-</script>
-                <script type="text/javascript" src="/js/main.js"></script>
+                <p class="text-muted">
+                    <a href="http://beian.miit.gov.cn" target="_blank">蜀ICP备18005659号-1</a>
+                </p>
+            
+            </div>
         </div>
-    </body>
+    </div>
+</footer>
 
+    
+    
+        
+            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
+        
+    
+
+
+
+
+
+
+
+
+    
+</body>
 </html>

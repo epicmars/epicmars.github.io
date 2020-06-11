@@ -1,67 +1,103 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8" >
-        <meta lang="zh">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title> | 风格与布局</title>
-<meta name="description" content="Java内存模型3: 若干动机 上一章概括了所有并发程序的一些非正式属性，以及对这些属性的一些误用导致的错误代码。本章概括了一些内存模型的非正式">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
-        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
-        
-    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    </head>
-
-    <body>
-        <div class="site-wrapper">
-                <header>
-    <nav>
-        <a class="home" href="https://www.androidpi.com/">首页</a>
-    </nav>
+<title>
+  
     
-</header>
-                <div class="site-main">
-                    
-    <div class="main">
-        <div class="article">
-            <aside>
-                    <nav id="TableOfContents">
-  <ul>
-    <li><a href="#31-正确同步程序的保障">3.1 正确同步程序的保障</a></li>
-    <li><a href="#32-简单重排序">3.2 简单重排序</a></li>
-    <li><a href="#33-与依赖相关的转换">3.3 与依赖相关的转换</a>
-      <ul>
-        <li><a href="#331-对当前线程不可见的重排序">3.3.1 对当前线程不可见的重排序</a></li>
-      </ul>
-    </li>
-    <li><a href="#34-同步">3.4 同步</a></li>
-    <li><a href="#35-附加的同步问题">3.5 附加的同步问题</a>
-      <ul>
-        <li><a href="#351-基于前置发生的优化">3.5.1 基于前置发生的优化</a></li>
-        <li><a href="#352-对volatile的额外保证">3.5.2 对volatile的额外保证</a></li>
-        <li><a href="#353-优化器必须谨慎">3.5.3 优化器必须谨慎</a></li>
-      </ul>
-    </li>
-    <li><a href="#36-无限执行公平和可观察的行为">3.6 无限执行，公平和可观察的行为</a>
-      <ul>
-        <li><a href="#361-控制依赖">3.6.1 控制依赖</a></li>
-      </ul>
-    </li>
-  </ul>
+    风格与布局
+  
+</title><meta name="description" content="Android移动应用开发"><meta name="author" content="jastrelax">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
+<link rel="icon" href="/favicon.ico">
+
+
+
+
+    
+        
+            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
+        
+    
+
+
+
+
+<link rel="canonical" href="https://www.androidpi.com/java/jmm/2017-10-12-jmm-java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B3/"><meta property="og:title" content="" />
+<meta property="og:description" content="Java内存模型3: 若干动机 上一章概括了所有并发程序的一些非正式属性，以及对这些属性的一些误用导致的错误代码。本章概括了一些内存模型的非正式" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.androidpi.com/java/jmm/2017-10-12-jmm-java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B3/" />
+
+<meta itemprop="name" content="">
+<meta itemprop="description" content="Java内存模型3: 若干动机 上一章概括了所有并发程序的一些非正式属性，以及对这些属性的一些误用导致的错误代码。本章概括了一些内存模型的非正式">
+
+<meta itemprop="wordCount" content="7533">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Java内存模型3: 若干动机 上一章概括了所有并发程序的一些非正式属性，以及对这些属性的一些误用导致的错误代码。本章概括了一些内存模型的非正式"/>
+
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="https://www.androidpi.com/">风格与布局</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item"><a class="nav-link" href="/android/">Android</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/blockchain/">Blockchain</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/book/">Books</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/cs/">CS</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/ee/">EE</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/java/">Java</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/puzzles/">Puzzles</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/web/">Web</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/backend/">后端</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/engineering/">工程与架构</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/dev/">开发</a></li>
+                
+            
+            </ul>
+        </div>
+    </div>
 </nav>
-            </aside>
+
+
+    
+<main class="content-page container pt-7 pb-5">
+    <div class="row">
+        <div class="col">
             <article>
-                <div class="title">
-                    <h1 id="title"></h1>
-                </div>
-                <div class="content">
-                        <h1 id="java内存模型3-若干动机">Java内存模型3: 若干动机</h1>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <h2 class="mb-3"></h2>
+
+                        <div class="content">
+                            <h1 id="java内存模型3-若干动机">Java内存模型3: 若干动机</h1>
 <p>上一章概括了所有并发程序的一些非正式属性，以及对这些属性的一些误用导致的错误代码。本章概括了一些内存模型的非正式必要条件（requirement），换句话说，就是一些用于驯服这些错误代码的方法。</p>
 <p>这里需要细心地把握一个平衡。一方面，模型有必要允许程序员能够仔细并正确地对多线程代码进行论述。另一方面，模型有必要允许编译器作者，虚拟机设计者和硬件架构师简单粗暴地进行代码优化，这会导致预测多线程代码的结果不那么直接。</p>
 <p>最后，对于一个编程语言内存模型的非正式必要条件是什么，我们达成了一个共识。当必要条件浮出水面，一个内存模型也开始成型了。这些必要条件中的大多数都有一个相对简单易于理解的动机，显然保证应该达成，优化应当被允许等待。其它必要条件，这些与因果性相关的更加复杂，这些和内存模型一起将在下一张中进行完整的描述。</p>
@@ -322,69 +358,56 @@ b都会存在数据竞争。</p>
 <p>考虑3.14中的程序， 在传统控制依赖中，两个线程中的写都控制依赖于循环守卫。这可能导致编译器决定将写移动到循环的前面。然而在Java中这是非法的。该程序是正确同步的：在所有顺序一致的执行中，两个线程都没有写共享变量，并且没有数据竞争。一个编译器必须创建一个条件使循环终止。</p>
 <p>控制依赖的概念正确包含了这点，在程序验证上下文中称为弱控制依赖。在程序分析与转换的上下文中这种属性也被当做循环控制依赖。</p>
 
+                        </div>
+                    </div>
                 </div>
-                
             </article>
         </div>
     </div>
-
-                </div>
-                <footer>
-    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
-    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
-</footer>
-                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-                
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
-
-                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
-                <script src="/js/highlight.pack.js"></script>
-                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
-                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [
-                ['$', '$'],
-                ['\\(', '\\)']
-            ],
-            displayMath: [
-                ['$$', '$$']
-            ],
-            processEscapes: true,
-            processEnvironments: true,
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-            TeX: {
-                equationNumbers: {
-                    autoNumber: "AMS"
-                },
-                extensions: ["AMSmath.js", "AMSsymbols.js"]
-            }
-        }
-    });
-    MathJax.Hub.Queue(function () {
+</main>
 
 
+    <footer class="footer text-center bg-dark py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-inline">
+                    
+                </ul>
 
-        var all = MathJax.Hub.getAllJax(),
-            i;
-        for (i = 0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
+                <p class="text-muted">
+                    
+                        Copyright &copy; 风格与布局 2020
+                    
+                </p>
 
-    MathJax.Hub.Config({
+                <p class="text-muted">
+                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
+                </p>
 
-        TeX: {
-            equationNumbers: {
-                autoNumber: "AMS"
-            }
-        }
-    });
-</script>
-                <script type="text/javascript" src="/js/main.js"></script>
+                <p class="text-muted">
+                    <a href="http://beian.miit.gov.cn" target="_blank">蜀ICP备18005659号-1</a>
+                </p>
+            
+            </div>
         </div>
-    </body>
+    </div>
+</footer>
 
+    
+    
+        
+            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
+        
+    
+
+
+
+
+
+
+
+
+    
+</body>
 </html>

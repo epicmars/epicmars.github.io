@@ -1,49 +1,105 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8" >
-        <meta lang="zh">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Java引用 | 风格与布局</title>
-<meta name="description" content="Reference是描述所有引用对象（reference objects）共有行为的抽象类，除了这一包（java.lang.ref）所提供的子">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
-        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
-        
-    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    </head>
+<title>
+  
+     Java引用 | 
+    风格与布局
+  
+</title><meta name="description" content="Android移动应用开发"><meta name="author" content="jastrelax">
 
-    <body>
-        <div class="site-wrapper">
-                <header>
-    <nav>
-        <a class="home" href="https://www.androidpi.com/">首页</a>
-    </nav>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
+<link rel="icon" href="/favicon.ico">
+
+
+
+
     
-</header>
-                <div class="site-main">
-                    
-    <div class="main">
-        <div class="article">
-            <aside>
-                    <nav id="TableOfContents">
-  <ul>
-    <li><a href="#强的可达">强的可达</a></li>
-    <li><a href="#虚的可达">虚的可达</a></li>
-  </ul>
+        
+            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
+        
+    
+
+
+
+
+<link rel="canonical" href="https://www.androidpi.com/java/core/2014-09-23-java-references/"><meta property="og:title" content="Java引用" />
+<meta property="og:description" content="Reference是描述所有引用对象（reference objects）共有行为的抽象类，除了这一包（java.lang.ref）所提供的子" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.androidpi.com/java/core/2014-09-23-java-references/" />
+<meta property="article:published_time" content="2014-09-23T21:17:32+08:00" />
+<meta property="article:modified_time" content="2014-09-23T21:17:32+08:00" />
+<meta itemprop="name" content="Java引用">
+<meta itemprop="description" content="Reference是描述所有引用对象（reference objects）共有行为的抽象类，除了这一包（java.lang.ref）所提供的子">
+<meta itemprop="datePublished" content="2014-09-23T21:17:32&#43;08:00" />
+<meta itemprop="dateModified" content="2014-09-23T21:17:32&#43;08:00" />
+<meta itemprop="wordCount" content="1803">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Java引用"/>
+<meta name="twitter:description" content="Reference是描述所有引用对象（reference objects）共有行为的抽象类，除了这一包（java.lang.ref）所提供的子"/>
+
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="https://www.androidpi.com/">风格与布局</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item"><a class="nav-link" href="/android/">Android</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/blockchain/">Blockchain</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/book/">Books</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/cs/">CS</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/ee/">EE</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/java/">Java</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/puzzles/">Puzzles</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/web/">Web</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/backend/">后端</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/engineering/">工程与架构</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/dev/">开发</a></li>
+                
+            
+            </ul>
+        </div>
+    </div>
 </nav>
-            </aside>
+
+
+    
+<main class="content-page container pt-7 pb-5">
+    <div class="row">
+        <div class="col">
             <article>
-                <div class="title">
-                    <h1 id="title">Java引用</h1>
-                </div>
-                <div class="content">
-                        <p>Reference是描述所有引用对象（reference objects）共有行为的抽象类，除了这一包（java.lang.ref）所提供的子类不可能创建Reference的立即子类（immediate subclasses）,这也不是期望的行为，因为引用需要与系统的GC（garbage collector）紧密合作，应当使用已有的，专门的引用类。</p>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <h2 class="mb-3">Java引用</h2>
+
+                        <div class="content">
+                            <p>Reference是描述所有引用对象（reference objects）共有行为的抽象类，除了这一包（java.lang.ref）所提供的子类不可能创建Reference的立即子类（immediate subclasses）,这也不是期望的行为，因为引用需要与系统的GC（garbage collector）紧密合作，应当使用已有的，专门的引用类。</p>
 <p>有三种不同类型的引用，按引用变弱的顺序排列，依次为：SoftReference，WeakReference，PhantomReference。这里”弱（Weakness）“指对在实际允许对引用对象进行GC时对GC的限制更小。</p>
 <p>为正确使用引用对象，理解它们不同的触发清理和入队的可达性是很重要的。下表按由强到弱的顺序，每一行，一个对象在左边被认为是可达的，当且仅当它满足右边的所有条件时才成立。在所有行中，考虑根集合是一个“抵抗”GC的引用集合（也就是，运行线程，方法参数，局部变量，静态域等等）。</p>
 <h2 id="强的可达">强的可达</h2>
@@ -106,69 +162,56 @@
 <p><code>java.lang.ref.PhantomReference</code>实现一个虚引用，是三种引用类型中最弱的一类，一旦GC认为一个对象obj是虚可达的，它会被入队到对应队列，但其引用未被清除。也就是，虚引用的引用队列必须被应用代码显式地进行处理。结果是，未注册到任何引用队列的虚引用毫无意义。</p>
 <p>虚引用对一个对象回收前实现必要的清理操作十分有用，它们有时比 finalize() 方法更具灵活性。</p>
 
+                        </div>
+                    </div>
                 </div>
-                
             </article>
         </div>
     </div>
-
-                </div>
-                <footer>
-    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
-    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
-</footer>
-                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-                
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
-
-                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
-                <script src="/js/highlight.pack.js"></script>
-                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
-                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [
-                ['$', '$'],
-                ['\\(', '\\)']
-            ],
-            displayMath: [
-                ['$$', '$$']
-            ],
-            processEscapes: true,
-            processEnvironments: true,
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-            TeX: {
-                equationNumbers: {
-                    autoNumber: "AMS"
-                },
-                extensions: ["AMSmath.js", "AMSsymbols.js"]
-            }
-        }
-    });
-    MathJax.Hub.Queue(function () {
+</main>
 
 
+    <footer class="footer text-center bg-dark py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-inline">
+                    
+                </ul>
 
-        var all = MathJax.Hub.getAllJax(),
-            i;
-        for (i = 0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
+                <p class="text-muted">
+                    
+                        Copyright &copy; 风格与布局 2020
+                    
+                </p>
 
-    MathJax.Hub.Config({
+                <p class="text-muted">
+                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
+                </p>
 
-        TeX: {
-            equationNumbers: {
-                autoNumber: "AMS"
-            }
-        }
-    });
-</script>
-                <script type="text/javascript" src="/js/main.js"></script>
+                <p class="text-muted">
+                    <a href="http://beian.miit.gov.cn" target="_blank">蜀ICP备18005659号-1</a>
+                </p>
+            
+            </div>
         </div>
-    </body>
+    </div>
+</footer>
 
+    
+    
+        
+            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
+        
+    
+
+
+
+
+
+
+
+
+    
+</body>
 </html>
