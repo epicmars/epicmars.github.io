@@ -1,105 +1,55 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
-<head>
-    <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-<title>
-  
-     Java内存模型简介 | 
-    风格与布局
-  
-</title><meta name="description" content="Android移动应用开发"><meta name="author" content="jastrelax">
-
-<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
-<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
-<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
-<link rel="icon" href="/favicon.ico">
-
-
-
-
-    
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Java内存模型简介 | 风格与布局</title>
+<meta name="description" content="Why：为什么需要内存模型? “更快，更高，更强”不仅仅是奥林匹克的口号，我们也需要更快，更稳定的计算机硬件和软件。谈到内存模型，到底在谈什么">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
         
-            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
-        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
     
-
-
-
-
-<link rel="canonical" href="https://www.androidpi.com/java/jmm/2017-11-12-jmm-introduction/"><meta property="og:title" content="Java内存模型简介" />
-<meta property="og:description" content="Why：为什么需要内存模型? “更快，更高，更强”不仅仅是奥林匹克的口号，我们也需要更快，更稳定的计算机硬件和软件。谈到内存模型，到底在谈什么" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://www.androidpi.com/java/jmm/2017-11-12-jmm-introduction/" />
-<meta property="article:published_time" content="2017-11-12T02:01:26+08:00" />
-<meta property="article:modified_time" content="2017-11-12T02:01:26+08:00" />
-<meta itemprop="name" content="Java内存模型简介">
-<meta itemprop="description" content="Why：为什么需要内存模型? “更快，更高，更强”不仅仅是奥林匹克的口号，我们也需要更快，更稳定的计算机硬件和软件。谈到内存模型，到底在谈什么">
-<meta itemprop="datePublished" content="2017-11-12T02:01:26&#43;08:00" />
-<meta itemprop="dateModified" content="2017-11-12T02:01:26&#43;08:00" />
-<meta itemprop="wordCount" content="3569">
-
-
-
-<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Java内存模型简介"/>
-<meta name="twitter:description" content="Why：为什么需要内存模型? “更快，更高，更强”不仅仅是奥林匹克的口号，我们也需要更快，更稳定的计算机硬件和软件。谈到内存模型，到底在谈什么"/>
-
-</head>
-<body>
-    
-<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
-    <div class="container">
-        <a class="navbar-brand font-weight-bold" href="https://www.androidpi.com/">风格与布局</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="main-menu">
-            <ul class="navbar-nav ml-auto">
-                
-                    <li class="nav-item"><a class="nav-link" href="/android/">Android</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/blockchain/">Blockchain</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/book/">Books</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/cs/">CS</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/ee/">EE</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/java/">Java</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/puzzles/">Puzzles</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/web/">Web</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/backend/">后端</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/engineering/">工程与架构</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/dev/">开发</a></li>
-                
-            
-            </ul>
-        </div>
-    </div>
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#why为什么需要内存模型">Why：为什么需要内存模型?</a>
+      <ul>
+        <li><a href="#内存一致性memory-consistency">内存一致性（Memory Consistency）</a></li>
+        <li><a href="#缓存一致性cache-coherence">缓存一致性（Cache Coherence）</a></li>
+      </ul>
+    </li>
+    <li><a href="#what内存模型是什么">What：内存模型是什么?</a></li>
+    <li><a href="#how如何使用内存模型">How：如何使用内存模型?</a></li>
+  </ul>
 </nav>
-
-
-    
-<main class="content-page container pt-7 pb-5">
-    <div class="row">
-        <div class="col">
+            </aside>
             <article>
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <h2 class="mb-3">Java内存模型简介</h2>
-
-                        <div class="content">
-                            <h2 id="why为什么需要内存模型">Why：为什么需要内存模型?</h2>
+                <div class="title">
+                    <h1 id="title">Java内存模型简介</h1>
+                </div>
+                <div class="content">
+                        <h2 id="why为什么需要内存模型">Why：为什么需要内存模型?</h2>
 <p>“更快，更高，更强”不仅仅是奥林匹克的口号，我们也需要更快，更稳定的计算机硬件和软件。谈到内存模型，到底在谈什么，对的就是在谈内存，但这里需要一个上下文，它就是运行中的使用内存的程序，也就是进程。在现代的计算机系统中，为了加快存储访问速度，有寄存器，高速缓存，主存，磁盘等存储层次结构。为了加快运行速度，计算的核心CPU采用了包括多核和指令乱序执行等等众多技术。系统层面上，由于CPU的性能增长已甩开主存等存储器访问性能几个量级，为了充分利用CPU的性能，系统提供了多任务执行能力，以进行逻辑流的调度，即同时运行多个进程，每个进程中又可以运行多个线程以及IO多路复用等并发机制。</p>
 <p>对于进程并发，各个进程间也是共享CPU和主存，也存在不同进程访问同一位置存储器可能出现的问题，同时当创建了众多进程后将主存分配完，可能导致后来的进程没有可使用的内存，也就无法运行。系统为有效管理存储器并减少错误的发送，提供了对主存的抽象，即虚拟存储器。虚拟存储器的概念是通用的，因为Java程序运行在JVM中，但此时JVM本身也是系统创建的一个进程。一个进程有自己的虚拟地址空间和对应的物理地址空间，统称为进程的私有存储器，为了防止对存储器的随意篡改，系统不允许一个进程读写另一个进程的私有存储器，并且也不允许修改它与另一个进程间共享的虚拟页面，任何修改都会触发写时拷贝，除非这两个线程间达成一致的协议，允许修改发生，所以需要IPC机制，如共享内存，管道等。这里便引出了存储器管理或者内存模型需要解决的主要问题，即<strong>共享内存正确性问题（shared memory correctness）</strong>。</p>
 <p>对于线程并发，及其内存模型的讨论，因为线程是应用层面的，没有进程中共享内存的访问限制，因此不能与进程的并发来进行类比讨论。虽然JVM本身属于一个较为完整的计算机系统，拥有自己的字节码指令集与执行系统，以及自己的运行时内存结构。但它一般也以进程的形式运行于外部操作系统中。在多线程并发环境下，线程所使用的存储仍然是外部硬件以及操作系统所提供的存储层次结构，线程拥有自己的私有内存以及线程间共享的内存。这正好与多核心CPU并行问题类似，各CPU拥有自己的寄存器以及高速缓存，并共享主存，有些多核CPU还拥有共享的高速缓存，但需要解决的问题是相似的。因此一旦CPU具有了这种正确执行并行程序的机制，即CPU所提供的内存模型，在应用层面上，多线程的执行便可以利用这种内存模型实现自己专属的内存模，例如JVM的内存模型，以编写正确的并发程序。</p>
@@ -172,56 +122,69 @@
 [4]: 《深入理解Java虚拟机 第二版》周志明著 p360-365
 [5]: <a href="https://www.ece.cmu.edu/~ece847c/S15/lib/exe/fetch.php?media=part2_2_sorin12.pdf">https://www.ece.cmu.edu/~ece847c/S15/lib/exe/fetch.php?media=part2_2_sorin12.pdf</a></p>
 
-                        </div>
-                    </div>
                 </div>
+                
             </article>
         </div>
     </div>
-</main>
 
-
-    <footer class="footer text-center bg-dark py-6">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <ul class="list-inline">
-                    
-                </ul>
-
-                <p class="text-muted">
-                    
-                        Copyright &copy; 风格与布局 2020
-                    
-                </p>
-
-                <p class="text-muted">
-                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
-                </p>
-
-                <p class="text-muted">
-                    <a href="http://beian.miit.gov.cn" target="_blank">蜀ICP备18005659号-1</a>
-                </p>
-            
-            </div>
-        </div>
-    </div>
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
 </footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
 
-    
-    
-        
-            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
-        
-    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
 
 
 
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
 
+    MathJax.Hub.Config({
 
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
 
-
-
-    
-</body>
 </html>

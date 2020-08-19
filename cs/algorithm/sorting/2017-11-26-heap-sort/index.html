@@ -1,105 +1,53 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
-<head>
-    <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-<title>
-  
-     堆与堆排序 | 
-    风格与布局
-  
-</title><meta name="description" content="Android移动应用开发"><meta name="author" content="jastrelax">
-
-<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
-<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
-<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
-<link rel="icon" href="/favicon.ico">
-
-
-
-
-    
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>堆与堆排序 | 风格与布局</title>
+<meta name="description" content="堆 堆是一个数组，可以看作一个近似的完全二叉树，树中的每一个节点对应于数组中的一个元素。除了最底层的叶节点，往上的所有层都是完全填充的，并且都">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
         
-            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
-        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
     
-
-
-
-
-<link rel="canonical" href="https://www.androidpi.com/cs/algorithm/sorting/2017-11-26-heap-sort/"><meta property="og:title" content="堆与堆排序" />
-<meta property="og:description" content="堆 堆是一个数组，可以看作一个近似的完全二叉树，树中的每一个节点对应于数组中的一个元素。除了最底层的叶节点，往上的所有层都是完全填充的，并且都" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://www.androidpi.com/cs/algorithm/sorting/2017-11-26-heap-sort/" />
-<meta property="article:published_time" content="2017-11-26T21:35:29+08:00" />
-<meta property="article:modified_time" content="2017-11-26T21:35:29+08:00" />
-<meta itemprop="name" content="堆与堆排序">
-<meta itemprop="description" content="堆 堆是一个数组，可以看作一个近似的完全二叉树，树中的每一个节点对应于数组中的一个元素。除了最底层的叶节点，往上的所有层都是完全填充的，并且都">
-<meta itemprop="datePublished" content="2017-11-26T21:35:29&#43;08:00" />
-<meta itemprop="dateModified" content="2017-11-26T21:35:29&#43;08:00" />
-<meta itemprop="wordCount" content="535">
-
-
-
-<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="堆与堆排序"/>
-<meta name="twitter:description" content="堆 堆是一个数组，可以看作一个近似的完全二叉树，树中的每一个节点对应于数组中的一个元素。除了最底层的叶节点，往上的所有层都是完全填充的，并且都"/>
-
-</head>
-<body>
-    
-<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
-    <div class="container">
-        <a class="navbar-brand font-weight-bold" href="https://www.androidpi.com/">风格与布局</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="main-menu">
-            <ul class="navbar-nav ml-auto">
-                
-                    <li class="nav-item"><a class="nav-link" href="/android/">Android</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/blockchain/">Blockchain</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/book/">Books</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/cs/">CS</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/ee/">EE</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/java/">Java</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/puzzles/">Puzzles</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/web/">Web</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/backend/">后端</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/engineering/">工程与架构</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/dev/">开发</a></li>
-                
-            
-            </ul>
-        </div>
-    </div>
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#最大堆与最小堆">最大堆与最小堆</a>
+      <ul>
+        <li><a href="#最大堆与堆排序">最大堆与堆排序</a></li>
+        <li><a href="#最小堆与优先队列">最小堆与优先队列</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
-
-
-    
-<main class="content-page container pt-7 pb-5">
-    <div class="row">
-        <div class="col">
+            </aside>
             <article>
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <h2 class="mb-3">堆与堆排序</h2>
-
-                        <div class="content">
-                            <h1 id="堆">堆</h1>
+                <div class="title">
+                    <h1 id="title">堆与堆排序</h1>
+                </div>
+                <div class="content">
+                        <h1 id="堆">堆</h1>
 <p>堆是一个数组，可以看作一个近似的完全二叉树，树中的每一个节点对应于数组中的一个元素。除了最底层的叶节点，往上的所有层都是完全填充的，并且都是从左向右进行填充。表示堆的数组A有两个属性：A.length表示数组大小，A.heap-size表示堆大小，即堆中有多少个元素存在数组中。</p>
 <p>算法导论中将根节点的序号设定为1，但实际使用的数组都是从0开始的，即从偶数开始填充堆，那么为了使数组依次逐层进行填充，对于一个节点在数组中的序号i，其左右孩子为:</p>
 <pre><code>Left(i): 2i+1
@@ -180,56 +128,69 @@ Right(i): 2i+2
     <span style="color:#66d9ef">print</span> max_heap<span style="color:#f92672">.</span>array
 </code></pre></div><h3 id="最小堆与优先队列">最小堆与优先队列</h3>
 
-                        </div>
-                    </div>
                 </div>
+                
             </article>
         </div>
     </div>
-</main>
 
-
-    <footer class="footer text-center bg-dark py-6">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <ul class="list-inline">
-                    
-                </ul>
-
-                <p class="text-muted">
-                    
-                        Copyright &copy; 风格与布局 2020
-                    
-                </p>
-
-                <p class="text-muted">
-                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
-                </p>
-
-                <p class="text-muted">
-                    <a href="http://beian.miit.gov.cn" target="_blank">蜀ICP备18005659号-1</a>
-                </p>
-            
-            </div>
-        </div>
-    </div>
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
 </footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
 
-    
-    
-        
-            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
-        
-    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
 
 
 
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
 
+    MathJax.Hub.Config({
 
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
 
-
-
-    
-</body>
 </html>

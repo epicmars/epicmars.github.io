@@ -1,105 +1,44 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
-<head>
-    <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-<title>
-  
-     迁移到Kotlin | 
-    风格与布局
-  
-</title><meta name="description" content="Android移动应用开发"><meta name="author" content="jastrelax">
-
-<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
-<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
-<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
-<link rel="icon" href="/favicon.ico">
-
-
-
-
-    
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>迁移到Kotlin | 风格与布局</title>
+<meta name="description" content="Google I/O已落下帷幕，Google 宣布将战略重心由Mobile转移到AI，这也是时下流行了。作为Android开发者，当然更关心Android">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
         
-            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
-        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
     
-
-
-
-
-<link rel="canonical" href="https://www.androidpi.com/android/develop/2017-05-21-migrate-to-kotlin/"><meta property="og:title" content="迁移到Kotlin" />
-<meta property="og:description" content="Google I/O已落下帷幕，Google 宣布将战略重心由Mobile转移到AI，这也是时下流行了。作为Android开发者，当然更关心Android" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://www.androidpi.com/android/develop/2017-05-21-migrate-to-kotlin/" />
-<meta property="article:published_time" content="2017-05-21T15:05:44+08:00" />
-<meta property="article:modified_time" content="2017-05-21T15:05:44+08:00" />
-<meta itemprop="name" content="迁移到Kotlin">
-<meta itemprop="description" content="Google I/O已落下帷幕，Google 宣布将战略重心由Mobile转移到AI，这也是时下流行了。作为Android开发者，当然更关心Android">
-<meta itemprop="datePublished" content="2017-05-21T15:05:44&#43;08:00" />
-<meta itemprop="dateModified" content="2017-05-21T15:05:44&#43;08:00" />
-<meta itemprop="wordCount" content="851">
-
-
-
-<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="迁移到Kotlin"/>
-<meta name="twitter:description" content="Google I/O已落下帷幕，Google 宣布将战略重心由Mobile转移到AI，这也是时下流行了。作为Android开发者，当然更关心Android"/>
-
-</head>
-<body>
-    
-<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
-    <div class="container">
-        <a class="navbar-brand font-weight-bold" href="https://www.androidpi.com/">风格与布局</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="main-menu">
-            <ul class="navbar-nav ml-auto">
-                
-                    <li class="nav-item"><a class="nav-link" href="/android/">Android</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/blockchain/">Blockchain</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/book/">Books</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/cs/">CS</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/ee/">EE</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/java/">Java</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/puzzles/">Puzzles</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/web/">Web</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/backend/">后端</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/engineering/">工程与架构</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/dev/">开发</a></li>
-                
-            
-            </ul>
-        </div>
-    </div>
-</nav>
-
-
-    
-<main class="content-page container pt-7 pb-5">
-    <div class="row">
-        <div class="col">
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents"></nav>
+            </aside>
             <article>
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <h2 class="mb-3">迁移到Kotlin</h2>
-
-                        <div class="content">
-                            <p>Google I/O已落下帷幕，Google 宣布将战略重心由Mobile转移到AI，这也是时下流行了。作为Android开发者，当然更关心Android开发的动态与趋势，这不一个让Android开发激动的消息便是官方支持Kotlin作为开发语言，就在前几天公司就开了一个Kotlin开发的分享会，我之前表示很不屑啊，我想玩的东西很多呀，服务器后端开发，机器人，Web前端，那有时间去学Kotlin，而且Google很多项目都是坑挖深了就弃。之前还想做个Chrome App工具来用于日常工作，但发现Google不再支持浏览器端Chrome App，于是在偶然发现Visual Studio Code这个开发神器后决定采用Electron来开发了。</p>
+                <div class="title">
+                    <h1 id="title">迁移到Kotlin</h1>
+                </div>
+                <div class="content">
+                        <p>Google I/O已落下帷幕，Google 宣布将战略重心由Mobile转移到AI，这也是时下流行了。作为Android开发者，当然更关心Android开发的动态与趋势，这不一个让Android开发激动的消息便是官方支持Kotlin作为开发语言，就在前几天公司就开了一个Kotlin开发的分享会，我之前表示很不屑啊，我想玩的东西很多呀，服务器后端开发，机器人，Web前端，那有时间去学Kotlin，而且Google很多项目都是坑挖深了就弃。之前还想做个Chrome App工具来用于日常工作，但发现Google不再支持浏览器端Chrome App，于是在偶然发现Visual Studio Code这个开发神器后决定采用Electron来开发了。</p>
 <p>其实我想说的，古人庄子也说过了，“吾生有崖，而知无崖，以有崖求无崖，殆哉矣。”，这句话应该是被误解了，庄子想说的是：“生命是有限的，而知识是无限的，用有限的生命去学习无限的知识，你是不是傻啊。”。所以现在对新语言、新技术没有以前那么感冒了，而且之前看到过一个<a href="https://www.zhihu.com/question/50267957/answer/120163065">Google工作十年总结</a>，深表赞同的是国外很多公司进行了很多技术创造与领导工作，作为一个Android开发的菜鸟，在近两年就感受到技术革新之快，各种开源库和框架，从开发Android应用的过程中便有一种强烈的技术追随感，总是啊，又有一个新的库可以用了，看上去好方便，赶紧用起，有完没完。</p>
 <p>然而正如“Life is short, you need Python.&ldquo;所言，既然生命有限，那么用一门更现代简洁的语言<a href="https://zh.wikipedia.org/wiki/Kotlin">Kotlin</a>和来替换一门古老的语言<a href="https://zh.wikipedia.org/wiki/Java">Java</a>也就理所当然了。</p>
 <p>最新的Android Studio3.0预览版提供了3种支持Kotlin工程的方式：</p>
@@ -111,56 +50,69 @@
 <p>后两种方式中，旧的工程可能还没有对Kotlin进行配置，可以通过<code>Toos&gt;Kotlin&gt;Configure Kotlin Project</code>进行配置.</p>
 <p><img src="/assets/images/kotlin/kotlin-configure.png" alt="Android工程Kotlin配置"></p>
 
-                        </div>
-                    </div>
                 </div>
+                
             </article>
         </div>
     </div>
-</main>
 
-
-    <footer class="footer text-center bg-dark py-6">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <ul class="list-inline">
-                    
-                </ul>
-
-                <p class="text-muted">
-                    
-                        Copyright &copy; 风格与布局 2020
-                    
-                </p>
-
-                <p class="text-muted">
-                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
-                </p>
-
-                <p class="text-muted">
-                    <a href="http://beian.miit.gov.cn" target="_blank">蜀ICP备18005659号-1</a>
-                </p>
-            
-            </div>
-        </div>
-    </div>
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
 </footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
 
-    
-    
-        
-            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
-        
-    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
 
 
 
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
 
+    MathJax.Hub.Config({
 
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
 
-
-
-    
-</body>
 </html>
