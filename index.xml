@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>风格与布局</title>
+    <title>androidpi</title>
     <link>https://www.androidpi.com/</link>
-    <description>Recent content on 风格与布局</description>
+    <description>Recent content on androidpi</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 23 Mar 2020 10:52:05 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 02 Nov 2020 15:49:48 +0800</lastBuildDate><atom:link href="https://www.androidpi.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MEMS IMU与运动追踪</title>
+      <link>https://www.androidpi.com/ee/2020-11-2-mems_imu_and_motion_track/</link>
+      <pubDate>Mon, 02 Nov 2020 15:49:48 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/ee/2020-11-2-mems_imu_and_motion_track/</guid>
+      <description>MEMS（Microelectromechanical System）将微型机械和电子元件集成到微米级的微小结构中，它使用 半导体和微细加工技术</description>
+    </item>
     
-	<atom:link href="https://www.androidpi.com/index.xml" rel="self" type="application/rss+xml" />
-    
+    <item>
+      <title>Netty源码：概览</title>
+      <link>https://www.androidpi.com/java/netty/2020-10-22-netty%E6%BA%90%E7%A0%81%E6%A6%82%E8%A7%88/</link>
+      <pubDate>Thu, 22 Oct 2020 11:11:11 +0800</pubDate>
+      
+      <guid>https://www.androidpi.com/java/netty/2020-10-22-netty%E6%BA%90%E7%A0%81%E6%A6%82%E8%A7%88/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>美团Robust热修复集成</title>
@@ -1129,6 +1143,15 @@
     
     <item>
       <title></title>
+      <link>https://www.androidpi.com/ee/2020-11-9-mems-imu-and-motion-track-part2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/ee/2020-11-9-mems-imu-and-motion-track-part2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title></title>
       <link>https://www.androidpi.com/java/jmm/2017-10-12-jmm-java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B2/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -1197,6 +1220,15 @@
       
       <guid>https://www.androidpi.com/android/security/2018-06-17-android-security-shell/</guid>
       <description></description>
+    </item>
+    
+    <item>
+      <title>Android定时任务</title>
+      <link>https://www.androidpi.com/android/develop/2020-12-01-android-repeat-work/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/android/develop/2020-12-01-android-repeat-work/</guid>
+      <description>Android定时任务</description>
     </item>
     
     <item>
@@ -1367,7 +1399,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://www.androidpi.com/dev/networks/wifi/2018-05-09-wifi-overview/</guid>
-      <description>导引 Wi-Fi是一种基于IEEE 802.11标准的无线局域网技术，术语&amp;rdquo;Wi-Fi&amp;ldquo;是Wi-Fi技术联盟的商标，Wi</description>
+      <description>导引 Wi-Fi是一种基于IEEE 802.11标准的无线局域网技术，术语&amp;quot;Wi-Fi&amp;ldquo;是Wi-Fi技术联盟的商标，Wi-</description>
     </item>
     
     <item>

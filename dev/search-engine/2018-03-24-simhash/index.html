@@ -4,7 +4,7 @@
         <meta charset="utf-8" >
         <meta lang="zh">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>网络爬虫页面去重技术 | 风格与布局</title>
+        <title>网络爬虫页面去重技术 | androidpi</title>
 <meta name="description" content="最近在使用ElasticSearch搭建一个小型的全文搜索引擎，用来搜索技术博客站点的文章。目前开发阶段爬取的站点60个左右，主要是国内的技">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
@@ -75,7 +75,7 @@
 </ol>
 <h3 id="查询">查询</h3>
 <p>在将文档转换为simhash指纹后，如何快速查找到其它与之最多仅有3个比特不同的指纹？考虑一个有$2^d$个完全随机的f比特指纹的排序表。仅关注表中最高有效的d位。这些d位数字“几乎”相当于一个计数值，因为有较少的$2^d$比特组合存在，并且它们很少重复。另一方面最低有效的$f-d$位“几乎”是随机的。</p>
-<p>现在选择$d'$使得$|d&rsquo;-d|$是一个小整形值。因为表是经过排序的，单个探测就可以找出所有与指纹F的$d'$个最高有效位匹配的其它指纹。因为$|d&rsquo;-d|$较小，这些匹配的数量也应当较小。对于每个匹配的指纹，可以容易地在$f - d'$个最低有效位限定的空间中找出与F最多有k位不同的那些指纹。</p>
+<p>现在选择$d'$使得$|d'-d|$是一个小整形值。因为表是经过排序的，单个探测就可以找出所有与指纹F的$d'$个最高有效位匹配的其它指纹。因为$|d'-d|$较小，这些匹配的数量也应当较小。对于每个匹配的指纹，可以容易地在$f - d'$个最低有效位限定的空间中找出与F最多有k位不同的那些指纹。</p>
 <h2 id="参考">参考</h2>
 <ul>
 <li></li>

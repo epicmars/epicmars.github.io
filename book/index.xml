@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Books on 风格与布局</title>
+    <title>Books on androidpi</title>
     <link>https://www.androidpi.com/book/</link>
-    <description>Recent content in Books on 风格与布局</description>
+    <description>Recent content in Books on androidpi</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 28 Feb 2020 13:34:39 +0800</lastBuildDate>
-    
-	<atom:link href="https://www.androidpi.com/book/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 28 Feb 2020 13:34:39 +0800</lastBuildDate><atom:link href="https://www.androidpi.com/book/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>网络：性能优化中的不可控因素</title>
       <link>https://www.androidpi.com/book/android%E7%A7%BB%E5%8A%A8%E6%80%A7%E8%83%BD%E5%AE%9E%E6%88%98/2020-02-28-chapter3-networks/</link>

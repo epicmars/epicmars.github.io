@@ -4,7 +4,7 @@
         <meta charset="utf-8" >
         <meta lang="zh">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Kotlin类属性与常量 | 风格与布局</title>
+        <title>Kotlin类属性与常量 | androidpi</title>
 <meta name="description" content="参考： 对象表达式与声明 类属性 类属性是定义在类中的变量或不变量，分别使用var和val定义。这里把Kotlin中的不变量和常量作下区分，不变量">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
@@ -70,11 +70,11 @@
 </span></code></pre></div><h3 id="属性访问器">属性访问器</h3>
 <p>所谓访问，就是对属性的读与写，类会为每个属性提供默认的访问器。称读访问器为getter，写访问器为setter。对于属性变量两者都会提供，不变量只有getter，显然是由于它不可改变。访问器可以在声明属性时进行重写以替换默认访问器：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">val</span> isEmpty: Boolean
-        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">get</span>() = <span style="color:#66d9ef">this</span>.size == <span style="color:#ae81ff">0</span>
+        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">get</span>() = <span style="color:#66d9ef">this</span>.size <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>
 
     <span style="color:#66d9ef">var</span> stringRepresentation: String
         <span style="color:#66d9ef">get</span>() = <span style="color:#66d9ef">this</span>.toString()
-        @Inject
+        <span style="color:#a6e22e">@Inject</span>
         <span style="color:#66d9ef">set</span>(value) {
             setDataFromString(value) <span style="color:#75715e">// parses the string and assigns values to other properties
 </span><span style="color:#75715e"></span>        }
@@ -128,13 +128,13 @@ Also called a static field. See also instance variable.</p>
 <p>那么当真正需要使用域时该怎么办。Kotlin提供了一个自动支撑域，可以通过<code>field</code>标识符在访问器中使用。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">var</span> counter = <span style="color:#ae81ff">0</span> <span style="color:#75715e">// the initializer value is written directly to the backing field
 </span><span style="color:#75715e"></span>        <span style="color:#66d9ef">set</span>(value) {
-            <span style="color:#66d9ef">if</span> (value &gt;= <span style="color:#ae81ff">0</span>) field = value
+            <span style="color:#66d9ef">if</span> (value <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">field</span> = value
         }
 </code></pre></div><p>但支撑域只能在访问器中使用，如果想像Java那样自由地在任何地方访问原始实例变量又该怎么办，即不通过访问器读写实例变量？从上面的分析中可以看到，这样的变量不是属性，声明一个没有访问器的实例变量就可以了，通过将变量声明为private并且不重写其访问器就可以了，kotlin称其为支撑属性。如下所示：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">var</span> _table: Map&lt;String, Int&gt;? = <span style="color:#66d9ef">null</span>
     <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">val</span> table: Map&lt;String, Int&gt;
         <span style="color:#66d9ef">get</span>() {
-            <span style="color:#66d9ef">if</span> (_table == <span style="color:#66d9ef">null</span>) {
+            <span style="color:#66d9ef">if</span> (_table <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span>) {
                 _table = HashMap() <span style="color:#75715e">// Type parameters are inferred
 </span><span style="color:#75715e"></span>            }
             <span style="color:#66d9ef">return</span> _table <span style="color:#f92672">?:</span> <span style="color:#66d9ef">throw</span> AssertionError(<span style="color:#e6db74">&#34;Set to null by another thread&#34;</span>)
@@ -144,11 +144,11 @@ Also called a static field. See also instance variable.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyTest</span> {
         <span style="color:#66d9ef">lateinit</span> <span style="color:#66d9ef">var</span> subject: TestSubject
 
-        @SetUp <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">setup</span>() {
+        <span style="color:#a6e22e">@SetUp</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">setup</span>() {
             subject = TestSubject()
         }
 
-        @Test <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">test</span>() {
+        <span style="color:#a6e22e">@Test</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">test</span>() {
             subject.method()  <span style="color:#75715e">// dereference directly
 </span><span style="color:#75715e"></span>        }
     }

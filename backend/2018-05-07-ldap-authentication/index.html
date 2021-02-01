@@ -4,7 +4,7 @@
         <meta charset="utf-8" >
         <meta lang="zh">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>LDAP服务与认证 | 风格与布局</title>
+        <title>LDAP服务与认证 | androidpi</title>
 <meta name="description" content="公司团队需要搭建项目管理、代码托管等服务器，目前使用redmine，gerrit，gitlab，jenkins等等，对于每个服务器都需要为每">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
@@ -72,7 +72,7 @@
 <p>LDAP是Lightweight Directory Access Protocol的缩写，即轻量级目录访问协议。它是一个用于访问目录服务的协议，尤其是基于X.500的目录服务。LDAP运行于TCP/IP上，或其他面向连接的传输服务。</p>
 <p><a href="https://tools.ietf.org/html/rfc4510">RFC4510</a>对其技术规范路线图进行了概述。</p>
 <p>这一节从用户的视角对LDAP进行了概述。</p>
-<p>什么样的信息可以存储在目录中？LDAP信息模型基于条目(entries)。一个条目是一个属性集合，它拥有一个全局唯一的专有名称(DN, Distinguished Name)。DN用于明确地指向一个条目。每个条目的属性有一个类型和一个或多个值。类型常常是助记字符串，例如“cn”表示common name，或者“mail”表示email地址。值的语法取决于属性类型。例如一个cn属性可以包含值Babs Jensen。一个email属性可以包含值&quot;babs@example.com&rdquo;。一个jpge图像属性可以包含一个JPEG（二进制）格式的图像。</p>
+<p>什么样的信息可以存储在目录中？LDAP信息模型基于条目(entries)。一个条目是一个属性集合，它拥有一个全局唯一的专有名称(DN, Distinguished Name)。DN用于明确地指向一个条目。每个条目的属性有一个类型和一个或多个值。类型常常是助记字符串，例如“cn”表示common name，或者“mail”表示email地址。值的语法取决于属性类型。例如一个cn属性可以包含值Babs Jensen。一个email属性可以包含值&quot;babs@example.com&quot;。一个jpge图像属性可以包含一个JPEG（二进制）格式的图像。</p>
 <p>信息是如何进行组织的？在LDAP中，目录条目组织成一个树形结构。通常，这一结构反应了地理和(或)组织的边界。代表国家的条目处于树的最顶端，以下是一个代表州和国家机构的条目，他们下面的条目代表组织单位，人员，打印机，文档或者其它你可以想象到的其它任何东西。图一展示了一个使用传统命名的LDAP树。</p>
 <p><img src="/assets/images/ldap/intro_tree.png" alt="LDAP directory tree (traditional naming)"></p>
 <p>也可以采用因特网域名进行组织。这一命名方式正在变得愈受欢迎，因为它可以使用DNS来定位目录服务。图二展示了使用基于域名命名的LDAP目录树：</p>

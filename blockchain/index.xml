@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Blockchain on 风格与布局</title>
+    <title>Blockchain on androidpi</title>
     <link>https://www.androidpi.com/blockchain/</link>
-    <description>Recent content in Blockchain on 风格与布局</description>
+    <description>Recent content in Blockchain on androidpi</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 25 Jan 2018 01:18:40 +0800</lastBuildDate>
-    
-	<atom:link href="https://www.androidpi.com/blockchain/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 25 Jan 2018 01:18:40 +0800</lastBuildDate><atom:link href="https://www.androidpi.com/blockchain/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>比特币：一个点对点电子货币系统[翻译]</title>
       <link>https://www.androidpi.com/blockchain/2018-01-25-bitcoin-white-paper/</link>

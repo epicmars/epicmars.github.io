@@ -4,7 +4,7 @@
         <meta charset="utf-8" >
         <meta lang="zh">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Android Studio之Gradle的使用 | 风格与布局</title>
+        <title>Android Studio之Gradle的使用 | androidpi</title>
 <meta name="description" content="调试Gradle脚本 添加Remote运行Configuration 在命令行运行gradle任务，并添加参数-Dorg.gradle.daem">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
@@ -51,7 +51,7 @@
                         <h3 id="调试gradle脚本">调试Gradle脚本</h3>
 <ol>
 <li>添加Remote运行Configuration</li>
-<li>在命令行运行gradle任务，并添加参数-Dorg.gradle.daemon=false -Dorg.gradle.debug=true -Dorg.gradle.jvmargs=&rsquo;-Xdebug -Xrunjdwp:transport=dt_socket,server=y,address=5005&rsquo;</li>
+<li>在命令行运行gradle任务，并添加参数-Dorg.gradle.daemon=false -Dorg.gradle.debug=true -Dorg.gradle.jvmargs='-Xdebug -Xrunjdwp:transport=dt_socket,server=y,address=5005'</li>
 </ol>
 <h3 id="调试annotation-processor">调试Annotation Processor</h3>
 <p>与调试Gradle脚本类似，如果需要支持Kotlin，那么可以先关闭kapt的配置，将注解处理器配置为annotationProcessor依赖进行调试。</p>

@@ -4,7 +4,7 @@
         <meta charset="utf-8" >
         <meta lang="zh">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Kotlin类的定义 | 风格与布局</title>
+        <title>Kotlin类的定义 | androidpi</title>
 <meta name="description" content="数据类（Data Classes） 我们常常创建仅仅持有数据的类，类似Java中的POJO或JavaBean，其对象我们一般称为实体（entit">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
@@ -61,7 +61,7 @@
 </code></pre></div><p>编译器会根据主构造函数中声明的属性自动生成如下成员：</p>
 <ul>
 <li>equals()/hashCode()对</li>
-<li>toString()方法，返回字符串形式为&quot;User(name=John, age=42)&rdquo;</li>
+<li>toString()方法，返回字符串形式为&quot;User(name=John, age=42)&quot;</li>
 <li>componentN() 方法，其中N对应于属性声明的顺序</li>
 <li>copy()函数</li>
 </ul>
@@ -89,7 +89,7 @@
 <p>生成的component方法可以使它们使用<a href="https://kotlinlang.org/docs/reference/multi-declarations.html">解构声明</a>中：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">val</span> jane = User(<span style="color:#e6db74">&#34;Jane&#34;</span>, <span style="color:#ae81ff">35</span>) 
     <span style="color:#66d9ef">val</span> <span style="color:#960050;background-color:#1e0010">(</span>name, age) = jane
-    println(<span style="color:#e6db74">&#34;$name, $age years of age&#34;</span>) <span style="color:#75715e">// prints &#34;Jane, 35 years of age&#34;
+    println(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">$name</span><span style="color:#e6db74">, </span><span style="color:#e6db74">$age</span><span style="color:#e6db74"> years of age&#34;</span>) <span style="color:#75715e">// prints &#34;Jane, 35 years of age&#34;
 </span></code></pre></div><h3 id="标准库data类">标准库Data类</h3>
 <p>标准库提供了两个Data类：<code>Pair</code>和<code>Triple</code>。</p>
 <h2 id="枚举类型enum-classes">枚举类型（Enum Classes）</h2>

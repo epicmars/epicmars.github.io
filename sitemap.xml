@@ -3,17 +3,37 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://www.androidpi.com/</loc>
+    <lastmod>2020-11-02T15:49:48+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.androidpi.com/ee/</loc>
+    <lastmod>2020-11-02T15:49:48+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.androidpi.com/ee/2020-11-2-mems_imu_and_motion_track/</loc>
+    <lastmod>2020-11-02T15:49:48+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.androidpi.com/java/</loc>
+    <lastmod>2020-10-22T11:11:11+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.androidpi.com/java/netty/2020-10-22-netty%E6%BA%90%E7%A0%81%E6%A6%82%E8%A7%88/</loc>
+    <lastmod>2020-10-22T11:11:11+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.androidpi.com/android/</loc>
     <lastmod>2020-03-23T10:52:05+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://www.androidpi.com/android/hotfix/2020-03-23-hotfix-robust/</loc>
-    <lastmod>2020-03-23T10:52:05+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://www.androidpi.com/</loc>
     <lastmod>2020-03-23T10:52:05+08:00</lastmod>
   </url>
   
@@ -90,11 +110,6 @@
   <url>
     <loc>https://www.androidpi.com/android/opensource/2018-09-20-literefresh/</loc>
     <lastmod>2018-09-20T23:02:45+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://www.androidpi.com/java/</loc>
-    <lastmod>2018-08-16T19:57:47+08:00</lastmod>
   </url>
   
   <url>
@@ -711,6 +726,10 @@
   </url>
   
   <url>
+    <loc>https://www.androidpi.com/ee/2020-11-9-mems-imu-and-motion-track-part2/</loc>
+  </url>
+  
+  <url>
     <loc>https://www.androidpi.com/java/jmm/2017-10-12-jmm-java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B2/</loc>
   </url>
   
@@ -743,6 +762,10 @@
   </url>
   
   <url>
+    <loc>https://www.androidpi.com/android/develop/2020-12-01-android-repeat-work/</loc>
+  </url>
+  
+  <url>
     <loc>https://www.androidpi.com/android/architecture/2018-07-08-android-architecture-evolution/</loc>
   </url>
   
@@ -764,10 +787,6 @@
   
   <url>
     <loc>https://www.androidpi.com/java/aop/2018-07-17-aspectj-introduction/</loc>
-  </url>
-  
-  <url>
-    <loc>https://www.androidpi.com/ee/</loc>
   </url>
   
   <url>

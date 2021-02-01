@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Puzzles on 风格与布局</title>
+    <title>Puzzles on androidpi</title>
     <link>https://www.androidpi.com/puzzles/</link>
-    <description>Recent content in Puzzles on 风格与布局</description>
+    <description>Recent content in Puzzles on androidpi</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 08 Dec 2017 22:44:18 +0800</lastBuildDate>
-    
-	<atom:link href="https://www.androidpi.com/puzzles/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 08 Dec 2017 22:44:18 +0800</lastBuildDate><atom:link href="https://www.androidpi.com/puzzles/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>新闻分页问题</title>
       <link>https://www.androidpi.com/puzzles/2017-12-08-news-pagination/</link>

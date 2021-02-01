@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Android on 风格与布局</title>
+    <title>Android on androidpi</title>
     <link>https://www.androidpi.com/android/</link>
-    <description>Recent content in Android on 风格与布局</description>
+    <description>Recent content in Android on androidpi</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 23 Mar 2020 10:52:05 +0800</lastBuildDate>
-    
-	<atom:link href="https://www.androidpi.com/android/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 23 Mar 2020 10:52:05 +0800</lastBuildDate><atom:link href="https://www.androidpi.com/android/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>美团Robust热修复集成</title>
       <link>https://www.androidpi.com/android/hotfix/2020-03-23-hotfix-robust/</link>
@@ -414,6 +410,15 @@
       
       <guid>https://www.androidpi.com/android/security/2018-06-17-android-security-shell/</guid>
       <description></description>
+    </item>
+    
+    <item>
+      <title>Android定时任务</title>
+      <link>https://www.androidpi.com/android/develop/2020-12-01-android-repeat-work/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.androidpi.com/android/develop/2020-12-01-android-repeat-work/</guid>
+      <description>Android定时任务</description>
     </item>
     
     <item>

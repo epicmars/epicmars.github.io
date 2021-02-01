@@ -4,7 +4,7 @@
         <meta charset="utf-8" >
         <meta lang="zh">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>React Native之Android开发：原生模块 | 风格与布局</title>
+        <title>React Native之Android开发：原生模块 | androidpi</title>
 <meta name="description" content="如果React Native提供了调用操作系统所提供的所有功能的能力，那么就可以完全抛开原生代码，仅仅使用JavaScript就可以进行跨平台">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
@@ -159,9 +159,9 @@
 
 <span style="color:#f92672">...</span>
 </code></pre></div><p>与该桥接方法配对的JavaScript调用返回一个Promise。这意味着你可以在一个async函数中使用<code>await</code>关键词来调用它并等待结果返回。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">measureLayout</span>() {
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">measureLayout</span>() {
   <span style="color:#66d9ef">try</span> {
-    <span style="color:#66d9ef">var</span> {<span style="color:#a6e22e">relativeX</span>, <span style="color:#a6e22e">relativeY</span>, <span style="color:#a6e22e">width</span>, <span style="color:#a6e22e">height</span>} <span style="color:#f92672">=</span> <span style="color:#a6e22e">await</span> <span style="color:#a6e22e">UIManager</span>.<span style="color:#a6e22e">measureLayout</span>(
+    <span style="color:#66d9ef">var</span> {<span style="color:#a6e22e">relativeX</span>, <span style="color:#a6e22e">relativeY</span>, <span style="color:#a6e22e">width</span>, <span style="color:#a6e22e">height</span>} <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">UIManager</span>.<span style="color:#a6e22e">measureLayout</span>(
       <span style="color:#ae81ff">100</span>,
       <span style="color:#ae81ff">100</span>
     );

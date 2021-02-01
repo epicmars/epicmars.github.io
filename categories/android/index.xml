@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>android on 风格与布局</title>
+    <title>android on androidpi</title>
     <link>https://www.androidpi.com/categories/android/</link>
-    <description>Recent content in android on 风格与布局</description>
+    <description>Recent content in android on androidpi</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 11 Mar 2018 16:00:39 +0800</lastBuildDate>
-    
-	<atom:link href="https://www.androidpi.com/categories/android/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 11 Mar 2018 16:00:39 +0800</lastBuildDate><atom:link href="https://www.androidpi.com/categories/android/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Android View事件处理机制与分发流程</title>
       <link>https://www.androidpi.com/android/framework/2018-03-11-android-view-event-dispatching/</link>

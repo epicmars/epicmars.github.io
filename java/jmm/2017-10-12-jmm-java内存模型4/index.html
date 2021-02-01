@@ -4,7 +4,7 @@
         <meta charset="utf-8" >
         <meta lang="zh">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title> | 风格与布局</title>
+        <title> | androidpi</title>
 <meta name="description" content="Chapter4 因果性——向Java内存模型进发 在2.1节我们描述过顺序一致性。它过于严格，不能用作Java内存模型，因为它禁止编译器和处理器的优化。我们">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
@@ -56,7 +56,7 @@
 <p>在顺序一致性中，所有操作都发生在一个总体顺序中（执行顺序）。操作的执行顺序和他们在程序中出现的顺序一样（也就是说他们和程序顺序一致）。此外，对变量v的每个读r可以观察到对变量v的写w，这样：</p>
 <ul>
 <li>在执行顺序中，w在r之前，并且</li>
-<li>在执行顺序中，没有其它写w&rsquo;，使得w在w&rsquo;之前，并且w&rsquo;在r之前。</li>
+<li>在执行顺序中，没有其它写w'，使得w在w&rsquo;之前，并且w&rsquo;在r之前。</li>
 </ul>
 <h2 id="42-前置发生内存模型">4.2 前置发生内存模型</h2>
 <p>通过对锁和解锁使用一点抽象，使用第3章介绍的HB必要条件，我们可以描述一个简单，有趣的内存模型。我们称之为前置发生内存模型。我们的简单内存模型的许多必要条件都来自于2章和3章。</p>
@@ -67,7 +67,7 @@
 </ul>
 <p>前置发生内存模型唯一额外的约束是，一个普通读所观察到的值由前置发生一致性（happens-before consistency）决定。正式地，我们说对一个变量v的一个读r对观察到对v的写w是前置发生一致的：</p>
 <ul>
-<li>w由前置发生排在r之前，并且没有中间的对v的写w&rsquo;。</li>
+<li>w由前置发生排在r之前，并且没有中间的对v的写w'。</li>
 <li>w和r不由前置发生进行排序。</li>
 </ul>
 <p>不那么正式地，在一个程序执行中，有两种情况下一个写对于观察到一个读是前置发生一致的。第一，如果写前置发生于读并且没有中间的对同一变量的写，那么这个写是前置发生一致的。因此，如果一个将1写到x的操作前置发生于将2写到x，并且将2写入前置发生于一个读，那么读不能观察到值1。换言之，如果这个读与写之间不由前置发生进行排序，那么对于这个读操作，观察到写操作是前置发生一致的。</p>

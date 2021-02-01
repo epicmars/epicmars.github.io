@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>翻译 on 风格与布局</title>
+    <title>翻译 on androidpi</title>
     <link>https://www.androidpi.com/tags/%E7%BF%BB%E8%AF%91/</link>
-    <description>Recent content in 翻译 on 风格与布局</description>
+    <description>Recent content in 翻译 on androidpi</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 07 May 2015 06:50:57 +0800</lastBuildDate>
-    
-	<atom:link href="https://www.androidpi.com/tags/%E7%BF%BB%E8%AF%91/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 07 May 2015 06:50:57 +0800</lastBuildDate><atom:link href="https://www.androidpi.com/tags/%E7%BF%BB%E8%AF%91/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Java面向对象概念（翻译）</title>
       <link>https://www.androidpi.com/java/core/2015-05-07-java-oop-concepts/</link>

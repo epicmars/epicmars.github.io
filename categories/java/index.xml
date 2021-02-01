@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>java on 风格与布局</title>
+    <title>java on androidpi</title>
     <link>https://www.androidpi.com/categories/java/</link>
-    <description>Recent content in java on 风格与布局</description>
+    <description>Recent content in java on androidpi</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 23 Sep 2014 21:17:32 +0800</lastBuildDate>
-    
-	<atom:link href="https://www.androidpi.com/categories/java/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 23 Sep 2014 21:17:32 +0800</lastBuildDate><atom:link href="https://www.androidpi.com/categories/java/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Java引用</title>
       <link>https://www.androidpi.com/java/core/2014-09-23-java-references/</link>

@@ -4,7 +4,7 @@
         <meta charset="utf-8" >
         <meta lang="zh">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Kotlin数据类型 | 风格与布局</title>
+        <title>Kotlin数据类型 | androidpi</title>
 <meta name="description" content="参考： 基本类型 相等性 空指针安全性 类型检查与转换 Java中有8种基本类型byte，short，int，long，float，double，bo">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
@@ -128,12 +128,12 @@ Byte	|8
     k = a      <span style="color:#75715e">// error, no unboxing and explicitly conversion
 </span><span style="color:#75715e"></span>    k = a + b  <span style="color:#75715e">// error, no unboxing and explicitly conversion
 </span><span style="color:#75715e"></span>    k = i + j  <span style="color:#75715e">// error, assignment has no explicitly conversion
-</span><span style="color:#75715e"></span>    k += i     <span style="color:#75715e">// ok
+</span><span style="color:#75715e"></span>    k <span style="color:#f92672">+=</span> i     <span style="color:#75715e">// ok
 </span><span style="color:#75715e"></span>
     a = a + b  <span style="color:#75715e">// error, no unboxing and explicitly conversion
 </span><span style="color:#75715e"></span>    a = i + j  <span style="color:#75715e">// ok
 </span><span style="color:#75715e"></span>
-    c += i     <span style="color:#75715e">// error, not allow
+    c <span style="color:#f92672">+=</span> i     <span style="color:#75715e">// error, not allow
 </span><span style="color:#75715e"></span>    c = <span style="color:#ae81ff">14</span>     <span style="color:#75715e">// ok
 </span><span style="color:#75715e"></span>    c = i + j  <span style="color:#75715e">// error, assignment has no explicitly conversion
 </span><span style="color:#75715e"></span>    c = a + b  <span style="color:#75715e">// error, no unboxing and explicitly conversion
@@ -149,12 +149,12 @@ Byte	|8
     k = a<span style="color:#f92672">!!</span>.toLong()
     k = (i + j).toLong()
     k = (a<span style="color:#f92672">!!</span> + b<span style="color:#f92672">!!</span>).toLong()
-    k += i
+    k <span style="color:#f92672">+=</span> i
 
     a = a<span style="color:#f92672">!!</span> + b<span style="color:#f92672">!!</span>
     a = i + j
 
-    c += i         <span style="color:#75715e">// error, not allow
+    c <span style="color:#f92672">+=</span> i         <span style="color:#75715e">// error, not allow
 </span><span style="color:#75715e"></span>    c = <span style="color:#ae81ff">14</span>
     c = (i + j).toLong()
     c = (a<span style="color:#f92672">!!</span> + b<span style="color:#f92672">!!</span>).toLong()
@@ -168,13 +168,13 @@ Byte	|8
 <h3 id="字符串模板">字符串模板</h3>
 <p>字符串可以包含模板表达式，也就是一段代码运行的结果转换为字符串并插入到字符串中。一个模板表达式以一个美元符号（<code>$</code>）开始，并且由一个简单名字或花括弧中任意表达式构成：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">val</span> i = <span style="color:#ae81ff">10</span>
-    <span style="color:#66d9ef">val</span> s = <span style="color:#e6db74">&#34;i = $i&#34;</span> <span style="color:#75715e">// evaluates to &#34;i = 10&#34;
+    <span style="color:#66d9ef">val</span> s = <span style="color:#e6db74">&#34;i = </span><span style="color:#e6db74">$i</span><span style="color:#e6db74">&#34;</span> <span style="color:#75715e">// evaluates to &#34;i = 10&#34;
 </span><span style="color:#75715e"></span>    <span style="color:#66d9ef">val</span> s = <span style="color:#e6db74">&#34;abc&#34;</span>
 
-    <span style="color:#66d9ef">val</span> str = <span style="color:#e6db74">&#34;$s.length is ${s.length}&#34;</span> <span style="color:#75715e">// evaluates to &#34;abc.length is 3&#34;
+    <span style="color:#66d9ef">val</span> str = <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">$s</span><span style="color:#e6db74">.length is </span><span style="color:#e6db74">${s.length}</span><span style="color:#e6db74">&#34;</span> <span style="color:#75715e">// evaluates to &#34;abc.length is 3&#34;
 </span><span style="color:#75715e"></span>
     <span style="color:#66d9ef">val</span> price = <span style="color:#e6db74">&#34;&#34;&#34;
-</span><span style="color:#e6db74">    ${&#39;$&#39;}9.99
+</span><span style="color:#e6db74">    </span><span style="color:#e6db74">${&#39;$&#39;}</span><span style="color:#e6db74">9.99
 </span><span style="color:#e6db74">&#34;&#34;&#34;</span>
 </code></pre></div><p>在原始字符串中，如果要表示美元符号字面值，可以使用单引号，如上所示。</p>
 <h2 id="数组">数组</h2>
@@ -189,7 +189,7 @@ Byte	|8
 </span><span style="color:#75715e"></span>    }
 </code></pre></div><p>可以使用库函数来创建数组，有<code>arrayOf()</code>，<code>arrayOfNulls()</code>，以及使用工厂函数，如下所示，它接收一个数组大小，和返回每个序号对应值的方法：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#75715e">// Creates an Array&lt;String&gt; with values [&#34;0&#34;, &#34;1&#34;, &#34;4&#34;, &#34;9&#34;, &#34;16&#34;]
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">val</span> asc = Array(<span style="color:#ae81ff">5</span>, { i -&gt; (i * i).toString() })
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">val</span> asc = Array(<span style="color:#ae81ff">5</span>, { i <span style="color:#f92672">-&gt;</span> (i * i).toString() })
 </code></pre></div><blockquote>
 <p>和Java中不一样，Kotlin中的数组是不变量，这意味着，不能将<code>Array&lt;String&gt;</code>赋值给一个<code>Array&lt;Any&gt;</code>，这样避免了一个可能的运行时错误，但可以使用<code>Array&lt;out Any&gt;</code>，见<a href="https://kotlinlang.org/docs/reference/generics.html#type-projections">类型投影</a>。</p>
 </blockquote>
@@ -203,7 +203,7 @@ Byte	|8
 <li>结构相等性（equals()检查），使用<code>==</code>和<code>!=</code>操作符。</li>
 </ul>
 <p>通常结构相等性操作符<code>a == b</code>会被翻译为：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    a<span style="color:#f92672">?.</span>equals(b) <span style="color:#f92672">?:</span> (b === <span style="color:#66d9ef">null</span>)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    a<span style="color:#f92672">?.</span>equals(b) <span style="color:#f92672">?:</span> (b <span style="color:#f92672">===</span> <span style="color:#66d9ef">null</span>)
 </code></pre></div><p>即如果a不为null，它盗用equals(Any?)函数，否则，a为null，它检查b是否引用相等于null。</p>
 <p>注意没有必要直接与null进行同一性比较，<code>a == null</code>会自动转换为<code>a === null</code>。</p>
 <h2 id="空引用安全性null-safety">空引用安全性（Null safety）</h2>
@@ -217,7 +217,7 @@ Byte	|8
 </ul>
 <h3 id="在条件语句中检查null">在条件语句中检查null</h3>
 <p>第一，你可以显式地检查b是否为空，并且分别处理两种情况：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">val</span> l = <span style="color:#66d9ef">if</span> (b != <span style="color:#66d9ef">null</span>) b.length <span style="color:#66d9ef">else</span> -<span style="color:#ae81ff">1</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">val</span> l = <span style="color:#66d9ef">if</span> (b <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>) b.length <span style="color:#66d9ef">else</span> -<span style="color:#ae81ff">1</span>
 </code></pre></div><p>注意只有当b不可变（检查和使用间没有被修改的局部变量或者一个有支撑域的不可重写的val成员），因为其它情况下b在使用前检查后可能值被修改了。</p>
 <h3 id="安全调用">安全调用</h3>
 <p>使用安全调用操作符（<code>?.</code>）：</p>
@@ -229,11 +229,11 @@ Byte	|8
     <span style="color:#75715e">// 只在非空的情况下执行某一操作
 </span><span style="color:#75715e"></span>    <span style="color:#66d9ef">val</span> listWithNulls: List&lt;String?&gt; = listOf(<span style="color:#e6db74">&#34;A&#34;</span>, <span style="color:#66d9ef">null</span>)
     <span style="color:#66d9ef">for</span> (item <span style="color:#66d9ef">in</span> listWithNulls) {
-        item<span style="color:#f92672">?.</span>let { println(it) } <span style="color:#75715e">// prints A and ignores null
+        item<span style="color:#f92672">?.</span>let { println(<span style="color:#66d9ef">it</span>) } <span style="color:#75715e">// prints A and ignores null
 </span><span style="color:#75715e"></span>    }
 </code></pre></div><h3 id="elvis操作符">Elvis操作符</h3>
 <p>当我们有一个可以为空的引用r，我们可以说“如果r不为null，那么就使用它，否则就使用某个非空的值x”：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">val</span> l: Int = <span style="color:#66d9ef">if</span> (b != <span style="color:#66d9ef">null</span>) b.length <span style="color:#66d9ef">else</span> -<span style="color:#ae81ff">1</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">val</span> l: Int = <span style="color:#66d9ef">if</span> (b <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>) b.length <span style="color:#66d9ef">else</span> -<span style="color:#ae81ff">1</span>
 </code></pre></div><p>使用Elvis操作符<code>?:</code>表示为:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">val</span> l = b<span style="color:#f92672">?.</span>length <span style="color:#f92672">?:</span> -<span style="color:#ae81ff">1</span>
 </code></pre></div><p>由于throw和return也是表达式，它们也可以用于该操作符的右边，例如：</p>
@@ -259,7 +259,7 @@ Byte	|8
         print(obj.length)
     }
 
-    <span style="color:#66d9ef">if</span> (obj !<span style="color:#66d9ef">is</span> String) { <span style="color:#75715e">// same as !(obj is String)
+    <span style="color:#66d9ef">if</span> (obj <span style="color:#f92672">!is</span> String) { <span style="color:#75715e">// same as !(obj is String)
 </span><span style="color:#75715e"></span>        print(<span style="color:#e6db74">&#34;Not a String&#34;</span>)
     }
     <span style="color:#66d9ef">else</span> {

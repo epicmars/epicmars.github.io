@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>后端 on 风格与布局</title>
+    <title>后端 on androidpi</title>
     <link>https://www.androidpi.com/backend/</link>
-    <description>Recent content in 后端 on 风格与布局</description>
+    <description>Recent content in 后端 on androidpi</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 30 May 2018 21:34:22 +0800</lastBuildDate>
-    
-	<atom:link href="https://www.androidpi.com/backend/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 30 May 2018 21:34:22 +0800</lastBuildDate><atom:link href="https://www.androidpi.com/backend/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>用户权限与授权</title>
       <link>https://www.androidpi.com/backend/2018-05-30-user-permission-and-authorization/</link>

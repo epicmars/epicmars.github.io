@@ -4,7 +4,7 @@
         <meta charset="utf-8" >
         <meta lang="zh">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Kotlin对象 | 风格与布局</title>
+        <title>Kotlin对象 | androidpi</title>
 <meta name="description" content="参考: 对象声明 对象表达式和声明（Object Expressions and Declarations） 对象表达式（Object expressions） Object表达式">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
@@ -70,7 +70,7 @@
         <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">open</span> <span style="color:#66d9ef">val</span> y: Int = x
     }
 
-    <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">B</span> {...}
+    <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">B</span> {<span style="color:#f92672">..</span>.}
 
     <span style="color:#66d9ef">val</span> ab: A = <span style="color:#66d9ef">object</span> <span style="color:#960050;background-color:#1e0010">: </span><span style="color:#a6e22e">A</span>(<span style="color:#ae81ff">1</span>), B {
         <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">val</span> y = <span style="color:#ae81ff">15</span>
@@ -107,11 +107,11 @@
 
         window.addMouseListener(<span style="color:#66d9ef">object</span> <span style="color:#960050;background-color:#1e0010">: </span><span style="color:#a6e22e">MouseAdapter</span>() {
             <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">mouseClicked</span>(e: MouseEvent) {
-                clickCount++
+                clickCount<span style="color:#f92672">++</span>
             }
 
             <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">mouseEntered</span>(e: MouseEvent) {
-                enterCount++
+                enterCount<span style="color:#f92672">++</span>
             }
         })
         <span style="color:#75715e">// ...
@@ -128,7 +128,7 @@
 </span><span style="color:#75715e"></span>        }
     }
 </code></pre></div><p>直接使用单例名引用该对象：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    DefaultListener.mouseClicked(...)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    DefaultListener.mouseClicked(<span style="color:#f92672">..</span>.)
 </code></pre></div><p>注意：对象声明不能是局部的（也就是直接嵌套在函数中），但可以嵌套在其它对象声明或非内部类中。</p>
 <h4 id="友对象companion-objects">友对象（Companion Objects）</h4>
 <p>在一个类中声明的对象可以使用companion关键词定义：</p>

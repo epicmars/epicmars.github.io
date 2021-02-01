@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>MEMS IMU与运动追踪 | androidpi</title>
+<meta name="description" content="MEMS（Microelectromechanical System）将微型机械和电子元件集成到微米级的微小结构中，它使用 半导体和微细加工技术">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#mems加速度计">MEMS加速度计</a>
+      <ul>
+        <li><a href="#实现原理">实现原理</a></li>
+        <li><a href="#技术指标">技术指标</a></li>
+      </ul>
+    </li>
+    <li><a href="#mems陀螺仪">MEMS陀螺仪</a></li>
+    <li><a href="#磁力计电子罗盘">磁力计（电子罗盘）</a></li>
+    <li><a href="#气压计高度计">气压计（高度计）</a></li>
+    <li><a href="#坐标系">坐标系</a></li>
+    <li><a href="#旋转">旋转</a>
+      <ul>
+        <li><a href="#二维旋转">二维旋转</a></li>
+        <li><a href="#三维旋转">三维旋转</a></li>
+      </ul>
+    </li>
+    <li><a href="#欧拉角">欧拉角</a>
+      <ul>
+        <li><a href="#旋转轴与旋转顺序">旋转轴与旋转顺序</a></li>
+        <li><a href="#万向锁gimbal-lock">万向锁（Gimbal Lock）</a></li>
+      </ul>
+    </li>
+    <li><a href="#互补滤波">互补滤波</a></li>
+    <li><a href="#卡尔曼滤波">卡尔曼滤波</a></li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">MEMS IMU与运动追踪</h1>
+                </div>
+                <div class="content">
+                        <p>MEMS（Microelectromechanical System）将微型机械和电子元件集成到微米级的微小结构中，它使用
+半导体和微细加工技术将电子、传感、机械元件集成到同一硅基板来实现，其主要组成部分包括机械元件、传感结
+构以及ASIC或者一个微控制器。</p>
+<p>MEMS惯性测量单元（IMU）广泛运用于智能手机、运动手环、无人机等设备中，近几年流行的自动驾驶技术当然
+也少不了它的存在，IMU常见由三轴的MEMS加速度计和陀螺仪组成，用于追踪物体的运动状态。配合GPS、北斗、伽利略等定位系统可组合成惯性导航系统。</p>
+<p>磁力计也属于MEMS传感器，但测量的是地磁强度，其工作原理与运动无关，无论磁力计所在载体如何运动，其周围
+地磁场基本不会有什么变化，其测量根据运动产生的变化只是测量轴向的变化，因此它不属于惯性测量传感器。</p>
+<p>气压计测量气压，进而根据不同的海拔对应不同的气压来测量海拔高度。</p>
+<table>
+<thead>
+<tr>
+<th>10轴</th>
+<th>9轴</th>
+<th>7轴</th>
+<th>6轴</th>
+<th>3轴</th>
+<th>2轴</th>
+<th>1轴</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3轴加速度计</td>
+<td>3轴加速度计</td>
+<td>3轴加速度计</td>
+<td>3轴加速度计</td>
+<td>3轴加速度计</td>
+<td></td>
+<td>1轴加速度计</td>
+</tr>
+<tr>
+<td>3轴陀螺仪</td>
+<td>3轴陀螺仪</td>
+<td>3轴陀螺仪</td>
+<td>3轴陀螺仪</td>
+<td>3轴陀螺仪</td>
+<td>2轴陀螺仪</td>
+<td></td>
+</tr>
+<tr>
+<td>3轴磁力计</td>
+<td>3轴磁力计</td>
+<td>气压计</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>气压计</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>IMU并没有高精度、中等精度或低精度的统一界限。除了洲际导弹所采用的特别技术，一般根据其应用领域划分为如下五类宽泛的精度类别：导航级（潜艇/飞行器导航）、战术级（武器/飞行器导航）、工业级（平台稳定/倾斜）、汽车级（碰撞/稳定度）、消费电子（运动、静态加速度）。</p>
+<hr>
+<h2 id="mems加速度计">MEMS加速度计</h2>
+<p>测量加速度、倾斜、振动或冲击，用于静止状态下的倾斜和运动状态下的碰撞、坠落、振动等测量，也广泛用于计步器等应用。</p>
+<h3 id="实现原理">实现原理</h3>
+<p>考虑这样一种由弹簧和质量块构成的机械结构，两个相同的弹簧和一个质量块串联到一起两端固定到两个平行的平面上面，
+它们可以作为一个整体进行运动，当这个整体静止或匀速运动时，质量块位于两个平面的中间：
+<img src="/assets/images/ee/imu/spring-mass.JPG" alt="img"></p>
+<p>当整体向左侧加速运行时，质量块会受到向左的作用力，根据作用力与反作用力原理，右边弹簧受到质量块向右的挤压而发生压缩，
+加速度越大，需要的作用力越大，那么弹簧被压缩的越短，也就是说质量块离左边平面距离增加，离右边平面距离减小。</p>
+<p>根据胡克定律和牛顿第二定律：
+$$
+$$</p>
+<p>MEMS加速度计属于电容式传感器的一种，根据平行板电容器的计算公式：</p>
+<p>$$
+C = \frac{\epsilon A}{d}
+$$</p>
+<p>平行板电容器的电容大小与平行板电容器两个电极的距离成反比，所有的MEMS加速度计基本上都测量一个质量块(mass)到一个位置测量接口电路的位移。</p>
+<p>MEMS加速度计实质是测量内部质量块和其所在框架之间的相互运动或者说相互作用力。这也就解释了为什么</p>
+<p><a href="https://physics.stackexchange.com/questions/402611/why-an-accelerometer-shows-zero-force-while-in-free-fall">https://physics.stackexchange.com/questions/402611/why-an-accelerometer-shows-zero-force-while-in-free-fall</a></p>
+<p><a href="https://www.analog.com/cn/education/education-library/videos/5996757589001.html">https://www.analog.com/cn/education/education-library/videos/5996757589001.html</a></p>
+<h3 id="技术指标">技术指标</h3>
+<h2 id="mems陀螺仪">MEMS陀螺仪</h2>
+<p><a href="https://www.analog.com/cn/education/education-library/videos/5996766351001.html">https://www.analog.com/cn/education/education-library/videos/5996766351001.html</a></p>
+<h2 id="磁力计电子罗盘">磁力计（电子罗盘）</h2>
+<p>测量地球磁场强度，用于测量方位</p>
+<h2 id="气压计高度计">气压计（高度计）</h2>
+<p>用于测量气压，根据不同海拔高度气压不同的原理进一步来测量海拔高度。</p>
+<hr>
+<h2 id="坐标系">坐标系</h2>
+<p>NED（北-东-地）坐标系，常用于航空、航海领域导航
+ENU（东-北-天）坐标系，常用于地理或陆地导航</p>
+<p><img src="" alt="img"></p>
+<p>导航坐标系一般可选择NED或ENU坐标系，由于姿态解算使用的是ENU坐标系，为了避免不必要的坐标系转换，
+使用ENU（东-北-天）坐标系作为导航坐标系。此外，上图还可以看出将传感器朝上水平放置时，z轴朝上，
+仅仅通过偏航角的改变即水平转动即可以将传感器体坐标系和ENU坐标系对其，采用ENU坐标系也可以较为直观
+地观察模块姿态的改变。</p>
+<p><a href="https://www.analog.com/cn/analog-dialogue/articles/choosing-the-most-suitable-mems-accelerometer-for-your-application-part-1.html">https://www.analog.com/cn/analog-dialogue/articles/choosing-the-most-suitable-mems-accelerometer-for-your-application-part-1.html</a>
+<a href="https://en.wikipedia.org/wiki/Axes_conventions#World_reference_frames_for_attitude_description">https://en.wikipedia.org/wiki/Axes_conventions#World_reference_frames_for_attitude_description</a>
+<a href="https://ww2.mathworks.cn/help/fusion/gs/spatial-representation-coordinate-systems-and-conventions.html">https://ww2.mathworks.cn/help/fusion/gs/spatial-representation-coordinate-systems-and-conventions.html</a>
+<a href="https://www.mathworks.com/help/aeroblks/about-aerospace-coordinate-systems.html">https://www.mathworks.com/help/aeroblks/about-aerospace-coordinate-systems.html</a>
+<a href="http://www.av8n.com/physics/coords.htm">http://www.av8n.com/physics/coords.htm</a>
+<a href="https://www.ros.org/reps/rep-0103.html">https://www.ros.org/reps/rep-0103.html</a></p>
+<p>旋转在计算机图形学、机器人学等领域有广泛的应用，如机器人的活动关节的旋转，计算机图形学中刚体的旋转和相机朝向等。</p>
+<h2 id="旋转">旋转</h2>
+<h3 id="二维旋转">二维旋转</h3>
+<h3 id="三维旋转">三维旋转</h3>
+<h2 id="欧拉角">欧拉角</h2>
+<p>滚动角$$，俯仰角，偏航角</p>
+<h3 id="旋转轴与旋转顺序">旋转轴与旋转顺序</h3>
+<h3 id="万向锁gimbal-lock">万向锁（Gimbal Lock）</h3>
+<p>也称为环架锁定，</p>
+<hr>
+<h2 id="互补滤波">互补滤波</h2>
+<h2 id="卡尔曼滤波">卡尔曼滤波</h2>
+<p>google搜索A generalized autocovariance least-squares method for Kalman filter tuning</p>
+<hr>
+<p>校准：加速度计、陀螺仪、磁力计</p>
+<hr>
+<p>PID</p>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>

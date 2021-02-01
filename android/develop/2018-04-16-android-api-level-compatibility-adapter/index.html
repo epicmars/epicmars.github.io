@@ -4,7 +4,7 @@
         <meta charset="utf-8" >
         <meta lang="zh">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Android平台版本兼容性适配 | 风格与布局</title>
+        <title>Android平台版本兼容性适配 | androidpi</title>
 <meta name="description" content="平台版本 截止于 2018 年 1 月 8 日 Version Codename API Distribution 2.3.3-2.3.7 Gingerbread 10 0.3% 4.0.3-4.0.4 Ice Cream Sandwich 15 0.4% 4.1.x Jelly Bean 16 1.5% 4.2.x Jelly Bean 17 2.2% 4.3 Jelly Bean 18 0.6% 4.4 KitKat 19 10.3% 5.0 Lollipop 21 4.8% 5.1 Lollipop 22 17.6% 6.0 Marshmallow 23 25.5% 7.0 Nougat 24 22.9% 7.1 Nougat 25 8.2% 8.0 Oreo 26 4.9%">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
@@ -168,7 +168,7 @@
 <p>一个指定作为应用设计运行目标的最高 API 级别的整数。
 在 Android 1.5、1.6、2.0 及 2.0.1 中，系统会在安装应用以及系统更新后重新验证应用时检查该属性的值。 在任一情况下，如果应用的 maxSdkVersion 属性低于系统本身使用的 API 级别，系统均不允许安装应用。 在系统更新后重新验证这种情况下，这实际上相当于将您的应用从设备中移除。</p>
 <p>为说明该属性在系统更新后对您的应用的影响，请看看下面这个示例：</p>
-<p>Google Play 上发布了一个在其清单中声明了 maxSdkVersion=&quot;5&rdquo; 的应用。 一位设备运行 Android 1.6（API 级别 4）的用户下载并安装了该应用。 几周后，该用户收到了 Android 2.0（API 级别 5）OTA 系统更新。 更新安装后，系统检查该应用的 maxSdkVersion 并顺利完成了对其的重新验证。 应用仍可照常工作。 不过，一段时间后，设备又收到了一个系统更新，这次是更新到 Android 2.0.1（API 级别 6）。 更新完成后，系统无法再重新验证应用，因为此时系统本身的 API 级别 (6) 已超过该应用支持的最高级别 (5)。 系统会使该应用对用户不可见，这实际上相当于将它从设备上删除。</p>
+<p>Google Play 上发布了一个在其清单中声明了 maxSdkVersion=&ldquo;5&rdquo; 的应用。 一位设备运行 Android 1.6（API 级别 4）的用户下载并安装了该应用。 几周后，该用户收到了 Android 2.0（API 级别 5）OTA 系统更新。 更新安装后，系统检查该应用的 maxSdkVersion 并顺利完成了对其的重新验证。 应用仍可照常工作。 不过，一段时间后，设备又收到了一个系统更新，这次是更新到 Android 2.0.1（API 级别 6）。 更新完成后，系统无法再重新验证应用，因为此时系统本身的 API 级别 (6) 已超过该应用支持的最高级别 (5)。 系统会使该应用对用户不可见，这实际上相当于将它从设备上删除。</p>
 </li>
 </ul>
 <h2 id="应用兼容性">应用兼容性</h2>

@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>开发 on 风格与布局</title>
+    <title>开发 on androidpi</title>
     <link>https://www.androidpi.com/dev/</link>
-    <description>Recent content in 开发 on 风格与布局</description>
+    <description>Recent content in 开发 on androidpi</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 14 Jul 2018 15:18:31 +0800</lastBuildDate>
-    
-	<atom:link href="https://www.androidpi.com/dev/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 14 Jul 2018 15:18:31 +0800</lastBuildDate><atom:link href="https://www.androidpi.com/dev/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Gradle构建：自定义插件</title>
       <link>https://www.androidpi.com/dev/gradle/2018-07-14-gradle-custom-plugin/</link>
@@ -305,7 +301,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://www.androidpi.com/dev/networks/wifi/2018-05-09-wifi-overview/</guid>
-      <description>导引 Wi-Fi是一种基于IEEE 802.11标准的无线局域网技术，术语&amp;rdquo;Wi-Fi&amp;ldquo;是Wi-Fi技术联盟的商标，Wi</description>
+      <description>导引 Wi-Fi是一种基于IEEE 802.11标准的无线局域网技术，术语&amp;quot;Wi-Fi&amp;ldquo;是Wi-Fi技术联盟的商标，Wi-</description>
     </item>
     
     <item>

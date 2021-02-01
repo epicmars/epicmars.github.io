@@ -4,7 +4,7 @@
         <meta charset="utf-8" >
         <meta lang="zh">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>在架构组件中使用Kotlin协程 | 风格与布局</title>
+        <title>在架构组件中使用Kotlin协程 | androidpi</title>
 <meta name="description" content="协程是一种并行设计模式，在Android中使用协程可以帮助我们简化异步代码，它解决了这两个主要问题： 管理可能会阻塞主线程的长时间任务。 提供了">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
@@ -154,7 +154,7 @@
 <p>每个<code>ViewModel</code>都定义了一个<code>ViewModelScope</code>。当<code>ViewModel</code>被清除时，所有在scope中启动的协程都会自动取消。当仅需要在<code>ViewModel</code>活动时才运行协程时它就十分有用。例如，我们需要为一个布局计算一些数据时，我们应当将该工作放在该作用域以内，因此当<code>ViewModel</code>被清除时，工作会被自动取消以避免资源消耗。</p>
 <p>你可以通过属性<code>viewModelScope</code>来访问一个<code>ViewModel</code>中的<code>CoroutineScope</code>，例如：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyViewModel</span>: ViewModel() {
-    init {
+    <span style="color:#66d9ef">init</span> {
         viewModelScope.launch {
             <span style="color:#75715e">// Coroutine that will be canceled when the ViewModel is cleared.
 </span><span style="color:#75715e"></span>        }
@@ -178,7 +178,7 @@
 <p>尽管<code>CoroutineScope</code>提供了适当的方式来自动取消长时间运行任务，也可能有其它的情形，我们想挂起一个代码块的执行直到<code>Lifecycle</code>达到某一特定状态。例如，为了运行一个<code>FragmentTransaction</code>，我们必须等到<code>Lifecycle</code>至少达到<code>STARTED</code>状态。对于这些情形，<code>Lifecycle</code>提供了额外的方法：<code>lifecycle.whenCreated</code>，<code>lifecycle.whenStarted</code>以及<code>lifecycle.whenResumed</code>。如果<code>Lifecycle</code>没有达到一个最低要求的状态，任何在这些块中运行的协程都会挂起。</p>
 <p>下面的例子包含一个代码块，仅在关联的<code>Lifecycle</code>至少达到<code>STARTED</code>状态时运行：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyFragment</span>: Fragment {
-    init { <span style="color:#75715e">// Notice that we can safely launch in the constructor of the Fragment.
+    <span style="color:#66d9ef">init</span> { <span style="color:#75715e">// Notice that we can safely launch in the constructor of the Fragment.
 </span><span style="color:#75715e"></span>        lifecycleScope.launch {
             whenStarted {
                 <span style="color:#75715e">// The block inside will run only when Lifecycle is at least STARTED.
@@ -194,7 +194,7 @@
 </span><span style="color:#75715e"></span>                <span style="color:#75715e">// We could safely run fragment transactions because we know the
 </span><span style="color:#75715e"></span>                <span style="color:#75715e">// code won&#39;t run unless the lifecycle is at least STARTED.
 </span><span style="color:#75715e"></span>                loadingView.visibility = View.GONE
-                <span style="color:#66d9ef">if</span> (canAccess == <span style="color:#66d9ef">false</span>) {
+                <span style="color:#66d9ef">if</span> (canAccess <span style="color:#f92672">==</span> <span style="color:#66d9ef">false</span>) {
                     findNavController().popBackStack()
                 } <span style="color:#66d9ef">else</span> {
                     showContent()
@@ -208,13 +208,13 @@
 }
 </code></pre></div><p>如果<code>Lifecycle</code>被销毁时一个通过<code>when</code>方法启动的协程仍然活跃，那么协程会被自动取消。下面的例子中当<code>Lifecycle</code>状态是<code>DESTROYED</code>时<code>finally</code>块会运行：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyFragment</span>: Fragment {
-    init {
+    <span style="color:#66d9ef">init</span> {
         lifecycleScope.launchWhenStarted {
             <span style="color:#66d9ef">try</span> {
                 <span style="color:#75715e">// Call some suspend functions.
 </span><span style="color:#75715e"></span>            } <span style="color:#66d9ef">finally</span> {
                 <span style="color:#75715e">// This line might execute after Lifecycle is DESTROYED.
-</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">if</span> (lifecycle.state &gt;= STARTED) {
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">if</span> (lifecycle.state <span style="color:#f92672">&gt;=</span> STARTED) {
                     <span style="color:#75715e">// Here, since we&#39;ve checked, it is safe to run any
 </span><span style="color:#75715e"></span>                    <span style="color:#75715e">// Fragment transactions.
 </span><span style="color:#75715e"></span>                }
@@ -246,7 +246,7 @@
 </code></pre></div><p>你也可以将<code>liveData</code>与<code>Transformations</code>结合使用，如下所示：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyViewModel</span>: ViewModel() {
     <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> userId: LiveData&lt;String&gt; = MutableLiveData()
-    <span style="color:#66d9ef">val</span> user = userId.switchMap { id -&gt;
+    <span style="color:#66d9ef">val</span> user = userId.switchMap { id <span style="color:#f92672">-&gt;</span>
         liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
             emit(database.loadUserById(id))
         }
@@ -254,7 +254,7 @@
 }
 </code></pre></div><p>每当我们想发射一个新的值时，通过从<code>LiveData</code>中调用<code>emitSource</code>函数，我们可以发射多个值。注意<code>emit()</code>或<code>emitSource()</code>会移除之前添加的值。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserDao</span>: Dao {
-    @Query(<span style="color:#e6db74">&#34;SELECT * FROM User WHERE id = :id&#34;</span>)
+    <span style="color:#a6e22e">@Query</span>(<span style="color:#e6db74">&#34;SELECT * FROM User WHERE id = :id&#34;</span>)
     <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getUser</span>(id: String): LiveData&lt;User&gt;
 }
 
@@ -262,7 +262,7 @@
     <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getUser</span>(id: String) = liveData&lt;User&gt; {
         <span style="color:#66d9ef">val</span> disposable = emitSource(
             userDao.getUser(id).map {
-                Result.loading(it)
+                Result.loading(<span style="color:#66d9ef">it</span>)
             }
         )
         <span style="color:#66d9ef">try</span> {
@@ -275,7 +275,7 @@
             <span style="color:#75715e">// Re-establish the emission with success type.
 </span><span style="color:#75715e"></span>            emitSource(
                 userDao.getUser(id).map {
-                    Result.success(it)
+                    Result.success(<span style="color:#66d9ef">it</span>)
                 }
             )
         } <span style="color:#66d9ef">catch</span>(exception: IOException) {
@@ -283,7 +283,7 @@
 </span><span style="color:#75715e"></span>            <span style="color:#75715e">// need to dispose it here as we didn&#39;t get an updated value.
 </span><span style="color:#75715e"></span>            emitSource(
                 userDao.getUser(id).map {
-                    Result.error(exception, it)
+                    Result.error(exception, <span style="color:#66d9ef">it</span>)
                 }
             )
         }

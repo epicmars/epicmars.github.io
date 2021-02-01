@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>CS on 风格与布局</title>
+    <title>CS on androidpi</title>
     <link>https://www.androidpi.com/cs/</link>
-    <description>Recent content in CS on 风格与布局</description>
+    <description>Recent content in CS on androidpi</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 10 Aug 2018 21:14:48 +0800</lastBuildDate>
-    
-	<atom:link href="https://www.androidpi.com/cs/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 10 Aug 2018 21:14:48 +0800</lastBuildDate><atom:link href="https://www.androidpi.com/cs/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>HTTPS与SSL/TLS协议</title>
       <link>https://www.androidpi.com/cs/networks/2018-08-10-https/</link>

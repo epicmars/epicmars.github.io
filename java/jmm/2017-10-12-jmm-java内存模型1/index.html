@@ -4,7 +4,7 @@
         <meta charset="utf-8" >
         <meta lang="zh">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Java内存模型 | 风格与布局</title>
+        <title>Java内存模型 | androidpi</title>
 <meta name="description" content="导论 现代计算机科学中有两个关键的目的，一是让程序运行的更快，在高层级上，这需要数据结构和算法设计。在低层级上，这需要对指令进行重排序以便以最">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
@@ -42,22 +42,59 @@
 <p>现代计算机科学中有两个关键的目的，一是让程序运行的更快，在高层级上，这需要数据结构和算法设计。在低层级上，这需要对指令进行重排序以便以最高效的方式运行。二是保证程序员与电脑理解我们让他们做的事。</p>
 <p>我们需要一种方法来解决多线程下重排序可能带来的问题，这种方法即我们常说的内存模型，Java内存模型描述程序如何与内存进行交互。程序员所使用的语言的内存模型定义了一直到机器码可能出现的重排序。对于Java这样的高级别的解释性语言，它定义了将代码转换为字节码时编译器可以进行的重排序，将字节码转换为机器码时虚拟机可以进行的重排序，以及处理器执行机器码可以进行的重排序。</p>
 <p>我们需要处理因果循环（cause loop）的概念，假设这样的情形：
-初始时：x==y==0
-Thread 1 | Thread 2
-&mdash;&mdash;&mdash;|&mdash;&mdash;&mdash;-
-r1 = x;  | r2 = y;
-y = r1;  | x = r2;
-有没有可能 r1==r2==42?</p>
+初始时：x==y==0</p>
+<table>
+<thead>
+<tr>
+<th>Thread 1</th>
+<th>Thread 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>r1 = x;</td>
+<td>r2 = y;</td>
+</tr>
+<tr>
+<td>y = r1;</td>
+<td>x = r2;</td>
+</tr>
+<tr>
+<td>有没有可能 r1==r2==42?</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <p>如果线程2中将42写入到x，然后在线程1总读取x，并写入到y，然后线程2读取y，那么42从何而来。</p>
 <p>这个例子看上去不切实际，但对一种编程语言的内存模型来说，应当由一个完整的语义来决定是否允许出现这样的行为。这个例子的因果循环便导致了我们不希望看到的行为。</p>
 <p>再看一个例子：
-初始时：x == y == 0
-Thread 1  | Thread 2
-&mdash;&mdash;&mdash;-|&mdash;&mdash;&mdash;-
-r1 = x;   | r3 = y;
-r2 = r1|1;| x = r3;
-y = r2;   |
-r1 == r2 == r3 == 1 是合理的行为。</p>
+初始时：x == y == 0</p>
+<table>
+<thead>
+<tr>
+<th>Thread 1</th>
+<th>Thread 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>r1 = x;</td>
+<td>r3 = y;</td>
+</tr>
+<tr>
+<td>r2 = r1</td>
+<td>1;</td>
+</tr>
+<tr>
+<td>y = r2;</td>
+<td></td>
+</tr>
+<tr>
+<td>r1 == r2 == r3 == 1 是合理的行为。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <p>这次因果循环导致的行为则是可以接受的，为了看到r1 == r2 == r3 == 1的结果，线程1在读取x前将1写入y，这里似乎线程1在读x之后才能确定r2的值，事实上，编译器可能进行线程间的分析，发现只有0和1会写入到x，那么编译器便可以确定线程1总是将1写入到y。</p>
 <p>那么，显然有时因果循环是可以接受的，这类例子的根本问题在于我们不能给出“第一个发生的原因”的理由，关于原因和结果，我们应当考虑得更多。</p>
 <h1 id="14-方法">1.4 方法</h1>

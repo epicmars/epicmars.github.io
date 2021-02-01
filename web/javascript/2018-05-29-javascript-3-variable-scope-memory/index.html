@@ -4,7 +4,7 @@
         <meta charset="utf-8" >
         <meta lang="zh">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>JavaScript: 变量、作用域与内存 | 风格与布局</title>
+        <title>JavaScript: 变量、作用域与内存 | androidpi</title>
 <meta name="description" content="基本类型和引用类型的值 动态的属性 ECMAScript变量可能包含两种不同数据类型的值：基本类型值和引用类型值。 给基本类型添加属性尽管不会导致">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
@@ -67,7 +67,7 @@
 <p>在参数传递中，传递基本类型值时，被传递的值会被复制给一个局部变量（即，命名参数或ECMAScript中arguments对象中的一个元素）。传递引用类型的值，会把这个值在内存中的地址复制给一个局部变量。</p>
 <h3 id="检测类型">检测类型</h3>
 <p>对于基本类型的检测，使用<code>typeof</code>操作符是最佳工具。</p>
-<p>对于引用类型，<code>typeof</code>都会返回&quot;object&rdquo;，无法区分不同类型对象，因此常用<code>instanceof</code>操作符来判断一个对象是否是某一类型的实例。</p>
+<p>对于引用类型，<code>typeof</code>都会返回&quot;object&quot;，无法区分不同类型对象，因此常用<code>instanceof</code>操作符来判断一个对象是否是某一类型的实例。</p>
 <h2 id="执行环境及作用域">执行环境及作用域</h2>
 <p>**执行环境（execution context）**是JavaScript中最重要的一个概念。执行环境定义了变量或函数有权访问的其它数据，决定了它们各自的行为。每个执行环境都有一个与之关联的变量对象(variable object)，环境中定义的所有变量和函数都保存在这个对象中。虽然我们编写的代码无法访问这个对象，但解析器在处理数据时会在后台使用它。</p>
 <p>全局执行环境是最外围的一个执行环境。根据ECMAScript实现所在的宿主环境不同，表示执行环境的对象也不一样。在Web浏览器中，全局执行环境被认为是window对象，因此所有全局变量和函数都是作为window对象的属性和方法创建的。</p>
