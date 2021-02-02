@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta lang="zh">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Kotlin数据类型 | androidpi</title>
+<meta name="description" content="参考： 基本类型 相等性 空指针安全性 类型检查与转换 Java中有8种基本类型byte，short，int，long，float，double，bo">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/brands.css" integrity="sha384-7xAnn7Zm3QC1jFjVc1A6v/toepoG3JXboQYzbM0jrPzou9OFXm/fY6Z/XiIebl/k" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+        
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/article.css" />
+
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+                <header>
+    <nav>
+        <a class="home" href="https://www.androidpi.com/">首页</a>
+    </nav>
+    
+</header>
+                <div class="site-main">
+                    
+    <div class="main">
+        <div class="article">
+            <aside>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#数字">数字</a></li>
+    <li><a href="#字符">字符</a></li>
+    <li><a href="#布尔值">布尔值</a></li>
+    <li><a href="#字符串">字符串</a>
+      <ul>
+        <li><a href="#字符串模板">字符串模板</a></li>
+      </ul>
+    </li>
+    <li><a href="#数组">数组</a></li>
+    <li><a href="#相等性">相等性</a></li>
+    <li><a href="#空引用安全性null-safety">空引用安全性（Null safety）</a>
+      <ul>
+        <li><a href="#在条件语句中检查null">在条件语句中检查null</a></li>
+        <li><a href="#安全调用">安全调用</a></li>
+        <li><a href="#elvis操作符">Elvis操作符</a></li>
+        <li><a href="#操作符"><code>!!</code>操作符</a></li>
+        <li><a href="#安全转型">安全转型</a></li>
+        <li><a href="#可以为空类型的集合">可以为空类型的集合</a></li>
+      </ul>
+    </li>
+    <li><a href="#类型检查与转换is和as">类型检查与转换：&ldquo;is&quot;和&quot;as&rdquo;</a>
+      <ul>
+        <li><a href="#is和is操作符"><code>is</code>和<code>!is</code>操作符</a></li>
+        <li><a href="#智能转型">智能转型</a></li>
+        <li><a href="#不安全的unsafe转型操作符">“不安全的（Unsafe）”转型操作符</a></li>
+        <li><a href="#安全的safe转型操作">&ldquo;安全的（safe）&ldquo;转型操作</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </aside>
+            <article>
+                <div class="title">
+                    <h1 id="title">Kotlin数据类型</h1>
+                </div>
+                <div class="content">
+                        <p>参考：</p>
+<ul>
+<li><a href="https://kotlinlang.org/docs/reference/basic-types.html">基本类型</a></li>
+<li><a href="https://kotlinlang.org/docs/reference/equality.html">相等性</a></li>
+<li><a href="https://kotlinlang.org/docs/reference/null-safety.html">空指针安全性</a></li>
+<li><a href="https://kotlinlang.org/docs/reference/typecasts.html">类型检查与转换</a></li>
+</ul>
+<p>Java中有8种基本类型byte，short，int，long，float，double，boolean，char，还提供了支持字符串的java.lang.String类，最后提供了上述的数组类型。Kotlin中的数据类型与Java基本一致，不过可以将基本数据类型也看做对象。</p>
+<h2 id="数字">数字</h2>
+<pre><code>类型     |位宽度
+--------|---------
+Double	|64
+Float	|32
+Long    |64
+Int     |32
+Short	|16
+Byte	|8 
+</code></pre>
+<p>注意，Kotlin中字符不是数字。</p>
+<p>在Java平台中，数字的以JVM中的基本数据类型保存于物理存储，除非我们想要一个可以为空(nullable)的数字或者使用了泛型，那么这时数字会装箱（boxed）为对应的类型。</p>
+<p>数字装箱后不保留同一性（identity），但保留相等性（equality），这与Java中是一样的，两个数字值相等的对象是不同的两个对象，但它们的值是相等的。</p>
+<p>与Java中不同的是，同一性比较使用三个等号符号：<code>===</code>或者<code>!==</code>，相等性比较使用：<code>==</code>或者<code>!=</code>。</p>
+<p>对于数字的隐式转换和自动拆装箱，对比Java中和Kotlin中有何区别：</p>
+<ul>
+<li>Java中，表达式中的数字类型会自动拆箱为对应的基础类型，然后向上转型为表达式中较大的基础类型。自动装箱只能发生在对应的基础类型上。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    Integer a <span style="color:#f92672">=</span> 11<span style="color:#f92672">;</span>
+    Short b <span style="color:#f92672">=</span> 12<span style="color:#f92672">;</span>
+    Long c <span style="color:#f92672">=</span> 13L<span style="color:#f92672">;</span>
+
+    <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 1<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">short</span> j <span style="color:#f92672">=</span> 2<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">long</span> k <span style="color:#f92672">=</span> 3<span style="color:#f92672">;</span>
+    k <span style="color:#f92672">=</span> a<span style="color:#f92672">;</span>
+    k <span style="color:#f92672">=</span> a <span style="color:#f92672">+</span> b<span style="color:#f92672">;</span>
+    k <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> j<span style="color:#f92672">;</span>
+    k <span style="color:#f92672">+=</span> i<span style="color:#f92672">;</span>
+
+    a <span style="color:#f92672">=</span> a <span style="color:#f92672">+</span> b<span style="color:#f92672">;</span>
+    a <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> j<span style="color:#f92672">;</span>
+
+    c <span style="color:#f92672">+=</span> i<span style="color:#f92672">;</span>
+    c <span style="color:#f92672">=</span> 14<span style="color:#f92672">;</span>    <span style="color:#75715e">// error, right expression is &#39;int&#39;
+</span><span style="color:#75715e"></span>    c <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> j<span style="color:#f92672">;</span> <span style="color:#75715e">// error, right expression is &#39;int&#39;
+</span><span style="color:#75715e"></span>    c <span style="color:#f92672">=</span> a <span style="color:#f92672">+</span> b<span style="color:#f92672">;</span> <span style="color:#75715e">// error, right expression is &#39;int&#39;
+</span></code></pre></div><ul>
+<li>Kotlin中，与类型系统是相关的，因为所有数字类型都认为是对象，可以认为没有拆箱的说法，并且也没有隐式的类型提升，运算符事实上都是重载的操作符。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">var</span> a: Int? = <span style="color:#ae81ff">11</span>
+    <span style="color:#66d9ef">var</span> b: Short? = <span style="color:#ae81ff">12</span>
+    <span style="color:#66d9ef">var</span> c: Long? = <span style="color:#ae81ff">13L</span>
+
+    <span style="color:#66d9ef">var</span> i: Int = <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">var</span> j: Short = <span style="color:#ae81ff">2</span>
+    <span style="color:#66d9ef">var</span> k: Long = <span style="color:#ae81ff">3</span>
+
+    k = a      <span style="color:#75715e">// error, no unboxing and explicitly conversion
+</span><span style="color:#75715e"></span>    k = a + b  <span style="color:#75715e">// error, no unboxing and explicitly conversion
+</span><span style="color:#75715e"></span>    k = i + j  <span style="color:#75715e">// error, assignment has no explicitly conversion
+</span><span style="color:#75715e"></span>    k <span style="color:#f92672">+=</span> i     <span style="color:#75715e">// ok
+</span><span style="color:#75715e"></span>
+    a = a + b  <span style="color:#75715e">// error, no unboxing and explicitly conversion
+</span><span style="color:#75715e"></span>    a = i + j  <span style="color:#75715e">// ok
+</span><span style="color:#75715e"></span>
+    c <span style="color:#f92672">+=</span> i     <span style="color:#75715e">// error, not allow
+</span><span style="color:#75715e"></span>    c = <span style="color:#ae81ff">14</span>     <span style="color:#75715e">// ok
+</span><span style="color:#75715e"></span>    c = i + j  <span style="color:#75715e">// error, assignment has no explicitly conversion
+</span><span style="color:#75715e"></span>    c = a + b  <span style="color:#75715e">// error, no unboxing and explicitly conversion
+</span></code></pre></div><p>正确通过编译的版本：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">var</span> a: Int? = <span style="color:#ae81ff">11</span>
+    <span style="color:#66d9ef">var</span> b: Short? = <span style="color:#ae81ff">12</span>
+    <span style="color:#66d9ef">var</span> c: Long? = <span style="color:#ae81ff">13L</span>
+
+    <span style="color:#66d9ef">var</span> i: Int = <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">var</span> j: Short = <span style="color:#ae81ff">2</span>
+    <span style="color:#66d9ef">var</span> k: Long = <span style="color:#ae81ff">3</span>
+
+    k = a<span style="color:#f92672">!!</span>.toLong()
+    k = (i + j).toLong()
+    k = (a<span style="color:#f92672">!!</span> + b<span style="color:#f92672">!!</span>).toLong()
+    k <span style="color:#f92672">+=</span> i
+
+    a = a<span style="color:#f92672">!!</span> + b<span style="color:#f92672">!!</span>
+    a = i + j
+
+    c <span style="color:#f92672">+=</span> i         <span style="color:#75715e">// error, not allow
+</span><span style="color:#75715e"></span>    c = <span style="color:#ae81ff">14</span>
+    c = (i + j).toLong()
+    c = (a<span style="color:#f92672">!!</span> + b<span style="color:#f92672">!!</span>).toLong()
+</code></pre></div><h2 id="字符">字符</h2>
+<p>字符使用<code>Char</code>表示，它们不能被当做数字使用。</p>
+<h2 id="布尔值">布尔值</h2>
+<p>布尔值使用<code>Boolean</code>表示。</p>
+<h2 id="字符串">字符串</h2>
+<p>字符串使用<code>String</code>表示。字符串是不可变的的，字符串的元素是字符，可以使用序号操作符<code>[]</code>来访问。</p>
+<p>有两种类型字符字面值，一种是脱字符字符串（escaped string），可以包含脱字符。另一种是原始字符串（raw string），没有脱字符，可以包含换行符和其它任意字符。</p>
+<h3 id="字符串模板">字符串模板</h3>
+<p>字符串可以包含模板表达式，也就是一段代码运行的结果转换为字符串并插入到字符串中。一个模板表达式以一个美元符号（<code>$</code>）开始，并且由一个简单名字或花括弧中任意表达式构成：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">val</span> i = <span style="color:#ae81ff">10</span>
+    <span style="color:#66d9ef">val</span> s = <span style="color:#e6db74">&#34;i = </span><span style="color:#e6db74">$i</span><span style="color:#e6db74">&#34;</span> <span style="color:#75715e">// evaluates to &#34;i = 10&#34;
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">val</span> s = <span style="color:#e6db74">&#34;abc&#34;</span>
+
+    <span style="color:#66d9ef">val</span> str = <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">$s</span><span style="color:#e6db74">.length is </span><span style="color:#e6db74">${s.length}</span><span style="color:#e6db74">&#34;</span> <span style="color:#75715e">// evaluates to &#34;abc.length is 3&#34;
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">val</span> price = <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    </span><span style="color:#e6db74">${&#39;$&#39;}</span><span style="color:#e6db74">9.99
+</span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+</code></pre></div><p>在原始字符串中，如果要表示美元符号字面值，可以使用单引号，如上所示。</p>
+<h2 id="数组">数组</h2>
+<p>数字由<code>Array</code>类表示，有<code>get</code>和<code>set</code>方法（通过操作符重载，使用方括号[]来调用)，还有<code>size</code>属性，以及一些有用的方法。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Array</span>&lt;T&gt; <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">constructor</span>() {
+        <span style="color:#66d9ef">val</span> size: Int
+        <span style="color:#66d9ef">operator</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">get</span>(index: Int): T
+        <span style="color:#66d9ef">operator</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">set</span>(index: Int, value: T): Unit
+
+        <span style="color:#66d9ef">operator</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">iterator</span>(): Iterator&lt;T&gt;
+        <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>    }
+</code></pre></div><p>可以使用库函数来创建数组，有<code>arrayOf()</code>，<code>arrayOfNulls()</code>，以及使用工厂函数，如下所示，它接收一个数组大小，和返回每个序号对应值的方法：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#75715e">// Creates an Array&lt;String&gt; with values [&#34;0&#34;, &#34;1&#34;, &#34;4&#34;, &#34;9&#34;, &#34;16&#34;]
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">val</span> asc = Array(<span style="color:#ae81ff">5</span>, { i <span style="color:#f92672">-&gt;</span> (i * i).toString() })
+</code></pre></div><blockquote>
+<p>和Java中不一样，Kotlin中的数组是不变量，这意味着，不能将<code>Array&lt;String&gt;</code>赋值给一个<code>Array&lt;Any&gt;</code>，这样避免了一个可能的运行时错误，但可以使用<code>Array&lt;out Any&gt;</code>，见<a href="https://kotlinlang.org/docs/reference/generics.html#type-projections">类型投影</a>。</p>
+</blockquote>
+<p>Kotlin还有指定的类用于表示基本数据类型数组，可以免去数据装箱的开销，有<code>ByteArray, ShortArray, IntArray</code>等等，这些类与<code>Array</code>类没有继承关系。它们有自己的工厂函数：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">val</span> x: IntArray = intArrayOf(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>)
+    x[<span style="color:#ae81ff">0</span>] = x[<span style="color:#ae81ff">1</span>] + x[<span style="color:#ae81ff">2</span>]
+</code></pre></div><h2 id="相等性">相等性</h2>
+<p>Kotlin中有两种形式的相等性：</p>
+<ul>
+<li>引用相等性（即同一性，两个引用指向同一个对象），使用<code>===</code>和<code>!==</code>操作符。</li>
+<li>结构相等性（equals()检查），使用<code>==</code>和<code>!=</code>操作符。</li>
+</ul>
+<p>通常结构相等性操作符<code>a == b</code>会被翻译为：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    a<span style="color:#f92672">?.</span>equals(b) <span style="color:#f92672">?:</span> (b <span style="color:#f92672">===</span> <span style="color:#66d9ef">null</span>)
+</code></pre></div><p>即如果a不为null，它盗用equals(Any?)函数，否则，a为null，它检查b是否引用相等于null。</p>
+<p>注意没有必要直接与null进行同一性比较，<code>a == null</code>会自动转换为<code>a === null</code>。</p>
+<h2 id="空引用安全性null-safety">空引用安全性（Null safety）</h2>
+<p>Kotlin的类型系统的目的之一是消灭空引用，即传说中的<a href="http://en.wikipedia.org/wiki/Tony_Hoare#Apologies_and_retractions">百万美元bug</a>。</p>
+<p>仅有几种情况会引起空指针异常（<code>NullPointerException</code>）：</p>
+<ul>
+<li>代码中直接抛出异常<code>throw NullPointerException()</code></li>
+<li>使用操作符<code>!!</code></li>
+<li>外部Java代码导致的异常</li>
+<li>初始化相关的数据不一致问题（一个构造器中未初始化的this使用在了其它地方）</li>
+</ul>
+<h3 id="在条件语句中检查null">在条件语句中检查null</h3>
+<p>第一，你可以显式地检查b是否为空，并且分别处理两种情况：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">val</span> l = <span style="color:#66d9ef">if</span> (b <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>) b.length <span style="color:#66d9ef">else</span> -<span style="color:#ae81ff">1</span>
+</code></pre></div><p>注意只有当b不可变（检查和使用间没有被修改的局部变量或者一个有支撑域的不可重写的val成员），因为其它情况下b在使用前检查后可能值被修改了。</p>
+<h3 id="安全调用">安全调用</h3>
+<p>使用安全调用操作符（<code>?.</code>）：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    b<span style="color:#f92672">?.</span>length  <span style="color:#75715e">// 如果b为null则返回null，否则返回b.length
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">// 链式调用，如果有一个为null，就返回null
+</span><span style="color:#75715e"></span>    bob<span style="color:#f92672">?.</span>department<span style="color:#f92672">?.</span>head<span style="color:#f92672">?.</span>name
+
+    <span style="color:#75715e">// 只在非空的情况下执行某一操作
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">val</span> listWithNulls: List&lt;String?&gt; = listOf(<span style="color:#e6db74">&#34;A&#34;</span>, <span style="color:#66d9ef">null</span>)
+    <span style="color:#66d9ef">for</span> (item <span style="color:#66d9ef">in</span> listWithNulls) {
+        item<span style="color:#f92672">?.</span>let { println(<span style="color:#66d9ef">it</span>) } <span style="color:#75715e">// prints A and ignores null
+</span><span style="color:#75715e"></span>    }
+</code></pre></div><h3 id="elvis操作符">Elvis操作符</h3>
+<p>当我们有一个可以为空的引用r，我们可以说“如果r不为null，那么就使用它，否则就使用某个非空的值x”：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">val</span> l: Int = <span style="color:#66d9ef">if</span> (b <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>) b.length <span style="color:#66d9ef">else</span> -<span style="color:#ae81ff">1</span>
+</code></pre></div><p>使用Elvis操作符<code>?:</code>表示为:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">val</span> l = b<span style="color:#f92672">?.</span>length <span style="color:#f92672">?:</span> -<span style="color:#ae81ff">1</span>
+</code></pre></div><p>由于throw和return也是表达式，它们也可以用于该操作符的右边，例如：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">foo</span>(node: Node): String? {
+        <span style="color:#66d9ef">val</span> parent = node.getParent() <span style="color:#f92672">?:</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span>
+        <span style="color:#66d9ef">val</span> name = node.getName() <span style="color:#f92672">?:</span> <span style="color:#66d9ef">throw</span> IllegalArgumentException(<span style="color:#e6db74">&#34;name expected&#34;</span>)
+        <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>    }
+</code></pre></div><h3 id="操作符"><code>!!</code>操作符</h3>
+<p>对于NPE爱好者还有一个选择，可以使用<code>b!!</code>，如果b不为空那么返回它，否则抛出一个NPE：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">val</span> l = b<span style="color:#f92672">!!</span>.length
+</code></pre></div><h3 id="安全转型">安全转型</h3>
+<p>常规的类型转换可能导致<code>ClassCastException</code>，另一种选择是使用在尝试转型失败后返回<code>null</code>的安全转换：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">val</span> aInt: Int? = a <span style="color:#66d9ef">as</span>? Int
+</code></pre></div><h3 id="可以为空类型的集合">可以为空类型的集合</h3>
+<p>如果一个集合的元素可以为空，并且你想过滤出非空的元素，可以使用<code>filterNotNull</code>函数：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">val</span> nullableList: List&lt;Int?&gt; = listOf(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#66d9ef">null</span>, <span style="color:#ae81ff">4</span>)
+    <span style="color:#66d9ef">val</span> intList: List&lt;Int&gt; = nullableList.filterNotNull()
+</code></pre></div><h2 id="类型检查与转换is和as">类型检查与转换：&ldquo;is&quot;和&quot;as&rdquo;</h2>
+<h3 id="is和is操作符"><code>is</code>和<code>!is</code>操作符</h3>
+<p>使用<code>is</code>和<code>!is</code>操作符可以在运行时检查一个对象是否符合一个给定的类型：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">if</span> (obj <span style="color:#66d9ef">is</span> String) {
+        print(obj.length)
+    }
+
+    <span style="color:#66d9ef">if</span> (obj <span style="color:#f92672">!is</span> String) { <span style="color:#75715e">// same as !(obj is String)
+</span><span style="color:#75715e"></span>        print(<span style="color:#e6db74">&#34;Not a String&#34;</span>)
+    }
+    <span style="color:#66d9ef">else</span> {
+        print(obj.length)
+    }
+</code></pre></div><h3 id="智能转型">智能转型</h3>
+<p>很多情形下，不用显式地进行类型转换，因为编译器会跟踪<code>is</code>检查，在需要的时候为不可变值进行显式地转型并自动插入（安全的）类型转换：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">demo</span>(x: Any) {
+        <span style="color:#66d9ef">if</span> (x <span style="color:#66d9ef">is</span> String) {
+            print(x.length) <span style="color:#75715e">// x is automatically cast to String
+</span><span style="color:#75715e"></span>        }
+    }
+</code></pre></div><p>注意如果编译器不能保证检查和使用之间变量不能改变，那么智能转型就没法进行。更具体来说，智能转型在以下规则下是适用的：</p>
+<ul>
+<li><code>val</code>局部变量——总是可行的。</li>
+<li><code>val</code>属性——如果属性是<code>private</code>的或者<code>internal</code>的或者检查在属性声明的同一模块下进行。对于<code>open</code>的属性或自定义了getter的属性不适用。</li>
+<li><code>var</code>局部变量——如果变量在检查和使用间没有被改变，并且没有在一个修改它的lambda中被捕获。</li>
+<li><code>var</code>属性——总是不可行的（因为变量可以在任何时间被其它代码修改）。</li>
+</ul>
+<h3 id="不安全的unsafe转型操作符">“不安全的（Unsafe）”转型操作符</h3>
+<p>通常，如果转型失败会抛出一个异常。因此，我们称之为_不安全的(unsafe)_。不安全的转型使用中缀操作符<code>as</code>来进行：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">val</span> x: String = y <span style="color:#66d9ef">as</span> String
+</code></pre></div><p>注意<code>null</code>不能被转型为<code>String</code>，因为<code>String</code>类型不是可为空的，也就是说，如果<code>y</code>是<code>null</code>，那么上面的代码会抛出一个异常。为了符合java的转型语义我们在转型操作符的右边有可以为空的类型，例如：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">val</span> x: String? = y <span style="color:#66d9ef">as</span> String?
+</code></pre></div><h3 id="安全的safe转型操作">&ldquo;安全的（safe）&ldquo;转型操作</h3>
+<p>为了避免抛出一个异常，可以使用_安全的（safe）_转型操作符<code>as?</code>，如果转型失败会返回<code>null</code>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">val</span> x: String? = y <span style="color:#66d9ef">as</span>? String
+</code></pre></div><p>注意，尽管操作符<code>as?</code>的右边是一个不为<code>null</code>的类型<code>String</code>，转型的结果是可以为空的。</p>
+
+                </div>
+                
+            </article>
+        </div>
+    </div>
+
+                </div>
+                <footer>
+    Powered by <a target="_blank" href="https://gohugo.io/">Hugo</a> And 
+    <a target="_blank" href="https://pages.github.com/">Github Pages</a>
+</footer>
+                <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+                
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
+                <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css">
+                <script src="/js/highlight.pack.js"></script>
+                <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+                <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [
+                ['$', '$'],
+                ['\\(', '\\)']
+            ],
+            displayMath: [
+                ['$$', '$$']
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: {
+                equationNumbers: {
+                    autoNumber: "AMS"
+                },
+                extensions: ["AMSmath.js", "AMSsymbols.js"]
+            }
+        }
+    });
+    MathJax.Hub.Queue(function () {
+
+
+
+        var all = MathJax.Hub.getAllJax(),
+            i;
+        for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+    MathJax.Hub.Config({
+
+        TeX: {
+            equationNumbers: {
+                autoNumber: "AMS"
+            }
+        }
+    });
+</script>
+                <script type="text/javascript" src="/js/main.js"></script>
+        </div>
+    </body>
+
+</html>
