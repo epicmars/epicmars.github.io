@@ -22,7 +22,7 @@
         <div class="site-wrapper">
                 <header>
     <nav>
-        <a class="home" href="https://jastrelax.github.io/">首页</a>
+        <a class="home" href="https://epicmars.github.io/">首页</a>
     </nav>
     
 </header>
@@ -57,8 +57,8 @@
                         <h2 id="数据类data-classes">数据类（Data Classes）</h2>
 <p>我们常常创建仅仅持有数据的类，类似Java中的POJO或JavaBean，其对象我们一般称为实体（entity），因此它对应我们常说的Entity类。在一般UI应用分层架构中，例如MVC，MVP，MVVM等，都含有一个模型（Model）层，实体类型就属于这一块，它是构建业务的基石。</p>
 <p>为此Kotlin专门定义了data类型：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">data</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span>(<span style="color:#66d9ef">val</span> name: String, <span style="color:#66d9ef">val</span> age: Int)
-</code></pre></div><p>编译器会根据主构造函数中声明的属性自动生成如下成员：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span>    <span style="color:#66d9ef">data</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span>(<span style="color:#66d9ef">val</span> name: String, <span style="color:#66d9ef">val</span> age: Int)
+</span></span></code></pre></div><p>编译器会根据主构造函数中声明的属性自动生成如下成员：</p>
 <ul>
 <li>equals()/hashCode()对</li>
 <li>toString()方法，返回字符串形式为&quot;User(name=John, age=42)&quot;</li>
@@ -78,34 +78,34 @@
 <li>显式地实现componentN()和copy()是不允许的</li>
 </ul>
 <p>在JVM中，如果生成类需要有一个无参构造器，所有属性的默认值必须明确指定。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">data</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span>(<span style="color:#66d9ef">val</span> name: String = <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#66d9ef">val</span> age: Int = <span style="color:#ae81ff">0</span>)
-</code></pre></div><h3 id="拷贝">拷贝</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span>    <span style="color:#66d9ef">data</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span>(<span style="color:#66d9ef">val</span> name: String = <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#66d9ef">val</span> age: Int = <span style="color:#ae81ff">0</span>)
+</span></span></code></pre></div><h3 id="拷贝">拷贝</h3>
 <p>copy()方法有什么用？有时我们需要拷贝一个对象，同时改变它的某些属性，并保持其它属性不变，使用copy()方法就可以了，其实现类似这样：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">copy</span>(name: String = <span style="color:#66d9ef">this</span>.name, age: Int = <span style="color:#66d9ef">this</span>.age) = User(name, age) 
-</code></pre></div><p>对象的属性值作为copy的默认参数值，我们可以传递希望改变的值，而保留其它值不变：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">val</span> jack = User(name = <span style="color:#e6db74">&#34;Jack&#34;</span>, age = <span style="color:#ae81ff">2</span>)
-    <span style="color:#66d9ef">val</span> newJack = jack.copy(name = <span style="color:#e6db74">&#34;New Java&#34;</span>)
-</code></pre></div><h3 id="结构声明destructuring-declarations">结构声明（Destructuring Declarations）</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">copy</span>(name: String = <span style="color:#66d9ef">this</span>.name, age: Int = <span style="color:#66d9ef">this</span>.age) = User(name, age) 
+</span></span></code></pre></div><p>对象的属性值作为copy的默认参数值，我们可以传递希望改变的值，而保留其它值不变：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span>    <span style="color:#66d9ef">val</span> jack = User(name = <span style="color:#e6db74">&#34;Jack&#34;</span>, age = <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">val</span> newJack = jack.copy(name = <span style="color:#e6db74">&#34;New Java&#34;</span>)
+</span></span></code></pre></div><h3 id="结构声明destructuring-declarations">结构声明（Destructuring Declarations）</h3>
 <p>生成的component方法可以使它们使用<a href="https://kotlinlang.org/docs/reference/multi-declarations.html">解构声明</a>中：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">val</span> jane = User(<span style="color:#e6db74">&#34;Jane&#34;</span>, <span style="color:#ae81ff">35</span>) 
-    <span style="color:#66d9ef">val</span> <span style="color:#960050;background-color:#1e0010">(</span>name, age) = jane
-    println(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">$name</span><span style="color:#e6db74">, </span><span style="color:#e6db74">$age</span><span style="color:#e6db74"> years of age&#34;</span>) <span style="color:#75715e">// prints &#34;Jane, 35 years of age&#34;
-</span></code></pre></div><h3 id="标准库data类">标准库Data类</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span>    <span style="color:#66d9ef">val</span> jane = User(<span style="color:#e6db74">&#34;Jane&#34;</span>, <span style="color:#ae81ff">35</span>) 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">val</span> <span style="color:#960050;background-color:#1e0010">(</span>name, age) = jane
+</span></span><span style="display:flex;"><span>    println(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">$name</span><span style="color:#e6db74">, </span><span style="color:#e6db74">$age</span><span style="color:#e6db74"> years of age&#34;</span>) <span style="color:#75715e">// prints &#34;Jane, 35 years of age&#34;
+</span></span></span></code></pre></div><h3 id="标准库data类">标准库Data类</h3>
 <p>标准库提供了两个Data类：<code>Pair</code>和<code>Triple</code>。</p>
 <h2 id="枚举类型enum-classes">枚举类型（Enum Classes）</h2>
 <p>枚举类型最常见的基本使用是实现类型安全的枚举：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">enum</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Direction</span> {
-        NORTH, SOUTH, WEST, EAST
-    }
-</code></pre></div><p>每个枚举常量都是一个对象，枚举常量使用逗号分开。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span>    <span style="color:#66d9ef">enum</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Direction</span> {
+</span></span><span style="display:flex;"><span>        NORTH, SOUTH, WEST, EAST
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p>每个枚举常量都是一个对象，枚举常量使用逗号分开。</p>
 <h3 id="初始化">初始化</h3>
 <p>由于每个枚举常量都是一个实例，可以这样初始化：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">enum</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Color</span>(<span style="color:#66d9ef">val</span> rgb: Int) {
-            RED(<span style="color:#ae81ff">0xFF0000</span>),
-            GREEN(<span style="color:#ae81ff">0x00FF00</span>),
-            BLUE(<span style="color:#ae81ff">0x0000FF</span>)
-    }
-</code></pre></div><h2 id="密封类sealed-classes">密封类（Sealed Classes）</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span>    <span style="color:#66d9ef">enum</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Color</span>(<span style="color:#66d9ef">val</span> rgb: Int) {
+</span></span><span style="display:flex;"><span>            RED(<span style="color:#ae81ff">0xFF0000</span>),
+</span></span><span style="display:flex;"><span>            GREEN(<span style="color:#ae81ff">0x00FF00</span>),
+</span></span><span style="display:flex;"><span>            BLUE(<span style="color:#ae81ff">0x0000FF</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><h2 id="密封类sealed-classes">密封类（Sealed Classes）</h2>
 
                 </div>
                 

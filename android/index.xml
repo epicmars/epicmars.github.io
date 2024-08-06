@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Androids on androidpi</title>
+    <link>https://epicmars.github.io/android/</link>
+    <description>Recent content in Androids on androidpi</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 08 Jul 2017 12:38:56 +0800</lastBuildDate>
+    <atom:link href="https://epicmars.github.io/android/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>从MVC到MVVM</title>
+      <link>https://epicmars.github.io/android/architecture/2018-07-08-from-mvc-to-mvvm/</link>
+      <pubDate>Sat, 08 Jul 2017 12:38:56 +0800</pubDate>
+      <guid>https://epicmars.github.io/android/architecture/2018-07-08-from-mvc-to-mvvm/</guid>
+      <description>MVP与MVVM，该选哪一个？ 目前为止，我在工作中用过的应用架构有基于Otto的总线模式和MVP模式，业余时间使用Clean架构和MVVM做</description>
+    </item>
+    <item>
+      <title>Dagger2 Api</title>
+      <link>https://epicmars.github.io/android/library/2016-07-12-dagger2-api/</link>
+      <pubDate>Tue, 12 Jul 2016 23:29:50 +0800</pubDate>
+      <guid>https://epicmars.github.io/android/library/2016-07-12-dagger2-api/</guid>
+      <description>Component注解 Component注解用于注解一个接口或抽象类，以便从其Module集合中生成一个完全成型的依赖注入实现。 每个使用@C</description>
+    </item>
+  </channel>
+</rss>
