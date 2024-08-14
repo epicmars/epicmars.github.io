@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Android on AndroidPi</title>
+    <link>https://epicmars.github.io/blog/android/</link>
+    <description>Recent content in Android on AndroidPi</description>
+    <image>
+      <title>AndroidPi</title>
+      <url>https://epicmars.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://epicmars.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- 0.131.0</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 08 Jul 2017 12:38:56 +0800</lastBuildDate>
+    <atom:link href="https://epicmars.github.io/blog/android/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>从MVC到MVVM</title>
+      <link>https://epicmars.github.io/blog/android/architecture/2018-07-08-from-mvc-to-mvvm/</link>
+      <pubDate>Sat, 08 Jul 2017 12:38:56 +0800</pubDate>
+      <guid>https://epicmars.github.io/blog/android/architecture/2018-07-08-from-mvc-to-mvvm/</guid>
+      <description>MVP与MVVM，该选哪一个？ 目前为止，我在工作中用过的应用架构有基于Otto的总线模式和MVP模式，业余时间使用Clean架构和MVVM做过一些开发。对于这些模式有一些很好的开源项目可以参考:
+Google应用架构蓝图 Clean结构示例 对于架构的搭建，除了采用第三方库以外，还可以使用Google官方的应用架构组件：
+Android应用架构组件指南 架构组件示例 架构这么多，应该怎么选择？建议根据项目实际情况作出选择，如果只是一个小的玩具项目，可以不用任何架构，大的项目也不应该陷入了过度设计的误区。
+概念 为什么需要这些架构以及怎么选择？首先要明确这些架构中的几个概念。从MVC被提出以来，发展到如今的MVP，MVVM等等，所有这些架构中有两个层都没有变化，那就是模型（Model）和视图（View）。
+业务 业务是应用所提供的服务。可以是后端远程提供的服务以本地化的方式展现，也可以是单独的本地服务。
+视图 视图是业务的用户界面（user interface）。它为用户提供操作和展示业务的接口，用户不一定是人，也可以是消息，例如一个外部的推送服务，它通过消息接口与业务交互，所以界面也不一定是肉眼可见的界面。
+模型 模型是对业务在软件工程中的抽象与建模。它提供了开展所有业务需要数据实体和状态，以及管理这些数据和状态的接口。具体实现中一般是简单的数据访问与状态改变。
+领域 一个应用领域指一个独立完整的应用。不同的应用属于不同的领域。它包含了对模型和以及与模型交互的抽象（这里与模型交互的抽象不是指对视图的抽象），一般不涉及具体的实现和具体的用户界面。
+领域架构 这一架构主要是根据Clean架构的思想得来的，如果将Interface替换为UserCase那基本上就是Clean架构了。那么有何改进和区别，在上面链接的示例以及实际使用Clean架构中发现，如果使Domain完全成为一个Java库，然后在各个层之间定义对应的实体进行转换会增加大量的工作和复杂度。虽然说这样是为了达到完全的解耦，但很明显，这个Java库一般并不会用到非Android平台中，这样做的意义不大。还有一点是UserCase的使用过于冗余了，并且现在有了RxJava和LiveData这样的基于观察者模式的响应式编程库，在模型和视图的交互中，不用再编写大量的回调接口。
+其中Domain层中的实体和Data层中的实体是一致的。并且不使用UserCase来进行交互，而是直接调用接口，然后从返回的被观察者更新视图就可以了。
+这种基于Domain的模式是十分灵活和易于扩展的，即可以直接从View调用Domain中的接口，也可以在这两者间添加Presenter/Controller/ViewModel层。它仍具有Clean架构中分层的和解耦方面的优点，易于编写测试。可以说这种方式即适用于小型项目，也适用于中大型项目。
+实现 Domain层是无关具体实现的，可以专门定义面向用户的接口，然后在Data层中实现。Data层中有实体对象访问的Dao和访问服务器的API等接口，并且可以采用仓储模式来隐藏访问的细节，这样Data中会多一层Repository接口。如果这样实现，视图和模型间会有用户接口和仓储接口这两层接口，显得有点冗余了。
+这里有一个接口粒度的问题，可以认为是一个接口方法调用所需要完成工作的量，如果Domain中的接口粒度和Data仓储接口粒度一致，那么可以将两者合并。实际中发现，除非能够在应用开发前就确定两种接口的粒度大小，不然将它们两者分别实现没有太大的意义，但这样做不太现实，因为如果业务频繁地变更，Domain的接口也随之改变，无法在开发之初就完成这项工作。因此一开始将两种接口合并就好了，并且我们不希望业务变化时Data的接口也频繁地变化，不然两层之间的解耦就没有意义了，那么可以从Data层中去掉Repository接口，或者将其提升为Domain层的用户接口。</description>
+    </item>
+    <item>
+      <title>Dagger2 Api</title>
+      <link>https://epicmars.github.io/blog/android/library/2016-07-12-dagger2-api/</link>
+      <pubDate>Tue, 12 Jul 2016 23:29:50 +0800</pubDate>
+      <guid>https://epicmars.github.io/blog/android/library/2016-07-12-dagger2-api/</guid>
+      <description>Component注解 Component注解用于注解一个接口或抽象类，以便从其Module集合中生成一个完全成型的依赖注入实现。
+每个使用@Component注解的类型必须包含至少一个抽象组件方法（Component methods），组件方法可以拥有任何名称，但其签名必须遵循供给和成员注入协约。
+供给方法（Provision methods） 供给方法没有参数，并返回一个被注入或者被供给的类型，每个方法也可以有一个限定符注解，以下都是有效的供给方法：
+SomeType getSomeType();Set&amp;lt;SomeType&amp;gt; getSomeTypes();@PortNumber int getPortNumber();供给方法和注入点一样可以使用Provider或Lazy更加显示地控制供给请求，Provider允许组件用户通过调用Provider.get()来请求任意次的供给，Lazy自始至终只会请求单个供给，但会将其推迟到对Lazy.get()的首次调用。以下供给方法都请求对同一类型的供给，但分别应用了不同的机制：
+SomeType getSomeType();Provider&amp;lt;SomeType&amp;gt; getSomeTypeProvider();Lazy&amp;lt;SomeType&amp;gt; getLazySomeType();成员注入方法（Members-injection methods） 成员注入方法具有单个参数，并将依赖注入到传入实例的每个使用Inject注解的域和方法，一个成员注入方法可以是void的，也可以返回其单个参数以便链接。以下都是合法的成员注入方法声明：
+void injectSomeType(SomeType someType);SomeType injectAndReturnSomeType(SomeType someType)一个没有参数但返回MembersInjector的方法和成员注入方法是等效的，在返回对象上调用MembersInjector.injectMembers(T)方法和成员注入方法的作用一样：
+MembersInjector&amp;lt;SomeType&amp;gt; getSomeTypeMembersInjector();关于协方差的注意事项 尽管一个类型的成员注入方法会可以接收其子类的实例（参数是返回类型的子类），只有参数类型和其超类的Inject注解成员会被注入，而参数类型的子类则不会，例如，如下类型中，当将Child实例作为参数传入成员注入方法injectSelf(Self instance)时只有a和b会被注入，
+class Parent {@Inject A a;}class Self extends Parent {@Inject B b;}class Child extends Self {@Inject C c;}实例化 组件（Component）的实例化主要通过生成的builder。一个builder实例通过组件上的builder()方法获取，返回的builder有一个方法用于设置每个modules() 和组件dependencies()，它们都以每个module或dependency类型的小写驼峰形式命名。每个缺少默认构造函数的组件dependency和module都必须显式地设置，但任何具有默认或无参构造函数（可以被组件实现访问）的module则可以忽略。如下所示：
+public static void main(String[] args) {OtherComponent otherComponent = .</description>
+    </item>
+  </channel>
+</rss>

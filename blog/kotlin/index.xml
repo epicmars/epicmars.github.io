@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Kotlin on AndroidPi</title>
+    <link>https://epicmars.github.io/blog/kotlin/</link>
+    <description>Recent content in Kotlin on AndroidPi</description>
+    <image>
+      <title>AndroidPi</title>
+      <url>https://epicmars.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://epicmars.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- 0.131.0</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 01 Nov 2017 17:09:39 +0800</lastBuildDate>
+    <atom:link href="https://epicmars.github.io/blog/kotlin/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kotlin数据类型</title>
+      <link>https://epicmars.github.io/blog/kotlin/2017-11-01-kotlin-data-types/</link>
+      <pubDate>Wed, 01 Nov 2017 17:09:39 +0800</pubDate>
+      <guid>https://epicmars.github.io/blog/kotlin/2017-11-01-kotlin-data-types/</guid>
+      <description>参考：
+基本类型 相等性 空指针安全性 类型检查与转换 Java中有8种基本类型byte，short，int，long，float，double，boolean，char，还提供了支持字符串的java.lang.String类，最后提供了上述的数组类型。Kotlin中的数据类型与Java基本一致，不过可以将基本数据类型也看做对象。
+数字 类型 |位宽度--------|---------Double	|64Float	|32Long |64Int |32Short	|16Byte	|8 注意，Kotlin中字符不是数字。
+在Java平台中，数字的以JVM中的基本数据类型保存于物理存储，除非我们想要一个可以为空(nullable)的数字或者使用了泛型，那么这时数字会装箱（boxed）为对应的类型。
+数字装箱后不保留同一性（identity），但保留相等性（equality），这与Java中是一样的，两个数字值相等的对象是不同的两个对象，但它们的值是相等的。
+与Java中不同的是，同一性比较使用三个等号符号：===或者!==，相等性比较使用：==或者!=。
+对于数字的隐式转换和自动拆装箱，对比Java中和Kotlin中有何区别：
+Java中，表达式中的数字类型会自动拆箱为对应的基础类型，然后向上转型为表达式中较大的基础类型。自动装箱只能发生在对应的基础类型上。 Integer a = 11; Short b = 12; Long c = 13L; int i = 1; short j = 2; long k = 3; k = a; k = a + b; k = i + j; k += i; a = a + b; a = i + j; c += i; c = 14; // error, right expression is &amp;#39;int&amp;#39; c = i + j; // error, right expression is &amp;#39;int&amp;#39; c = a + b; // error, right expression is &amp;#39;int&amp;#39; Kotlin中，与类型系统是相关的，因为所有数字类型都认为是对象，可以认为没有拆箱的说法，并且也没有隐式的类型提升，运算符事实上都是重载的操作符。 var a: Int?</description>
+    </item>
+    <item>
+      <title>Kotlin高阶函数与Lambdas</title>
+      <link>https://epicmars.github.io/blog/kotlin/2017-10-30-kotlin-lambdas/</link>
+      <pubDate>Mon, 30 Oct 2017 16:34:18 +0800</pubDate>
+      <guid>https://epicmars.github.io/blog/kotlin/2017-10-30-kotlin-lambdas/</guid>
+      <description>参考：
+Lambdas 高阶函数 一个高阶函数接收函数作为其参数，或者返回一个函数。举个栗子，如下所示，lock()函数接收一个lock对象和一个函数，获取锁，运行函数，然后释放锁：
+fun &amp;lt;T&amp;gt; lock(lock: Lock, body: () -&amp;gt; T): T { lock.lock() try { return body() } finally { lock.unlock() } } body有一个函数类型：() -&amp;gt; T，它是一个返回类型为T的值的方法。
+如果我们想调用lock()，我们可以将另一个函数作为参数传递给它（参考：方法引用):
+fun toBeSynchronized() = sharedResource.operation() val result = lock(lock, ::toBeSynchronized) 此外，一个更加便捷的方式是传递一个lambda表达式:
+val result = lock(lock, { sharedResource.operation() }) Lambda表达式先简要介绍下，后面小节会有详细描述：
+一个lambda表达式总是由花括弧包围 它的参数在记号-&amp;gt;前声明，参数类型可以忽略 正文跟在-&amp;gt;后 在Kotlin中如果一个函数的最后一个参数是一个函数，并且使用lambda表达式传递对应的参数，有一个简便的方式来表示，即将lambda表达式放在函数参数列表括弧外：
+lock (lock) { sharedResource.operation() } 另一个例子，如下map()函数所示：
+fun &amp;lt;T, R&amp;gt; List&amp;lt;T&amp;gt;.map(transform: (T) -&amp;gt; R): List&amp;lt;R&amp;gt; { val result = arrayListOf&amp;lt;R&amp;gt;() for (item in this) result.</description>
+    </item>
+    <item>
+      <title>Kotlin对象</title>
+      <link>https://epicmars.github.io/blog/kotlin/2017-10-30-kotlin-object/</link>
+      <pubDate>Mon, 30 Oct 2017 15:18:46 +0800</pubDate>
+      <guid>https://epicmars.github.io/blog/kotlin/2017-10-30-kotlin-object/</guid>
+      <description>参考:
+对象声明 对象表达式和声明（Object Expressions and Declarations） 对象表达式（Object expressions） Object表达式可以创建匿名类：
+window.addMouseListener(object : MouseAdapter() { override fun mouseClicked(e: MouseEvent) { // ... } override fun mouseEntered(e: MouseEvent) { // ... } }) 与Java匿名类不同的是，Java仅仅只能使用已有类型进行实例化，Kotlin可以在实例化匿名类时对匿名类进行定义，也就是说匿名类不用使用已有类型，如下所示：
+继承已有的类型：
+open class A(x: Int) { public open val y: Int = x } interface B {...} val ab: A = object : A(1), B { override val y = 15 } 或者不继承已有的类，默认继承Any：
+fun foo() { val adHoc = object { var x: Int = 0 var y: Int = 0 } print(adHoc.</description>
+    </item>
+    <item>
+      <title>Kotlin类的定义</title>
+      <link>https://epicmars.github.io/blog/kotlin/2017-10-30-kotlin-class-definition/</link>
+      <pubDate>Mon, 30 Oct 2017 14:36:02 +0800</pubDate>
+      <guid>https://epicmars.github.io/blog/kotlin/2017-10-30-kotlin-class-definition/</guid>
+      <description>数据类（Data Classes） 我们常常创建仅仅持有数据的类，类似Java中的POJO或JavaBean，其对象我们一般称为实体（entity），因此它对应我们常说的Entity类。在一般UI应用分层架构中，例如MVC，MVP，MVVM等，都含有一个模型（Model）层，实体类型就属于这一块，它是构建业务的基石。
+为此Kotlin专门定义了data类型：
+data class User(val name: String, val age: Int) 编译器会根据主构造函数中声明的属性自动生成如下成员：
+equals()/hashCode()对 toString()方法，返回字符串形式为&amp;quot;User(name=John, age=42)&amp;quot; componentN() 方法，其中N对应于属性声明的顺序 copy()函数 为了保持生成代码的一致性和行为的有效性，data类必须满足以下要求：
+主构造器需要至少一个参数 所有主构造器参数需要声明为val或var Data类型不能是abstruct、open、sealed或inner的 此外，对于成员继承，成员生成遵循以下规则：
+如果一个data类正文中明确实现了equals(),hashCode(),toString()方法，或者超类中有final修饰的实现，那么这些方法便不会生成，直接使用已有的实现。 如果超类有open修饰的componentN()方法并且返回兼容的类型，那么对应的生成方法会重写超类的方法，否则会报错。 显式地实现componentN()和copy()是不允许的 在JVM中，如果生成类需要有一个无参构造器，所有属性的默认值必须明确指定。
+data class User(val name: String = &amp;#34;&amp;#34;, val age: Int = 0) 拷贝 copy()方法有什么用？有时我们需要拷贝一个对象，同时改变它的某些属性，并保持其它属性不变，使用copy()方法就可以了，其实现类似这样：
+fun copy(name: String = this.name, age: Int = this.age) = User(name, age) 对象的属性值作为copy的默认参数值，我们可以传递希望改变的值，而保留其它值不变：
+val jack = User(name = &amp;#34;Jack&amp;#34;, age = 2) val newJack = jack.copy(name = &amp;#34;New Java&amp;#34;) 结构声明（Destructuring Declarations） 生成的component方法可以使它们使用解构声明中：</description>
+    </item>
+    <item>
+      <title>Kotlin类属性与常量</title>
+      <link>https://epicmars.github.io/blog/kotlin/2017-10-30-kotlin-properties/</link>
+      <pubDate>Mon, 30 Oct 2017 03:37:02 +0800</pubDate>
+      <guid>https://epicmars.github.io/blog/kotlin/2017-10-30-kotlin-properties/</guid>
+      <description>参考：
+对象表达式与声明 类属性 类属性是定义在类中的变量或不变量，分别使用var和val定义。这里把Kotlin中的不变量和常量作下区分，不变量只是在第一次初始化后便不可改变，其余特性和变量完全一样，但它不是常量，常量的说明在后面的小节给出。
+Kotlin对类属性的完整声明是：
+(var|val) &amp;lt;propertyName&amp;gt;[: &amp;lt;PropertyType&amp;gt;] [= &amp;lt;property_initializer&amp;gt;][&amp;lt;getter&amp;gt;][&amp;lt;setter&amp;gt;]方括号[]表示该部分是可选的，其中属性初始化器、getter、setter在任何情况下都是可选的，如果属性类型可以从属性初始化器或getter中推断出，那么它也是可选的。使用val所声明的不变量是没有setter的。
+类属性可以不显式地初始化，但未显式初始化的属性必须在构造器中初始化：
+var allByDefault: Int? // error: explicit initializer required, default getter and setter implied var initialized = 1 // has type Int, default getter and setter val simple: Int? // has type Int, default getter, must be initialized in constructor val inferredType = 1 // has type Int and a default getter 属性访问器 所谓访问，就是对属性的读与写，类会为每个属性提供默认的访问器。称读访问器为getter，写访问器为setter。对于属性变量两者都会提供，不变量只有getter，显然是由于它不可改变。访问器可以在声明属性时进行重写以替换默认访问器：
+val isEmpty: Boolean private get() = this.</description>
+    </item>
+    <item>
+      <title>Kotlin类与继承</title>
+      <link>https://epicmars.github.io/blog/kotlin/2017-10-29-kotlin-class-inheritance/</link>
+      <pubDate>Sun, 29 Oct 2017 15:27:43 +0800</pubDate>
+      <guid>https://epicmars.github.io/blog/kotlin/2017-10-29-kotlin-class-inheritance/</guid>
+      <description>类定义 类声明由类名、类首部（指定类型参数，主构造器等）、类正文（用花括号包围）。类首部和正文都是可选的。因此最简单的类定义为：
+class Empty // Implicitly inherits from Any 类似所有Java类都继承类Object，所有Kotlin类都继承类Any，但Any不是与特定平台（例如JVM）相关的，它不是一个java.lang.Object，这表明当Kotlin与Java代码进行互操作时，为了使用Object的成员方法，Kotlin提供了扩展函数。
+例如为了调用Object的wait()/notify()方法，可以将一个kotlin对象foo转型为Object：
+(foo as java.lang.Object).wait() 为了获取一个kotlin对象的Java类，Kotlin1.1之后可以使用class引用的java扩展属性，也可以直接使用扩展属性javaClass:
+val fooClass = foo::class.java // class reference val fooClass = foo.javaClass // extension property: javaClass 与Java代码进行互操作，Kotlin在语言层面上是这样设计的，但在编译为Java字节码以及JVM运行时中，每个类总是默认继承了Object。
+构造器 Kotlin的构造器分为主构造器（primary constructor）和次要构造器（secondary constructors）。两者都是可选的，即可以不用明确定义任何构造器，这时如果该类不是抽象类，就采用默认生成的无参主构造器。主构造器只能有一个，次要构造器可以有多个，次要构造器必须代理到主构造器，可以是直接的代理或使用其它次要构造器间接代理。造器的可见性默认是public的。
+这里讨论下主构造器，先了解下Java对象的初始化，大致说了Java对象初始化机制有三种：实例初始化器（初始化块）、实例变量初始化器、构造器。初始化块和实例变量初始化器可以认为是实例初始化器的两种不同形式，实例变量初始化器只不过定义了实例变量并使用表达式而非块进行了初始化。在对象初始化时，由于存在继承层次结构，每一层级类都需要进行初始化，一个对象从自身开始向上到父类，到父类的父类等等，直到Object类，完成整个类层次的初始化。所以该对象的构造器必须直接或间接地调用父类构造器，这也说明了为什么构造器不属于Java类成员，它不会被子类继承，不然会造成初始化的死循环。构造器是初始化的入口，但不是初始化的全部，并且为了保证初始化过程的顺序，编译器会为每个构造器生成一个&amp;lt;init&amp;gt;方法，包含以下代码：
+对另一个构造函数的调用（为了直接或间接调用父类构造器） 初始化器（包括变量初始器器和块初始化器，为了保证初始化器仅运行一次，如果第1步调用是本地另一个构造函数,那么便不需要 初始化器的代码） 构造函数正文 在Kotlin中，初始化块使用init关键字声明：
+init { print(&amp;#34;This is a intializer block.&amp;#34;) } 如果一个Kotlin类未继承其它另外定义的类，那么它默认继承类Any, 如下所示：
+未定义主构造器
+未定义次要构造器：编译器会为其生成一个无参主构造器 定义了次要构造器：那么它将仅有次要构造器，不会自动生成无参构造器 class Car { // ... constructor(type: String, name: String) { // ... } } 定义了主构造器，并且定义了次要构造器
+class Car(type: String, name: String) { // .</description>
+    </item>
+    <item>
+      <title>Kotlin函数</title>
+      <link>https://epicmars.github.io/blog/kotlin/2017-10-29-kotlin-function/</link>
+      <pubDate>Sun, 29 Oct 2017 12:43:52 +0800</pubDate>
+      <guid>https://epicmars.github.io/blog/kotlin/2017-10-29-kotlin-function/</guid>
+      <description>参考:
+函数 函数(Function) Kotlin使用名称函数（function）而非方法（method），我想是为了与Java方法作出区分，和C语言类似函数可以单独定 义和使用，不依赖于类与对象，而Java中的方法只存在于某个类中。由于Kotlin与Java是兼容的，因此在类中定义的函数仍然 适用于方法这个语义。
+Kotlin使用fun来声明函数:
+fun double(x: Int): Int { return 2*x } 参数 函数参数使用Pascal的表示来定义，即name: type。
+默认参数值 函数参数可以有默认值，这样在调用函数时如果没有传入某个参数，那么便使用改参数对应的默认值，这样可以从某种程度上减少 方法重载（overload）。在参数类型后，使用=后跟上一个值来定义默认值。
+fun read(b: Array&amp;lt;Byte&amp;gt;, off: Int = 0, len: Int = b.size) { ... } 对于类中方法的重写（override），子类方法总是使用与父类方法相同的默认值，并且子类方法签名中不能有默认值。
+open class A { open fun foo(i: Int = 10) { ... } } class B : A() { override fun foo(i: Int) { ... } // no default value allowed } 命名参数值 看到这里，发现这和Python语法太TM像了。默认参数传递是根据位置来判断的，称为位置参数，由于有了默认参数，可能调用时 传入的参数比签名中的少，例如调用时，一个参数值前面有一个忽略了的默认参数，该参数值的位置被提前了，这时根据位置就无 法判断参数值与参数的对应关系，此时需要将该非默认参数值使用参数名明确标出。</description>
+    </item>
+  </channel>
+</rss>
