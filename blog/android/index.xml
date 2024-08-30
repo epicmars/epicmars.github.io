@@ -5,18 +5,17 @@
     <link>https://epicmars.github.io/blog/android/</link>
     <description>Recent content in Android on AndroidPi</description>
     <image>
-      <title>AndroidPi</title>
       <url>https://epicmars.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
       <link>https://epicmars.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
-    <generator>Hugo -- 0.131.0</generator>
+    <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 08 Jul 2017 12:38:56 +0800</lastBuildDate>
-    <atom:link href="https://epicmars.github.io/blog/android/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 08 Jul 2017 12:38:56 +0800</lastBuildDate><atom:link href="https://epicmars.github.io/blog/android/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>从MVC到MVVM</title>
       <link>https://epicmars.github.io/blog/android/architecture/2018-07-08-from-mvc-to-mvvm/</link>
       <pubDate>Sat, 08 Jul 2017 12:38:56 +0800</pubDate>
+      
       <guid>https://epicmars.github.io/blog/android/architecture/2018-07-08-from-mvc-to-mvvm/</guid>
       <description>MVP与MVVM，该选哪一个？ 目前为止，我在工作中用过的应用架构有基于Otto的总线模式和MVP模式，业余时间使用Clean架构和MVVM做过一些开发。对于这些模式有一些很好的开源项目可以参考:
 Google应用架构蓝图 Clean结构示例 对于架构的搭建，除了采用第三方库以外，还可以使用Google官方的应用架构组件：
@@ -32,10 +31,12 @@ Android应用架构组件指南 架构组件示例 架构这么多，应该怎�
 实现 Domain层是无关具体实现的，可以专门定义面向用户的接口，然后在Data层中实现。Data层中有实体对象访问的Dao和访问服务器的API等接口，并且可以采用仓储模式来隐藏访问的细节，这样Data中会多一层Repository接口。如果这样实现，视图和模型间会有用户接口和仓储接口这两层接口，显得有点冗余了。
 这里有一个接口粒度的问题，可以认为是一个接口方法调用所需要完成工作的量，如果Domain中的接口粒度和Data仓储接口粒度一致，那么可以将两者合并。实际中发现，除非能够在应用开发前就确定两种接口的粒度大小，不然将它们两者分别实现没有太大的意义，但这样做不太现实，因为如果业务频繁地变更，Domain的接口也随之改变，无法在开发之初就完成这项工作。因此一开始将两种接口合并就好了，并且我们不希望业务变化时Data的接口也频繁地变化，不然两层之间的解耦就没有意义了，那么可以从Data层中去掉Repository接口，或者将其提升为Domain层的用户接口。</description>
     </item>
+    
     <item>
       <title>Dagger2 Api</title>
       <link>https://epicmars.github.io/blog/android/library/2016-07-12-dagger2-api/</link>
       <pubDate>Tue, 12 Jul 2016 23:29:50 +0800</pubDate>
+      
       <guid>https://epicmars.github.io/blog/android/library/2016-07-12-dagger2-api/</guid>
       <description>Component注解 Component注解用于注解一个接口或抽象类，以便从其Module集合中生成一个完全成型的依赖注入实现。
 每个使用@Component注解的类型必须包含至少一个抽象组件方法（Component methods），组件方法可以拥有任何名称，但其签名必须遵循供给和成员注入协约。
@@ -47,5 +48,15 @@ MembersInjector&amp;lt;SomeType&amp;gt; getSomeTypeMembersInjector();关于协�
 class Parent {@Inject A a;}class Self extends Parent {@Inject B b;}class Child extends Self {@Inject C c;}实例化 组件（Component）的实例化主要通过生成的builder。一个builder实例通过组件上的builder()方法获取，返回的builder有一个方法用于设置每个modules() 和组件dependencies()，它们都以每个module或dependency类型的小写驼峰形式命名。每个缺少默认构造函数的组件dependency和module都必须显式地设置，但任何具有默认或无参构造函数（可以被组件实现访问）的module则可以忽略。如下所示：
 public static void main(String[] args) {OtherComponent otherComponent = .</description>
     </item>
+    
+    <item>
+      <title>Jetpack Compose这一篇就够了</title>
+      <link>https://epicmars.github.io/blog/android/jetpack/2024-08-27-jetpack/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://epicmars.github.io/blog/android/jetpack/2024-08-27-jetpack/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

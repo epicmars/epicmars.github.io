@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>CS on AndroidPi</title>
+    <link>https://epicmars.github.io/blog/cs/</link>
+    <description>Recent content in CS on AndroidPi</description>
+    <image>
+      <url>https://epicmars.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://epicmars.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 10 Aug 2018 21:14:48 +0800</lastBuildDate><atom:link href="https://epicmars.github.io/blog/cs/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HTTPS与SSL/TLS协议</title>
+      <link>https://epicmars.github.io/blog/cs/networks/2018-08-10-https/</link>
+      <pubDate>Fri, 10 Aug 2018 21:14:48 +0800</pubDate>
+      
+      <guid>https://epicmars.github.io/blog/cs/networks/2018-08-10-https/</guid>
+      <description>HTTPS(Hypertext Transfer Protocol Secure)译为超文本传输安全协议，也称为HTTP over TLS，HTTP over SSL或HTTP Secure，它对HTTP协议进行的扩展，用于在计算机网络上进行安全通信。其主要目的是对站点服务器进行身份认证，保护交换数据的隐私与完整性。
+SSL/TLS协议 HTTP协议位于TCP/IP四层模型最高层的应用层。HTTPS是在HTTP所在的应用层加入一个子层，位于HTTP子层之下，传输层之上。
+根据RFC:
+TLS协议的主要目的是为两个通信应用间提供隐私与数据完整性。该协议主要由两层组成：TLS Record协议和TLS Handshake协议。在某个稳定的传输协议（如TCP）之上，在最底层是TLS Record协议。
+TLS Record协议所提供的连接安全性有两个基本属性：
+连接是私有的。
+对称加密用于数据加密（例如AES, RC4等），每个连接都会生成唯一的对称加密秘钥，并且该秘钥是基于另一个协议（例如TLS Handshake协议）经过协商后的秘钥得来的。Record协议也可以不使用加密。
+连接是可靠的。
+消息传输包含一个使用一个使用秘钥的MAC的消息完整性检查。安全哈希函数（例如，SHA-1等）用于MAC计算。Record协议可以不使用MAC进行运行，但这种情况通常仅使用在这种模式下，即另一个协议将Record协议作为协商安全参数的传输器。
+TLS Record协议用于封装更高层级的协议。其中一个就是TLS Handshake协议，它允许服务器和客户端对彼此进行认证并且在应用层协议传输和接收数据的第一个字节前协商一个加密算法以及要使用的秘钥。
+TLS Handshake协议提供的连接安全性有三个基本性质：
+对等端的身份可以使用非对称加密或公钥密码学（如，RSA，DSA等）进行认证，这种认证是可选的，但一般需要对等端至少一方进行认证。
+对共享秘钥的协商是安全的：协商的秘钥是不能被窃听者获取的，并且对任意未认证的连接都不能获取到秘钥，即使攻击者位于连接的中间。
+协商是可靠的：没有攻击者能够修改协商通信内容并且不被通信方发现。
+TLS的一项优点是它是与应用协议独立的，更高层级的协议可以透明地置于TLS协议之上。TLS标准并没有指定什么协议可以使用TLS来添加安全性，如何初始化TLS握手以及如何解释认证证书交换的决定留给TLS之上的协议的设计者和实现者。
+HTTPS连接的建立与加密通信 在实现中，SSL/TLS子层作为HTTP子层和传输层的中间层，对套接字接口进行了一层封装，用于建立安全连接与通信。会话状态的加密参数是通过TLS握手协议来生成的，当一个TLS客户端和服务端首次开始进行通信时，它们在一个协议版本上达成一致、选择密码学算法、可选地对对方进行认证，并使用公钥加密技术来生成共享秘钥。
+它包含如下步骤：
+交换hello消息来对算法达成一致，交换随机值并进行恢复会话的检查 交换必要的机密参数，运行客户端和服务端对预主密钥（premaster secret）达成一致 交换证书和密码学信息，允许客户端和服务端对彼此进行认证 从预主密钥（premaster secret）生成一个主密钥并交换随机值 为Record层提供安全参数 允许客户端和服务端确认它们的对等端计算出相同的安全参数并且握手没有被攻击者干预 TLS握手的完整步骤如下所示（其中带*表示可选的或根据情况进行发送的消息，并不总是会发送）：
+Client ServerClientHello --------&amp;gt;ServerHelloCertificate*ServerKeyExchange*CertificateRequest*&amp;lt;-------- ServerHelloDoneCertificate*ClientKeyExchangeCertificateVerify*[ChangeCipherSpec]Finished --------&amp;gt;[ChangeCipherSpec]&amp;lt;-------- FinishedApplication Data &amp;lt;-------&amp;gt; Application Data可以使用openssl提供的工具来查看这一步骤的实际数据交换情况：</description>
+    </item>
+    
+    <item>
+      <title>CA与SSL/TLS证书</title>
+      <link>https://epicmars.github.io/blog/cs/networks/2018-08-10-ca-and-ssl-tls-certificates/</link>
+      <pubDate>Fri, 10 Aug 2018 19:50:14 +0800</pubDate>
+      
+      <guid>https://epicmars.github.io/blog/cs/networks/2018-08-10-ca-and-ssl-tls-certificates/</guid>
+      <description>CA 证书颁发机构（CA, Certificate Authorities）根据认证操作规则 (CPS) 授权颁发、暂停、更新或取消证书的实体。在其颁发的所有证书和 CRL 中都可通过识别名称来识别 CA。证书颁发机构必须公布其公钥，或者如果该证书颁发机构隶属一级证书颁发机构，则由更高级的 CA 提供证书证明其公钥的合法性。
+数字证书（Digital Certificates）是可进行验证的包含身份证明的小的数据文件，它可以帮助网站、个人、设备来代表他们真实可信的在线身份（可信是因为CA已经对身份进行了验证）。CA在互联网上的操作以及如何进行透明可信的事务中扮演了关键角色。每年，证书机构都会颁发上百万的数字证书，它们用于保护信息，加密数以十亿计的事务，并确保安全的通信。
+如何保证CA可信 浏览器、操作系统和移动设备会运行一个已授权的CA成员资格程序，其中一个CA必须满足详细的标准才能够被接受作为其中一员。一旦所接受的CA能够颁发直接被浏览器信任的证书，随后，人们和设备就可以依赖该证书进行工作。仅有少量经过授权的CA，从私有公司到政府机构都有，并且CA运作的越久，就会有越多的浏览器和设备信任该CA颁发的证书。
+在颁发一个数字证书前，CA会对申请者的身份进行一些检查。这些检查与所申请的证书类型相关，例如，一个对域名所有权进行验证的SSL证书（Domain Validated (DV SSL) Certificates）会将已经验证了所有权的域名包含到证书中。而一个可扩展SSL(Extended Validation SSL)会包含公司相关的额外信息，这些信息由CA通过许多公司检查进行验证。
+证书有许多种类型，不仅仅是支持SSL，还可以用于对人员和设备进行认证，对代码和文档添加合法性证明等。
+PKI与信任层级 浏览器和设备通过在其根证书库（Root Store）中接受根证书（Root Certificate）来信任一个CA，这个根证书库本质上是一个预先安装在浏览器或设备上的已信任CA数据库。Windows、Apple、Mozilla以及一般的移动媒介都运行自己的根证书库。
+各CA使用这些预安装的根证书来办法中介根证书和终端实体数字证书。CA接收证书请求，验证申请者，颁发证书，并对依赖于该证书的任何人发布已颁发证书的持续的有效性状态。
+CA通常会创建一些中介CA（ICA，Intermediate CA）,用于办法终端实体证书，如SSL证书，这称为一个信任层次。
+遵循最佳安全实践，CA不应该直接从发布给媒介的根证书来颁发数字证书，而应该通过一个或多个ICA。
+CA是如何运作的 作为互联网中一个可信任的锚点，CA具有重大的责任。因此，在满足可审计的需求下运行一个CA是一个复杂的任务。一个CA基础设施由大量运作元素，硬件、软件、政策框架以及实践声明、审计、安保基础设施和人员组成。总体上，这些元素称为一个可信任的PKI(Public Key Infrastructure)。
+SSL与TLS SSL(Secure Socket Layers)是指安全套接字层，它是一项标准技术，用于确保互联网连接安全。 TLS(Transport Layer Security)指传输层安全，它是SSL的升级版。
+历史简介 SSL和TLS都是加密协议，用于提供服务器、设备、应用在网络上的认证和数据加密。SSL是先于TLS设计出的，最初它是由网景公司于1995年首先公布的，最初的版本是SSL2.0（SSL1.0从未公开发布）。在修正若干缺陷后，1996年版本2.0迅速被SSL3.0所取代。
+TLS在1999年作为基于SSL3.0的一个新版本被发布，根据RFC2246：
+该协议和SSL3.0没有十分巨大的差别，但已有的差别就足以使得两者不能进行互操作。
+SSL2.0和SSL3.0分别在2011和2015年已经被IETF废弃，因此现在应该使用TLS协议。
+SSL和TLS采用不同的加密方式。
+SSL和TLS仅仅指客端和服务器端进行的握手，握手并没有进行任何加密，它仅仅是对需要共享的秘钥和加密类型上达成一致。
+SSL/TLS证书 SSL证书是数字证书的一种，它用于将一个网站服务器的所有者详情和加密秘钥进行绑定。在浏览器和持有SSL证书的服务器之间，这些秘钥用于在SSL/TLS协议中激活一个安全会话。为了让浏览器相信一个SSL证书，并在不引起安全性警告的前提下建立SSL/TLS会话，SSL证书必须包含网站的域名，并且由可信任的CA颁发，并且没有过期。
+SSL证书的功能 因此SSL证书主要有两个功能：
+认证与验证
+SSL证书中包含有关于一个人、商业或站点的身份的特定细节的可靠性信息。其中CA颁发的扩展验证SSL证书对申请人的审查标准最为严格，因此它是最值得信赖的SSL证书。
+数据加密
+SSL证书也可以进行加密，也就意味着通过网络交换的敏感信息不回被第三者窃取并破译出。
+其用途举例如下：
+保障站点和用户浏览器通信的安全 保障企业内网内部通信的安全 保障通过网络进行的邮件通信的安全 保障通过因特网或内网进行的服务器间通信的安全 保障移动设备收发信息的安全 SSL证书的类型 目前有如下几种不同类型的证书：
+自签发证书
+主要用于内部使用的非CA颁发的证书。如果在外部使用，因为其不具备可信任的身份认证能力，不能用于辨别伪造的服务器。
+域名验证证书
+可以快速进行颁发的入门级SSL证书。对申请人的验证中唯一需要确认的是其对域名的所有权。
+完全认证证书</description>
+    </item>
+    
+    <item>
+      <title>动态规划</title>
+      <link>https://epicmars.github.io/blog/cs/algorithm/advanced/2017-12-04-dynamic-programming/</link>
+      <pubDate>Mon, 04 Dec 2017 01:21:55 +0800</pubDate>
+      
+      <guid>https://epicmars.github.io/blog/cs/algorithm/advanced/2017-12-04-dynamic-programming/</guid>
+      <description>动态规划（Dynamic programming）通常用来解决最优化问题，在这类问题中，通过做出一组选择来达到最优解。在做出每个选择的同时，通常会生成与原问题形式相同的子问题。当多于一个选择子集都生成相同的子问题时，动态规划技术通常就会很有效，其关键技术就是对每个这样的子问题都保存其解，当重复出现时即可便重复求解。
+动态规划与分治方法相似，都是通过组合子问题的解来求解原问题，分治法将问题划分为不相交的子问题，递归地求解子问题，再将它们组合起来求出原问题的解。与之相反，动态规划应用于子问题重叠的情况，即不同的子问题具有公共的子子问题（子问题的求解是递归进行的，将其划分为更小的子子问题）。
+实现方法 与朴素递归算法之所以效率很低，是因为它反复求解相同的子问题。因此，动态规划方法仔细安排求解顺序，对每个子问题只求解一次，并将结果保存下来，如果随后再次需要此子问题的解，只需查找保存的结果，而不必重新计算。因此，动态规划方法是通过额外的空间来换取时间，是典型的时空权衡（time-memory trade-off）的例子。并且时间上的节约可能是非常巨大的，可能将一个指数时间的解转化为一个多项式时间的解。动态规划有两种等价的实现方法，分别是带备忘的自顶向下法和自底向上法。
+带备忘的自顶向下法(top-down with memoization)
+此方法仍按自然的递归形式编写过程，但过程会保存每个子问题的解（通常保存在一个数组或散列表中)。当需要一个子问题的解时，过程首先检查是否已经保存过此解。如果是则直接返回保存的值，从而节省了计算时间，否则，按通常的方式计算这个子问题。
+自底向上法(bottom-up method)
+这种方法一般需要恰当定义子问题“规模”的概念，使得任何子问题的求解都只依赖于“更小的”子问题的求解。因而可以将子问题按规模排序，按由小至大的顺序进行求解。当求解某个大问题时，它所依赖的那些更小的子问题都已经求解完毕，结果已经保存。么个子问题只需求解一次，当我们求解它时，它所有的前提子问题都已经求解完成。
+两种方法得到的算法具有相同的渐进运行时间，仅有的差异是在某些特殊情况下，自顶向下的方法并未真正递归地考察所有可能的子问题。由于没有频繁递归函数调用的开销，自底向上方法的时间复杂度函数通常具有更小的系数。
+子问题图 在思考一个动态规划问题时，应该弄清楚所涉及的子问题和子问题之间的依赖关系。问题的子问题图准确第表达了这些信息。它是一个有向图，每个顶点对应一个子问题，若求解子问题x的最优解时需要直接用到子问题y的最优解，那么在子问题图中就有一条从子问题x的顶点到子问题y的顶点的有向边。
+自底向上的动态规划方法处理子问题图中顶点的顺序为：对于一个给定的子问题x，在求解它之前求解邻接到它的子问题y。即自底向上动态规划算法是按“逆拓扑序（reserve topological sort）”来处理子问题图中的顶点。类似，可以用“深度优先搜索”来描述自顶向下动态规划算法处理子问题的顺序。</description>
+    </item>
+    
+    <item>
+      <title>图的表示与搜索</title>
+      <link>https://epicmars.github.io/blog/cs/algorithm/graph/2017-12-03-graph-representation-and-searching/</link>
+      <pubDate>Sun, 03 Dec 2017 04:50:28 +0800</pubDate>
+      
+      <guid>https://epicmars.github.io/blog/cs/algorithm/graph/2017-12-03-graph-representation-and-searching/</guid>
+      <description>图论问题渗透整个计算机科学，解决图论问题的相关算法对计算机科学领域至关重要。最基本的是对图的遍历与搜索，不过首先要讨论的是如何将图表示为可用的数据结构。
+图的表示 算法导论中介绍了图的两种常用表示方法，分别是邻接链表和邻接矩阵，在面向对象编程中，还有一种常用表示方法，即对象和指针（引用），也有称为边列表（edge list）。
+根据图的定义，有向图和无向图均由一个顶点集合和这个顶点集合$V$中顶点间是否连接以及是否有向所构成的一个边集合$E$组成，定义图为顶点集和相应边集的二元组\(G = (V, E)\)，对图的三种表示形式只是对这一定义在编程语言或者说是内存中的表示形式。其中对象和指针（边列表）表示方法是最接近原始的定义的，即顶点集合与边集合。
+将图的n个顶点使用0到n-1的序号进行编号，下面分别对三种表示方法进行描述，并比较其在如下几个方面的不同：
+内存占用 判断两个顶点是否相连(即连接这两个顶点的边是否存在)的时间复杂度 寻找一个顶点的所有邻居顶点 对象指针（边列表） 对象指针 Set&amp;lt;Vertex&amp;gt; vertexSet = new HashSet(); Set&amp;lt;Edge&amp;gt; edgeSet = new HashSet(); Vertex a = new Vertex(0); Vertex b = new Vertex(1); Vertex c = new Vertex(2); Vertex d = new Vertex(3); vertexSet.add(Arrays.asList({})); edgeSet.addAll(Arrays.asList({new Edge(a, b), new Edge(a, c), new Edge(a, d), new Edge(b, a), new Edge(c, a), new Edge(c, d), new Edge(d, a), new Edge(d, c)})); 边列表 边列表中的每个元素表示两个相邻顶点构成的边，其中顶点用其序号给出。 int[][] edgeList = {{0, 1}, {0, 2}, {0, 3}, {1, 0}, {2, 0}, {2, 3}, {3, 0}, {3, 2}}; 邻接链表 邻接链表中第$i$个元素包含与顶点$v[i]$相邻的其它顶点的序号：</description>
+    </item>
+    
+    <item>
+      <title>红黑树</title>
+      <link>https://epicmars.github.io/blog/cs/algorithm/tree/2017-12-02-red-black-tree/</link>
+      <pubDate>Sat, 02 Dec 2017 16:02:18 +0800</pubDate>
+      
+      <guid>https://epicmars.github.io/blog/cs/algorithm/tree/2017-12-02-red-black-tree/</guid>
+      <description>在二叉搜索树的讨论中可以得出各种查询以及插入、删除操作的时间复杂度上界为$O(h)$，其中$h$为树的高度，即树的叶子节点的最大深度。
+因此树的高度很大程度上决定了动态集合操作的时间复杂度。对于一个包含确定数量元素的二叉搜索树，我们希望得到一棵较为“平衡”的二叉树，即后代结点能够较均匀分布在一个祖先结点的两颗子树中，这样相对于元素总量，其高度是一个较小的值。因此，可以将平衡的度量认为是树高h与结点总量n的比率$\frac{h}{n}$，即结点对树高的平均贡献率。
+考察树的第i层的$k_i$个结点，有：
+$$ n = \sum\limits_{i=0}^h k_i, \space k_i \leq 2^i $$
+如果树中有大量不平衡的结点，那么每个第i层的结点越少，会导致树高$h$越大。
+红黑树及其性质 红黑树是平衡二叉搜索树的一种，可以保证最坏情况下动态集合操作的时间复杂度为$O(\lg n)$，它在每个结点上增加一个存储位来表示结点颜色，可以是RED或BLACK，通过对任一条从根到叶子结点的路径上各个结点的颜色进行约束，可以确保没有一条路径会比其它路径长出2倍，因而是近似于平衡的。
+一棵红黑树中的每个结点包含5个属性，color，key，left，right和p，如果一个结点没有子结点或父结点，这改结点相应指针属性的值为NIL，可以把这些NIL视为指向二叉搜索树的叶结点（外部结点）的指针，而把带关键字的结点视为树的内部结点。
+一棵红黑树是满足下面红黑性质的二叉搜索树：
+每个结点是红色的或黑色的 根结点是黑色的 每个叶结点（NIL）是黑色的 如果一个结点是红色的，则它的两个子结点都是黑色的 对每个结点，从该结点到所有后代叶结点的简单路径上，均包含相同数目的黑色结点 从某个结点x出发(不含该结点)到达一个叶结点的任意一条简单路径上的黑色结点个数称为该结点的黑高(black height)，定义红黑树的黑高为其根结点的黑高。
+红黑树动态集合操作 对不修改树的数据结构的操作，如遍历、查询、最大、最小、前驱、后继一类操作对红黑树和普通二叉搜索树都是一样的，对于插入与删除操作，红黑树需要进行额外的变换，不仅改变数据结构，也需要改变结点的颜色以保证红黑树的性质。
+旋转 对于数据结构的修改，可以通过旋转来完成，它是能保持二叉搜索树的性质的局部操作。主要有两种旋转方式，分别为左旋和右旋。
+插入 首先采用稍作修改的普通二叉搜索树插入方法将新的结点插入到树中，为了保证红黑树的性质，还需要对结点进行着色和旋转操作。
+删除 首先采用进行了一定修改的普通的二叉搜索树删除方法将给定结点z从树T中删除，其中需要维持一个结点y为从树中删除的结点或移至树内的结点，并记录y的初始颜色，如果y的初始颜色为黑色，那么需要进行着色和旋转操作来恢复红黑性质。此外还要跟踪移动到结点y原来位置的x结点，因为它也有可能破坏红黑树性质。</description>
+    </item>
+    
+    <item>
+      <title>树与搜索树</title>
+      <link>https://epicmars.github.io/blog/cs/algorithm/tree/2017-12-01-tree-and-search-tree/</link>
+      <pubDate>Fri, 01 Dec 2017 21:52:39 +0800</pubDate>
+      
+      <guid>https://epicmars.github.io/blog/cs/algorithm/tree/2017-12-01-tree-and-search-tree/</guid>
+      <description>定义 自由树 自由树是一个连通的、无环的无向图。一个可能不连通的的无向无环图为森林。
+有根树和有序树 有根树是一棵自由树，其顶点中存在一个与其它顶点不同的顶点，称其为树的根，一棵有根树的顶点常常称为树的结点。
+在一棵有根树T中，从根结点r到结点x的唯一简单路径上的任意结点y为x的一个祖先结点，x称为y的后代结点，每一个结点既是自己的祖先也是自己的后代，如果y是x的祖先，并且y不是x，那么称y为x的真祖先,x为y的真后代。如果y是x的真祖先，并且与x直接相连，则称y为x的父母结点，x为y的孩子结点。根是树中唯一没有父结点的结点，如果两个结点的父结点是同一个，则称它们为兄弟结点。一个没有子结点的结点称为叶子结点或外部结点，而非叶结点是内部结点。
+树T中一个结点x的子结点数称为结点x的度，从根结点r到结点x的一条简单路径的长度称为x在T中的深度，根结点的深度为0。树的一个层包含了同一深度的所有结点。结点在树中的高度是指从该结点到叶结点最长的一条简单路径的边数。树的高度也就是树中结点的最大深度。
+有序树是一棵有根树，其中每个结点的子结点是有序的。
+二叉树与位置树 采用递归的方式定义二叉树，一个二叉树T是定义在有限结点集合上的结构，它不包含任何结点或者包含三个不相交的结点集合：一个根结点，一棵称为左子树的二叉树，以及一棵称为右子树的二叉树。
+不包含任何结点的二叉树称为空树或零树，有时用符号NIL表示。在上述递归定义中，如果左子树非空则它的根称为整棵树的根的左孩子，类似，右子树的根称为整棵树根的右孩子。如果子树是零树，则称该孩子是缺失的或者丢失的。
+位置树是保留了结点位置信息的树，有序树属于位置树。二叉树是结点的度最大为2的有序树，但有序树在子结点仅有一个（即度为1）时可以对子结点进行区分，而二叉树必须区分是左孩子还是右孩子。因此可以使用一个有序树的内部结点来表示二叉树的位置信息，通过将树中每个缺失的孩子使用一个无孩子的结点代替，得到一棵满二叉树，每个结点是叶结点或者度为2，那么就不存在度为1的结点，那么结点的孩子的顺序就保留了位置信息。
+这种位置信息的区分可以扩展到k叉树，即每个结点度最大为k的位置树。完全k叉树是所有叶结点深度相同，且所有内部结点度为k的k叉树。如果树的高度为h，则叶结点数目为$h^k$个。
+二叉搜索树 搜索树数据结构支持许多动态集合操作，包括搜索，最大值，最小值，查找前驱与后继，插入，删除等操作，即适合作为字典也可以作为一个优先队列。
+二叉搜索树是以一棵二叉树来组织的，可以采用链表数据结构来表示，每个结点是一个对象，除了key和卫星数据，每个结点还包含属性left,right和p，分别指向结点的左孩子，右孩子和父母结点。如果某个子结点或者父结点不存在则相应的属性值为NIL。
+二叉搜索树中的关键字总是以满足二叉搜索树性质的方式来存储：
+设x是二叉搜索树的一个结点，如果y是x左子树中的一个结点，那么y.key≤x.key。如果y是x右子树中的一个结点，那么y.key≥x.key。
+遍历 遍历顺序：
+中序遍历：子树根位于左子树和右子树之间 先序遍历：子树根位于左子树和右子树之前 后序遍历：子树根位于左子树和右子树之后 查询 除了search操作，还支持minimum，maximum，successor，predecessor查询，对于高度为h的二叉树，每个操作可以在O(h)时间内完成。
+插入与删除 插入与删除操作会引起二叉搜索树的动态集合变化。必须要修改数据结构来反映这个变化，但修改要保持二叉搜索树的性质成立。
+插入 设要将一个新的值v插入到树T，从根结点r开始进行比较，如果$v \le r.key$，那么v需要插入到r的左子树中，这个问题便成了将v插入到以r.left为根的左子树的问题，如果$v \ge r.key$，那么v需要插入到r的右子树中，此外还需要考虑比较相等情况下的处理。
+但这个问题可以一般化为将v插入到T的一个子树的问题，在插入时进行比较的过程中，对于一个比较结点x如果$v \le x.key$或者$v \ge x.key$，则继续分别在x的左右子树寻找插入的位置，直到比较结点为空，那么这个空位置即为要寻找的插入位置。
+对于比较相等的情况，将其插入到比较结点的左子树或者右子树都是可行的，此时位置查找方式与上述小于或大于的情况一样，另一种做法可以直接使v成为比较结点左子树或右子树的根。但这样需要采用两种方式来修改数据结构，因此一般采用一致的插入到空位置方法。
+删除 设要从树T中删除一个结点z，分下面三种情况进行考虑：
+z没有孩子结点：直接删除 z有一个孩子结点：用z的孩子替换z z有两个孩子结点：寻找z的后继y，让y占据z的位置 对于第3种情况，y在z的右子树中，并且y没有左孩子，找到y后，需要将y移出原来的位置并进行拼接，然后替换z，考虑两种情况：
+y是z的右孩子，保留y的右孩子并替换z y不是z的右孩子，首先用y的右孩子替换y，然后用y替换z </description>
+    </item>
+    
+    <item>
+      <title>中位数与顺序统计量</title>
+      <link>https://epicmars.github.io/blog/cs/algorithm/order-statistic/2017-11-29-medians-and-order-statistics/</link>
+      <pubDate>Wed, 29 Nov 2017 00:21:48 +0800</pubDate>
+      
+      <guid>https://epicmars.github.io/blog/cs/algorithm/order-statistic/2017-11-29-medians-and-order-statistics/</guid>
+      <description>顺序统计量（Order statistic） 一个n位元素组成的集合中，第i个顺序统计量是该集合中第i小的元素。例如，最小值是第一个顺序统计量（i=1），最大值是第n个顺序统计量(i=n)。
+中位数（Median） 中位数是顺序统计量的一种，它是集合中的中点元素，与上述顺序统计量的描述一致，i从1开始计数。当n为奇数时，中位数有唯一一个，位于i=(n+1)/2处，当n为偶数时，中位数有两个，分别为上中位数(n/2)与下中位数(n/2+1)。
+问题与定义 讨论中一个由n个互异的元素构成集合中选择第i个顺序统计量的问题，为方便讨论，假设元素都是互异的，但实际上这里的讨论都可以推广到包含重复元素的集合中。对这一问题的形式化定义为
+输入：一个包含n个互异元素的集合A和一个整数i，1≤ i ≤n。 输出：元素x属于集合A，且A中恰好有i-1个其它元素小于它。 基本思想 随机划分 使用类似快排的划分思路，选择一个主元（pivot），将序列中的其它元素进行划分为小于等于主元和大于等于主元的两个子序列，如果主元的顺序统计量就是要查找的顺序统计量则查找成功，如果目标顺序统计量小于主元的顺序统计量，则从较小的子序列中根据上述同样的过程进行查找，否则则在较大的子序列中进行查找。
+确定性划分 确定性划分首先将序列分为较小的组，每一组有一个较小常数数量的元素，对每个分组进行排序，找出每组的中位数，然后对每组的中位数用同样的方式进行划分后查找这些中位数的中位数。利用每组中位数的中位数作为主元对序列进行划分，划分后的处理方式与随机划分相似。这里的重点是分组后的中位数的中位数x可以将序列划分为较为平均的两部分，因为，各分组的中位数y小于x的分组中小于中位数y的必定也小于x，中位数y大于x的分组中大于y的元素也必定大于x，它们大约各占整个序列的1/4，这样就避免了随机划分可能出现较差的情况。
+实现 使用随机划分子序列的算法 def swap(A, i, j): temp = A[i] A[i] = A[j] A[j] = temp def random_select(A, p, r, i): &amp;#34;&amp;#34;&amp;#34; A: 要查找的序列 p: 序列开始索引，包含 r: 序列结束索引，包含 i: 要查找的顺序统计量 &amp;#34;&amp;#34;&amp;#34; # 如果只有一个元素，直接返回 if p == r: return A[p] q = random_partition(A, p, r) if i == q: return A[q] if i &amp;lt; q: return random_select(A, p, q-1, i) else: return random_select(A, q+1, r, i) def random_partition(A, p, r): &amp;#34;&amp;#34;&amp;#34; A: 要划分的序列 p: 序列开始索引，包含 r: 序列结束索引，不包含 &amp;#34;&amp;#34;&amp;#34; # 这里直接从中间进行划分 mid = (p + r) / 2 pivot = A[mid] # 主元 left = p # [p,left)间的元素都小于等于主元 right = r # (right,r]间的元素都大于等于主元 while left &amp;lt; right: if A[left] &amp;gt;= pivot and A[right] &amp;lt;= pivot: swap(A, left, right) left += 1 right -= 1 else: if A[left] &amp;lt; pivot: left += 1 if A[right] &amp;gt; pivot: right -= 1 return left def main(): A = [100, 134, -1, 1324, 1123, 9, 34, 3, -98, 132, 3, 3, 12, 29, 36] for i in xrange(0, len(A)-1): print random_select(A, 0, len(A)-1, i) if __name__ == &amp;#39;__main__&amp;#39;: main() 使用确定性划分的算法 def swap(A, i, j): temp = A[i] A[i] = A[j] A[j] = temp def insertion_sort(A, r): for i in xrange(0, len(r)): current = i for j in xrange(i, -1, -1): if A[r[current]] &amp;lt; A[r[j]]: swap(A, r[current], r[j]) current = j def median(A, r): # print &amp;#34;median&amp;#34;, r insertion_sort(A, r) if len(r) % 2 == 1: return r[len(r) / 2] else: return r[len(r) / 2 - 1] def select(A, r, i): # print &amp;#34;select&amp;#34;, r &amp;#34;&amp;#34;&amp;#34; A: 要查找顺序统计量的序列 r: 查找的序号 &amp;#34;&amp;#34;&amp;#34; size = len(r) if size == 1: return r[0] start = r[0] # start index in A end = r[size - 1] # end index in A medians = [] if size % 5 == 0: num = size / 5 else: num = size / 5 + 1 for j in xrange(0, num): s = j * 5 # start index of r e = s + 5 # end index of r if e &amp;gt;= size: e = size m = median(A, r[s : e]) medians.</description>
+    </item>
+    
+    <item>
+      <title>线性时间排序</title>
+      <link>https://epicmars.github.io/blog/cs/algorithm/sorting/2017-11-27-linear-time-sorting/</link>
+      <pubDate>Mon, 27 Nov 2017 15:23:32 +0800</pubDate>
+      
+      <guid>https://epicmars.github.io/blog/cs/algorithm/sorting/2017-11-27-linear-time-sorting/</guid>
+      <description>排序算法下界 对任意的比较排序算法都可以抽象为一棵决策树，它是一棵完全二叉树，可以表示在给定输入规模下对所有元素的比较操作，其中，控制、数据移动等其它操作都被忽略。对于一个正确的排序算法，它都能够生成输入的每一种排列，所以对一个正确的比较排序算法来说，n个元素的$n!$种可能的排列都应该出现在决策树的叶结点上，对于一个给定的输入，其排序结果必然就是这所有可能中的某一个。
+根据这个比较排序的决策树模型，从根结点到一个可达的叶结点之间的最长简单路径的长度，表示的是对应排序算法中最坏情况下的比较次数，它等于决策树的高度。因此，当决策树中的每种排列都是以可达的叶结点形式出现时，该决策树高度的下界也就是比较排序算法运行时间的下界。
+最坏情况的下界 考虑一棵高度为h，具有l个可达叶结点的决策树，它对应一个对n个元素所做的比较排序，输入的$n!$种可能的排序都是叶结点，并且一棵高度为h的二叉树中，叶结点的数量不多于$2^h$，因此有： $$ n! \leq l \leq 2^h $$ 得到 $$ h \geq \lg (n!) = \Omega (n\lg n) $$
+计数排序 适用场景 n个输入元素是0到k区间的整数，或者元素可以通过转换函数，在不丢失大小信息的情况下，唯一地映射到0到k区间某一个整数。
+基本思想 对每一个输入元素x确定小于x的元素个数，利用这一信息可以直接将x放到它在输出数组中的位置上。
+实现 def counting_sort_integer(A, B, k): C = [0 for x in xrange(0, k+1)] for x in A: C[x] += 1 for i in xrange(0, k+1): if i &amp;gt; 0: C[i] += C[i-1] for x in A: # index start with 0, so minus 1 B[C[x]-1] = x C[x] -= 1 if __name__ == &amp;#39;__main__&amp;#39;: A = [123, 21, 14321, 0, 120, 98, 1000, 1024, 123, 1, 0, 123, 24, 123, 3, 2, 12] B = [None] * len(A) counting_sort_integer(A, B, 14321) print B 基数排序 适用场景 对具有多关键字域的记录或某一基数表示的数（二进制位表示，10进制数，16进制数，字符串等）进行排序，其共同的特点是每个元素有d位，每一位有一个固定的取值区间，因此可以利用到计数排序的方法。</description>
+    </item>
+    
+    <item>
+      <title>堆与堆排序</title>
+      <link>https://epicmars.github.io/blog/cs/algorithm/sorting/2017-11-26-heap-sort/</link>
+      <pubDate>Sun, 26 Nov 2017 21:35:29 +0800</pubDate>
+      
+      <guid>https://epicmars.github.io/blog/cs/algorithm/sorting/2017-11-26-heap-sort/</guid>
+      <description>堆 堆是一个数组，可以看作一个近似的完全二叉树，树中的每一个节点对应于数组中的一个元素。除了最底层的叶节点，往上的所有层都是完全填充的，并且都是从左向右进行填充。表示堆的数组A有两个属性：A.length表示数组大小，A.heap-size表示堆大小，即堆中有多少个元素存在数组中。
+算法导论中将根节点的序号设定为1，但实际使用的数组都是从0开始的，即从偶数开始填充堆，那么为了使数组依次逐层进行填充，对于一个节点在数组中的序号i，其左右孩子为:
+Left(i): 2i+1Right(i): 2i+2根据左右孩子可以将一个序号为i的节点的父节点计算为：
+Parent(i): floor((i-1)/2)最大堆与最小堆 最大堆是父节点的值大于等于子节点的值，反之，最小堆是子节点的值大于等于父节点的值。在堆排序中使用最大堆，最小堆通常用于构造优先队列。
+最大堆与堆排序 class Heap: def __init__(self, array, heap_size = None): if heap_size is not None: self.heap_size = heap_size else: self.heap_size = len(array) self.array = array @classmethod def left(cls, i): return (i &amp;lt;&amp;lt; 1) + 1 @classmethod def right(cls, i): return (i &amp;lt;&amp;lt; 1) + 2 @classmethod def parent(cls, i): return (i - 1) / 2 @classmethod def swap(cls, A, i, j): temp = A[i] A[i] = A[j] A[j] = temp class MaxHeap(Heap): def __init__(self, array, heap_size = None): Heap.</description>
+    </item>
+    
+    <item>
+      <title>归并排序（Merge sort）</title>
+      <link>https://epicmars.github.io/blog/cs/algorithm/sorting/2017-11-26-merge-sort/</link>
+      <pubDate>Sun, 26 Nov 2017 18:09:00 +0800</pubDate>
+      
+      <guid>https://epicmars.github.io/blog/cs/algorithm/sorting/2017-11-26-merge-sort/</guid>
+      <description>定义 归并排序采用分治策略进行比较操作排序，将待排序的n个元素分解为个含n/2个元素的两部分，使用递归或其它方式迭代地两个子序列进行同样的排序操作，然后合并两个已排序的子序列。
+分析 序列的划分 序列的划分较为简单直接，n为奇数时两部分长度相差1，可以规定将较长的一部分作为第二部分的长度。
+序列的合并 从最基本的合并开始，如果划分到一个子序列仅有一个元素时，不能进一步划分，对该子序列的归并排序会直接返回，对应于n=1时的归并排序，是直接求解的不需要进行归并操作。当单元素子序列归并排序完成时，将两个子序列进行合并得到两个元素的子序列，对应于n=2时的归并排序就完成了，以此类推，不失一般性考虑如何合并任意大小的两个已排序子序列的问题。
+对于序列的划分操作需要进行lgn次，每次都需要对n个元素进行合并操作，而合并本身也是对两个有序子序列的再排序，合并的开销必须尽可能地小，至少需要将所有子序列遍历一遍，其渐进复杂度下界是Ω(n)。如果采用原址排序的方式，由于两个子序列除了自身是有序的，两者之间没有任何联系，这会是一个一般性的排序问题。因此，为了利用已排序的子序列，将两者复制后依次进行比较并合并回原序列中。
+实现 def merge_sort(A, start, end): if end - start &amp;lt;= 1: return mid = (end + start) / 2 merge_sort(A, start, mid) merge_sort(A, mid, end) merge(A, start, mid, end) def merge(A, start, mid, end): left = [] right = [] for i in xrange(start, mid): left.append(A[i]) for i in xrange(mid, end): right.append(A[i]) i = 0 j = 0 current = start left_size = len(left) while i &amp;lt; left_size and j &amp;lt; len(right): if left[i] &amp;lt;= right[j]: A[current] = left[i] i += 1 else: A[current] = right[j] j += 1 current += 1 for k in xrange(i, left_size): A[current] = left[k] current += 1 if __name__ == &amp;#39;__main__&amp;#39;: A = [12, 12, 123, 234, 1, 2, 3, 4000, 12, 234, 1, 891] merge_sort(A, 0, len(A)) print A </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://epicmars.github.io/blog/cs/algorithm/big-o/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://epicmars.github.io/blog/cs/algorithm/big-o/</guid>
+      <description>http://www.cs.cmu.edu/~15122/handouts/05-sort.pdf</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://epicmars.github.io/blog/cs/algorithm/hashtables/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://epicmars.github.io/blog/cs/algorithm/hashtables/</guid>
+      <description>哈希表 许多应用只需要一个动态集合能够进行字典操作，即INSERT，SEARCH，DELETE。哈希表便是实现字典的高效数据结构。哈希表是对更简单的常规数组概念的推广。
+直接寻址表 当键的全集(universe)相当小时，直接寻址是一种行的通的简单技术。
+哈希表 当全集U非常大时，以直接寻址的方式存储便不切实际了。我们使用一个哈希函数将要存储的键值集合映射到一个大小为m的表中，m的大小一般比|U|小得多，其中每个键值对应表的一个槽。然而两个不同键值可能映射到同一个槽中，这种情况称为碰撞（collide）。链接是解决碰撞的一种最简单方法，即将落入同一个槽中的元素放入一个链表中。</description>
+    </item>
+    
+    <item>
+      <title>中文文章错误检查</title>
+      <link>https://epicmars.github.io/blog/cs/nlp/2018-07-07-typo-error-correct/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://epicmars.github.io/blog/cs/nlp/2018-07-07-typo-error-correct/</guid>
+      <description> How to Write a Spelling Corrector </description>
+    </item>
+    
+  </channel>
+</rss>
