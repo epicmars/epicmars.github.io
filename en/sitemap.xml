@@ -27,6 +27,43 @@
     <loc>https://epicmars.github.io/blog/cs/networks/2018-08-10-ca-and-ssl-tls-certificates/</loc>
     <lastmod>2018-08-10T19:50:14+08:00</lastmod>
   </url><url>
+    <loc>https://epicmars.github.io/blog/android/</loc>
+    <lastmod>2018-06-14T21:22:35+08:00</lastmod>
+  </url><url>
+    <loc>https://epicmars.github.io/blog/android/framework/2018-06-14-android-understanding-context/</loc>
+    <lastmod>2018-06-14T21:22:35+08:00</lastmod>
+  </url><url>
+    <loc>https://epicmars.github.io/categories/android/</loc>
+    <lastmod>2018-03-11T16:00:39+08:00</lastmod>
+  </url><url>
+    <loc>https://epicmars.github.io/blog/android/framework/2018-03-11-android-view-event-dispatching/</loc>
+    <lastmod>2018-03-11T16:00:39+08:00</lastmod>
+  </url><url>
+    <loc>https://epicmars.github.io/categories/</loc>
+    <lastmod>2018-03-11T16:00:39+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://epicmars.github.io/zh/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://epicmars.github.io/categories/"
+                />
+  </url><url>
+    <loc>https://epicmars.github.io/blog/android/framework/2018-03-08-android-view-drawing-flow/</loc>
+    <lastmod>2018-03-11T15:00:39+08:00</lastmod>
+  </url><url>
+    <loc>https://epicmars.github.io/blog/android/framework/2018-03-08-android-window/</loc>
+    <lastmod>2018-03-10T22:22:08+08:00</lastmod>
+  </url><url>
+    <loc>https://epicmars.github.io/blog/android/framework/2018-03-07-android-launch-activity/</loc>
+    <lastmod>2018-03-07T21:10:03+08:00</lastmod>
+  </url><url>
+    <loc>https://epicmars.github.io/blog/android/framework/2018-03-04-android-system-init-process/</loc>
+    <lastmod>2018-03-04T18:31:20+08:00</lastmod>
+  </url><url>
     <loc>https://epicmars.github.io/blog/cs/algorithm/advanced/2017-12-04-dynamic-programming/</loc>
     <lastmod>2017-12-04T01:21:55+08:00</lastmod>
   </url><url>
@@ -75,30 +112,17 @@
     <loc>https://epicmars.github.io/blog/kotlin/2017-10-29-kotlin-function/</loc>
     <lastmod>2017-10-29T12:43:52+08:00</lastmod>
   </url><url>
-    <loc>https://epicmars.github.io/blog/android/</loc>
-    <lastmod>2017-07-08T12:38:56+08:00</lastmod>
-  </url><url>
     <loc>https://epicmars.github.io/blog/android/architecture/2018-07-08-from-mvc-to-mvvm/</loc>
     <lastmod>2017-07-08T12:38:56+08:00</lastmod>
   </url><url>
     <loc>https://epicmars.github.io/blog/android/library/2016-07-12-dagger2-api/</loc>
     <lastmod>2016-07-12T23:29:50+08:00</lastmod>
   </url><url>
+    <loc>https://epicmars.github.io/blog/android/framework/multiple-display/</loc>
+  </url><url>
     <loc>https://epicmars.github.io/blog/cs/algorithm/big-o/</loc>
   </url><url>
     <loc>https://epicmars.github.io/blog/cs/algorithm/hashtables/</loc>
-  </url><url>
-    <loc>https://epicmars.github.io/categories/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh"
-                href="https://epicmars.github.io/zh/categories/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://epicmars.github.io/categories/"
-                />
   </url><url>
     <loc>https://epicmars.github.io/blog/android/jetpack/2024-08-27-jetpack/</loc>
   </url><url>
@@ -119,5 +143,7 @@
                 />
   </url><url>
     <loc>https://epicmars.github.io/blog/cs/nlp/2018-07-07-typo-error-correct/</loc>
+  </url><url>
+    <loc>https://epicmars.github.io/blog/android/framework/2018-06-17-android-fragment/</loc>
   </url>
 </urlset>

@@ -61,32 +61,43 @@ SSL证书也可以进行加密，也就意味着通过网络交换的敏感信�
 主要用于内部使用的非CA颁发的证书。如果在外部使用，因为其不具备可信任的身份认证能力，不能用于辨别伪造的服务器。
 域名验证证书
 可以快速进行颁发的入门级SSL证书。对申请人的验证中唯一需要确认的是其对域名的所有权。
-完全认证证书...</p></div><footer class=entry-footer><span title='2018-08-10 19:50:14 +0800 CST'>August 10, 2018</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;89 words&nbsp;·&nbsp;LEOY</footer><a class=entry-link aria-label="post link to CA与SSL/TLS证书" href=https://epicmars.github.io/blog/cs/networks/2018-08-10-ca-and-ssl-tls-certificates/></a></article><article class=post-entry><header class=entry-header><h2>动态规划</h2></header><div class=entry-content><p>动态规划（Dynamic programming）通常用来解决最优化问题，在这类问题中，通过做出一组选择来达到最优解。在做出每个选择的同时，通常会生成与原问题形式相同的子问题。当多于一个选择子集都生成相同的子问题时，动态规划技术通常就会很有效，其关键技术就是对每个这样的子问题都保存其解，当重复出现时即可便重复求解。
-动态规划与分治方法相似，都是通过组合子问题的解来求解原问题，分治法将问题划分为不相交的子问题，递归地求解子问题，再将它们组合起来求出原问题的解。与之相反，动态规划应用于子问题重叠的情况，即不同的子问题具有公共的子子问题（子问题的求解是递归进行的，将其划分为更小的子子问题）。
-实现方法 与朴素递归算法之所以效率很低，是因为它反复求解相同的子问题。因此，动态规划方法仔细安排求解顺序，对每个子问题只求解一次，并将结果保存下来，如果随后再次需要此子问题的解，只需查找保存的结果，而不必重新计算。因此，动态规划方法是通过额外的空间来换取时间，是典型的时空权衡（time-memory trade-off）的例子。并且时间上的节约可能是非常巨大的，可能将一个指数时间的解转化为一个多项式时间的解。动态规划有两种等价的实现方法，分别是带备忘的自顶向下法和自底向上法。
-带备忘的自顶向下法(top-down with memoization)
-此方法仍按自然的递归形式编写过程，但过程会保存每个子问题的解（通常保存在一个数组或散列表中)。当需要一个子问题的解时，过程首先检查是否已经保存过此解。如果是则直接返回保存的值，从而节省了计算时间，否则，按通常的方式计算这个子问题。
-自底向上法(bottom-up method)
-这种方法一般需要恰当定义子问题“规模”的概念，使得任何子问题的求解都只依赖于“更小的”子问题的求解。因而可以将子问题按规模排序，按由小至大的顺序进行求解。当求解某个大问题时，它所依赖的那些更小的子问题都已经求解完毕，结果已经保存。么个子问题只需求解一次，当我们求解它时，它所有的前提子问题都已经求解完成。
-两种方法得到的算法具有相同的渐进运行时间，仅有的差异是在某些特殊情况下，自顶向下的方法并未真正递归地考察所有可能的子问题。由于没有频繁递归函数调用的开销，自底向上方法的时间复杂度函数通常具有更小的系数。
-子问题图 在思考一个动态规划问题时，应该弄清楚所涉及的子问题和子问题之间的依赖关系。问题的子问题图准确第表达了这些信息。它是一个有向图，每个顶点对应一个子问题，若求解子问题x的最优解时需要直接用到子问题y的最优解，那么在子问题图中就有一条从子问题x的顶点到子问题y的顶点的有向边。
-自底向上的动态规划方法处理子问题图中顶点的顺序为：对于一个给定的子问题x，在求解它之前求解邻接到它的子问题y。即自底向上动态规划算法是按“逆拓扑序（reserve topological sort）”来处理子问题图中的顶点。类似，可以用“深度优先搜索”来描述自顶向下动态规划算法处理子问题的顺序。</p></div><footer class=entry-footer><span title='2017-12-04 01:21:55 +0800 CST'>December 4, 2017</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;19 words&nbsp;·&nbsp;LEOY</footer><a class=entry-link aria-label="post link to 动态规划" href=https://epicmars.github.io/blog/cs/algorithm/advanced/2017-12-04-dynamic-programming/></a></article><article class=post-entry><header class=entry-header><h2>图的表示与搜索</h2></header><div class=entry-content><p>图论问题渗透整个计算机科学，解决图论问题的相关算法对计算机科学领域至关重要。最基本的是对图的遍历与搜索，不过首先要讨论的是如何将图表示为可用的数据结构。
-图的表示 算法导论中介绍了图的两种常用表示方法，分别是邻接链表和邻接矩阵，在面向对象编程中，还有一种常用表示方法，即对象和指针（引用），也有称为边列表（edge list）。
-根据图的定义，有向图和无向图均由一个顶点集合和这个顶点集合$V$中顶点间是否连接以及是否有向所构成的一个边集合$E$组成，定义图为顶点集和相应边集的二元组\(G = (V, E)\)，对图的三种表示形式只是对这一定义在编程语言或者说是内存中的表示形式。其中对象和指针（边列表）表示方法是最接近原始的定义的，即顶点集合与边集合。
-将图的n个顶点使用0到n-1的序号进行编号，下面分别对三种表示方法进行描述，并比较其在如下几个方面的不同：
-内存占用 判断两个顶点是否相连(即连接这两个顶点的边是否存在)的时间复杂度 寻找一个顶点的所有邻居顶点 对象指针（边列表） 对象指针 Set&lt;Vertex> vertexSet = new HashSet(); Set&lt;Edge> edgeSet = new HashSet(); Vertex a = new Vertex(0); Vertex b = new Vertex(1); Vertex c = new Vertex(2); Vertex d = new Vertex(3); vertexSet.add(Arrays.asList({})); edgeSet.addAll(Arrays.asList({new Edge(a, b), new Edge(a, c), new Edge(a, d), new Edge(b, a), new Edge(c, a), new Edge(c, d), new Edge(d, a), new Edge(d, c)})); 边列表 边列表中的每个元素表示两个相邻顶点构成的边，其中顶点用其序号给出。 int[][] edgeList = {{0, 1}, {0, 2}, {0, 3}, {1, 0}, {2, 0}, {2, 3}, {3, 0}, {3, 2}}; 邻接链表 邻接链表中第$i$个元素包含与顶点$v[i]$相邻的其它顶点的序号：...</p></div><footer class=entry-footer><span title='2017-12-03 04:50:28 +0800 CST'>December 3, 2017</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;183 words&nbsp;·&nbsp;LEOY</footer><a class=entry-link aria-label="post link to 图的表示与搜索" href=https://epicmars.github.io/blog/cs/algorithm/graph/2017-12-03-graph-representation-and-searching/></a></article><article class=post-entry><header class=entry-header><h2>红黑树</h2></header><div class=entry-content><p>在二叉搜索树的讨论中可以得出各种查询以及插入、删除操作的时间复杂度上界为$O(h)$，其中$h$为树的高度，即树的叶子节点的最大深度。
-因此树的高度很大程度上决定了动态集合操作的时间复杂度。对于一个包含确定数量元素的二叉搜索树，我们希望得到一棵较为“平衡”的二叉树，即后代结点能够较均匀分布在一个祖先结点的两颗子树中，这样相对于元素总量，其高度是一个较小的值。因此，可以将平衡的度量认为是树高h与结点总量n的比率$\frac{h}{n}$，即结点对树高的平均贡献率。
-考察树的第i层的$k_i$个结点，有：
-$$ n = \sum\limits_{i=0}^h k_i, \space k_i \leq 2^i $$
-如果树中有大量不平衡的结点，那么每个第i层的结点越少，会导致树高$h$越大。
-红黑树及其性质 红黑树是平衡二叉搜索树的一种，可以保证最坏情况下动态集合操作的时间复杂度为$O(\lg n)$，它在每个结点上增加一个存储位来表示结点颜色，可以是RED或BLACK，通过对任一条从根到叶子结点的路径上各个结点的颜色进行约束，可以确保没有一条路径会比其它路径长出2倍，因而是近似于平衡的。
-一棵红黑树中的每个结点包含5个属性，color，key，left，right和p，如果一个结点没有子结点或父结点，这改结点相应指针属性的值为NIL，可以把这些NIL视为指向二叉搜索树的叶结点（外部结点）的指针，而把带关键字的结点视为树的内部结点。
-一棵红黑树是满足下面红黑性质的二叉搜索树：
-每个结点是红色的或黑色的 根结点是黑色的 每个叶结点（NIL）是黑色的 如果一个结点是红色的，则它的两个子结点都是黑色的 对每个结点，从该结点到所有后代叶结点的简单路径上，均包含相同数目的黑色结点 从某个结点x出发(不含该结点)到达一个叶结点的任意一条简单路径上的黑色结点个数称为该结点的黑高(black height)，定义红黑树的黑高为其根结点的黑高。
-红黑树动态集合操作 对不修改树的数据结构的操作，如遍历、查询、最大、最小、前驱、后继一类操作对红黑树和普通二叉搜索树都是一样的，对于插入与删除操作，红黑树需要进行额外的变换，不仅改变数据结构，也需要改变结点的颜色以保证红黑树的性质。
-旋转 对于数据结构的修改，可以通过旋转来完成，它是能保持二叉搜索树的性质的局部操作。主要有两种旋转方式，分别为左旋和右旋。
-插入 首先采用稍作修改的普通二叉搜索树插入方法将新的结点插入到树中，为了保证红黑树的性质，还需要对结点进行着色和旋转操作。
-删除 首先采用进行了一定修改的普通的二叉搜索树删除方法将给定结点z从树T中删除，其中需要维持一个结点y为从树中删除的结点或移至树内的结点，并记录y的初始颜色，如果y的初始颜色为黑色，那么需要进行着色和旋转操作来恢复红黑性质。此外还要跟踪移动到结点y原来位置的x结点，因为它也有可能破坏红黑树性质。</p></div><footer class=entry-footer><span title='2017-12-02 16:02:18 +0800 CST'>December 2, 2017</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;34 words&nbsp;·&nbsp;LEOY</footer><a class=entry-link aria-label="post link to 红黑树" href=https://epicmars.github.io/blog/cs/algorithm/tree/2017-12-02-red-black-tree/></a></article><footer class=page-footer><nav class=pagination><a class=next href=https://epicmars.github.io/page/2/>Next&nbsp;&nbsp;»</a></nav></footer></main><footer class=footer><span>&copy; 2024 <a href=https://epicmars.github.io/>AndroidPi</a></span>
+完全认证证书...</p></div><footer class=entry-footer><span title='2018-08-10 19:50:14 +0800 CST'>August 10, 2018</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;89 words&nbsp;·&nbsp;LEOY</footer><a class=entry-link aria-label="post link to CA与SSL/TLS证书" href=https://epicmars.github.io/blog/cs/networks/2018-08-10-ca-and-ssl-tls-certificates/></a></article><article class=post-entry><header class=entry-header><h2>源码分析：理解Context</h2></header><div class=entry-content><p>Context一般翻译为上下文，它提供了一个应用环境的全局接口，用于访问指定应用的资源和类，以及各种应用级别的操作，如启动Activities与Service、发送广播与注册广播接收器、接收Intents、获取系统服务等等。
+Application的Context ActivityThread.java
+public static void main(String[] args) { // ... ActivityThread thread = new ActivityThread(); thread.attach(false); // ... } private void attach(boolean system) { // ... if (!system) { // ... final IActivityManager mgr = ActivityManager.getService(); try { mgr.attachApplication(mAppThread); } catch (RemoteException ex) { throw ex.rethrowFromSystemServer(); } // ... } // ... } ActivityManagerService.java
+@Override public final void attachApplication(IApplicationThread thread) { synchronized (this) { int callingPid = Binder.getCallingPid(); final long origId = Binder....</p></div><footer class=entry-footer><span title='2018-06-14 21:22:35 +0800 CST'>June 14, 2018</span>&nbsp;·&nbsp;7 min&nbsp;·&nbsp;1431 words&nbsp;·&nbsp;LEOY</footer><a class=entry-link aria-label="post link to 源码分析：理解Context" href=https://epicmars.github.io/blog/android/framework/2018-06-14-android-understanding-context/></a></article><article class=post-entry><header class=entry-header><h2>Android View事件处理机制与分发流程</h2></header><div class=entry-content><p>View类还包含一系列嵌套接口以及您可以更加轻松定义的回调。 这些接口称为事件侦听器，是您捕获用户与UI之间交互的票证。
+尽管您通常会使用事件侦听器来侦听用户交互，但有时您确实需要扩展View类以构建自定义组件。也许，您想扩展 Button类来丰富某些内容的样式。 在这种情况下，您将能够使用该类的事件处理程序为类定义默认事件行为。
+API 事件侦听器（Event Listeners） 事件侦听器是View类中包含一个回调方法的接口。 当用户与UI项目之间的交互触发已注册此视图的侦听器时，Android框架将调用这些方法。
+各事件侦听器接口包含的回调方法如下：
+onClick()
+在 View.OnClickListener 中。 当用户触摸项目（处于触摸模式下）时，或者使用导航键或轨迹球聚焦于项目，然后按适用的“Enter”键或按下轨迹球时，将调用此方法。
+onLongClick()
+在 View.OnLongClickListener 中。 当用户触摸并按住项目（处于触摸模式下）时，或者使用导航键或轨迹球聚焦于项目，然后按住适用的“Enter”键或按住轨迹球（持续一秒钟）时，将调用此方法。
+onFocusChange()
+在 View.OnFocusChangeListener 中。 当用户使用导航键或轨迹球导航到或远离项目时，将调用此方法。 onKey() 在 View.OnKeyListener 中。 当用户聚焦于项目并按下或释放设备上的硬按键时，将调用此方法。
+onTouch()
+在 View.OnTouchListener 中。 当用户执行可视为触摸事件的操作时，其中包括按下、释放或屏幕上的任何移动手势（在项目边界内），将调用此方法。
+onCreateContextMenu()
+在 View.OnCreateContextMenuListener 中。 当（因持续“长按”而）生成上下文菜单时，将调用此方法。请参见菜单开发者指南中有关上下文菜单的阐述。 这些方法是其相应接口的唯一成员。
+请注意，上述示例中的 onClick() 回调没有返回值，但是其他某些事件侦听器方法必须返回布尔值。具体原因取决于事件。 对于这几个事件侦听器，必须返回布尔值的原因如下：
+onLongClick()：此方法返回一个布尔值，表示您是否已处理完事件，以及是否应该将它继续传下去。 也就是说，返回 true 表示您已经处理事件且事件应就此停止；如果您尚未处理事件和/或事件应该继续传递给其他任何点击侦听器，则返回 false。 onKey()：此方法返回一个布尔值，表示您是否已处理完事件，以及是否应该将它继续传下去。 也就是说，返回 true 表示您已经处理事件且事件应就此停止；如果您尚未处理事件和/或事件应该继续传递给其他任何按键侦听器，则返回 false。 onTouch()： 此方法返回一个布尔值，表示侦听器是否处理完此事件。重要的是，此事件可以拥有多个分先后顺序的操作。 因此，如果在收到关闭操作事件时返回 false，则表示您并未处理完此事件，而且对其后续操作也不感兴趣。 因此，您无需执行事件内的任何其他操作，如手势或最终操作事件。 事件处理程序(Event Handlers) 如果您从视图构建自定义组件，则将能够定义几种用作默认事件处理程序的回调方法。在有关自定义组件的文档中，您将了解某些用于事件处理的常见回调，其中包括：
+onKeyDown(int, KeyEvent)：在发生新的按键事件时调用 onKeyUp(int, KeyEvent)：在发生按键弹起事件时调用 onTrackballEvent(MotionEvent)：在发生轨迹球运动事件时调用 onTouchEvent(MotionEvent)：在发生触摸屏运动事件时调用 onFocusChanged(boolean, int, Rect)：在视图获得或失去焦点时调用 还有一些其他方法值得您注意，尽管它们并非 View 类的一部分，但可能会直接影响所能采取的事件处理方式。 因此，在管理布局内更复杂的事件时，请考虑使用以下其他方法：...</p></div><footer class=entry-footer><span title='2018-03-11 16:00:39 +0800 CST'>March 11, 2018</span>&nbsp;·&nbsp;5 min&nbsp;·&nbsp;1047 words&nbsp;·&nbsp;LEOY</footer><a class=entry-link aria-label="post link to Android View事件处理机制与分发流程" href=https://epicmars.github.io/blog/android/framework/2018-03-11-android-view-event-dispatching/></a></article><article class=post-entry><header class=entry-header><h2>Android View绘制流程</h2></header><div class=entry-content><p>概述 当一个Activity接收到焦点，它会请求对其布局进行绘制。Android框架会处理绘制的流程，但Activity必须提供布局层次的一个根节点。
+绘制从布局的根节点开始，它需要对布局树进行测量并进行绘制。绘制通过遍历布局树对每个与失效区域（invalid region）相交的View进行绘制。依次地，每个ViewGroup请求它的每个子View进行绘制（使用draw()方法）并且每个View负责绘制它自身。因为布局树采用前序遍历，这意味着父View会在子View之前（也就是图层的下方）绘制，同时该父View的兄弟View会以它们在树中出现的顺序进行绘制。
+框架不会绘制失效区域外的View对象，并且会处理好View背景的绘制，你可以通过调用invalidate()方法来强制一个View进行绘制。
+布局的绘制需要经过两个过程的处理：
+测量
+测量过程在measure(int, int)方法中实现，它是对View树的自上而下的遍历。在递归过程中，每个View将尺寸规范沿树从上往下推，在测量过程的结尾，每个View都存储其测量结果。
+布局
+布局过程在layout(int, int, int, int)中实现，它也是自上而下的。在这个过程中，每个父View负责对其所有子View的位置进行定位，它需要使用测量过程中计算出的视图尺寸。
+当一个View对象的measure()方法返回时，其getMeasuredWidth()和getMeasuredHeight()值必须被设定，对于该View的所有子孙View对象也是一样。一个View对象的测量的宽度和高度必须遵循父View施加的约束。这可以保证在测量过程的结尾，所有父视图都接收子视图的测量。一个父视图可能会在其子视图上多次调用measure()方法。例如，父视图可能使用未指定的尺寸规格对所有子视图进行测量，来找到子视图想要有多大，如果所有子视图不受约束的尺寸之和太大或者太小，这时候父视图会使用实际的尺寸规格再次调用measure()（也就是说，如果子视图不同意它们自己获取的空间，那么父视图会在第二次测量过程中介入并设定测量规则）。
+为了初始化一个布局，可以调用requestLayout()。通常当一个View相信它当前的边界已经不适合它了，那么它会在自身上调用该方法。
+测量过程采用两个类对尺寸进行沟通：
+ViewGroup.LayoutParams
+用于View对象来告知它们的父级它们想要如何被测量和定位。基础ViewGroup.LayoutParams仅描述了View在宽度和高度上想要有多大。对于每个尺寸，它可以指定如下值：
+一个确切的数字 MATCH_PARENT，表示View想和父级一样大（不包括父级的padding） WRAP_CONTENT，表示View想要刚好足够包围其内容的大小（包括padding） MeasureSpec
+用于从上往下将测量需求从父级推给子级。MeasureSpec可以有如下三种模式：
+UNSPECIFIED：一个父视图可以用他来确定一个子View所期望的尺寸。例如，一个LinearLayout可以在其子视图上调用measure()，其中将高度设置为UNSPECIFIED并且宽度设置为EXACTLY 240来找出给定一个240像素的宽度时，子视图期望有多高。 EXACTLY：用于父视图给子视图施加一个确定的尺寸。子视图必须使用该尺寸，并且保证它所有的后代视图都是符合该尺寸限制的。 AT MOST：用于父视图给子视图施加一个最大的尺寸。子视图必须保证它以及其所有的后代都符合该尺寸的限制。 源码分析 整体流程 绘制从布局的根节点开始，它需要测量和和绘制布局树。 从ViewRootImpl的首次布局请求开始：
+ViewRootImpl.java
+final class TraversalRunnable implements Runnable { @Override public void run() { doTraversal(); } } @Override public void requestLayout() { if (!mHandlingLayoutInLayoutRequest) { checkThread(); mLayoutRequested = true; scheduleTraversals(); } } void scheduleTraversals() { if (!mTraversalScheduled) { mTraversalScheduled = true; mTraversalBarrier = mHandler....</p></div><footer class=entry-footer><span title='2018-03-11 15:00:39 +0800 CST'>March 11, 2018</span>&nbsp;·&nbsp;39 min&nbsp;·&nbsp;8259 words&nbsp;·&nbsp;LEOY</footer><a class=entry-link aria-label="post link to Android View绘制流程" href=https://epicmars.github.io/blog/android/framework/2018-03-08-android-view-drawing-flow/></a></article><footer class=page-footer><nav class=pagination><a class=next href=https://epicmars.github.io/page/2/>Next&nbsp;&nbsp;»</a></nav></footer></main><footer class=footer><span>&copy; 2024 <a href=https://epicmars.github.io/>AndroidPi</a></span>
 <span>Powered by
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 8" fill="currentcolor"><path d="M12 8H0l6-8z"/></svg>
 </a><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script></body></html>

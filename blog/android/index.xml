@@ -10,7 +10,101 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 08 Jul 2017 12:38:56 +0800</lastBuildDate><atom:link href="https://epicmars.github.io/blog/android/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 14 Jun 2018 21:22:35 +0800</lastBuildDate><atom:link href="https://epicmars.github.io/blog/android/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>源码分析：理解Context</title>
+      <link>https://epicmars.github.io/blog/android/framework/2018-06-14-android-understanding-context/</link>
+      <pubDate>Thu, 14 Jun 2018 21:22:35 +0800</pubDate>
+      
+      <guid>https://epicmars.github.io/blog/android/framework/2018-06-14-android-understanding-context/</guid>
+      <description>Context一般翻译为上下文，它提供了一个应用环境的全局接口，用于访问指定应用的资源和类，以及各种应用级别的操作，如启动Activities与Service、发送广播与注册广播接收器、接收Intents、获取系统服务等等。
+Application的Context ActivityThread.java
+public static void main(String[] args) { // ... ActivityThread thread = new ActivityThread(); thread.attach(false); // ... } private void attach(boolean system) { // ... if (!system) { // ... final IActivityManager mgr = ActivityManager.getService(); try { mgr.attachApplication(mAppThread); } catch (RemoteException ex) { throw ex.rethrowFromSystemServer(); } // ... } // ... } ActivityManagerService.java
+@Override public final void attachApplication(IApplicationThread thread) { synchronized (this) { int callingPid = Binder.getCallingPid(); final long origId = Binder.</description>
+    </item>
+    
+    <item>
+      <title>Android View事件处理机制与分发流程</title>
+      <link>https://epicmars.github.io/blog/android/framework/2018-03-11-android-view-event-dispatching/</link>
+      <pubDate>Sun, 11 Mar 2018 16:00:39 +0800</pubDate>
+      
+      <guid>https://epicmars.github.io/blog/android/framework/2018-03-11-android-view-event-dispatching/</guid>
+      <description>View类还包含一系列嵌套接口以及您可以更加轻松定义的回调。 这些接口称为事件侦听器，是您捕获用户与UI之间交互的票证。
+尽管您通常会使用事件侦听器来侦听用户交互，但有时您确实需要扩展View类以构建自定义组件。也许，您想扩展 Button类来丰富某些内容的样式。 在这种情况下，您将能够使用该类的事件处理程序为类定义默认事件行为。
+API 事件侦听器（Event Listeners） 事件侦听器是View类中包含一个回调方法的接口。 当用户与UI项目之间的交互触发已注册此视图的侦听器时，Android框架将调用这些方法。
+各事件侦听器接口包含的回调方法如下：
+onClick()
+在 View.OnClickListener 中。 当用户触摸项目（处于触摸模式下）时，或者使用导航键或轨迹球聚焦于项目，然后按适用的“Enter”键或按下轨迹球时，将调用此方法。
+onLongClick()
+在 View.OnLongClickListener 中。 当用户触摸并按住项目（处于触摸模式下）时，或者使用导航键或轨迹球聚焦于项目，然后按住适用的“Enter”键或按住轨迹球（持续一秒钟）时，将调用此方法。
+onFocusChange()
+在 View.OnFocusChangeListener 中。 当用户使用导航键或轨迹球导航到或远离项目时，将调用此方法。 onKey() 在 View.OnKeyListener 中。 当用户聚焦于项目并按下或释放设备上的硬按键时，将调用此方法。
+onTouch()
+在 View.OnTouchListener 中。 当用户执行可视为触摸事件的操作时，其中包括按下、释放或屏幕上的任何移动手势（在项目边界内），将调用此方法。
+onCreateContextMenu()
+在 View.OnCreateContextMenuListener 中。 当（因持续“长按”而）生成上下文菜单时，将调用此方法。请参见菜单开发者指南中有关上下文菜单的阐述。 这些方法是其相应接口的唯一成员。
+请注意，上述示例中的 onClick() 回调没有返回值，但是其他某些事件侦听器方法必须返回布尔值。具体原因取决于事件。 对于这几个事件侦听器，必须返回布尔值的原因如下：
+onLongClick()：此方法返回一个布尔值，表示您是否已处理完事件，以及是否应该将它继续传下去。 也就是说，返回 true 表示您已经处理事件且事件应就此停止；如果您尚未处理事件和/或事件应该继续传递给其他任何点击侦听器，则返回 false。 onKey()：此方法返回一个布尔值，表示您是否已处理完事件，以及是否应该将它继续传下去。 也就是说，返回 true 表示您已经处理事件且事件应就此停止；如果您尚未处理事件和/或事件应该继续传递给其他任何按键侦听器，则返回 false。 onTouch()： 此方法返回一个布尔值，表示侦听器是否处理完此事件。重要的是，此事件可以拥有多个分先后顺序的操作。 因此，如果在收到关闭操作事件时返回 false，则表示您并未处理完此事件，而且对其后续操作也不感兴趣。 因此，您无需执行事件内的任何其他操作，如手势或最终操作事件。 事件处理程序(Event Handlers) 如果您从视图构建自定义组件，则将能够定义几种用作默认事件处理程序的回调方法。在有关自定义组件的文档中，您将了解某些用于事件处理的常见回调，其中包括：
+onKeyDown(int, KeyEvent)：在发生新的按键事件时调用 onKeyUp(int, KeyEvent)：在发生按键弹起事件时调用 onTrackballEvent(MotionEvent)：在发生轨迹球运动事件时调用 onTouchEvent(MotionEvent)：在发生触摸屏运动事件时调用 onFocusChanged(boolean, int, Rect)：在视图获得或失去焦点时调用 还有一些其他方法值得您注意，尽管它们并非 View 类的一部分，但可能会直接影响所能采取的事件处理方式。 因此，在管理布局内更复杂的事件时，请考虑使用以下其他方法：</description>
+    </item>
+    
+    <item>
+      <title>Android View绘制流程</title>
+      <link>https://epicmars.github.io/blog/android/framework/2018-03-08-android-view-drawing-flow/</link>
+      <pubDate>Sun, 11 Mar 2018 15:00:39 +0800</pubDate>
+      
+      <guid>https://epicmars.github.io/blog/android/framework/2018-03-08-android-view-drawing-flow/</guid>
+      <description>概述 当一个Activity接收到焦点，它会请求对其布局进行绘制。Android框架会处理绘制的流程，但Activity必须提供布局层次的一个根节点。
+绘制从布局的根节点开始，它需要对布局树进行测量并进行绘制。绘制通过遍历布局树对每个与失效区域（invalid region）相交的View进行绘制。依次地，每个ViewGroup请求它的每个子View进行绘制（使用draw()方法）并且每个View负责绘制它自身。因为布局树采用前序遍历，这意味着父View会在子View之前（也就是图层的下方）绘制，同时该父View的兄弟View会以它们在树中出现的顺序进行绘制。
+框架不会绘制失效区域外的View对象，并且会处理好View背景的绘制，你可以通过调用invalidate()方法来强制一个View进行绘制。
+布局的绘制需要经过两个过程的处理：
+测量
+测量过程在measure(int, int)方法中实现，它是对View树的自上而下的遍历。在递归过程中，每个View将尺寸规范沿树从上往下推，在测量过程的结尾，每个View都存储其测量结果。
+布局
+布局过程在layout(int, int, int, int)中实现，它也是自上而下的。在这个过程中，每个父View负责对其所有子View的位置进行定位，它需要使用测量过程中计算出的视图尺寸。
+当一个View对象的measure()方法返回时，其getMeasuredWidth()和getMeasuredHeight()值必须被设定，对于该View的所有子孙View对象也是一样。一个View对象的测量的宽度和高度必须遵循父View施加的约束。这可以保证在测量过程的结尾，所有父视图都接收子视图的测量。一个父视图可能会在其子视图上多次调用measure()方法。例如，父视图可能使用未指定的尺寸规格对所有子视图进行测量，来找到子视图想要有多大，如果所有子视图不受约束的尺寸之和太大或者太小，这时候父视图会使用实际的尺寸规格再次调用measure()（也就是说，如果子视图不同意它们自己获取的空间，那么父视图会在第二次测量过程中介入并设定测量规则）。
+为了初始化一个布局，可以调用requestLayout()。通常当一个View相信它当前的边界已经不适合它了，那么它会在自身上调用该方法。
+测量过程采用两个类对尺寸进行沟通：
+ViewGroup.LayoutParams
+用于View对象来告知它们的父级它们想要如何被测量和定位。基础ViewGroup.LayoutParams仅描述了View在宽度和高度上想要有多大。对于每个尺寸，它可以指定如下值：
+一个确切的数字 MATCH_PARENT，表示View想和父级一样大（不包括父级的padding） WRAP_CONTENT，表示View想要刚好足够包围其内容的大小（包括padding） MeasureSpec
+用于从上往下将测量需求从父级推给子级。MeasureSpec可以有如下三种模式：
+UNSPECIFIED：一个父视图可以用他来确定一个子View所期望的尺寸。例如，一个LinearLayout可以在其子视图上调用measure()，其中将高度设置为UNSPECIFIED并且宽度设置为EXACTLY 240来找出给定一个240像素的宽度时，子视图期望有多高。 EXACTLY：用于父视图给子视图施加一个确定的尺寸。子视图必须使用该尺寸，并且保证它所有的后代视图都是符合该尺寸限制的。 AT MOST：用于父视图给子视图施加一个最大的尺寸。子视图必须保证它以及其所有的后代都符合该尺寸的限制。 源码分析 整体流程 绘制从布局的根节点开始，它需要测量和和绘制布局树。 从ViewRootImpl的首次布局请求开始：
+ViewRootImpl.java
+final class TraversalRunnable implements Runnable { @Override public void run() { doTraversal(); } } @Override public void requestLayout() { if (!mHandlingLayoutInLayoutRequest) { checkThread(); mLayoutRequested = true; scheduleTraversals(); } } void scheduleTraversals() { if (!mTraversalScheduled) { mTraversalScheduled = true; mTraversalBarrier = mHandler.</description>
+    </item>
+    
+    <item>
+      <title>Window与WindowManager机制</title>
+      <link>https://epicmars.github.io/blog/android/framework/2018-03-08-android-window/</link>
+      <pubDate>Sat, 10 Mar 2018 22:22:08 +0800</pubDate>
+      
+      <guid>https://epicmars.github.io/blog/android/framework/2018-03-08-android-window/</guid>
+      <description>接着Activity的启动流程分析Window的添加过程，与Activity相关联的window的创建发生在Activity.performLaunchActivity()方法中，当activity实例创建后，会调用该activity的attach()方法，该方法中会创建window的实例，它是一个PhoneWindow对象，但此时该window实例还未设置布局，也未添加到WindowManager中：
+Activity.java
+final void attach(Context context, ActivityThread aThread, Instrumentation instr, IBinder token, int ident, Application application, Intent intent, ActivityInfo info, CharSequence title, Activity parent, String id, NonConfigurationInstances lastNonConfigurationInstances, Configuration config, String referrer, IVoiceInteractor voiceInteractor, Window window, ActivityConfigCallback activityConfigCallback) { attachBaseContext(context); mFragments.attachHost(null /*parent*/); mWindow = new PhoneWindow(this, window, activityConfigCallback); mWindow.setWindowControllerCallback(this); mWindow.setCallback(this); mWindow.setOnWindowDismissedCallback(this); mWindow.getLayoutInflater().setPrivateFactory(this); if (info.softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_UNSPECIFIED) { mWindow.setSoftInputMode(info.softInputMode); } if (info.uiOptions != 0) { mWindow.setUiOptions(info.uiOptions); } mUiThread = Thread.currentThread(); mMainThread = aThread; mInstrumentation = instr; mToken = token; mIdent = ident; mApplication = application; mIntent = intent; mReferrer = referrer; mComponent = intent.</description>
+    </item>
+    
+    <item>
+      <title>Activity启动流程：总览</title>
+      <link>https://epicmars.github.io/blog/android/framework/2018-03-07-android-launch-activity/</link>
+      <pubDate>Wed, 07 Mar 2018 21:10:03 +0800</pubDate>
+      
+      <guid>https://epicmars.github.io/blog/android/framework/2018-03-07-android-launch-activity/</guid>
+      <description>网络上已经有许多关于这个主题的文章了，但路只有自己走一遍才会熟悉，源码的分析与理解也是一样的。因此从这篇文章开始我将开始从源码阅读中去理解Android Framework层以及更多系统相关的知识点。从点到线再到面地去掌握Android开发的武艺。
+src/com/android/launcher3/Launcher.java 点击桌面应用Lanucher3的快捷方式:
+/** * Launches the intent referred by the clicked shortcut. * * @param v The view representing the clicked shortcut. */ public void onClick(View v) { // Make sure that rogue clicks don&amp;#39;t get through while allapps is launching, or after the // view has detached (it&amp;#39;s possible for this to happen if the view is removed mid touch). if (v.getWindowToken() == null) { return; } if (!</description>
+    </item>
+    
+    <item>
+      <title>Android系统启动流程</title>
+      <link>https://epicmars.github.io/blog/android/framework/2018-03-04-android-system-init-process/</link>
+      <pubDate>Sun, 04 Mar 2018 18:31:20 +0800</pubDate>
+      
+      <guid>https://epicmars.github.io/blog/android/framework/2018-03-04-android-system-init-process/</guid>
+      <description>Android系统架构 1 2</description>
+    </item>
+    
     <item>
       <title>从MVC到MVVM</title>
       <link>https://epicmars.github.io/blog/android/architecture/2018-07-08-from-mvc-to-mvvm/</link>
@@ -50,12 +144,34 @@ public static void main(String[] args) {OtherComponent otherComponent = .</desc
     </item>
     
     <item>
+      <title></title>
+      <link>https://epicmars.github.io/blog/android/framework/multiple-display/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://epicmars.github.io/blog/android/framework/multiple-display/</guid>
+      <description>但是在模拟器有点问题</description>
+    </item>
+    
+    <item>
       <title>Jetpack Compose这一篇就够了</title>
       <link>https://epicmars.github.io/blog/android/jetpack/2024-08-27-jetpack/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://epicmars.github.io/blog/android/jetpack/2024-08-27-jetpack/</guid>
       <description></description>
+    </item>
+    
+    <item>
+      <title>什么是Fragment</title>
+      <link>https://epicmars.github.io/blog/android/framework/2018-06-17-android-fragment/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://epicmars.github.io/blog/android/framework/2018-06-17-android-fragment/</guid>
+      <description>为什么需要Fragment? 在官方文档的翻译中，Fragment译为片段。那么它是谁的片段？当然是Activity的，其目的在于解决如下几个问题：
+将臃肿的Activity类分解为小的Fragment 修复老版本中LocalActivityManager所带来的问题 封装导航状态，如Activity本地回退栈和可管理的对话框（DialogFragment） 分离主从式UI（Master/Detail） Fragment的功能 生命周期 回退栈管理 配置改变时保留实例 FragmentManager的状态管理 管理一个视图 在xml布局中使用&amp;lt;fragment&amp;gt; 如何高效使用Fragment 尽管在布局中可以使用&amp;lt;fragment&amp;gt;标签，但并不能将其等效为View。从它所位于的抽象层级上而言其等效于Activity，是位于View之上的，其中Android包之间的抽象层级如下所示：
+高层级 | android.app| android.widget低层级 | android.viewv android.content 尽管AOSP中的代码可能并非严格遵循这一规则，但大体上如此。Fragment依赖于View的界面绘制与事件响应，但View对Fragment一无所知，Fragment拥有View之外的关于生命周期的知识，可以协调View之间的协作。
+Fragment状态 实际上并不用去记忆Fragment复杂的生命周期，它的状态实际上由若干整形值进行标识，并且其状态转换基本上是一个线性的顺序:
+static final int INITIALIZING = 0; // Not yet created. static final int CREATED = 1; // Created. static final int ACTIVITY_CREATED = 2; // The activity has finished its creation. static final int STOPPED = 3; // Fully created, not started. static final int STARTED = 4; // Created and started, not resumed.</description>
     </item>
     
   </channel>
